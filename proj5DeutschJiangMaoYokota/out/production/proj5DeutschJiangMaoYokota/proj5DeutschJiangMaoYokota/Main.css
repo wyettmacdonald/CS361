@@ -1,0 +1,86 @@
+/*
+ * File: Main.css
+ * F18 CS361 Project 5
+ * Names: Liwei Jiang, Martin Deutsch, Tatsuya Yokota, Melody Mao
+ * Cascading Style Sheet for Main.java, defining the design styles of the GUI elements
+ * Date: 10/10/2018
+ */
+
+/* style of Compile button */
+#compileButton {
+	/* set button color to green */
+    -fx-background-color:#afeeee;
+    /* set button border to black */
+    -fx-border-color: black; 
+    /* set rounded corners */
+    -fx-border-radius: 5;
+}
+
+/* style of CompileRun button */
+#compileRunButton {
+	/* set button color to red */
+    -fx-background-color:#98FB98;
+    /* set button border to black */
+    -fx-border-color: black;
+    /* set rounded corners */
+    -fx-border-radius: 5;
+}
+
+/* style of Stop button */
+#stopButton {
+	/* set button color to red */
+    -fx-background-color:#ffab99;
+    /* set button border to black */
+    -fx-border-color: black;
+    /* set rounded corners */
+    -fx-border-radius: 5;
+}
+
+/* style of keywords */
+.keyword {
+    -fx-fill: purple;
+    -fx-font-weight: bold;
+}
+
+/* style of semicolons */
+.semicolon {
+    -fx-font-weight: bold;
+}
+
+/* style of parenthesis */
+.paren {
+    -fx-fill: teal;
+    -fx-font-weight: bold;
+}
+
+/* style of brackets */
+.bracket {
+    -fx-fill: teal;
+    -fx-font-weight: bold;
+}
+
+/* style of braces */
+.brace {
+    -fx-fill: teal;
+    -fx-font-weight: bold;
+}
+
+/* style of strings */
+.string {
+    -fx-fill: blue;
+}
+
+/* style of integers */
+.integer{
+    -fx-fill: firebrick;
+}
+
+/* style of comments */
+.comment {
+	-fx-fill: cadetblue;
+}
+
+/* style of paragraph boxes */
+.paragraph-box:has-caret {
+    -fx-background-color: #f2f9fc;
+}
