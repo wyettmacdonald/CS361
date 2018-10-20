@@ -1,7 +1,7 @@
 /*
  * File: ToolBarController.java
  * CS361 Project 6
- * Names: Douglas Abrams, Martin Deutsch, Robert Durst
+ * Names: Douglas Abrams, Martin Deutsch, Robert Durst, Matt Jones
  * Date: 10/27/2018
  * This file contains the ToolBarController class, handling Toolbar related actions.
  */
@@ -365,7 +365,7 @@ public class ToolBarController {
         /**
          * Sets the selected tab.
          *
-         * @param tab the selected tab in which the embedded file is to be compiled.
+         * @param file the file to be compiled.
          */
         private void setFile(File file) {
             this.file = file;
@@ -401,7 +401,7 @@ public class ToolBarController {
      * Handles the Compile button action.
      *
      * @param event Event object
-     * @param tab the Selected tab
+     * @param file the Selected file
      */
     public void handleCompileButtonAction(Event event, File file) {
         // user select cancel button

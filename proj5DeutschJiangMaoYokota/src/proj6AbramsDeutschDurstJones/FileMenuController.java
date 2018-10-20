@@ -1,7 +1,7 @@
 /*
  * File: FileMenuController.java
  * CS361 Project 6
- * Names: Douglas Abrams, Martin Deutsch, Robert Durst
+ * Names: Douglas Abrams, Martin Deutsch, Robert Durst, Matt Jones
  * Date: 10/27/2018
  * This file contains the FileMenuController class, handling File menu related actions.
  */
@@ -339,10 +339,7 @@ public class FileMenuController {
         else {
             StyledJavaCodeArea activeStyledCodeArea = (StyledJavaCodeArea)((VirtualizedScrollPane)
                     selectedTab.getContent()).getContent();
-            if(!this.setFileContents(activeStyledCodeArea.getText(), this.tabFileMap.get(selectedTab))) {
-                return false;
-            }
-            return true;
+            return this.setFileContents(activeStyledCodeArea.getText(), this.tabFileMap.get(selectedTab));
         }
     }
 

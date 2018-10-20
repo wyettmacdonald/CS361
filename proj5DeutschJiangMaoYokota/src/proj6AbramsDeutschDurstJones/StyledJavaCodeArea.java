@@ -1,7 +1,7 @@
 /*
  * File: StyledJavaCodeArea.java
  * CS361 Project 6
- * Names: Douglas Abrams, Martin Deutsch, Robert Durst
+ * Names: Douglas Abrams, Martin Deutsch, Robert Durst, Matt Jones
  * Date: 10/27/2018
  * This file contains the StyledJavaCodeArea class, which extends the CodeArea class
  * to handle syntax highlighting.
@@ -103,8 +103,6 @@ public class StyledJavaCodeArea extends CodeArea {
      * Handles the text change action.
      * Changes the tab title to green when the selected StyledJavaCodeArea has been changed and not been saved.
      * Listens to the text changes and highlights the keywords real-time.
-     *
-     * @param tabPane TabPane object holding the StyledJavaCodeArea
      */
     private void handleTextChange() {
         Subscription cleanupWhenNoLongerNeedIt = this
