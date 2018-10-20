@@ -18,7 +18,7 @@
 <?import org.fxmisc.flowless.VirtualizedScrollPane?>
 <?import org.fxmisc.richtext.StyleClassedTextArea?>
 
-<VBox fx:id="VBox" stylesheets="@Main.css" fx:controller="proj6AbramsDeutschDurst.Controller" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1">
+<VBox fx:id="VBox" stylesheets="@Main.css" fx:controller="proj6AbramsDeutschDurstJones.Controller" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1">
     <MenuBar VBox.vgrow="NEVER">
         <Menu text="File" fx:id="fileMenu">
             <MenuItem text="About..." fx:id="aboutMenuItem" onAction="#handleAboutAction"/>

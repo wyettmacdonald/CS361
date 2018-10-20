@@ -6,7 +6,7 @@
  * This file contains the EditMenuController class, handling Edit menu related actions.
  */
 
-package proj6AbramsDeutschDurst;
+package proj6AbramsDeutschDurstJones;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.MenuItem;

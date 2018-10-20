@@ -7,7 +7,7 @@
  * to handle syntax highlighting.
  */
 
-package proj6AbramsDeutschDurst;
+package proj6AbramsDeutschDurstJones;
 
 import org.fxmisc.richtext.CodeArea;
 import org.fxmisc.richtext.model.StyleSpans;

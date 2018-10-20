@@ -5,7 +5,7 @@
  * Date: 10/27/2018
  */
 
-package proj6AbramsDeutschDurst;
+package proj6AbramsDeutschDurstJones;
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
@@ -35,17 +35,17 @@ public class Main extends Application {
      * @param stage The stage that contains the window content
      */
     @Override public void start(Stage stage) throws Exception{
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/proj6AbramsDeutschDurst/Main.fxml"));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/proj6AbramsDeutschDurstJones/Main.fxml"));
         Parent root = loader.load();
 
         // initialize a scene and add features specified in the css file to the scene
         Scene scene = new Scene(root, 800, 600);
-        scene.getStylesheets().add(getClass().getResource("/proj6AbramsDeutschDurst/Main.css").toExternalForm());
+        scene.getStylesheets().add(getClass().getResource("/proj6AbramsDeutschDurstJones/Main.css").toExternalForm());
         // configure the stage
         stage.setTitle("DeutschJiangMaoYokota's Project 5");
         stage.sizeToScene();
         stage.setScene(scene);
-        stage.setOnCloseRequest(event -> ((proj6AbramsDeutschDurst.Controller)
+        stage.setOnCloseRequest(event -> ((proj6AbramsDeutschDurstJones.Controller)
                 loader.getController()).handleExitAction(event));
         stage.show();
     }

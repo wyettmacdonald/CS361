@@ -6,7 +6,7 @@
  * This file contains the Main controller class, handling actions evoked by the Main window.
  */
 
-package proj6AbramsDeutschDurst;
+package proj6AbramsDeutschDurstJones;
 import javafx.beans.property.ReadOnlyBooleanProperty;
 import javafx.event.ActionEvent;
 import javafx.event.Event;
