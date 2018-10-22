@@ -12,6 +12,7 @@ import javafx.scene.control.*;
 import javafx.stage.FileChooser;
 import javafx.stage.Window;
 import org.fxmisc.flowless.VirtualizedScrollPane;
+import org.fxmisc.richtext.LineNumberFactory;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -206,6 +207,7 @@ public class FileMenuController {
      */
     private void createTab(String contentString, String filename, File file) {
         StyledJavaCodeArea newStyledCodeArea = new StyledJavaCodeArea(contentString);
+        newStyledCodeArea.setParagraphGraphicFactory(LineNumberFactory.get(newStyledCodeArea));
 
         Tab newTab = new Tab();
         newTab.setText(filename);
