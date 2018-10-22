@@ -19,10 +19,10 @@ import javafx.scene.Parent;
  * buttons for compiling, running, and stopping code; and a program console
  * that takes in standard input, displays standard output and program message.
  *
- * @author Liwei Jiang
+ * @author Douglas Abrams
  * @author Martin Deutsch
- * @author Tatsuya Yokota
- * @author Melody Mao
+ * @author Robert Durst
+ * @author Matt Jones
  */
 public class Main extends Application {
     /**
@@ -42,7 +42,7 @@ public class Main extends Application {
         Scene scene = new Scene(root, 800, 600);
         scene.getStylesheets().add(getClass().getResource("/proj6AbramsDeutschDurstJones/Main.css").toExternalForm());
         // configure the stage
-        stage.setTitle("DeutschJiangMaoYokota's Project 5");
+        stage.setTitle("AbramsDeutschDurstJones's Project 6");
         stage.sizeToScene();
         stage.setScene(scene);
         stage.setOnCloseRequest(event -> ((proj6AbramsDeutschDurstJones.Controller)
