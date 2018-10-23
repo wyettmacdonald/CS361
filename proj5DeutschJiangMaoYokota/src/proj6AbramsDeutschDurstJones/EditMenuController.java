@@ -7,7 +7,7 @@
  */
 
 package proj6AbramsDeutschDurstJones;
-import javafx.event.ActionEvent;
+import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.TabPane;
@@ -16,12 +16,12 @@ import org.fxmisc.flowless.VirtualizedScrollPane;
 import org.fxmisc.richtext.CodeArea;
 
 /**
- * Main controller handles Edit menu related actions.
+ * This controller handles Edit menu related actions.
  *
- * @author Liwei Jiang
+ * @author Douglas Abrams
  * @author Martin Deutsch
- * @author Tatsuya Yokota
- * @author Melody Mao
+ * @author Robert Durst
+ * @author Matt Jones
  */
 public class EditMenuController {
     /**
@@ -41,7 +41,7 @@ public class EditMenuController {
      *
      *  @param event ActionEvent object
      */
-    public void handleEditMenuAction(ActionEvent event) {
+    public void handleEditMenuAction(Event event) {
         // get the code area embedded in the selected tab window
         Tab selectedTab = this.tabPane.getSelectionModel().getSelectedItem();
         CodeArea activeCodeArea = (CodeArea)((VirtualizedScrollPane)selectedTab.getContent()).getContent();

@@ -20,10 +20,10 @@ import javafx.concurrent.Service;
 /**
  * ToolbarController handles Toolbar related actions.
  *
- * @author Liwei Jiang
+ * @author Douglas Abrams
  * @author Martin Deutsch
- * @author Tatsuya Yokota
- * @author Melody Mao
+ * @author Robert Durst
+ * @author Matt Jones
  */
 public class ToolBarController {
     /**

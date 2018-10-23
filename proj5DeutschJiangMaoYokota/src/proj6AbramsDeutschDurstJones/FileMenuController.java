@@ -25,10 +25,10 @@ import javafx.scene.control.TabPane;
 /**
  * FileMenuController handles File menu related actions.
  *
- * @author Liwei Jiang
+ * @author Douglas Abrams
  * @author Martin Deutsch
- * @author Tatsuya Yokota
- * @author Melody Mao
+ * @author Robert Durst
+ * @author Matt Jones
  */
 public class FileMenuController {
     /**
@@ -438,7 +438,8 @@ public class FileMenuController {
         dialog.setTitle("About");
         dialog.setHeaderText("Authors");
         dialog.setContentText("---- Project 4 ---- \nLiwei Jiang\nDanqing Zhao\nWyett MacDonald\nZeb Keith-Hardy" +
-                "\n\n---- Project 5 ---- \nLiwei Jiang\nMartin Deutsch\nMelody Mao\nTatsuya Yakota");
+                "\n\n---- Project 5 ---- \nLiwei Jiang\nMartin Deutsch\nMelody Mao\nTatsuya Yakota" +
+                "\n\n---- Project 6 ---- \nDoug Abrams\nMartin Deutsch\nRob Durst\nMatt Jones");
 
         // enable to resize the About window
         dialog.setResizable(true);

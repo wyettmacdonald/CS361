@@ -10,7 +10,6 @@ package proj6AbramsDeutschDurstJones;
 import javafx.beans.property.ReadOnlyBooleanProperty;
 import javafx.event.ActionEvent;
 import javafx.event.Event;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Menu;
@@ -45,6 +44,10 @@ public class Controller {
      * EditMenuController handling Edit menu actions
      */
     private EditMenuController editMenuController;
+    /**
+     * CodeMenuController handling Code menu actions
+     */
+    private CodeMenuController codeMenuController;
     /**
      * VBox defined in Main.fxml
      */
@@ -86,6 +89,10 @@ public class Controller {
      * Edit menu defined in Main.fxml
      */
     @FXML private Menu editMenu;
+    /**
+     * Edit menu defined in Main.fxml
+     */
+    @FXML private Menu codeMenu;
     /**
      * Light mode preference menu item
      */
@@ -146,6 +153,14 @@ public class Controller {
         this.editMenuController.setTabPane(this.tabPane);
     }
 
+    /**
+     * Creates a reference to the CodeMenuController and passes in window items
+     * nd other sub Controllers when necessary
+     */
+    private void setupCodeMenuController() {
+        this.codeMenuController = new CodeMenuController();
+        this.codeMenuController.setTabPane(this.tabPane);
+    }
 
     /**
      * Binds the Close, Save, Save As menu items of the File menu,
@@ -160,7 +175,7 @@ public class Controller {
         this.saveMenuItem.disableProperty().bind(ifTabPaneEmpty);
         this.saveAsMenuItem.disableProperty().bind(ifTabPaneEmpty);
         this.editMenu.disableProperty().bind(ifTabPaneEmpty);
-
+        this.codeMenu.disableProperty().bind(ifTabPaneEmpty);
 
         this.stopButton.disableProperty().bind(((ifCompiling.not()).and(ifCompilingRunning.not())).or(ifTabPaneEmpty));
         this.compileButton.disableProperty().bind(ifCompiling.or(ifCompilingRunning).or(ifTabPaneEmpty));
@@ -178,6 +193,7 @@ public class Controller {
         this.setupEditMenuController();
         this.setupFileMenuController();
         this.setupToolbarController();
+        this.setupCodeMenuController();
 
         this.setButtonBinding();
     }
@@ -276,4 +292,32 @@ public class Controller {
             vBox.getStylesheets().add(darkModeCss);
         }
     }
+
+    /**
+     * Calls the method that handles the Toggle Comments menu item action from the codeMenuController.
+     *
+     * @param event Event object
+     */
+    @FXML public void handleToggleCommentAction(Event event) { this.codeMenuController.handleToggleComment(event); }
+
+    /**
+     * Calls the method that handles the Move Line Up menu item action from the codeMenuController.
+     *
+     * @param event Event object
+     */
+    @FXML public void handleMoveUpAction(Event event) { this.codeMenuController.handleMoveUp(event); }
+
+    /**
+     * Calls the method that handles the Move Line Down menu item action from the codeMenuController.
+     *
+     * @param event Event object
+     */
+    @FXML public void handleMoveDownAction(Event event) { this.codeMenuController.handleMoveDown(event); }
+
+    /**
+     * Calls the method that handles the Edit menu action from the editMenuController.
+     *
+     *  @param event Event object
+     */
+    @FXML private void handleEditMenuAction(Event event) { this.editMenuController.handleEditMenuAction(event); }
 }

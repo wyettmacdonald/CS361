@@ -23,10 +23,10 @@ import java.util.regex.Pattern;
  * This class extends the CodeArea class from RichTextFx to handle
  * syntax highlighting.
  *
- * @author Liwei Jiang
+ * @author Douglas Abrams
  * @author Martin Deutsch
- * @author Tatsuya Yokota
- * @author Melody Mao
+ * @author Robert Durst
+ * @author Matt Jones
  */
 public class StyledJavaCodeArea extends CodeArea {
     /**
