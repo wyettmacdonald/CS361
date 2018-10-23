@@ -10,6 +10,7 @@ package proj6AbramsDeutschDurstJones;
 import javafx.beans.property.ReadOnlyBooleanProperty;
 import javafx.event.ActionEvent;
 import javafx.event.Event;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Menu;
@@ -20,6 +21,7 @@ import javafx.scene.control.TabPane;
 import javafx.scene.control.Tab;
 import javafx.beans.binding.BooleanBinding;
 import javafx.beans.binding.Bindings;
+import javafx.scene.layout.VBox;
 import org.fxmisc.richtext.StyleClassedTextArea;
 
 /**
@@ -43,6 +45,11 @@ public class Controller {
      * EditMenuController handling Edit menu actions
      */
     private EditMenuController editMenuController;
+    /**
+     * VBox defined in Main.fxml
+     */
+    @FXML
+    private VBox vBox;
     /**
      * Compile button defined in Main.fxml
      */
@@ -80,9 +87,24 @@ public class Controller {
      */
     @FXML private Menu editMenu;
     /**
+     * Light mode preference menu item
+     */
+    @FXML
+    private MenuItem lightMode;
+    /**
+     * Dark mode preference menu item
+     */
+    @FXML
+    private MenuItem darkMode;
+    /**
      * a HashMap mapping the tabs and the associated files
      */
     private Map<Tab,File> tabFileMap = new HashMap<Tab,File>();
+    /**
+     * Stores CSS files for different color modes
+     */
+    private String lightModeCss = getClass().getResource("Main.css").toExternalForm();
+    private String darkModeCss = getClass().getResource("DarkMode.css").toExternalForm();
     /**
      * The worker running the compile task
      */
@@ -230,4 +252,28 @@ public class Controller {
      *  @param event ActionEvent object
      */
     @FXML private void handleEditMenuAction(ActionEvent event) { this.editMenuController.handleEditMenuAction(event); }
+
+    /**
+     * Handles onAction for the Light Mode menu item to switch CSS for vBox to
+     * Main.css
+     */
+    @FXML
+    private void handleLightModeMenuAction() {
+        vBox.getStylesheets().remove(darkModeCss);
+        if (!vBox.getStylesheets().contains(lightModeCss)) {
+            vBox.getStylesheets().add(lightModeCss);
+        }
+    }
+
+    /**
+     * Handles onAction for the Dark Mode menu item to switch CSS for vBox to
+     * DarkMode.css
+     */
+    @FXML
+    private void handleDarkModeMenuAction() {
+        vBox.getStylesheets().remove(lightModeCss);
+        if (!vBox.getStylesheets().contains(darkModeCss)) {
+            vBox.getStylesheets().add(darkModeCss);
+        }
+    }
 }

@@ -18,8 +18,10 @@
 <?import org.fxmisc.flowless.VirtualizedScrollPane?>
 <?import org.fxmisc.richtext.StyleClassedTextArea?>
 
-<VBox fx:id="VBox" stylesheets="@Main.css" fx:controller="proj6AbramsDeutschDurstJones.Controller" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1">
-    <MenuBar VBox.vgrow="NEVER">
+<VBox fx:id="vBox"
+      fx:controller="proj6AbramsDeutschDurstJones.Controller"
+      xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1">
+    <MenuBar fx:id="menuBar" VBox.vgrow="NEVER">
         <Menu text="File" fx:id="fileMenu">
             <MenuItem text="About..." fx:id="aboutMenuItem" onAction="#handleAboutAction"/>
             <SeparatorMenuItem />
@@ -39,8 +41,14 @@
             <MenuItem text="Paste" fx:id="pasteMenuItem" onAction="#handleEditMenuAction" accelerator="Shortcut+V"/>
             <MenuItem text="Select all" fx:id="selectMenuItem" onAction="#handleEditMenuAction" accelerator="Shortcut+A"/>
         </Menu>
+        <Menu text="Preferences" fx:id="prefMenu">
+            <MenuItem text="Light Mode" fx:id="lightMode"
+                      onAction="#handleLightModeMenuAction"/>
+            <MenuItem text="Dark Mode" fx:id="darkMode"
+                      onAction="#handleDarkModeMenuAction"/>
+        </Menu>
     </MenuBar>
-    <ToolBar VBox.vgrow="ALWAYS">
+    <ToolBar fx:id="toolbar" VBox.vgrow="ALWAYS">
         <Button text="Compile" fx:id="compileButton" onAction ="#handleCompileButtonAction"/>
         <Button text="Compile &amp; Run" fx:id="compileRunButton" onAction="#handleCompileRunButtonAction"/>
         <Button text="Stop" fx:id="stopButton" onAction="#handleStopButtonAction"/>

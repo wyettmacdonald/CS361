@@ -1,0 +1,119 @@
+/*
+ * File: DarkMode.css
+ * CS361 Project 6
+ * Names: Douglas Abrams, Martin Deutsch, Robert Durst, Matt Jones
+ * Date: 10/27/2018
+ * Cascading Style Sheet for Main.java, defining the design styles of the GUI elements
+ * When this stylesheet is used, Dark Mode is active
+ */
+
+/* style of vBox */
+#vBox {
+    -fx-background-color: #535353;
+}
+
+/* style of menuBar */
+#menuBar {
+    -fx-background-color: #535353;
+}
+
+/* style of toolbar */
+#toolbar {
+    -fx-background-color: #535353;
+    -fx-border-color: black;
+}
+
+/* style of Compile button */
+#compileButton {
+    /* set button color to dark blue */
+    -fx-background-color: #0000c7;
+    /* set button text color to white */
+    -fx-text-fill: white;
+    /* set button border to black */
+    -fx-border-color: black;
+    /* set rounded corners */
+    -fx-border-radius: 5;
+}
+
+/* style of CompileRun button */
+#compileRunButton {
+    /* set button color to dark green */
+    -fx-background-color: #008500;
+    /* set button text color to white */
+    -fx-text-fill: white;
+    /* set button border to black */
+    -fx-border-color: black;
+    /* set rounded corners */
+    -fx-border-radius: 5;
+}
+
+/* style of Stop button */
+#stopButton {
+    /* set button color to dark red */
+    -fx-background-color: #ad0000;
+    /* set button text color to white */
+    -fx-text-fill: white;
+    /* set button border to black */
+    -fx-border-color: black;
+    /* set rounded corners */
+    -fx-border-radius: 5;
+}
+
+/* style of all code areas */
+.code-area {
+    -fx-background-color: #535353;
+}
+
+/* style of console */
+#console {
+    -fx-background-color: #535353;
+}
+
+/* style of keywords */
+.keyword {
+    -fx-fill: purple;
+    -fx-font-weight: bold;
+}
+
+/* style of semicolons */
+.semicolon {
+    -fx-font-weight: bold;
+}
+
+/* style of parenthesis */
+.paren {
+    -fx-fill: darkorange;
+    -fx-font-weight: bold;
+}
+
+/* style of brackets */
+.bracket {
+    -fx-fill: darkorange;
+    -fx-font-weight: bold;
+}
+
+/* style of braces */
+.brace {
+    -fx-fill: darkorange;
+    -fx-font-weight: bold;
+}
+
+/* style of strings */
+.string {
+    -fx-fill: darkgreen;
+}
+
+/* style of integers */
+.integer {
+    -fx-fill: firebrick;
+}
+
+/* style of comments */
+.comment {
+    -fx-fill: gray;
+}
+
+/* style of paragraph boxes */
+.paragraph-box:has-caret {
+    -fx-background-color: lightgray;
+}
