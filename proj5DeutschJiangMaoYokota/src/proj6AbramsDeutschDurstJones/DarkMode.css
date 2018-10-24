@@ -10,6 +10,7 @@
 /* style of vBox */
 #vBox {
     -fx-background-color: #535353;
+    -fx-base: gray;
 }
 
 /* style of menuBar */
@@ -96,6 +97,16 @@
     /* set rounded corners */
     -fx-border-radius: 5;
     -fx-background-radius: 5;
+}
+
+/* style of directory tree pane */
+#directoryTree {
+    -fx-base: gray;
+}
+
+/* style of directory tree cells */
+.tree-cell{
+    -fx-background-color: #535353;
 }
 
 /* style of all code areas */

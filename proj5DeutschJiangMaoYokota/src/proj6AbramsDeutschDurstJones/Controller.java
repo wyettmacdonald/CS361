@@ -50,7 +50,7 @@ public class Controller {
    * CodeMenuController handling Code menu actions
    */
   private CodeMenuController codeMenuController;
-  /*
+  /**
    * DirectoryController handling directory tree actions
    */
   private DirectoryController directoryController;
@@ -75,6 +75,10 @@ public class Controller {
    */
   @FXML private TabPane tabPane;
   /**
+   * Tree of current directory
+   */
+  @FXML private TreeView<String> directoryTree;
+  /**
    * the console pane defined in Main.fxml
    */
   @FXML private StyleClassedTextArea console;
@@ -98,15 +102,11 @@ public class Controller {
    * Edit menu defined in Main.fxml
    */
   @FXML private Menu codeMenu;
-  /**
-   * Tree of current directory
-   */
-  @FXML private TreeView<String> directoryTree;
 
   /**
    * a HashMap mapping the tabs and the associated files
    */
-  private Map<Tab, File> tabFileMap = new HashMap<Tab, File>();
+  private Map<Tab, File> tabFileMap = new HashMap<>();
   /**
    * Stores CSS files for different color modes
    */
@@ -171,6 +171,8 @@ public class Controller {
   private void setupDirectoryController() {
     this.directoryController = new DirectoryController();
     this.directoryController.setDirectoryTree(directoryTree);
+    this.directoryController.setTabFileMap(this.tabFileMap);
+    this.directoryController.setTabPane(this.tabPane);
   }
 
   /**

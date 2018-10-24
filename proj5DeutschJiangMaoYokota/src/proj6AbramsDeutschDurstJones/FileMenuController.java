@@ -215,8 +215,8 @@ public class FileMenuController {
         newTab.setOnCloseRequest(event -> this.handleCloseAction(event));
 
         this.tabPane.getTabs().add(newTab);
-        this.tabPane.getSelectionModel().select(newTab);
         this.tabFileMap.put(newTab, file);
+        this.tabPane.getSelectionModel().select(newTab);
     }
 
 
