@@ -17,12 +17,17 @@
 <?import javafx.scene.control.TabPane?>
 <?import org.fxmisc.flowless.VirtualizedScrollPane?>
 <?import org.fxmisc.richtext.StyleClassedTextArea?>
-
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
 <?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.AnchorPane?>
+
 <VBox fx:id="vBox"
       fx:controller="proj6AbramsDeutschDurstJones.Controller"
       xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1">
-    <MenuBar fx:id="menuBar" VBox.vgrow="NEVER">
+
+      <MenuBar fx:id="menuBar" VBox.vgrow="NEVER">
         <Menu text="File" fx:id="fileMenu">
             <MenuItem text="About..." fx:id="aboutMenuItem" onAction="#handleAboutAction"/>
             <SeparatorMenuItem />
@@ -46,7 +51,6 @@
             <MenuItem text="Toggle Comments" fx:id="commentMenuItem" onAction="#handleToggleCommentAction" accelerator="Shortcut+/"/>
             <MenuItem text="Move Line Up" fx:id="moveUpMenuItem" onAction="#handleMoveUpAction" accelerator="Shortcut+Shift+UP"/>
             <MenuItem text="Move Line Down" fx:id="moveDownMenuItem" onAction="#handleMoveDownAction" accelerator="Shortcut+Shift+DOWN"/>
-            <MenuItem text="Check Document Formation" fx:id="wellFormedMenuItem" onAction="#handleCheckWellFormedAction"/>
         </Menu>
         <Menu text="Preferences" fx:id="prefMenu">
             <MenuItem text="Light Mode" fx:id="lightMode" onAction="#handleLightModeMenuAction"/>
@@ -57,14 +61,19 @@
         <Button text="Compile" fx:id="compileButton" onAction ="#handleCompileButtonAction"/>
         <Button text="Compile &amp; Run" fx:id="compileRunButton" onAction="#handleCompileRunButtonAction"/>
         <Button text="Stop" fx:id="stopButton" onAction="#handleStopButtonAction"/>
-        <TextField fx:id="searchBar"/>
+        <Separator/>
+        <!--<Label text="Find:"/>-->
+        <TextField/>
         <Button text="Find" fx:id="findButton"/>
     </ToolBar>
-    <TabPane fx:id="tabPane" VBox.vgrow="ALWAYS"/>
-    <Separator/>
-    <VirtualizedScrollPane>
-        <content>
+    <GridPane maxHeight="Infinity" maxWidth="Infinity" VBox.vgrow="ALWAYS">
+      <TreeView fx:id="directoryTree" GridPane.vgrow="ALWAYS" GridPane.columnIndex="0" GridPane.rowIndex="0" GridPane.rowSpan="2"/>
+      <TabPane GridPane.rowIndex="0" GridPane.columnIndex="1" fx:id="tabPane" GridPane.vgrow="ALWAYS" GridPane.hgrow="ALWAYS"/>
+      <Separator/>
+      <VirtualizedScrollPane GridPane.rowIndex="1" GridPane.columnIndex="1" GridPane.vgrow="ALWAYS" GridPane.hgrow="ALWAYS">
+          <content>
             <StyleClassedTextArea fx:id="console"/>
-        </content>
-    </VirtualizedScrollPane>
+          </content>
+      </VirtualizedScrollPane>
+  </GridPane>
 </VBox>
