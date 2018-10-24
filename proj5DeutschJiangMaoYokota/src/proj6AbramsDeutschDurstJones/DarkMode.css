@@ -62,6 +62,17 @@
     -fx-background-radius: 5;
 }
 
+/* style of Find button */
+#findButton {
+    /* set button color to black */
+    -fx-background-color: #242424;
+    /* set button text color to white */
+    -fx-text-fill: white;
+    /* set rounded corners */
+    -fx-border-radius: 5;
+    -fx-background-radius: 5;
+}
+
 /* style of all code areas */
 .code-area {
     -fx-background-color: #535353;

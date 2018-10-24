@@ -59,8 +59,9 @@
         <Button text="Compile &amp; Run" fx:id="compileRunButton" onAction="#handleCompileRunButtonAction"/>
         <Button text="Stop" fx:id="stopButton" onAction="#handleStopButtonAction"/>
         <Separator/>
-        <Label text="Find:"/>
+        <!--<Label text="Find:"/>-->
         <TextField/>
+        <Button text="Find" fx:id="findButton"/>
     </ToolBar>
     <TabPane fx:id="tabPane" VBox.vgrow="ALWAYS"/>
     <Separator/>
