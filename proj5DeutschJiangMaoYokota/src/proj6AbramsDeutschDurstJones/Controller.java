@@ -51,8 +51,7 @@ public class Controller {
     /**
      * VBox defined in Main.fxml
      */
-    @FXML
-    private VBox vBox;
+    @FXML private VBox vBox;
     /**
      * Compile button defined in Main.fxml
      */
@@ -94,23 +93,13 @@ public class Controller {
      */
     @FXML private Menu codeMenu;
     /**
-     * Light mode preference menu item
-     */
-    @FXML
-    private MenuItem lightMode;
-    /**
-     * Dark mode preference menu item
-     */
-    @FXML
-    private MenuItem darkMode;
-    /**
      * a HashMap mapping the tabs and the associated files
      */
     private Map<Tab,File> tabFileMap = new HashMap<Tab,File>();
     /**
      * Stores CSS files for different color modes
      */
-    private String lightModeCss = getClass().getResource("Main.css").toExternalForm();
+    private String lightModeCss = getClass().getResource("LightMode.css").toExternalForm();
     private String darkModeCss = getClass().getResource("DarkMode.css").toExternalForm();
     /**
      * The worker running the compile task
@@ -271,7 +260,7 @@ public class Controller {
 
     /**
      * Handles onAction for the Light Mode menu item to switch CSS for vBox to
-     * Main.css
+     * LightMode.css
      */
     @FXML
     private void handleLightModeMenuAction() {
@@ -313,6 +302,11 @@ public class Controller {
      * @param event Event object
      */
     @FXML public void handleMoveDownAction(Event event) { this.codeMenuController.handleMoveDown(event); }
+
+    /**
+     * Calls the
+     */
+    @FXML public void handleCheckWellFormedAction(Event event) { this.codeMenuController.handleCheckWellFormed(event); }
 
     /**
      * Calls the method that handles the Edit menu action from the editMenuController.

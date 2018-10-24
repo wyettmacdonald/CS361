@@ -17,6 +17,27 @@
     -fx-background-color: #535353;
 }
 
+/* style of focused menu item */
+.menu-item:focused {
+    -fx-background-color: darkgray;
+}
+
+/* style of drop down menu */
+.context-menu {
+    -fx-background-color: gray;
+}
+
+/* style top of tab pane */
+.tab-pane .tab-header-area .tab-header-background {
+    -fx-background-color: #535353;
+}
+
+/* style for tab */
+.tab-pane .tab {
+    -fx-background-color: #404040;
+
+}
+
 /* style of toolbar */
 #toolbar {
     -fx-background-color: #535353;
@@ -33,6 +54,7 @@
     -fx-border-color: black;
     /* set rounded corners */
     -fx-border-radius: 5;
+    -fx-background-radius: 5;
 }
 
 /* style of CompileRun button */
@@ -45,6 +67,7 @@
     -fx-border-color: black;
     /* set rounded corners */
     -fx-border-radius: 5;
+    -fx-background-radius: 5;
 }
 
 /* style of Stop button */
@@ -57,21 +80,32 @@
     -fx-border-color: black;
     /* set rounded corners */
     -fx-border-radius: 5;
+    -fx-background-radius: 5;
 }
 
 /* style of all code areas */
 .code-area {
+    -fx-background-color: #404040;
+}
+
+/* style line numbers */
+.lineno {
     -fx-background-color: #535353;
+}
+
+/* style all text */
+.text {
+    -fx-fill: white;
 }
 
 /* style of console */
 #console {
-    -fx-background-color: #535353;
+    -fx-background-color: #404040;
 }
 
 /* style of keywords */
 .keyword {
-    -fx-fill: purple;
+    -fx-fill: orange;
     -fx-font-weight: bold;
 }
 
@@ -100,7 +134,7 @@
 
 /* style of strings */
 .string {
-    -fx-fill: darkgreen;
+    -fx-fill: lightgreen;
 }
 
 /* style of integers */
@@ -115,5 +149,5 @@
 
 /* style of paragraph boxes */
 .paragraph-box:has-caret {
-    -fx-background-color: lightgray;
+    -fx-background-color: #5f5e5e;
 }

@@ -66,9 +66,10 @@ public class CodeMenuController {
         if (activeCodeArea.getText(startParagraph).startsWith("//")) {
             startCol += 2;
         }
-        else {
+        else if (startCol != 0) {
             startCol -= 2;
         }
+
         if (activeCodeArea.getText(endParagraph).startsWith("//")) {
             endCol += 2;
         }
@@ -77,6 +78,22 @@ public class CodeMenuController {
         }
         // select previously selected text
         activeCodeArea.selectRange(startParagraph, startCol, endParagraph, endCol);
+    }
+
+    public void handleCheckWellFormed(Event event) {
+        CodeArea activeCodeArea = this.getActiveCodeArea();
+        //get the text of the current codeArea
+        String text = activeCodeArea.getText();
+        //now go through the text to check if it is malformed
+        long nOpensBraces = text.chars().filter(ch -> ch == '{').count();
+        long nClosesBraces= text.chars().filter(ch -> ch == '}').count();
+
+        long nOpensParens = text.chars().filter(ch -> ch == '(').count();
+        long nClosesParens = text.chars().filter(ch -> ch == ')').count();
+
+        long nOpensBrackets = text.chars().filter(ch -> ch == '[').count();
+        long nClosesBrackets = text.chars().filter(ch -> ch == ']').count();
+        System.out.println(nOpensBraces == nClosesBraces);
     }
 
     /**
