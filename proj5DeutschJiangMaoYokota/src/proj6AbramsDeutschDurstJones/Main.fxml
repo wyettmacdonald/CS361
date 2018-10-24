@@ -19,8 +19,6 @@
 <?import org.fxmisc.richtext.StyleClassedTextArea?>
 
 <?import javafx.scene.control.TextField?>
-<?import javafx.scene.control.Label?>
-<?import javafx.scene.layout.AnchorPane?>
 <VBox fx:id="vBox"
       fx:controller="proj6AbramsDeutschDurstJones.Controller"
       xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1">
@@ -59,9 +57,7 @@
         <Button text="Compile" fx:id="compileButton" onAction ="#handleCompileButtonAction"/>
         <Button text="Compile &amp; Run" fx:id="compileRunButton" onAction="#handleCompileRunButtonAction"/>
         <Button text="Stop" fx:id="stopButton" onAction="#handleStopButtonAction"/>
-        <Separator/>
-        <!--<Label text="Find:"/>-->
-        <TextField/>
+        <TextField fx:id="searchBar"/>
         <Button text="Find" fx:id="findButton"/>
     </ToolBar>
     <TabPane fx:id="tabPane" VBox.vgrow="ALWAYS"/>
