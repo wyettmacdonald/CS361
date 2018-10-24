@@ -8,7 +8,7 @@
 JFLAGS = -g # compiler flags
 JC = javac # compiler variable
 JVM= java   # specify JVM
-CLASSPATH = proj6AbramsDeutschDurstJones/richtextfx-fat-0.9.1.jar # our only dependency right now -- with more this will be more complex
+CLASSPATH = proj6AbramsDeutschDurstJones/richtextfx-fat-0.9.1.jar# our only dependency right now -- with more this will be more complex
 SOURCEPATH = ./ # specify where the .class files should be found for file by file compilation
 
 .SUFFIXES: .java .class
