@@ -173,6 +173,7 @@ public class Controller {
     this.directoryController.setDirectoryTree(directoryTree);
     this.directoryController.setTabFileMap(this.tabFileMap);
     this.directoryController.setTabPane(this.tabPane);
+    this.directoryController.setFileMenuController(this.fileMenuController);
   }
 
   /**

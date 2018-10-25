@@ -122,9 +122,7 @@ public class FileMenuController {
         if (this.tabFileMap.get(tab) == null) {
             // if the newly created file is empty, don't save
             if (!ifSaveEmptyFile) {
-                if (activeStyledCodeArea.getText().equals("")) {
-                    return false;
-                }
+                return !activeStyledCodeArea.getText().equals("");
             }
             return true;
         }
@@ -295,28 +293,34 @@ public class FileMenuController {
     public void handleOpenAction() {
         FileChooser fileChooser = new FileChooser();
         File openFile = fileChooser.showOpenDialog(this.tabPane.getScene().getWindow());
-
-        if(openFile != null){
-            // if the selected file is already open, it cannot be opened twice
-            // the tab containing this file becomes the current (topmost) one
-            for (Map.Entry<Tab,File> entry: this.tabFileMap.entrySet()) {
-                if (entry.getValue() != null) {
-                    if (entry.getValue().equals(openFile)) {
-                        this.tabPane.getSelectionModel().select(entry.getKey());
-                        return;
-                    }
-                }
-            }
-            String contentString = this.getFileContents(openFile);
-
-            if (contentString == null) {
-                return;
-            }
-
-            this.createTab(contentString, openFile.getName(), openFile);
-        }
+        this.handleOpenFile(openFile);
     }
 
+    /**
+     * Handles opening the given file object
+     * @param file the File to open in a new tab
+     */
+    public void handleOpenFile(File file) {
+        if(file == null) {
+            return;
+        }
+        // if the selected file is already open, it cannot be opened twice
+        // the tab containing this file becomes the current (topmost) one
+        for (Map.Entry<Tab, File> entry : this.tabFileMap.entrySet()) {
+            if (entry.getValue() != null) {
+                if (entry.getValue().equals(file)) {
+                    this.tabPane.getSelectionModel().select(entry.getKey());
+                    return;
+                }
+            }
+        }
+        String contentString = this.getFileContents(file);
+        if (contentString == null) {
+            return;
+        }
+
+        this.createTab(contentString, file.getName(), file);
+    }
 
     /**
      * Handles the save button action.
@@ -410,7 +414,7 @@ public class FileMenuController {
      * @param event Event object
      */
     public void handleExitAction(Event event) {
-        ArrayList<Tab> tabList = new ArrayList<Tab>(this.tabFileMap.keySet());
+        ArrayList<Tab> tabList = new ArrayList<>(this.tabFileMap.keySet());
         for (Tab currentTab: tabList) {
             this.tabPane.getSelectionModel().select(currentTab);
             if (!this.closeTab(currentTab)){

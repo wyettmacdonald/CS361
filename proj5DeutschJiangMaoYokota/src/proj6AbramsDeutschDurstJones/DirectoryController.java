@@ -10,11 +10,9 @@
 package proj6AbramsDeutschDurstJones;
 import java.io.File;
 import java.util.Map;
-
-import javafx.scene.control.Tab;
-import javafx.scene.control.TabPane;
-import javafx.scene.control.TreeView;
-import javafx.scene.control.TreeItem;
+import javafx.event.EventHandler;
+import javafx.scene.control.*;
+import javafx.scene.input.MouseEvent;
 
 /**
  * This controller handles directory related actions.
@@ -38,6 +36,10 @@ public class DirectoryController {
      * TabPane defined in Main.fxml
      */
     private TabPane tabPane;
+    /**
+     * FileMenuController defined in main controller
+     */
+    private FileMenuController fileMenuController;
 
     /**
      * Sets the directory tree from Main.fxml
@@ -45,6 +47,9 @@ public class DirectoryController {
      */
     public void setDirectoryTree(TreeView tv) {
         this.directoryTree = tv;
+        // add listener to listen for clicks in the directory tree
+        EventHandler<MouseEvent> mouseEventHandle = (MouseEvent event) -> handleDirectoryItemClicked(event);
+        this.directoryTree.addEventHandler(MouseEvent.MOUSE_CLICKED, mouseEventHandle);
     }
 
     /**
@@ -63,25 +68,34 @@ public class DirectoryController {
      */
     public void setTabPane(TabPane tabPane) {
         this.tabPane = tabPane;
-        this.tabPane.getSelectionModel().selectedItemProperty().addListener((ov, oldTab, newTab) -> {
-            this.buildTree();
-        });
+        // add listener to tab selection to switch directories based on open file
+        this.tabPane.getSelectionModel().selectedItemProperty().addListener((observable, oldTab, newTab) ->
+                this.buildTree());
+    }
+
+    /**
+     * Sets the FileMenuController.
+     *
+     * @param fileMenuController FileMenuController created in main Controller.
+     */
+    public void setFileMenuController(FileMenuController fileMenuController) {
+        this.fileMenuController = fileMenuController;
     }
 
     /**
      * Returns the directory tree for the given file
-     * @param fl the file
+     * @param file the file
      * @return the root TreeItem of the tree
      */
-    private TreeItem<String> getNode(File fl) {
+    private TreeItem<String> getNode(File file) {
         // create root, which is returned at the end
-        TreeItem<String> root = new TreeItem<String>(fl.getName());
-        for (File f : fl.listFiles()) {
+        TreeItem<String> root = new TreeItem<>(file.getName());
+        for (File f : file.listFiles()) {
             if (f.isDirectory()) {
                 // recursively traverse file directory
                 root.getChildren().add(getNode(f));
             } else {
-                root.getChildren().add(new TreeItem<String>(f.getName()));
+                root.getChildren().add(new TreeItem<>(f.getName()));
             }
         }
         return root;
@@ -92,11 +106,37 @@ public class DirectoryController {
      */
     private void buildTree() {
         // capture current file
-        File fl = this.tabFileMap.get(this.tabPane.getSelectionModel().getSelectedItem());
+        File file = this.tabFileMap.get(this.tabPane.getSelectionModel().getSelectedItem());
         // create the directory tree
-        if (fl != null) {
-            this.directoryTree.setRoot(this.getNode(fl.getParentFile()));
+        if (file != null) {
+            this.directoryTree.setRoot(this.getNode(file.getParentFile()));
             this.directoryTree.getRoot().setExpanded(true);
         }
+    }
+
+    /**
+     * Event handler to open a file selected from the directory
+     * @param event a MouseEvent object
+     */
+    private void handleDirectoryItemClicked(MouseEvent event) {
+        // only open file if double clicked
+        if (event.getClickCount() == 2 && !event.isConsumed()) {
+            event.consume();
+            TreeItem selectedItem = (TreeItem) directoryTree.getSelectionModel().getSelectedItem();
+            String fileName = (String) selectedItem.getValue();
+            if(fileName.endsWith(".java")) {
+                this.fileMenuController.handleOpenFile(new File(this.getItemPath(selectedItem)));
+            }
+        }
+    }
+
+    /**
+     * Gets the path to a file selected from the directory tree
+     * @param item the TreeItem selected
+     * @return the path String
+     */
+    private String getItemPath(TreeItem item) {
+        // get the path here
+        return "";
     }
 }
