@@ -9,6 +9,7 @@
 // https://stackoverflow.com/questions/35070310/javafx-representing-directories
 package proj6AbramsDeutschDurstJones;
 import java.io.File;
+import java.util.HashMap;
 import java.util.Map;
 import javafx.event.EventHandler;
 import javafx.scene.control.*;
@@ -31,7 +32,11 @@ public class DirectoryController {
     /**
      * a HashMap mapping the tabs and the associated files
      */
-    private Map<Tab,File> tabFileMap;
+    private Map<Tab, File> tabFileMap;
+    /**
+     * A HashMap mapping the TreeItems and associated files
+     */
+    private Map<TreeItem<String>, File> treeItemFileMap;
     /**
      * TabPane defined in Main.fxml
      */
@@ -43,10 +48,13 @@ public class DirectoryController {
 
     /**
      * Sets the directory tree from Main.fxml
+     *
      * @param tv the directory tree
      */
     public void setDirectoryTree(TreeView tv) {
         this.directoryTree = tv;
+        this.treeItemFileMap = new HashMap<>();
+
         // add listener to listen for clicks in the directory tree
         EventHandler<MouseEvent> mouseEventHandle = (MouseEvent event) -> handleDirectoryItemClicked(event);
         this.directoryTree.addEventHandler(MouseEvent.MOUSE_CLICKED, mouseEventHandle);
@@ -57,7 +65,7 @@ public class DirectoryController {
      *
      * @param tabFileMap HashMap mapping the tabs and the associated files
      */
-    public void setTabFileMap(Map<Tab,File> tabFileMap) {
+    public void setTabFileMap(Map<Tab, File> tabFileMap) {
         this.tabFileMap = tabFileMap;
     }
 
@@ -84,18 +92,23 @@ public class DirectoryController {
 
     /**
      * Returns the directory tree for the given file
+     *
      * @param file the file
      * @return the root TreeItem of the tree
      */
     private TreeItem<String> getNode(File file) {
         // create root, which is returned at the end
         TreeItem<String> root = new TreeItem<>(file.getName());
+        treeItemFileMap.put(root, file);
+
         for (File f : file.listFiles()) {
             if (f.isDirectory()) {
                 // recursively traverse file directory
                 root.getChildren().add(getNode(f));
             } else {
-                root.getChildren().add(new TreeItem<>(f.getName()));
+                TreeItem<String> leaf = new TreeItem<>(f.getName());
+                root.getChildren().add(leaf);
+                treeItemFileMap.put(leaf, f);
             }
         }
         return root;
@@ -116,6 +129,7 @@ public class DirectoryController {
 
     /**
      * Event handler to open a file selected from the directory
+     *
      * @param event a MouseEvent object
      */
     private void handleDirectoryItemClicked(MouseEvent event) {
@@ -124,19 +138,9 @@ public class DirectoryController {
             event.consume();
             TreeItem selectedItem = (TreeItem) directoryTree.getSelectionModel().getSelectedItem();
             String fileName = (String) selectedItem.getValue();
-            if(fileName.endsWith(".java")) {
-                this.fileMenuController.handleOpenFile(new File(this.getItemPath(selectedItem)));
+            if (fileName.endsWith(".java")) {
+                this.fileMenuController.handleOpenFile(this.treeItemFileMap.get(selectedItem));
             }
         }
-    }
-
-    /**
-     * Gets the path to a file selected from the directory tree
-     * @param item the TreeItem selected
-     * @return the path String
-     */
-    private String getItemPath(TreeItem item) {
-        // get the path here
-        return "";
     }
 }
