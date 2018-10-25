@@ -12,17 +12,17 @@ import javafx.beans.property.ReadOnlyBooleanProperty;
 import javafx.event.ActionEvent;
 import javafx.event.Event;
 import javafx.fxml.FXML;
-import javafx.scene.control.Button;
-import javafx.scene.control.Menu;
-import javafx.scene.control.MenuItem;
+import javafx.scene.Node;
+import javafx.scene.control.*;
+
 import java.io.File;
 import java.util.*;
-import javafx.scene.control.TabPane;
-import javafx.scene.control.Tab;
-import javafx.scene.control.TreeView;
+
 import javafx.beans.binding.BooleanBinding;
 import javafx.beans.binding.Bindings;
 import javafx.scene.layout.VBox;
+import org.fxmisc.flowless.VirtualizedScrollPane;
+import org.fxmisc.richtext.CodeArea;
 import org.fxmisc.richtext.StyleClassedTextArea;
 
 /**
@@ -102,6 +102,9 @@ public class Controller {
    * Edit menu defined in Main.fxml
    */
   @FXML private Menu codeMenu;
+
+    @FXML
+    private TextField findText;
 
   /**
    * a HashMap mapping the tabs and the associated files
@@ -406,4 +409,21 @@ public class Controller {
   private void handleEditMenuAction(Event event) {
     this.editMenuController.handleEditMenuAction(event);
   }
+
+    @FXML
+    private void handleFind() {
+        if (!this.tabPane.getSelectionModel().isEmpty()) {
+            // get selected tab
+            Tab selectedTab = this.tabPane.getSelectionModel().getSelectedItem();
+            StyledJavaCodeArea activeStyledCodeArea = (StyledJavaCodeArea)
+                    ((VirtualizedScrollPane) selectedTab.getContent()).getContent();
+
+            String contents = activeStyledCodeArea.getText();
+
+            if (contents.contains(this.findText.getCharacters())) {
+                System.out.println("Here");
+            }
+
+        }
+    }
 }
