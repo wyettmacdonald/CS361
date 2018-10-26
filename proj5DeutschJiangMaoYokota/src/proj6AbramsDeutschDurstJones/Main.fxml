@@ -51,22 +51,23 @@
         <Button text="Stop" fx:id="stopButton" onAction="#handleStopButtonAction"/>
         <Separator/>
         <TextField fx:id="findText"/>
-        <Button text="Find" fx:id="findButton" onAction="#handleFind"/>
-        <Button text="Next" fx:id="findNextButton" onAction="#handleFindNext"/>
+        <Button text="Find" fx:id="findButton" onAction="#handleFindAction"/>
+        <Button text="Next" fx:id="findNextButton" onAction="#handleFindNextAction"/>
     </ToolBar>
     <GridPane maxHeight="Infinity" maxWidth="Infinity" VBox.vgrow="ALWAYS">
         <rowConstraints>
             <RowConstraints percentHeight="75"/>
         </rowConstraints>
-        <children>
-            <TreeView fx:id="directoryTree" GridPane.vgrow="ALWAYS" GridPane.columnIndex="0" GridPane.rowIndex="0" GridPane.rowSpan="2" />
-            <TabPane GridPane.rowIndex="0" GridPane.columnIndex="1" fx:id="tabPane" GridPane.vgrow="ALWAYS" GridPane.hgrow="ALWAYS"/>
-            <Separator GridPane.columnIndex="1" GridPane.valignment="BOTTOM"/>
-            <VirtualizedScrollPane GridPane.rowIndex="1" GridPane.columnIndex="1" GridPane.vgrow="ALWAYS" GridPane.hgrow="ALWAYS">
-                <content>
-                    <StyleClassedTextArea fx:id="console"/>
-                </content>
-            </VirtualizedScrollPane>
-        </children>
-  </GridPane>
+        <TreeView fx:id="directoryTree" GridPane.vgrow="ALWAYS" GridPane.columnIndex="0" GridPane.rowIndex="0"
+                  GridPane.rowSpan="2"/>
+        <TabPane GridPane.rowIndex="0" GridPane.columnIndex="1" fx:id="tabPane" GridPane.vgrow="ALWAYS"
+                 GridPane.hgrow="ALWAYS"/>
+        <Separator GridPane.columnIndex="1" GridPane.valignment="BOTTOM"/>
+        <VirtualizedScrollPane GridPane.rowIndex="1" GridPane.columnIndex="1" GridPane.vgrow="ALWAYS"
+                               GridPane.hgrow="ALWAYS">
+            <content>
+                <StyleClassedTextArea fx:id="console"/>
+            </content>
+        </VirtualizedScrollPane>
+    </GridPane>
 </VBox>

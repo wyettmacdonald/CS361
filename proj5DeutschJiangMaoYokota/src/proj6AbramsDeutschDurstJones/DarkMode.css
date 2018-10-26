@@ -116,8 +116,13 @@
 }
 
 /* style of directory tree cells */
-.tree-cell{
+.tree-cell {
     -fx-background-color: #535353;
+}
+
+/* style of directory tree cells highlighting */
+.tree-cell:focused {
+    -fx-background-color: darkblue;
 }
 
 /* style of all code areas */

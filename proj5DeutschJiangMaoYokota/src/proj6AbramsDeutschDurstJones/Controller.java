@@ -9,38 +9,28 @@
 
 package proj6AbramsDeutschDurstJones;
 
-import javafx.beans.binding.IntegerBinding;
 import javafx.beans.property.ReadOnlyBooleanProperty;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.Event;
 import javafx.fxml.FXML;
-import javafx.scene.Node;
 import javafx.scene.control.*;
-
 import java.io.File;
 import java.util.*;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-
 import javafx.beans.binding.BooleanBinding;
 import javafx.beans.binding.Bindings;
+import javafx.scene.input.KeyCode;
 import javafx.scene.layout.VBox;
 import org.fxmisc.flowless.VirtualizedScrollPane;
 import org.fxmisc.richtext.CodeArea;
 import org.fxmisc.richtext.StyleClassedTextArea;
-import org.reactfx.util.Tuple2;
 
 /**
  * Main controller handles actions evoked by the Main window.
  *
- * @author Liwei Jiang
+ * @author Douglas Abrams
  * @author Martin Deutsch
- * @author Tatsuya Yokota
- * @author Melody Mao
+ * @author Robert Durst
+ * @author Matt Jones
  */
 public class Controller {
     /**
@@ -134,15 +124,6 @@ public class Controller {
     @FXML
     private Button findNextButton;
     /**
-     * Array List that stores all the positions of items found in a given tab
-     */
-    private ObservableList<Integer> matches = FXCollections.observableArrayList();
-    /**
-     * Index of the position that will be used in matches when Find Next button is pressed
-     */
-    private int findIdx;
-
-    /**
      * a HashMap mapping the tabs and the associated files
      */
     private Map<Tab, File> tabFileMap = new HashMap<>();
@@ -169,10 +150,22 @@ public class Controller {
     private void setupToolbarController() {
         this.toolbarController = new ToolBarController();
         this.toolbarController.setConsole(this.console);
+        this.toolbarController.setFindText(this.findText);
         this.toolbarController.setFileMenuController(this.fileMenuController);
         this.toolbarController.initialize();
         this.compileWorker = this.toolbarController.getCompileWorker();
         this.compileRunWorker = this.toolbarController.getCompileRunWorker();
+
+        // when the tab selection is change, matches is cleared
+        this.tabPane.getSelectionModel().selectedItemProperty().addListener(
+                (ov, t, t1) -> this.toolbarController.clearMatches());
+
+        // when enter is pressed in the find bar, the find action is executed
+        this.findText.setOnKeyPressed(event -> {
+            if (event.getCode() == KeyCode.ENTER) {
+                this.handleFindAction();
+            }
+        });
     }
 
     /**
@@ -238,7 +231,8 @@ public class Controller {
         this.compileRunButton.disableProperty().bind(
                 ifCompiling.or(ifCompilingRunning).or(ifTabPaneEmpty));
 
-        this.findNextButton.disableProperty().bind(Bindings.size(matches).greaterThan(0).not());
+        this.findNextButton.disableProperty().bind(Bindings.size(
+                toolbarController.getMatches()).isEqualTo(0));
     }
 
     /**
@@ -257,10 +251,6 @@ public class Controller {
         this.setupDirectoryController();
 
         this.setButtonBinding();
-
-        // when the tab selection is change, matches is cleared
-        this.tabPane.getSelectionModel().selectedItemProperty().addListener(
-                (ov, t, t1) -> matches.clear());
     }
 
     /**
@@ -442,74 +432,30 @@ public class Controller {
     }
 
     /**
-     * Calls the method that handles the Edit menu action from the
-     * editMenuController.
-     *
-     * @param event Event object
+     * Calls the method that handles the Find action from the toolbarController
      */
     @FXML
-    private void handleEditMenuAction(Event event) {
-        this.editMenuController.handleEditMenuAction(event);
-    }
-
-    /**
-     * Handles the Find button actions. This will clear any previous data from a
-     * previous find instance. Then the sequence of characters in the find text field
-     * will be searched for in the currently selected tab. If a match is found, the
-     * first instance of the match will be selected.
-     */
-    @FXML
-    private void handleFind() {
+    private void handleFindAction() {
         if (!this.tabPane.getSelectionModel().isEmpty()) {
-            // reset matches
-            matches.clear();
-            findIdx = 0;
-
-            // get selected tab
+            // get active code area
             Tab selectedTab = this.tabPane.getSelectionModel().getSelectedItem();
-            StyledJavaCodeArea activeStyledCodeArea = (StyledJavaCodeArea)
+            CodeArea activeCodeArea = (CodeArea)
                     ((VirtualizedScrollPane) selectedTab.getContent()).getContent();
-
-            String contents = activeStyledCodeArea.getText();
-            String findPhrase = this.findText.getText();
-
-            Pattern pattern = Pattern.compile("\\b" + findPhrase + "\\b");
-            Matcher matcher = pattern.matcher(contents);
-
-            // find all matches and add them to the matches field
-            boolean found = false;
-            while (matcher.find()) {
-                this.matches.add(matcher.start());
-                found = true;
-            }
-
-            // highlight string at the position of findIdx in matches
-            if (found) {
-                activeStyledCodeArea.selectRange(matches.get(0),
-                        (matches.get(0) + findPhrase.length()));
-                findIdx = (findIdx >= matches.size() - 1) ? 0 : findIdx + 1;
-            }
+            // pass to toolbar controller
+            toolbarController.handleFind(activeCodeArea);
         }
     }
 
     /**
-     * Handles the Find Next button. This will highlight the next match in the match
-     * array list. If the last match is found, findIdx is reset, so the next time the
-     * button is pressed, the first element will be selected again.
+     * Calls the method that handles the Next action from the toolbarController
      */
     @FXML
-    private void handleFindNext() {
-        // get selected tab
+    private void handleFindNextAction() {
+        // get active code area
         Tab selectedTab = this.tabPane.getSelectionModel().getSelectedItem();
-        StyledJavaCodeArea activeStyledCodeArea = (StyledJavaCodeArea)
+        CodeArea activeCodeArea = (CodeArea)
                 ((VirtualizedScrollPane) selectedTab.getContent()).getContent();
-
-        // highlight string at the position of findIdx in matches
-        if (!matches.isEmpty()) {
-            activeStyledCodeArea.selectRange(matches.get(findIdx),
-                    (matches.get(findIdx) + this.findText.getText().length()));
-
-            findIdx = (findIdx >= matches.size() - 1) ? 0 : findIdx + 1;
-        }
+        // pass to toolbar controller
+        this.toolbarController.handleFindNext(activeCodeArea);
     }
 }
