@@ -8,7 +8,13 @@
  */
 
 package proj6AbramsDeutschDurstJones;
+
+import javafx.beans.binding.IntegerBinding;
 import javafx.beans.property.ReadOnlyBooleanProperty;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.Event;
 import javafx.fxml.FXML;
@@ -17,6 +23,8 @@ import javafx.scene.control.*;
 
 import java.io.File;
 import java.util.*;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import javafx.beans.binding.BooleanBinding;
 import javafx.beans.binding.Bindings;
@@ -24,6 +32,7 @@ import javafx.scene.layout.VBox;
 import org.fxmisc.flowless.VirtualizedScrollPane;
 import org.fxmisc.richtext.CodeArea;
 import org.fxmisc.richtext.StyleClassedTextArea;
+import org.reactfx.util.Tuple2;
 
 /**
  * Main controller handles actions evoked by the Main window.
@@ -34,396 +43,473 @@ import org.fxmisc.richtext.StyleClassedTextArea;
  * @author Melody Mao
  */
 public class Controller {
-  /**
-   * ToolbarController handling toolbar actions
-   */
-  private ToolBarController toolbarController;
-  /**
-   * FileMenuController handling File menu actions
-   */
-  private FileMenuController fileMenuController;
-  /**
-   * EditMenuController handling Edit menu actions
-   */
-  private EditMenuController editMenuController;
-  /**
-   * CodeMenuController handling Code menu actions
-   */
-  private CodeMenuController codeMenuController;
-  /**
-   * DirectoryController handling directory tree actions
-   */
-  private DirectoryController directoryController;
-  /**
-   * VBox defined in Main.fxml
-   */
-  @FXML private VBox vBox;
-  /**
-   * Compile button defined in Main.fxml
-   */
-  @FXML private Button compileButton;
-  /**
-   * CompileRun button defined in Main.fxml
-   */
-  @FXML private Button compileRunButton;
-  /**
-   * Stop button defined in Main.fxml
-   */
-  @FXML private Button stopButton;
-  /**
-   * TabPane defined in Main.fxml
-   */
-  @FXML private TabPane tabPane;
-  /**
-   * Tree of current directory
-   */
-  @FXML private TreeView<String> directoryTree;
-  /**
-   * the console pane defined in Main.fxml
-   */
-  @FXML private StyleClassedTextArea console;
-  /**
-   * Close menu item of the File menu defined in Main.fxml
-   */
-  @FXML private MenuItem closeMenuItem;
-  /**
-   * Save menu item of the File menu defined in Main.fxml
-   */
-  @FXML private MenuItem saveMenuItem;
-  /**
-   * Save As menu item of the File menu defined in Main.fxml
-   */
-  @FXML private MenuItem saveAsMenuItem;
-  /**
-   * Edit menu defined in Main.fxml
-   */
-  @FXML private Menu editMenu;
-  /**
-   * Edit menu defined in Main.fxml
-   */
-  @FXML private Menu codeMenu;
-
+    /**
+     * ToolbarController handling toolbar actions
+     */
+    private ToolBarController toolbarController;
+    /**
+     * FileMenuController handling File menu actions
+     */
+    private FileMenuController fileMenuController;
+    /**
+     * EditMenuController handling Edit menu actions
+     */
+    private EditMenuController editMenuController;
+    /**
+     * CodeMenuController handling Code menu actions
+     */
+    private CodeMenuController codeMenuController;
+    /**
+     * DirectoryController handling directory tree actions
+     */
+    private DirectoryController directoryController;
+    /**
+     * VBox defined in Main.fxml
+     */
+    @FXML
+    private VBox vBox;
+    /**
+     * Compile button defined in Main.fxml
+     */
+    @FXML
+    private Button compileButton;
+    /**
+     * CompileRun button defined in Main.fxml
+     */
+    @FXML
+    private Button compileRunButton;
+    /**
+     * Stop button defined in Main.fxml
+     */
+    @FXML
+    private Button stopButton;
+    /**
+     * TabPane defined in Main.fxml
+     */
+    @FXML
+    private TabPane tabPane;
+    /**
+     * Tree of current directory
+     */
+    @FXML
+    private TreeView<String> directoryTree;
+    /**
+     * the console pane defined in Main.fxml
+     */
+    @FXML
+    private StyleClassedTextArea console;
+    /**
+     * Close menu item of the File menu defined in Main.fxml
+     */
+    @FXML
+    private MenuItem closeMenuItem;
+    /**
+     * Save menu item of the File menu defined in Main.fxml
+     */
+    @FXML
+    private MenuItem saveMenuItem;
+    /**
+     * Save As menu item of the File menu defined in Main.fxml
+     */
+    @FXML
+    private MenuItem saveAsMenuItem;
+    /**
+     * Edit menu defined in Main.fxml
+     */
+    @FXML
+    private Menu editMenu;
+    /**
+     * Edit menu defined in Main.fxml
+     */
+    @FXML
+    private Menu codeMenu;
+    /**
+     * Find TextField defined in Main.fxml
+     */
     @FXML
     private TextField findText;
+    /**
+     * Find Next Button defined in Main.fxml
+     */
+    @FXML
+    private Button findNextButton;
+    /**
+     * Array List that stores all the positions of items found in a given tab
+     */
+    private ObservableList<Integer> matches = FXCollections.observableArrayList();
+    /**
+     * Index of the position that will be used in matches when Find Next button is pressed
+     */
+    private int findIdx;
 
-  /**
-   * a HashMap mapping the tabs and the associated files
-   */
-  private Map<Tab, File> tabFileMap = new HashMap<>();
-  /**
-   * Stores CSS files for different color modes
-   */
-  private String lightModeCss =
-      getClass().getResource("LightMode.css").toExternalForm();
-  private String darkModeCss =
-      getClass().getResource("DarkMode.css").toExternalForm();
-  /**
-   * The worker running the compile task
-   */
-  private ToolBarController.CompileWorker compileWorker;
-  /**
-   * The worker running the compile and run tasks
-   */
-  private ToolBarController.CompileRunWorker compileRunWorker;
+    /**
+     * a HashMap mapping the tabs and the associated files
+     */
+    private Map<Tab, File> tabFileMap = new HashMap<>();
+    /**
+     * Stores CSS files for different color modes
+     */
+    private String lightModeCss =
+            getClass().getResource("LightMode.css").toExternalForm();
+    private String darkModeCss =
+            getClass().getResource("DarkMode.css").toExternalForm();
+    /**
+     * The worker running the compile task
+     */
+    private ToolBarController.CompileWorker compileWorker;
+    /**
+     * The worker running the compile and run tasks
+     */
+    private ToolBarController.CompileRunWorker compileRunWorker;
 
-  /**
-   * Creates a reference to the ToolbarController and passes in window items
-   * and other sub Controllers when necessary.
-   */
-  private void setupToolbarController() {
-    this.toolbarController = new ToolBarController();
-    this.toolbarController.setConsole(this.console);
-    this.toolbarController.setFileMenuController(this.fileMenuController);
-    this.toolbarController.initialize();
-    this.compileWorker = this.toolbarController.getCompileWorker();
-    this.compileRunWorker = this.toolbarController.getCompileRunWorker();
-  }
-
-  /**
-   * Creates a reference to the FileMenuController and passes in window items
-   * and other sub Controllers when necessary.
-   */
-  private void setupFileMenuController() {
-    this.fileMenuController = new FileMenuController();
-    this.fileMenuController.setTabFileMap(this.tabFileMap);
-    this.fileMenuController.setTabPane(this.tabPane);
-  }
-
-  /**
-   * Creates a reference to the EditMenuController and passes in window items
-   * and other sub Controllers when necessary.
-   */
-  private void setupEditMenuController() {
-    this.editMenuController = new EditMenuController();
-    this.editMenuController.setTabPane(this.tabPane);
-  }
-
-  /**
-   * Creates a reference to the CodeMenuController and passes in window items
-   * nd other sub Controllers when necessary
-   */
-  private void setupCodeMenuController() {
-    this.codeMenuController = new CodeMenuController();
-    this.codeMenuController.setTabPane(this.tabPane);
-  }
-
-  /**
-   * Creates a reference to the DirectoryController and passes in the directory
-   * tree for the controller to take ownership of.
-   */
-  private void setupDirectoryController() {
-    this.directoryController = new DirectoryController();
-    this.directoryController.setDirectoryTree(directoryTree);
-    this.directoryController.setTabFileMap(this.tabFileMap);
-    this.directoryController.setTabPane(this.tabPane);
-    this.directoryController.setFileMenuController(this.fileMenuController);
-  }
-
-  /**
-   * Binds the Close, Save, Save As menu items of the File menu,
-   * the Edit menu, with the condition whether the tab pane is empty.
-   */
-  private void setButtonBinding() {
-    BooleanBinding ifTabPaneEmpty = Bindings.isEmpty(tabPane.getTabs());
-    ReadOnlyBooleanProperty ifCompiling = this.compileWorker.runningProperty();
-    ReadOnlyBooleanProperty ifCompilingRunning =
-        this.compileRunWorker.runningProperty();
-
-    this.closeMenuItem.disableProperty().bind(ifTabPaneEmpty);
-    this.saveMenuItem.disableProperty().bind(ifTabPaneEmpty);
-    this.saveAsMenuItem.disableProperty().bind(ifTabPaneEmpty);
-    this.editMenu.disableProperty().bind(ifTabPaneEmpty);
-    this.codeMenu.disableProperty().bind(ifTabPaneEmpty);
-
-    this.stopButton.disableProperty().bind(
-        ((ifCompiling.not()).and(ifCompilingRunning.not())).or(ifTabPaneEmpty));
-    this.compileButton.disableProperty().bind(
-        ifCompiling.or(ifCompilingRunning).or(ifTabPaneEmpty));
-    this.compileRunButton.disableProperty().bind(
-        ifCompiling.or(ifCompilingRunning).or(ifTabPaneEmpty));
-  }
-
-  /**
-   * This function is called after the FXML fields are populated.
-   * Initializes the tab file map with the default tab.
-   * Sets up bindings.
-   * Sets up references to the sub Controllers.
-   */
-  @FXML
-  public void initialize() {
-    // set up the sub controllers
-    this.setupEditMenuController();
-    this.setupFileMenuController();
-    this.setupToolbarController();
-    this.setupCodeMenuController();
-    this.setupDirectoryController();
-
-    this.setButtonBinding();
-  }
-
-  /**
-   * Calls the method that handles the Compile button action from the
-   * toolbarController.
-   *
-   * @param event Event object
-   */
-  @FXML
-  private void handleCompileButtonAction(Event event) {
-    Tab selectedTab = this.tabPane.getSelectionModel().getSelectedItem();
-    this.toolbarController.handleCompileButtonAction(
-        event, this.tabFileMap.get(selectedTab));
-  }
-
-  /**
-   * Calls the method that handles the CompileRun button action from the
-   * toolbarController.
-   *
-   * @param event Event object
-   */
-  @FXML
-  private void handleCompileRunButtonAction(Event event) {
-    Tab selectedTab = this.tabPane.getSelectionModel().getSelectedItem();
-    this.toolbarController.handleCompileRunButtonAction(
-        event, this.tabFileMap.get(selectedTab));
-  }
-
-  /**
-   * Calls the method that handles the Stop button action from the
-   * toolbarController.
-   */
-  @FXML
-  private void handleStopButtonAction() {
-    this.toolbarController.handleStopButtonAction();
-  }
-
-  /**
-   * Calls the method that handles About menu item action from the
-   * fileMenuController.
-   */
-  @FXML
-  private void handleAboutAction() {
-    this.fileMenuController.handleAboutAction();
-  }
-
-  /**
-   * Calls the method that handles the New menu item action from the
-   * fileMenuController.
-   */
-  @FXML
-  private void handleNewAction() {
-    this.fileMenuController.handleNewAction();
-  }
-
-  /**
-   * Calls the method that handles the Open menu item action from the
-   * fileMenuController.
-   */
-  @FXML
-  private void handleOpenAction() {
-    this.fileMenuController.handleOpenAction();
-  }
-
-  /**
-   * Calls the method that handles the Close menu item action from the
-   * fileMenuController.
-   *
-   * @param event Event object
-   */
-  @FXML
-  private void handleCloseAction(Event event) {
-    this.fileMenuController.handleCloseAction(event);
-  }
-
-  /**
-   * Calls the method that handles the Save As menu item action from the
-   * fileMenuController.
-   */
-  @FXML
-  private void handleSaveAsAction() {
-    this.fileMenuController.handleSaveAsAction();
-  }
-
-  /**
-   * Calls the method that handles the Save menu item action from the
-   * fileMenuController.
-   */
-  @FXML
-  private void handleSaveAction() {
-    this.fileMenuController.handleSaveAction();
-  }
-
-  /**
-   * Calls the method that handles the Exit menu item action from the
-   * fileMenuController.
-   *
-   * @param event Event object
-   */
-  @FXML
-  public void handleExitAction(Event event) {
-    this.fileMenuController.handleExitAction(event);
-  }
-
-  /**
-   * Calls the method that handles the Edit menu action from the
-   * editMenuController.
-   *
-   *  @param event ActionEvent object
-   */
-  @FXML
-  private void handleEditMenuAction(ActionEvent event) {
-    this.editMenuController.handleEditMenuAction(event);
-  }
-
-  /**
-   * Handles onAction for the Light Mode menu item to switch CSS for vBox to
-   * LightMode.css
-   */
-  @FXML
-  private void handleLightModeMenuAction() {
-    vBox.getStylesheets().remove(darkModeCss);
-    if (!vBox.getStylesheets().contains(lightModeCss)) {
-      vBox.getStylesheets().add(lightModeCss);
+    /**
+     * Creates a reference to the ToolbarController and passes in window items
+     * and other sub Controllers when necessary.
+     */
+    private void setupToolbarController() {
+        this.toolbarController = new ToolBarController();
+        this.toolbarController.setConsole(this.console);
+        this.toolbarController.setFileMenuController(this.fileMenuController);
+        this.toolbarController.initialize();
+        this.compileWorker = this.toolbarController.getCompileWorker();
+        this.compileRunWorker = this.toolbarController.getCompileRunWorker();
     }
-  }
 
-  /**
-   * Handles onAction for the Dark Mode menu item to switch CSS for vBox to
-   * DarkMode.css
-   */
-  @FXML
-  private void handleDarkModeMenuAction() {
-    vBox.getStylesheets().remove(lightModeCss);
-    if (!vBox.getStylesheets().contains(darkModeCss)) {
-      vBox.getStylesheets().add(darkModeCss);
+    /**
+     * Creates a reference to the FileMenuController and passes in window items
+     * and other sub Controllers when necessary.
+     */
+    private void setupFileMenuController() {
+        this.fileMenuController = new FileMenuController();
+        this.fileMenuController.setTabFileMap(this.tabFileMap);
+        this.fileMenuController.setTabPane(this.tabPane);
     }
-  }
 
-  /**
-   * Calls the method that handles the Toggle Comments menu item action from the
-   * codeMenuController.
-   *
-   * @param event Event object
-   */
-  @FXML
-  public void handleToggleCommentAction(Event event) {
-    this.codeMenuController.handleToggleComment(event);
-  }
+    /**
+     * Creates a reference to the EditMenuController and passes in window items
+     * and other sub Controllers when necessary.
+     */
+    private void setupEditMenuController() {
+        this.editMenuController = new EditMenuController();
+        this.editMenuController.setTabPane(this.tabPane);
+    }
 
-  /**
-   * Calls the method that handles the Move Line Up menu item action from the
-   * codeMenuController.
-   *
-   * @param event Event object
-   */
-  @FXML
-  public void handleMoveUpAction(Event event) {
-    this.codeMenuController.handleMoveUp(event);
-  }
+    /**
+     * Creates a reference to the CodeMenuController and passes in window items
+     * nd other sub Controllers when necessary
+     */
+    private void setupCodeMenuController() {
+        this.codeMenuController = new CodeMenuController();
+        this.codeMenuController.setTabPane(this.tabPane);
+    }
 
-  /**
-   * Calls the method that handles the Move Line Down menu item action from the
-   * codeMenuController.
-   *
-   * @param event Event object
-   */
-  @FXML
-  public void handleMoveDownAction(Event event) {
-    this.codeMenuController.handleMoveDown(event);
-  }
+    /**
+     * Creates a reference to the DirectoryController and passes in the directory
+     * tree for the controller to take ownership of.
+     */
+    private void setupDirectoryController() {
+        this.directoryController = new DirectoryController();
+        this.directoryController.setDirectoryTree(directoryTree);
+        this.directoryController.setTabFileMap(this.tabFileMap);
+        this.directoryController.setTabPane(this.tabPane);
+        this.directoryController.setFileMenuController(this.fileMenuController);
+    }
 
-  /**
-   * Calls the
-   */
-  @FXML
-  public void handleCheckWellFormedAction(Event event) {
-    this.codeMenuController.handleCheckWellFormed(event);
-  }
+    /**
+     * Binds the Close, Save, Save As menu items of the File menu,
+     * the Edit menu, with the condition whether the tab pane is empty.
+     */
+    private void setButtonBinding() {
+        BooleanBinding ifTabPaneEmpty = Bindings.isEmpty(tabPane.getTabs());
+        ReadOnlyBooleanProperty ifCompiling = this.compileWorker.runningProperty();
+        ReadOnlyBooleanProperty ifCompilingRunning =
+                this.compileRunWorker.runningProperty();
 
-  /**
-   * Calls the method that handles the Edit menu action from the
-   * editMenuController.
-   *
-   *  @param event Event object
-   */
-  @FXML
-  private void handleEditMenuAction(Event event) {
-    this.editMenuController.handleEditMenuAction(event);
-  }
+        this.closeMenuItem.disableProperty().bind(ifTabPaneEmpty);
+        this.saveMenuItem.disableProperty().bind(ifTabPaneEmpty);
+        this.saveAsMenuItem.disableProperty().bind(ifTabPaneEmpty);
+        this.editMenu.disableProperty().bind(ifTabPaneEmpty);
+        this.codeMenu.disableProperty().bind(ifTabPaneEmpty);
 
+        this.stopButton.disableProperty().bind(
+                ((ifCompiling.not()).and(ifCompilingRunning.not())).or(ifTabPaneEmpty));
+        this.compileButton.disableProperty().bind(
+                ifCompiling.or(ifCompilingRunning).or(ifTabPaneEmpty));
+        this.compileRunButton.disableProperty().bind(
+                ifCompiling.or(ifCompilingRunning).or(ifTabPaneEmpty));
+
+        this.findNextButton.disableProperty().bind(Bindings.size(matches).greaterThan(0).not());
+    }
+
+    /**
+     * This function is called after the FXML fields are populated.
+     * Initializes the tab file map with the default tab.
+     * Sets up bindings.
+     * Sets up references to the sub Controllers.
+     */
+    @FXML
+    public void initialize() {
+        // set up the sub controllers
+        this.setupEditMenuController();
+        this.setupFileMenuController();
+        this.setupToolbarController();
+        this.setupCodeMenuController();
+        this.setupDirectoryController();
+
+        this.setButtonBinding();
+
+        // when the tab selection is change, matches is cleared
+        this.tabPane.getSelectionModel().selectedItemProperty().addListener(
+                (ov, t, t1) -> matches.clear());
+    }
+
+    /**
+     * Calls the method that handles the Compile button action from the
+     * toolbarController.
+     *
+     * @param event Event object
+     */
+    @FXML
+    private void handleCompileButtonAction(Event event) {
+        Tab selectedTab = this.tabPane.getSelectionModel().getSelectedItem();
+        this.toolbarController.handleCompileButtonAction(
+                event, this.tabFileMap.get(selectedTab));
+    }
+
+    /**
+     * Calls the method that handles the CompileRun button action from the
+     * toolbarController.
+     *
+     * @param event Event object
+     */
+    @FXML
+    private void handleCompileRunButtonAction(Event event) {
+        Tab selectedTab = this.tabPane.getSelectionModel().getSelectedItem();
+        this.toolbarController.handleCompileRunButtonAction(
+                event, this.tabFileMap.get(selectedTab));
+    }
+
+    /**
+     * Calls the method that handles the Stop button action from the
+     * toolbarController.
+     */
+    @FXML
+    private void handleStopButtonAction() {
+        this.toolbarController.handleStopButtonAction();
+    }
+
+    /**
+     * Calls the method that handles About menu item action from the
+     * fileMenuController.
+     */
+    @FXML
+    private void handleAboutAction() {
+        this.fileMenuController.handleAboutAction();
+    }
+
+    /**
+     * Calls the method that handles the New menu item action from the
+     * fileMenuController.
+     */
+    @FXML
+    private void handleNewAction() {
+        this.fileMenuController.handleNewAction();
+    }
+
+    /**
+     * Calls the method that handles the Open menu item action from the
+     * fileMenuController.
+     */
+    @FXML
+    private void handleOpenAction() {
+        this.fileMenuController.handleOpenAction();
+    }
+
+    /**
+     * Calls the method that handles the Close menu item action from the
+     * fileMenuController.
+     *
+     * @param event Event object
+     */
+    @FXML
+    private void handleCloseAction(Event event) {
+        this.fileMenuController.handleCloseAction(event);
+    }
+
+    /**
+     * Calls the method that handles the Save As menu item action from the
+     * fileMenuController.
+     */
+    @FXML
+    private void handleSaveAsAction() {
+        this.fileMenuController.handleSaveAsAction();
+    }
+
+    /**
+     * Calls the method that handles the Save menu item action from the
+     * fileMenuController.
+     */
+    @FXML
+    private void handleSaveAction() {
+        this.fileMenuController.handleSaveAction();
+    }
+
+    /**
+     * Calls the method that handles the Exit menu item action from the
+     * fileMenuController.
+     *
+     * @param event Event object
+     */
+    @FXML
+    public void handleExitAction(Event event) {
+        this.fileMenuController.handleExitAction(event);
+    }
+
+    /**
+     * Calls the method that handles the Edit menu action from the
+     * editMenuController.
+     *
+     * @param event ActionEvent object
+     */
+    @FXML
+    private void handleEditMenuAction(ActionEvent event) {
+        this.editMenuController.handleEditMenuAction(event);
+    }
+
+    /**
+     * Handles onAction for the Light Mode menu item to switch CSS for vBox to
+     * LightMode.css
+     */
+    @FXML
+    private void handleLightModeMenuAction() {
+        vBox.getStylesheets().remove(darkModeCss);
+        if (!vBox.getStylesheets().contains(lightModeCss)) {
+            vBox.getStylesheets().add(lightModeCss);
+        }
+    }
+
+    /**
+     * Handles onAction for the Dark Mode menu item to switch CSS for vBox to
+     * DarkMode.css
+     */
+    @FXML
+    private void handleDarkModeMenuAction() {
+        vBox.getStylesheets().remove(lightModeCss);
+        if (!vBox.getStylesheets().contains(darkModeCss)) {
+            vBox.getStylesheets().add(darkModeCss);
+        }
+    }
+
+    /**
+     * Calls the method that handles the Toggle Comments menu item action from the
+     * codeMenuController.
+     *
+     * @param event Event object
+     */
+    @FXML
+    public void handleToggleCommentAction(Event event) {
+        this.codeMenuController.handleToggleComment(event);
+    }
+
+    /**
+     * Calls the method that handles the Move Line Up menu item action from the
+     * codeMenuController.
+     *
+     * @param event Event object
+     */
+    @FXML
+    public void handleMoveUpAction(Event event) {
+        this.codeMenuController.handleMoveUp(event);
+    }
+
+    /**
+     * Calls the method that handles the Move Line Down menu item action from the
+     * codeMenuController.
+     *
+     * @param event Event object
+     */
+    @FXML
+    public void handleMoveDownAction(Event event) {
+        this.codeMenuController.handleMoveDown(event);
+    }
+
+    /**
+     * Calls the
+     */
+    @FXML
+    public void handleCheckWellFormedAction(Event event) {
+        this.codeMenuController.handleCheckWellFormed(event);
+    }
+
+    /**
+     * Calls the method that handles the Edit menu action from the
+     * editMenuController.
+     *
+     * @param event Event object
+     */
+    @FXML
+    private void handleEditMenuAction(Event event) {
+        this.editMenuController.handleEditMenuAction(event);
+    }
+
+    /**
+     * Handles the Find button actions. This will clear any previous data from a
+     * previous find instance. Then the sequence of characters in the find text field
+     * will be searched for in the currently selected tab. If a match is found, the
+     * first instance of the match will be selected.
+     */
     @FXML
     private void handleFind() {
         if (!this.tabPane.getSelectionModel().isEmpty()) {
+            // reset matches
+            matches.clear();
+            findIdx = 0;
+
             // get selected tab
             Tab selectedTab = this.tabPane.getSelectionModel().getSelectedItem();
             StyledJavaCodeArea activeStyledCodeArea = (StyledJavaCodeArea)
                     ((VirtualizedScrollPane) selectedTab.getContent()).getContent();
 
             String contents = activeStyledCodeArea.getText();
+            String findPhrase = this.findText.getText();
 
-            if (contents.contains(this.findText.getCharacters())) {
-                System.out.println("Here");
+            Pattern pattern = Pattern.compile("\\b" + findPhrase + "\\b");
+            Matcher matcher = pattern.matcher(contents);
+
+            // find all matches and add them to the matches field
+            boolean found = false;
+            while (matcher.find()) {
+                this.matches.add(matcher.start());
+                found = true;
             }
 
+            // highlight string at the position of findIdx in matches
+            if (found) {
+                activeStyledCodeArea.selectRange(matches.get(0),
+                        (matches.get(0) + findPhrase.length()));
+                findIdx = (findIdx >= matches.size() - 1) ? 0 : findIdx + 1;
+            }
+        }
+    }
+
+    /**
+     * Handles the Find Next button. This will highlight the next match in the match
+     * array list. If the last match is found, findIdx is reset, so the next time the
+     * button is pressed, the first element will be selected again.
+     */
+    @FXML
+    private void handleFindNext() {
+        // get selected tab
+        Tab selectedTab = this.tabPane.getSelectionModel().getSelectedItem();
+        StyledJavaCodeArea activeStyledCodeArea = (StyledJavaCodeArea)
+                ((VirtualizedScrollPane) selectedTab.getContent()).getContent();
+
+        // highlight string at the position of findIdx in matches
+        if (!matches.isEmpty()) {
+            activeStyledCodeArea.selectRange(matches.get(findIdx),
+                    (matches.get(findIdx) + this.findText.getText().length()));
+
+            findIdx = (findIdx >= matches.size() - 1) ? 0 : findIdx + 1;
         }
     }
 }

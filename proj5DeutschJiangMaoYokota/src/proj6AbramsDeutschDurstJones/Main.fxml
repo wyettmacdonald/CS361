@@ -52,6 +52,7 @@
         <Separator/>
         <TextField fx:id="findText"/>
         <Button text="Find" fx:id="findButton" onAction="#handleFind"/>
+        <Button text="Next" fx:id="findNextButton" onAction="#handleFindNext"/>
     </ToolBar>
     <GridPane maxHeight="Infinity" maxWidth="Infinity" VBox.vgrow="ALWAYS">
         <rowConstraints>
