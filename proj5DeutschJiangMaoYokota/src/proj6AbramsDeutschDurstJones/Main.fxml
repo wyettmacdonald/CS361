@@ -52,7 +52,7 @@
         <Button text="Stop" fx:id="stopButton" onAction="#handleStopButtonAction"/>
         <Separator/>
         <Label text="Find:"/>
-        <TextField fx:id="findText" onKeyTyped="#handleFindAction"/>
+        <TextField fx:id="findText" onKeyReleased="#handleFindAction"/>
         <Button text="Next" fx:id="findNextButton" onAction="#handleFindNextAction"/>
     </ToolBar>
     <SplitPane dividerPositions="0.2" maxHeight="Infinity"
