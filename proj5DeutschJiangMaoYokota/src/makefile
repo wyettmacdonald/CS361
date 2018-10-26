@@ -21,6 +21,7 @@ CLASSES = \
 					proj6AbramsDeutschDurstJones/StyledJavaCodeArea.java \
 					proj6AbramsDeutschDurstJones/FileMenuController.java \
 					proj6AbramsDeutschDurstJones/Controller.java \
+					proj6AbramsDeutschDurstJones/DirectoryController.java \
 					proj6AbramsDeutschDurstJones/EditMenuController.java \
 					proj6AbramsDeutschDurstJones/ToolBarController.java \
 					proj6AbramsDeutschDurstJones/Main.java
