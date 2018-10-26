@@ -50,8 +50,8 @@
         <Button text="Compile &amp; Run" fx:id="compileRunButton" onAction="#handleCompileRunButtonAction"/>
         <Button text="Stop" fx:id="stopButton" onAction="#handleStopButtonAction"/>
         <Separator/>
-        <TextField fx:id="findText"/>
-        <Button text="Find" fx:id="findButton" onAction="#handleFindAction"/>
+        <Label text="Find:"/>
+        <TextField fx:id="findText" onKeyTyped="#handleFindAction"/>
         <Button text="Next" fx:id="findNextButton" onAction="#handleFindNextAction"/>
     </ToolBar>
     <GridPane maxHeight="Infinity" maxWidth="Infinity" VBox.vgrow="ALWAYS">

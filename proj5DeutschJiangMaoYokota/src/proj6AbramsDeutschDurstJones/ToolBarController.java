@@ -522,6 +522,7 @@ public class ToolBarController {
         if (found) {
             activeCodeArea.selectRange(matches.get(0),
                         (matches.get(0) + findPhrase.length()));
+            activeCodeArea.requestFollowCaret();
             findIdx = (findIdx >= matches.size() - 1) ? 0 : findIdx + 1;
         }
     }
@@ -536,6 +537,7 @@ public class ToolBarController {
         // highlight string at the position of findIdx in matches
         activeCodeArea.selectRange(matches.get(findIdx),
                     (matches.get(findIdx) + this.findText.getText().length()));
+        activeCodeArea.requestFollowCaret();
 
         findIdx = (findIdx >= matches.size() - 1) ? 0 : findIdx + 1;
     }
