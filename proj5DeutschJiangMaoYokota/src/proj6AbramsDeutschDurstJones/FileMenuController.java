@@ -33,6 +33,10 @@ import javafx.scene.control.TabPane;
  */
 public class FileMenuController {
   /**
+   * Controller for the directory
+   */
+  private DirectoryController directoryController;
+  /**
    * a HashMap mapping the tabs and the associated files
    */
   private Map<Tab, File> tabFileMap;
@@ -40,6 +44,15 @@ public class FileMenuController {
    * TabPane defined in Main.fxml
    */
   private TabPane tabPane;
+
+  /**
+   * Sets the directory controller.
+   *
+   * @param directoryController Controller for the directory created in Controller
+   */
+  public void setDirectoryController(DirectoryController directoryController) {
+    this.directoryController = directoryController;
+  }
 
   /**
    * Sets the tabFileMap.
@@ -375,8 +388,9 @@ public class FileMenuController {
    * If the user enters any legal name for a file and presses the OK button in
    * the dialog, then creates a new text file by that name and write to that
    * file all the current contents of the styled code area so that those
-   * contents can later be reloaded. If the user presses the Cancel button in
-   * the dialog, then the dialog closes and no saving occurs.
+   * contents can later be reloaded and opens the file directory.
+   * If the user presses the Cancel button in the dialog, then the
+   * dialog closes and no saving occurs.
    *
    * @return true if save as successfully; false if cancels or an error occurs
    * when saving the file.
@@ -386,23 +400,26 @@ public class FileMenuController {
     File saveFile =
         fileChooser.showSaveDialog(this.tabPane.getScene().getWindow());
 
-    if (saveFile != null) {
-      // get the selected tab from the tab pane
-      Tab selectedTab = this.tabPane.getSelectionModel().getSelectedItem();
-      StyledJavaCodeArea activeStyledCodeArea =
-          (StyledJavaCodeArea)((VirtualizedScrollPane)selectedTab.getContent())
-              .getContent();
-      if (!this.setFileContents(activeStyledCodeArea.getText(), saveFile)) {
-        return false;
-      }
-      // set the title of the tab to the name of the saved file
-      selectedTab.setText(saveFile.getName());
-
-      // map the tab and the associated file
-      this.tabFileMap.put(selectedTab, saveFile);
-      return true;
+    if (saveFile == null) {
+      return false;
     }
-    return false;
+    // get the selected tab from the tab pane
+    Tab selectedTab = this.tabPane.getSelectionModel().getSelectedItem();
+    StyledJavaCodeArea activeStyledCodeArea =
+          (StyledJavaCodeArea)((VirtualizedScrollPane)selectedTab.getContent()).getContent();
+    if (!this.setFileContents(activeStyledCodeArea.getText(), saveFile)) {
+      return false;
+    }
+    // set the title of the tab to the name of the saved file
+    selectedTab.setText(saveFile.getName());
+
+    // map the tab and the associated file
+    this.tabFileMap.put(selectedTab, saveFile);
+
+    // open file directory
+    this.directoryController.createDirectoryTree();
+
+    return true;
   }
 
   /**

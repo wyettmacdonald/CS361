@@ -78,7 +78,7 @@ public class ToolBarController {
     /**
      * Array List that stores all the positions of items found in a given tab
      */
-    private ObservableList<Integer> matches = FXCollections.observableArrayList();
+    private ObservableList<Integer> matches;
     /**
      * Index of the position that will be used in matches when Find Next button is pressed
      */
@@ -93,6 +93,8 @@ public class ToolBarController {
         this.compileWorker = new CompileWorker();
         this.compileRunWorker = new CompileRunWorker();
         this.consoleLength = 0;
+        this.matches  = FXCollections.observableArrayList();
+        this.findIdx = 0;
     }
 
     /**

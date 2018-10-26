@@ -148,7 +148,6 @@ public class Controller {
      * and other sub Controllers when necessary.
      */
     private void setupToolbarController() {
-        this.toolbarController = new ToolBarController();
         this.toolbarController.setConsole(this.console);
         this.toolbarController.setFindText(this.findText);
         this.toolbarController.setFileMenuController(this.fileMenuController);
@@ -159,13 +158,6 @@ public class Controller {
         // when the tab selection is change, matches is cleared
         this.tabPane.getSelectionModel().selectedItemProperty().addListener(
                 (ov, t, t1) -> this.toolbarController.clearMatches());
-
-        // when enter is pressed in the find bar, the find action is executed
-        this.findText.setOnKeyPressed(event -> {
-            if (event.getCode() == KeyCode.ENTER) {
-                this.handleFindAction();
-            }
-        });
     }
 
     /**
@@ -173,7 +165,7 @@ public class Controller {
      * and other sub Controllers when necessary.
      */
     private void setupFileMenuController() {
-        this.fileMenuController = new FileMenuController();
+        this.fileMenuController.setDirectoryController(this.directoryController);
         this.fileMenuController.setTabFileMap(this.tabFileMap);
         this.fileMenuController.setTabPane(this.tabPane);
     }
@@ -183,7 +175,6 @@ public class Controller {
      * and other sub Controllers when necessary.
      */
     private void setupEditMenuController() {
-        this.editMenuController = new EditMenuController();
         this.editMenuController.setTabPane(this.tabPane);
     }
 
@@ -192,7 +183,6 @@ public class Controller {
      * nd other sub Controllers when necessary
      */
     private void setupCodeMenuController() {
-        this.codeMenuController = new CodeMenuController();
         this.codeMenuController.setTabPane(this.tabPane);
     }
 
@@ -201,7 +191,6 @@ public class Controller {
      * tree for the controller to take ownership of.
      */
     private void setupDirectoryController() {
-        this.directoryController = new DirectoryController();
         this.directoryController.setDirectoryTree(directoryTree);
         this.directoryController.setTabFileMap(this.tabFileMap);
         this.directoryController.setTabPane(this.tabPane);
@@ -243,11 +232,18 @@ public class Controller {
      */
     @FXML
     public void initialize() {
+        // initialize sub controllers
+        this.fileMenuController = new FileMenuController();
+        this.editMenuController = new EditMenuController();
+        this.codeMenuController = new CodeMenuController();
+        this.toolbarController = new ToolBarController();
+        this.directoryController = new DirectoryController();
+
         // set up the sub controllers
-        this.setupEditMenuController();
         this.setupFileMenuController();
-        this.setupToolbarController();
+        this.setupEditMenuController();
         this.setupCodeMenuController();
+        this.setupToolbarController();
         this.setupDirectoryController();
 
         this.setButtonBinding();

@@ -78,7 +78,7 @@ public class DirectoryController {
         this.tabPane = tabPane;
         // add listener to tab selection to switch directories based on open file
         this.tabPane.getSelectionModel().selectedItemProperty().addListener((observable, oldTab, newTab) ->
-                this.buildTree());
+                this.createDirectoryTree());
     }
 
     /**
@@ -117,7 +117,7 @@ public class DirectoryController {
     /**
      * Adds the directory tree for the current file to the GUI
      */
-    private void buildTree() {
+    public void createDirectoryTree() {
         // capture current file
         File file = this.tabFileMap.get(this.tabPane.getSelectionModel().getSelectedItem());
         // create the directory tree
