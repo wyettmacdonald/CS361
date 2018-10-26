@@ -6,7 +6,6 @@
  * This file contains the DirectoryController class, handling the file directory portion of the GUI.
  */
 
-// https://stackoverflow.com/questions/35070310/javafx-representing-directories
 package proj6AbramsDeutschDurstJones;
 import java.io.File;
 import java.util.HashMap;
