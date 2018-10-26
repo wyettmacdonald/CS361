@@ -82,69 +82,6 @@ public class CodeMenuController {
     }
 
     /**
-     * Check that the number of left-facing and right-facing parenthesis, brackets
-     * and braces matches
-     */
-    public void handleCheckWellFormed() {
-        CodeArea activeCodeArea = this.getActiveCodeArea();
-        // get the text of the current codeArea
-        String text = activeCodeArea.getText();
-        // now go through the text to check if it is malformed
-        long nOpenBraces = text.chars().filter(ch -> ch == '{').count();
-        long nCloseBraces= text.chars().filter(ch -> ch == '}').count();
-
-        long nOpenParens = text.chars().filter(ch -> ch == '(').count();
-        long nCloseParens = text.chars().filter(ch -> ch == ')').count();
-
-        long nOpenBrackets = text.chars().filter(ch -> ch == '[').count();
-        long nCloseBrackets = text.chars().filter(ch -> ch == ']').count();
-
-        String bracesMessage;
-        String parensMessage;
-        String bracketsMessage;
-
-        // determine if brackets are well formed
-        if (nOpenBraces > nCloseBraces) {
-            bracesMessage = "Missing " + (nOpenBraces - nCloseBraces) + " close braces\n";
-        }
-        else if (nOpenBraces < nCloseBraces) {
-            bracesMessage = "Missing " + (nCloseBraces - nOpenBraces) + " open braces\n";
-        }
-        else {
-            bracesMessage = "Braces are well formed\n";
-        }
-
-        // determine if parenthesis are well formed
-        if (nOpenParens > nCloseParens) {
-            parensMessage = "Missing " + (nOpenParens - nCloseParens) + " close parenthesis\n";
-        }
-        else if (nOpenParens < nCloseParens) {
-            parensMessage = "Missing " + (nCloseParens - nOpenParens) + " open parenthesis\n";
-        }
-        else {
-            parensMessage = "Parenthesis are well formed\n";
-        }
-
-        // determine if brackets are well formed
-        if (nOpenBrackets > nCloseBrackets) {
-            bracketsMessage = "Missing " + (nOpenBrackets - nCloseBrackets) + " close brackets\n";
-        }
-        else if (nOpenBrackets < nCloseBrackets) {
-            bracketsMessage = "Missing " + (nCloseBrackets - nOpenBrackets) + " open brackets\n";
-        }
-        else {
-            bracketsMessage = "Brackets are well formed\n";
-        }
-
-        // show messages
-        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-        alert.setTitle("Code formation report");
-        alert.setHeaderText("Checking brackets, parentheses and braces");
-        alert.setContentText(bracesMessage + parensMessage + bracketsMessage);
-        alert.showAndWait();
-    }
-
-    /**
      * Appends a line comment to front of a string if not already there, otherwise removes line comment
      * @param line the String to comment or uncomment
      * @return the line with comment toggled
@@ -208,6 +145,81 @@ public class CodeMenuController {
         String line1 = activeCodeArea.getText(p1);
         String line2 = activeCodeArea.getText(p2);
         activeCodeArea.replaceText(p1, 0, p2, activeCodeArea.getParagraphLength(p2), line2+"\n"+line1);
+    }
+
+    /**
+     * Check that the number of left-facing and right-facing parenthesis, brackets
+     * and braces matches
+     */
+    public void handleCheckWellFormed() {
+        CodeArea activeCodeArea = this.getActiveCodeArea();
+        // get the text of the current codeArea
+        String text = activeCodeArea.getText();
+        // now go through the text to check if it is malformed
+        long nOpenBraces = text.chars().filter(ch -> ch == '{').count();
+        long nCloseBraces= text.chars().filter(ch -> ch == '}').count();
+
+        long nOpenParens = text.chars().filter(ch -> ch == '(').count();
+        long nCloseParens = text.chars().filter(ch -> ch == ')').count();
+
+        long nOpenBrackets = text.chars().filter(ch -> ch == '[').count();
+        long nCloseBrackets = text.chars().filter(ch -> ch == ']').count();
+
+        String bracesMessage;
+        String parensMessage;
+        String bracketsMessage;
+
+        // determine if brackets are well formed
+        if (nOpenBraces > nCloseBraces) {
+            bracesMessage = "Missing " + (nOpenBraces - nCloseBraces) + " close braces\n";
+        }
+        else if (nOpenBraces < nCloseBraces) {
+            bracesMessage = "Missing " + (nCloseBraces - nOpenBraces) + " open braces\n";
+        }
+        else {
+            bracesMessage = "Braces are well formed\n";
+        }
+
+        // determine if parenthesis are well formed
+        if (nOpenParens > nCloseParens) {
+            parensMessage = "Missing " + (nOpenParens - nCloseParens) + " close parenthesis\n";
+        }
+        else if (nOpenParens < nCloseParens) {
+            parensMessage = "Missing " + (nCloseParens - nOpenParens) + " open parenthesis\n";
+        }
+        else {
+            parensMessage = "Parenthesis are well formed\n";
+        }
+
+        // determine if brackets are well formed
+        if (nOpenBrackets > nCloseBrackets) {
+            bracketsMessage = "Missing " + (nOpenBrackets - nCloseBrackets) + " close brackets\n";
+        }
+        else if (nOpenBrackets < nCloseBrackets) {
+            bracketsMessage = "Missing " + (nCloseBrackets - nOpenBrackets) + " open brackets\n";
+        }
+        else {
+            bracketsMessage = "Brackets are well formed\n";
+        }
+
+        // show messages
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+        alert.setTitle("Code formation report");
+        alert.setHeaderText("Checking brackets, parentheses and braces");
+        alert.setContentText(bracesMessage + parensMessage + bracketsMessage);
+        alert.showAndWait();
+    }
+
+    /**
+     * Duplicates the line with the caret on it
+     * @param event the Event object
+     */
+    public void handleDuplicateLine(Event event) {
+        CodeArea activeCodeArea = this.getActiveCodeArea();
+        int paragraphIndex = activeCodeArea.getCurrentParagraph();
+        String newText = activeCodeArea.getText(paragraphIndex) + "\n" + activeCodeArea.getText(paragraphIndex);
+        activeCodeArea.replaceText(paragraphIndex, 0, paragraphIndex,
+                activeCodeArea.getParagraphLength(paragraphIndex), newText);
     }
 
     /**

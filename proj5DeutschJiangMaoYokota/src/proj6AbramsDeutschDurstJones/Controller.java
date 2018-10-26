@@ -419,6 +419,17 @@ public class Controller {
     }
 
     /**
+     * Calls the method that handles the Duplicate Line menu item action from the
+     * codeMenuController.
+     *
+     * @param event Event object
+     */
+    @FXML
+    public void handleDuplicateLineAction(Event event) {
+        this.codeMenuController.handleDuplicateLine(event);
+    }
+
+    /**
      * Calls the method that handles the Check Well Formed menu item action from the
      * codeMenuController
      */
