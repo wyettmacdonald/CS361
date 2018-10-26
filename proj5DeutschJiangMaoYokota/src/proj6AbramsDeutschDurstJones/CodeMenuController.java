@@ -8,6 +8,7 @@
 
 package proj6AbramsDeutschDurstJones;
 import javafx.fxml.FXML;
+import javafx.scene.control.Alert;
 import javafx.scene.control.TabPane;
 import javafx.scene.control.Tab;
 import org.fxmisc.flowless.VirtualizedScrollPane;
@@ -93,7 +94,25 @@ public class CodeMenuController {
 
         long nOpensBrackets = text.chars().filter(ch -> ch == '[').count();
         long nClosesBrackets = text.chars().filter(ch -> ch == ']').count();
-        System.out.println(nOpensBraces == nClosesBraces);
+
+        boolean bracesFormation = (nOpensBraces == nClosesBraces);
+        boolean parensFormation = (nOpensParens == nClosesParens);
+        boolean bracketsFormation = (nOpensBrackets == nClosesBrackets);
+
+        String bracesMessage = bracesFormation ? "braces well formed" : "braces poorly " +
+                "formed";
+        String parensMessage = parensFormation ? "parentheses well formed" : "parens " +
+                "poorly formed";
+
+        String bracketsMessage = bracketsFormation ? "brackets well formed" : "brackets" +
+                " " +
+                "poorly formed";
+
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+        alert.setTitle("Code formation report");
+        alert.setHeaderText("Checking brackets, parentheses and braces");
+        alert.setContentText(bracesMessage + parensMessage + bracesMessage);
+        alert.showAndWait();
     }
 
     /**

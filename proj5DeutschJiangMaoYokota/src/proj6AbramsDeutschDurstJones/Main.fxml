@@ -39,6 +39,8 @@
             <MenuItem text="Toggle Comments" fx:id="commentMenuItem" onAction="#handleToggleCommentAction" accelerator="Shortcut+/"/>
             <MenuItem text="Move Line Up" fx:id="moveUpMenuItem" onAction="#handleMoveUpAction" accelerator="Shortcut+Shift+UP"/>
             <MenuItem text="Move Line Down" fx:id="moveDownMenuItem" onAction="#handleMoveDownAction" accelerator="Shortcut+Shift+DOWN"/>
+            <MenuItem text="Check well formed" fx:id="checkWellFormedMenuItem"
+                      onAction="#handleCheckWellFormedAction"/>
         </Menu>
         <Menu text="Preferences" fx:id="prefMenu">
             <MenuItem text="Light Mode" fx:id="lightMode" onAction="#handleLightModeMenuAction"/>
