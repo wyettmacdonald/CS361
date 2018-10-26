@@ -18,7 +18,6 @@ import java.io.File;
 import java.util.*;
 import javafx.beans.binding.BooleanBinding;
 import javafx.beans.binding.Bindings;
-import javafx.scene.input.KeyCode;
 import javafx.scene.layout.VBox;
 import org.fxmisc.flowless.VirtualizedScrollPane;
 import org.fxmisc.richtext.CodeArea;
@@ -420,11 +419,12 @@ public class Controller {
     }
 
     /**
-     * Calls the
+     * Calls the method that handles the Check Well Formed menu item action from the
+     * codeMenuController
      */
     @FXML
-    public void handleCheckWellFormedAction(Event event) {
-        this.codeMenuController.handleCheckWellFormed(event);
+    public void handleCheckWellFormedAction() {
+        this.codeMenuController.handleCheckWellFormed();
     }
 
     /**

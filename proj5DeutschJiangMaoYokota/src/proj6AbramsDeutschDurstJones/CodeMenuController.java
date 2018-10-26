@@ -81,37 +81,66 @@ public class CodeMenuController {
         activeCodeArea.selectRange(startParagraph, startCol, endParagraph, endCol);
     }
 
-    public void handleCheckWellFormed(Event event) {
+    /**
+     * Check that the number of left-facing and right-facing parenthesis, brackets
+     * and braces matches
+     */
+    public void handleCheckWellFormed() {
         CodeArea activeCodeArea = this.getActiveCodeArea();
-        //get the text of the current codeArea
+        // get the text of the current codeArea
         String text = activeCodeArea.getText();
-        //now go through the text to check if it is malformed
-        long nOpensBraces = text.chars().filter(ch -> ch == '{').count();
-        long nClosesBraces= text.chars().filter(ch -> ch == '}').count();
+        // now go through the text to check if it is malformed
+        long nOpenBraces = text.chars().filter(ch -> ch == '{').count();
+        long nCloseBraces= text.chars().filter(ch -> ch == '}').count();
 
-        long nOpensParens = text.chars().filter(ch -> ch == '(').count();
-        long nClosesParens = text.chars().filter(ch -> ch == ')').count();
+        long nOpenParens = text.chars().filter(ch -> ch == '(').count();
+        long nCloseParens = text.chars().filter(ch -> ch == ')').count();
 
-        long nOpensBrackets = text.chars().filter(ch -> ch == '[').count();
-        long nClosesBrackets = text.chars().filter(ch -> ch == ']').count();
+        long nOpenBrackets = text.chars().filter(ch -> ch == '[').count();
+        long nCloseBrackets = text.chars().filter(ch -> ch == ']').count();
 
-        boolean bracesFormation = (nOpensBraces == nClosesBraces);
-        boolean parensFormation = (nOpensParens == nClosesParens);
-        boolean bracketsFormation = (nOpensBrackets == nClosesBrackets);
+        String bracesMessage;
+        String parensMessage;
+        String bracketsMessage;
 
-        String bracesMessage = bracesFormation ? "braces well formed" : "braces poorly " +
-                "formed";
-        String parensMessage = parensFormation ? "parentheses well formed" : "parens " +
-                "poorly formed";
+        // determine if brackets are well formed
+        if (nOpenBraces > nCloseBraces) {
+            bracesMessage = "Missing " + (nOpenBraces - nCloseBraces) + " close braces\n";
+        }
+        else if (nOpenBraces < nCloseBraces) {
+            bracesMessage = "Missing " + (nCloseBraces - nOpenBraces) + " open braces\n";
+        }
+        else {
+            bracesMessage = "Braces are well formed\n";
+        }
 
-        String bracketsMessage = bracketsFormation ? "brackets well formed" : "brackets" +
-                " " +
-                "poorly formed";
+        // determine if parenthesis are well formed
+        if (nOpenParens > nCloseParens) {
+            parensMessage = "Missing " + (nOpenParens - nCloseParens) + " close parenthesis\n";
+        }
+        else if (nOpenParens < nCloseParens) {
+            parensMessage = "Missing " + (nCloseParens - nOpenParens) + " open parenthesis\n";
+        }
+        else {
+            parensMessage = "Parenthesis are well formed\n";
+        }
 
+        // determine if brackets are well formed
+        if (nOpenBrackets > nCloseBrackets) {
+            bracketsMessage = "Missing " + (nOpenBrackets - nCloseBrackets) + " close brackets\n";
+        }
+        else if (nOpenBrackets < nCloseBrackets) {
+            bracketsMessage = "Missing " + (nCloseBrackets - nOpenBrackets) + " open brackets\n";
+        }
+        else {
+            bracketsMessage = "Brackets are well formed\n";
+        }
+
+        // show messages
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
         alert.setTitle("Code formation report");
         alert.setHeaderText("Checking brackets, parentheses and braces");
-        alert.setContentText(bracesMessage + parensMessage + bracesMessage);
+        alert.setContentText(bracesMessage + parensMessage + bracketsMessage);
         alert.showAndWait();
     }
 
