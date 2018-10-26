@@ -14,7 +14,6 @@
 <VBox fx:id="vBox"
       fx:controller="proj6AbramsDeutschDurstJones.Controller"
       xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1">
-
       <MenuBar fx:id="menuBar" VBox.vgrow="NEVER">
         <Menu text="File" fx:id="fileMenu">
             <MenuItem text="About..." fx:id="aboutMenuItem" onAction="#handleAboutAction"/>
@@ -56,20 +55,17 @@
         <TextField fx:id="findText" onKeyTyped="#handleFindAction"/>
         <Button text="Next" fx:id="findNextButton" onAction="#handleFindNextAction"/>
     </ToolBar>
-    <GridPane maxHeight="Infinity" maxWidth="Infinity" VBox.vgrow="ALWAYS">
-        <rowConstraints>
-            <RowConstraints percentHeight="75"/>
-        </rowConstraints>
-        <TreeView fx:id="directoryTree" GridPane.vgrow="ALWAYS" GridPane.columnIndex="0" GridPane.rowIndex="0"
-                  GridPane.rowSpan="2"/>
-        <TabPane GridPane.rowIndex="0" GridPane.columnIndex="1" fx:id="tabPane" GridPane.vgrow="ALWAYS"
-                 GridPane.hgrow="ALWAYS"/>
-        <Separator GridPane.columnIndex="1" GridPane.valignment="BOTTOM"/>
-        <VirtualizedScrollPane GridPane.rowIndex="1" GridPane.columnIndex="1" GridPane.vgrow="ALWAYS"
-                               GridPane.hgrow="ALWAYS">
-            <content>
-                <StyleClassedTextArea fx:id="console"/>
-            </content>
-        </VirtualizedScrollPane>
-    </GridPane>
+    <SplitPane dividerPositions="0.2" maxHeight="Infinity"
+               maxWidth="Infinity"
+               VBox.vgrow="ALWAYS">
+        <TreeView fx:id="directoryTree"/>
+        <SplitPane dividerPositions="0.8" orientation="VERTICAL">
+            <TabPane fx:id="tabPane"/>
+            <VirtualizedScrollPane>
+                <content>
+                    <StyleClassedTextArea fx:id="console"/>
+                </content>
+            </VirtualizedScrollPane>
+        </SplitPane>
+    </SplitPane>
 </VBox>

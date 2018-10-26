@@ -39,7 +39,7 @@ public class Main extends Application {
         Parent root = loader.load();
 
         // initialize a scene and add features specified in the css file to the scene
-        Scene scene = new Scene(root, 800, 600);
+        Scene scene = new Scene(root, 1000, 750);
         scene.getStylesheets().add(getClass().getResource(
                 "/proj6AbramsDeutschDurstJones/LightMode.css").toExternalForm());
       
