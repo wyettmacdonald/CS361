@@ -470,6 +470,10 @@ public class Controller {
      */
     @FXML
     private void handleFindNextAction(Event event) {
+        // return if no search results
+        if (this.toolbarController.getMatches().isEmpty()) {
+            return;
+        }
         // get active code area
         Tab selectedTab = this.tabPane.getSelectionModel().getSelectedItem();
         CodeArea activeCodeArea = (CodeArea)
