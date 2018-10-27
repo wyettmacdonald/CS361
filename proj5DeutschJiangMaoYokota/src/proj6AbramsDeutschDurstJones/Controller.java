@@ -14,10 +14,13 @@ import javafx.event.ActionEvent;
 import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
+
 import java.io.File;
 import java.util.*;
 import javafx.beans.binding.BooleanBinding;
 import javafx.beans.binding.Bindings;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.VBox;
 import org.fxmisc.flowless.VirtualizedScrollPane;
 import org.fxmisc.richtext.CodeArea;
@@ -442,22 +445,31 @@ public class Controller {
      * Calls the method that handles the Find action from the toolbarController
      */
     @FXML
-    private void handleFindAction() {
-        if (!this.tabPane.getSelectionModel().isEmpty()) {
-            // get active code area
-            Tab selectedTab = this.tabPane.getSelectionModel().getSelectedItem();
-            CodeArea activeCodeArea = (CodeArea)
-                    ((VirtualizedScrollPane) selectedTab.getContent()).getContent();
-            // pass to toolbar controller
-            toolbarController.handleFind(activeCodeArea);
+    private void handleFindAction(Event event) {
+        // return if no tabs open
+        if (this.tabPane.getSelectionModel().isEmpty()) {
+            return;
         }
+
+        // go to next result if user presses enter
+        if (((KeyEvent) event).getCode() == KeyCode.ENTER) {
+            this.handleFindNextAction(event);
+            return;
+        }
+
+        // get active code area
+        Tab selectedTab = this.tabPane.getSelectionModel().getSelectedItem();
+        CodeArea activeCodeArea = (CodeArea)
+                ((VirtualizedScrollPane) selectedTab.getContent()).getContent();
+        // pass to toolbar controller
+        toolbarController.handleFind(activeCodeArea);
     }
 
     /**
      * Calls the method that handles the Next action from the toolbarController
      */
     @FXML
-    private void handleFindNextAction() {
+    private void handleFindNextAction(Event event) {
         // get active code area
         Tab selectedTab = this.tabPane.getSelectionModel().getSelectedItem();
         CodeArea activeCodeArea = (CodeArea)
