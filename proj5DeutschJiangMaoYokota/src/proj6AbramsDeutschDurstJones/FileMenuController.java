@@ -234,8 +234,6 @@ public class FileMenuController {
   private void createTab(String contentString, String filename, File file) {
     StyledJavaCodeArea newStyledCodeArea =
         new StyledJavaCodeArea(contentString);
-    newStyledCodeArea.setParagraphGraphicFactory(
-        LineNumberFactory.get(newStyledCodeArea));
 
     Tab newTab = new Tab();
     newTab.setText(filename);
