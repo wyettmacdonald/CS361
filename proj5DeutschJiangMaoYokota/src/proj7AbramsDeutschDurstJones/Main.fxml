@@ -17,7 +17,7 @@
       xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1">
       <MenuBar fx:id="menuBar" VBox.vgrow="NEVER">
         <Menu text="File" fx:id="fileMenu">
-            <MenuItem text="About..." fx:id="aboutMenuItem" onAction="#handleAboutAction"/>
+            <MenuItem text="About..." fx:id="aboutMenuItem" onAction="#handleAboutAction" accelerator="Shortcut+Shift+A"/>
             <SeparatorMenuItem />
             <MenuItem text="New" fx:id="newMenuItem" onAction="#handleNewAction" accelerator="Shortcut+N"/>
             <MenuItem text="Open..." fx:id="openMenuItem" onAction="#handleOpenAction" accelerator="Shortcut+O"/>
