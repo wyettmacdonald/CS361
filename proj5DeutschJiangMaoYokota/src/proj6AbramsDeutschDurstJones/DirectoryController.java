@@ -136,6 +136,11 @@ public class DirectoryController {
         if (event.getClickCount() == 2 && !event.isConsumed()) {
             event.consume();
             TreeItem selectedItem = (TreeItem) directoryTree.getSelectionModel().getSelectedItem();
+            // if no item selected, do nothing
+            if (selectedItem == null) {
+                return;
+            }
+            // Open the file, if it is a java file
             String fileName = (String) selectedItem.getValue();
             if (fileName.endsWith(".java")) {
                 this.fileMenuController.handleOpenFile(this.treeItemFileMap.get(selectedItem));
