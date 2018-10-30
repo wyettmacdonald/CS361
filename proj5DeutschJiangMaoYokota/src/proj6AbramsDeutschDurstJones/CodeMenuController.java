@@ -165,42 +165,9 @@ public class CodeMenuController {
         long nOpenBrackets = text.chars().filter(ch -> ch == '[').count();
         long nCloseBrackets = text.chars().filter(ch -> ch == ']').count();
 
-        String bracesMessage;
-        String parensMessage;
-        String bracketsMessage;
-
-        // determine if brackets are well formed
-        if (nOpenBraces > nCloseBraces) {
-            bracesMessage = "Missing " + (nOpenBraces - nCloseBraces) + " close braces\n";
-        }
-        else if (nOpenBraces < nCloseBraces) {
-            bracesMessage = "Missing " + (nCloseBraces - nOpenBraces) + " open braces\n";
-        }
-        else {
-            bracesMessage = "Braces are well formed\n";
-        }
-
-        // determine if parenthesis are well formed
-        if (nOpenParens > nCloseParens) {
-            parensMessage = "Missing " + (nOpenParens - nCloseParens) + " close parenthesis\n";
-        }
-        else if (nOpenParens < nCloseParens) {
-            parensMessage = "Missing " + (nCloseParens - nOpenParens) + " open parenthesis\n";
-        }
-        else {
-            parensMessage = "Parenthesis are well formed\n";
-        }
-
-        // determine if brackets are well formed
-        if (nOpenBrackets > nCloseBrackets) {
-            bracketsMessage = "Missing " + (nOpenBrackets - nCloseBrackets) + " close brackets\n";
-        }
-        else if (nOpenBrackets < nCloseBrackets) {
-            bracketsMessage = "Missing " + (nCloseBrackets - nOpenBrackets) + " open brackets\n";
-        }
-        else {
-            bracketsMessage = "Brackets are well formed\n";
-        }
+        String bracesMessage = this.wellFormedMessage(nOpenBraces, nCloseBraces, "braces");
+        String parensMessage = this.wellFormedMessage(nOpenParens, nCloseParens, "parenthesis");
+        String bracketsMessage = this.wellFormedMessage(nOpenBrackets, nCloseBrackets, "brackets");
 
         // show messages
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
@@ -208,6 +175,27 @@ public class CodeMenuController {
         alert.setHeaderText("Checking brackets, parentheses and braces");
         alert.setContentText(bracesMessage + parensMessage + bracketsMessage);
         alert.showAndWait();
+    }
+
+    /**
+     *
+     * @param nOpen
+     * @param nClosed
+     * @param type
+     * @return
+     */
+    private String wellFormedMessage(long nOpen, long nClosed, String type) {
+        String message;
+        if (nOpen > nClosed) {
+            message = "Missing " + (nOpen - nClosed) + " close " + type + "\n";
+        }
+        else if (nOpen < nClosed) {
+            message = "Missing " + (nClosed - nOpen) + " open " + type + "\n";
+        }
+        else {
+            message = type.substring(0, 1).toUpperCase() + type.substring(1) + " are well formed\n";
+        }
+        return message;
     }
 
     /**
