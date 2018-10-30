@@ -69,7 +69,9 @@ public class FileMenuController {
    *
    * @param codeAreaTabPane TabPane
    */
-  public void setCodeAreaTabPane(CodeAreaTabPane codeAreaTabPane) { this.codeAreaTabPane = codeAreaTabPane; }
+  public void setCodeAreaTabPane(CodeAreaTabPane codeAreaTabPane) {
+      this.codeAreaTabPane = codeAreaTabPane;
+  }
 
   /**
    * Helper method to get the text content of a specified file.
@@ -113,15 +115,14 @@ public class FileMenuController {
    * Helper method to check if the content of the specified StyledJavaCodeArea
    * matches the content of the specified File.
    *
-   * @param styledCodeArea StyledJavaCodeArea to compare with the the specified
+   * @param codeArea CodeArea to compare with the the specified
    * File
    * @param file File to compare with the the specified StyledJavaCodeArea
    * @return true if the content of the StyledJavaCodeArea matches the content
    * of the File; false if not
    */
-  public boolean fileContainsMatch(StyledJavaCodeArea styledCodeArea,
-                                   File file) {
-    String styledCodeAreaContent = styledCodeArea.getText();
+  public boolean fileContainsMatch(CodeArea codeArea, File file) {
+    String styledCodeAreaContent = codeArea.getText();
     String fileContent = this.getFileContents(file);
     return styledCodeAreaContent.equals(fileContent);
   }
@@ -137,20 +138,18 @@ public class FileMenuController {
    * saving.
    */
   public boolean tabNeedsSaving(Tab tab, boolean ifSaveEmptyFile) {
-    StyledJavaCodeArea activeStyledCodeArea =
-        (StyledJavaCodeArea)((VirtualizedScrollPane)tab.getContent())
-            .getContent();
+    CodeArea activeCodeArea = this.codeAreaTabPane.getActiveCodeArea();
     // check whether the embedded text has been saved or not
     if (this.tabFileMap.get(tab) == null) {
       // if the newly created file is empty, don't save
       if (!ifSaveEmptyFile) {
-        return !activeStyledCodeArea.getText().equals("");
+        return !activeCodeArea.getText().equals("");
       }
       return true;
     }
     // check whether the saved file match the tab content or not
     else {
-      return !this.fileContainsMatch(activeStyledCodeArea,
+      return !this.fileContainsMatch(activeCodeArea,
                                      this.tabFileMap.get(tab));
     }
   }
@@ -199,8 +198,7 @@ public class FileMenuController {
    * @return 0 if the user clicks No button; 1 if the user clicks the Yes
    * button; 2 if the user clicks cancel button.
    */
-  public int createConfirmationDialog(String title, String headerText,
-                                      String contentText) {
+  public int createConfirmationDialog(String title, String headerText, String contentText) {
     Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
     alert.setTitle(title);
     alert.setHeaderText(headerText);
@@ -308,7 +306,9 @@ public class FileMenuController {
    * Opens a styled code area embedded in a new tab.
    * Sets the newly opened tab to the the topmost one.
    */
-  public void handleNewAction() { this.createTab("", "untitled", null); }
+  public void handleNewAction() {
+      this.createTab("", "untitled", null);
+  }
 
   /**
    * Handles the open button action.
