@@ -178,11 +178,11 @@ public class CodeMenuController {
     }
 
     /**
-     *
-     * @param nOpen
-     * @param nClosed
-     * @param type
-     * @return
+     * Returns a message indicating if the number of closed and open groupings of a given type match
+     * @param nOpen the number of the open grouping symbols
+     * @param nClosed the number of closed grouping symbols
+     * @param type the String indicating the type of grouping
+     * @return the info message
      */
     private String wellFormedMessage(long nOpen, long nClosed, String type) {
         String message;
