@@ -1,13 +1,13 @@
 /*
  * File: StyledJavaCodeArea.java
- * CS361 Project 6
+ * CS361 Project 7
  * Names: Douglas Abrams, Martin Deutsch, Robert Durst, Matt Jones
- * Date: 10/27/2018
+ * Date: 11/3/2018
  * This file contains the StyledJavaCodeArea class, which extends the CodeArea class
  * to handle syntax highlighting.
  */
 
-package proj6AbramsDeutschDurstJones;
+package proj7AbramsDeutschDurstJones;
 
 import org.fxmisc.richtext.CodeArea;
 import org.fxmisc.richtext.LineNumberFactory;

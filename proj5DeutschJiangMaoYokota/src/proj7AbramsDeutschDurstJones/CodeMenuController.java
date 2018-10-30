@@ -1,17 +1,15 @@
 /*
  * File: CodeMenuController.java
- * CS361 Project 6
+ * CS361 Project 7
  * Names: Douglas Abrams, Martin Deutsch, Robert Durst, Matt Jones
- * Date: 10/27/2018
+ * Date: 11/3/2018
  * This file contains the EditMenuController class, handling Edit menu related actions.
  */
 
-package proj6AbramsDeutschDurstJones;
+package proj7AbramsDeutschDurstJones;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.TabPane;
-import javafx.scene.control.Tab;
-import org.fxmisc.flowless.VirtualizedScrollPane;
 import org.fxmisc.richtext.CaretSelectionBind;
 import org.fxmisc.richtext.CodeArea;
 import javafx.event.Event;
@@ -28,21 +26,21 @@ public class CodeMenuController {
     /**
      * TabPane defined in Main.fxml
      */
-    @FXML private TabPane tabPane;
+    @FXML private CodeAreaTabPane codeAreaTabPane;
 
     /**
      * Sets the tab pane.
      *
-     * @param tabPane TabPane defined in Main.fxml
+     * @param codeAreaTabPane TabPane defined in Main.fxml
      */
-    public void setTabPane(TabPane tabPane) { this.tabPane = tabPane; }
+    public void setCodeAreaTabPane(CodeAreaTabPane codeAreaTabPane) { this.codeAreaTabPane = codeAreaTabPane; }
 
     /**
      * Toggles commenting for each line in currently selected code block
      * @param event the Event object
      */
     public void handleToggleComment(Event event) {
-        CodeArea activeCodeArea = this.getActiveCodeArea();
+        CodeArea activeCodeArea = codeAreaTabPane.getActiveCodeArea();
 
         // get selected lines of text
         CaretSelectionBind<?, ?, ?> selection = activeCodeArea.getCaretSelectionBind();
@@ -101,7 +99,7 @@ public class CodeMenuController {
      * @param event the Event object
      */
     public void handleMoveUp(Event event) {
-        CodeArea activeCodeArea = this.getActiveCodeArea();
+        CodeArea activeCodeArea = codeAreaTabPane.getActiveCodeArea();
         int paragraphIndex = activeCodeArea.getCurrentParagraph();
         int caretCol = activeCodeArea.getCaretColumn();
         int numLines = activeCodeArea.getParagraphs().size();
@@ -120,7 +118,7 @@ public class CodeMenuController {
      * @param event the Event object
      */
     public void handleMoveDown(Event event) {
-        CodeArea activeCodeArea = this.getActiveCodeArea();
+        CodeArea activeCodeArea = codeAreaTabPane.getActiveCodeArea();
         int paragraphIndex = activeCodeArea.getCurrentParagraph();
         int caretCol = activeCodeArea.getCaretColumn();
         int numLines = activeCodeArea.getParagraphs().size();
@@ -141,7 +139,7 @@ public class CodeMenuController {
      * @param p2 the line number of the second paragraph
      */
     private void swapLines(int p1, int p2) {
-        CodeArea activeCodeArea = this.getActiveCodeArea();
+        CodeArea activeCodeArea = codeAreaTabPane.getActiveCodeArea();
         String line1 = activeCodeArea.getText(p1);
         String line2 = activeCodeArea.getText(p2);
         activeCodeArea.replaceText(p1, 0, p2, activeCodeArea.getParagraphLength(p2), line2+"\n"+line1);
@@ -152,7 +150,7 @@ public class CodeMenuController {
      * and braces matches
      */
     public void handleCheckWellFormed() {
-        CodeArea activeCodeArea = this.getActiveCodeArea();
+        CodeArea activeCodeArea = codeAreaTabPane.getActiveCodeArea();
         // get the text of the current codeArea
         String text = activeCodeArea.getText();
         // now go through the text to check if it is malformed
@@ -203,19 +201,10 @@ public class CodeMenuController {
      * @param event the Event object
      */
     public void handleDuplicateLine(Event event) {
-        CodeArea activeCodeArea = this.getActiveCodeArea();
+        CodeArea activeCodeArea = codeAreaTabPane.getActiveCodeArea();
         int paragraphIndex = activeCodeArea.getCurrentParagraph();
         String newText = activeCodeArea.getText(paragraphIndex) + "\n" + activeCodeArea.getText(paragraphIndex);
         activeCodeArea.replaceText(paragraphIndex, 0, paragraphIndex,
                 activeCodeArea.getParagraphLength(paragraphIndex), newText);
-    }
-
-    /**
-     * Gets the code area from the active tab
-     * @return the currently active code area
-     */
-    private CodeArea getActiveCodeArea() {
-        Tab selectedTab = this.tabPane.getSelectionModel().getSelectedItem();
-        return (CodeArea)((VirtualizedScrollPane)selectedTab.getContent()).getContent();
     }
 }

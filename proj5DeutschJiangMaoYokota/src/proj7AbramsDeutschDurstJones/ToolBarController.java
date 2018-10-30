@@ -1,12 +1,12 @@
 /*
  * File: ToolBarController.java
- * CS361 Project 6
+ * CS361 Project 7
  * Names: Douglas Abrams, Martin Deutsch, Robert Durst, Matt Jones
- * Date: 10/27/2018
+ * Date: 11/3/2018
  * This file contains the ToolBarController class, handling Toolbar related actions.
  */
 
-package proj6AbramsDeutschDurstJones;
+package proj7AbramsDeutschDurstJones;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;

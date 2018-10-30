@@ -14,13 +14,13 @@
 <?import javafx.scene.control.SeparatorMenuItem?>
 <?import javafx.scene.control.ToolBar?>
 <?import javafx.scene.layout.VBox?>
-<?import javafx.scene.control.TabPane?>
 <?import javafx.scene.control.Tab?>
 <?import org.fxmisc.flowless.VirtualizedScrollPane?>
 <?import org.fxmisc.richtext.StyleClassedTextArea?>
 
-<?import proj6AbramsDeutschDurstJones.StyledJavaCodeArea?>
-<VBox fx:id="VBox" stylesheets="@Main.css" fx:controller="proj6AbramsDeutschDurstJones.Controller" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1">
+<?import proj7AbramsDeutschDurstJones.StyledJavaCodeArea?>
+<?import proj7AbramsDeutschDurstJones.CodeAreaTabPane?>
+<VBox fx:id="VBox" stylesheets="@Main.css" fx:controller="proj7AbramsDeutschDurstJones.Controller" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1">
     <MenuBar VBox.vgrow="NEVER">
         <Menu text="File" fx:id="fileMenu">
             <MenuItem text="About..." fx:id="aboutMenuItem" onAction="#handleAboutAction"/>
@@ -47,19 +47,19 @@
         <Button text="Compile &amp; Run" fx:id="compileRunButton" onAction="#handleCompileRunButtonAction"/>
         <Button text="Stop" fx:id="stopButton" onAction="#handleStopButtonAction"/>
     </ToolBar>
-    <TabPane fx:id="tabPane" VBox.vgrow="ALWAYS">
+    <CodeAreaTabPane fx:id="codeAreaTabPane" VBox.vgrow="ALWAYS">
         <tabs>
             <Tab text="untitled" fx:id="untitledTab" onCloseRequest="#handleCloseAction">
                 <content>
                     <VirtualizedScrollPane fx:id = "scrollPane">
                         <content>
-                            <StyledJavaCodeArea fx:id="defaultCodeArea" stylesheets = "@Main.css" wrapText="true" onKeyPressed="#handleTextChange"/>
+                            <StyledJavaCodeArea fx:id="defaultCodeArea" stylesheets = "@Main.css" wrapText="true"/>
                         </content>
                     </VirtualizedScrollPane>
                 </content>
             </Tab>
         </tabs>
-    </TabPane>
+    </CodeAreaTabPane>
     <Separator/>
     <VirtualizedScrollPane>
         <content>

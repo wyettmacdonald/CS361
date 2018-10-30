@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--File: Main.fxml-->
-<!--CS361 Project 6-->
+<!--CS361 Project 7-->
 <!--Names: Douglas Abrams, Martin Deutsch, Robert Durst, Matt Jones-->
 <!--FXML file, laying out GUI elements of Main.java-->
-<!--Date: 10/27/2018-->
+<!--Date: 11/3/2018-->
 
 <!--imported packages-->
 <?import org.fxmisc.flowless.VirtualizedScrollPane?>
@@ -11,8 +11,9 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
+<?import proj7AbramsDeutschDurstJones.CodeAreaTabPane?>
 <VBox fx:id="vBox"
-      fx:controller="proj6AbramsDeutschDurstJones.Controller"
+      fx:controller="proj7AbramsDeutschDurstJones.Controller"
       xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1">
       <MenuBar fx:id="menuBar" VBox.vgrow="NEVER">
         <Menu text="File" fx:id="fileMenu">
@@ -61,7 +62,7 @@
                VBox.vgrow="ALWAYS">
         <TreeView fx:id="directoryTree"/>
         <SplitPane dividerPositions="0.8" orientation="VERTICAL">
-            <TabPane fx:id="tabPane"/>
+            <CodeAreaTabPane fx:id="codeAreaTabPane"/>
             <VirtualizedScrollPane>
                 <content>
                     <StyleClassedTextArea fx:id="console"/>

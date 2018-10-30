@@ -1,18 +1,16 @@
 /*
  * File: EditMenuController.java
- * CS361 Project 6
+ * CS361 Project 7
  * Names: Douglas Abrams, Martin Deutsch, Robert Durst, Matt Jones
- * Date: 10/27/2018
+ * Date: 11/3/2018
  * This file contains the EditMenuController class, handling Edit menu related actions.
  */
 
-package proj6AbramsDeutschDurstJones;
+package proj7AbramsDeutschDurstJones;
 import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.TabPane;
-import javafx.scene.control.Tab;
-import org.fxmisc.flowless.VirtualizedScrollPane;
 import org.fxmisc.richtext.CodeArea;
 
 /**
@@ -27,14 +25,14 @@ public class EditMenuController {
     /**
      * TabPane defined in Main.fxml
      */
-    @FXML private TabPane tabPane;
+    @FXML private CodeAreaTabPane codeAreaTabPane;
 
     /**
      * Sets the tab pane.
      *
-     * @param tabPane TabPane defined in Main.fxml
+     * @param codeAreaTabPane TabPane defined in Main.fxml
      */
-    public void setTabPane(TabPane tabPane) { this.tabPane = tabPane; }
+    public void setCodeAreaTabPane(CodeAreaTabPane codeAreaTabPane) { this.codeAreaTabPane = codeAreaTabPane; }
 
     /**
      * Handles the Edit menu action.
@@ -43,8 +41,7 @@ public class EditMenuController {
      */
     public void handleEditMenuAction(Event event) {
         // get the code area embedded in the selected tab window
-        Tab selectedTab = this.tabPane.getSelectionModel().getSelectedItem();
-        CodeArea activeCodeArea = (CodeArea)((VirtualizedScrollPane)selectedTab.getContent()).getContent();
+        CodeArea activeCodeArea = this.codeAreaTabPane.getActiveCodeArea();
         MenuItem clickedItem = (MenuItem)event.getTarget();
         switch(clickedItem.getId()) {
             case "undoMenuItem":

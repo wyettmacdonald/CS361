@@ -1,12 +1,12 @@
 /*
  * File: DirectoryController.java
- * CS361 Project 6
+ * CS361 Project 7
  * Names: Douglas Abrams, Martin Deutsch, Robert Durst, Matt Jones
- * Date: 10/27/2018
+ * Date: 11/3/2018
  * This file contains the DirectoryController class, handling the file directory portion of the GUI.
  */
 
-package proj6AbramsDeutschDurstJones;
+package proj7AbramsDeutschDurstJones;
 import java.io.File;
 import java.util.HashMap;
 import java.util.Map;

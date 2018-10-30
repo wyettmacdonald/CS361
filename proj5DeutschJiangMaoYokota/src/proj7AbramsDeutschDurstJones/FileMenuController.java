@@ -1,19 +1,19 @@
 /*
  * File: FileMenuController.java
- * CS361 Project 6
+ * CS361 Project 7
  * Names: Douglas Abrams, Martin Deutsch, Robert Durst, Matt Jones
- * Date: 10/27/2018
+ * Date: 11/3/2018
  * This file contains the FileMenuController class, handling File menu related
  * actions.
  */
 
-package proj6AbramsDeutschDurstJones;
+package proj7AbramsDeutschDurstJones;
 import javafx.event.Event;
 import javafx.scene.control.*;
 import javafx.stage.FileChooser;
 import javafx.stage.Window;
 import org.fxmisc.flowless.VirtualizedScrollPane;
-import org.fxmisc.richtext.LineNumberFactory;
+
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -22,6 +22,7 @@ import java.nio.file.Paths;
 import java.util.*;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
+import org.fxmisc.richtext.CodeArea;
 
 /**
  * FileMenuController handles File menu related actions.
@@ -43,7 +44,7 @@ public class FileMenuController {
   /**
    * TabPane defined in Main.fxml
    */
-  private TabPane tabPane;
+  private CodeAreaTabPane codeAreaTabPane;
 
   /**
    * Sets the directory controller.
@@ -64,11 +65,11 @@ public class FileMenuController {
   }
 
   /**
-   * Sets the tabPane.
+   * Sets the codeAreaTabPane.
    *
-   * @param tabPane TabPane
+   * @param codeAreaTabPane TabPane
    */
-  public void setTabPane(TabPane tabPane) { this.tabPane = tabPane; }
+  public void setCodeAreaTabPane(CodeAreaTabPane codeAreaTabPane) { this.codeAreaTabPane = codeAreaTabPane; }
 
   /**
    * Helper method to get the text content of a specified file.
@@ -162,7 +163,7 @@ public class FileMenuController {
    */
   private void removeTab(Tab tab) {
     this.tabFileMap.remove(tab);
-    this.tabPane.getTabs().remove(tab);
+    this.codeAreaTabPane.getTabs().remove(tab);
   }
 
   /**
@@ -174,7 +175,7 @@ public class FileMenuController {
    *         2 is user clicked Cancel button; -1 is no saving is needed
    */
   public int checkSaveBeforeCompile() {
-    Tab selectedTab = this.tabPane.getSelectionModel().getSelectedItem();
+    Tab selectedTab = this.codeAreaTabPane.getSelectionModel().getSelectedItem();
     // if the file has not been saved or has been changed
     if (this.tabNeedsSaving(selectedTab, true)) {
       int buttonClicked = this.createConfirmationDialog(
@@ -241,8 +242,8 @@ public class FileMenuController {
     newTab.setOnCloseRequest(event -> this.handleCloseAction(event));
 
     this.tabFileMap.put(newTab, file);
-    this.tabPane.getTabs().add(newTab);
-    this.tabPane.getSelectionModel().select(newTab);
+    this.codeAreaTabPane.getTabs().add(newTab);
+    this.codeAreaTabPane.getSelectionModel().select(newTab);
   }
 
   /**
@@ -319,7 +320,7 @@ public class FileMenuController {
   public void handleOpenAction() {
     FileChooser fileChooser = new FileChooser();
     File openFile =
-        fileChooser.showOpenDialog(this.tabPane.getScene().getWindow());
+        fileChooser.showOpenDialog(this.codeAreaTabPane.getScene().getWindow());
     this.handleOpenFile(openFile);
   }
 
@@ -336,7 +337,7 @@ public class FileMenuController {
     for (Map.Entry<Tab, File> entry : this.tabFileMap.entrySet()) {
       if (entry.getValue() != null) {
         if (entry.getValue().equals(file)) {
-          this.tabPane.getSelectionModel().select(entry.getKey());
+          this.codeAreaTabPane.getSelectionModel().select(entry.getKey());
           return;
         }
       }
@@ -361,7 +362,7 @@ public class FileMenuController {
    */
   public boolean handleSaveAction() {
     // get the selected tab from the tab pane
-    Tab selectedTab = this.tabPane.getSelectionModel().getSelectedItem();
+    Tab selectedTab = this.codeAreaTabPane.getSelectionModel().getSelectedItem();
 
     // if the tab content was not loaded from a file nor ever saved to a file
     // save the content of the active styled code area to the selected file path
@@ -371,10 +372,8 @@ public class FileMenuController {
     // if the current styled code area was loaded from a file or previously
     // saved to a file, then the styled code area is saved to that file
     else {
-      StyledJavaCodeArea activeStyledCodeArea =
-          (StyledJavaCodeArea)((VirtualizedScrollPane)selectedTab.getContent())
-              .getContent();
-      return this.setFileContents(activeStyledCodeArea.getText(),
+      CodeArea activeCodeArea = this.codeAreaTabPane.getActiveCodeArea();
+      return this.setFileContents(activeCodeArea.getText(),
                                   this.tabFileMap.get(selectedTab));
     }
   }
@@ -396,16 +395,15 @@ public class FileMenuController {
   public boolean handleSaveAsAction() {
     FileChooser fileChooser = new FileChooser();
     File saveFile =
-        fileChooser.showSaveDialog(this.tabPane.getScene().getWindow());
+        fileChooser.showSaveDialog(this.codeAreaTabPane.getScene().getWindow());
 
     if (saveFile == null) {
       return false;
     }
     // get the selected tab from the tab pane
-    Tab selectedTab = this.tabPane.getSelectionModel().getSelectedItem();
-    StyledJavaCodeArea activeStyledCodeArea =
-          (StyledJavaCodeArea)((VirtualizedScrollPane)selectedTab.getContent()).getContent();
-    if (!this.setFileContents(activeStyledCodeArea.getText(), saveFile)) {
+    Tab selectedTab = this.codeAreaTabPane.getSelectionModel().getSelectedItem();
+    CodeArea activeCodeArea = this.codeAreaTabPane.getActiveCodeArea();
+    if (!this.setFileContents(activeCodeArea.getText(), saveFile)) {
       return false;
     }
     // set the title of the tab to the name of the saved file
@@ -430,7 +428,7 @@ public class FileMenuController {
    * @param event Event object
    */
   public void handleCloseAction(Event event) {
-    Tab selectedTab = this.tabPane.getSelectionModel().getSelectedItem();
+    Tab selectedTab = this.codeAreaTabPane.getSelectionModel().getSelectedItem();
 
     // selectedTab is null if this method is evoked by closing a tab
     // in this case the selectedTab tab should be the tab that evokes this
@@ -454,7 +452,7 @@ public class FileMenuController {
   public void handleExitAction(Event event) {
     ArrayList<Tab> tabList = new ArrayList<>(this.tabFileMap.keySet());
     for (Tab currentTab : tabList) {
-      this.tabPane.getSelectionModel().select(currentTab);
+      this.codeAreaTabPane.getSelectionModel().select(currentTab);
       if (!this.closeTab(currentTab)) {
         event.consume();
         return;

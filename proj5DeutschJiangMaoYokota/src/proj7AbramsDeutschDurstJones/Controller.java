@@ -1,13 +1,13 @@
 /*
  * File: Controller.java
- * CS361 Project 6
+ * CS361 Project 7
  * Names: Douglas Abrams, Martin Deutsch, Robert Durst, Matt Jones
- * Date: 10/27/2018
+ * Date: 11/3/2018
  * This file contains the Main controller class, handling actions evoked by the
  * Main window.
  */
 
-package proj6AbramsDeutschDurstJones;
+package proj7AbramsDeutschDurstJones;
 
 import javafx.beans.property.ReadOnlyBooleanProperty;
 import javafx.event.ActionEvent;
@@ -79,7 +79,7 @@ public class Controller {
      * TabPane defined in Main.fxml
      */
     @FXML
-    private TabPane tabPane;
+    private CodeAreaTabPane codeAreaTabPane;
     /**
      * Tree of current directory
      */
@@ -158,7 +158,7 @@ public class Controller {
         this.compileRunWorker = this.toolbarController.getCompileRunWorker();
 
         // when the tab selection is change, matches is cleared
-        this.tabPane.getSelectionModel().selectedItemProperty().addListener(
+        this.codeAreaTabPane.getSelectionModel().selectedItemProperty().addListener(
                 (ov, t, t1) -> this.toolbarController.clearMatches());
     }
 
@@ -169,7 +169,7 @@ public class Controller {
     private void setupFileMenuController() {
         this.fileMenuController.setDirectoryController(this.directoryController);
         this.fileMenuController.setTabFileMap(this.tabFileMap);
-        this.fileMenuController.setTabPane(this.tabPane);
+        this.fileMenuController.setCodeAreaTabPane(this.codeAreaTabPane);
     }
 
     /**
@@ -177,7 +177,7 @@ public class Controller {
      * and other sub Controllers when necessary.
      */
     private void setupEditMenuController() {
-        this.editMenuController.setTabPane(this.tabPane);
+        this.editMenuController.setCodeAreaTabPane(this.codeAreaTabPane);
     }
 
     /**
@@ -185,7 +185,7 @@ public class Controller {
      * nd other sub Controllers when necessary
      */
     private void setupCodeMenuController() {
-        this.codeMenuController.setTabPane(this.tabPane);
+        this.codeMenuController.setCodeAreaTabPane(this.codeAreaTabPane);
     }
 
     /**
@@ -195,7 +195,7 @@ public class Controller {
     private void setupDirectoryController() {
         this.directoryController.setDirectoryTree(directoryTree);
         this.directoryController.setTabFileMap(this.tabFileMap);
-        this.directoryController.setTabPane(this.tabPane);
+        this.directoryController.setTabPane(this.codeAreaTabPane);
         this.directoryController.setFileMenuController(this.fileMenuController);
     }
 
@@ -204,7 +204,7 @@ public class Controller {
      * the Edit menu, with the condition whether the tab pane is empty.
      */
     private void setButtonBinding() {
-        BooleanBinding ifTabPaneEmpty = Bindings.isEmpty(tabPane.getTabs());
+        BooleanBinding ifTabPaneEmpty = Bindings.isEmpty(codeAreaTabPane.getTabs());
         ReadOnlyBooleanProperty ifCompiling = this.compileWorker.runningProperty();
         ReadOnlyBooleanProperty ifCompilingRunning =
                 this.compileRunWorker.runningProperty();
@@ -259,7 +259,7 @@ public class Controller {
      */
     @FXML
     private void handleCompileButtonAction(Event event) {
-        Tab selectedTab = this.tabPane.getSelectionModel().getSelectedItem();
+        Tab selectedTab = this.codeAreaTabPane.getSelectionModel().getSelectedItem();
         this.toolbarController.handleCompileButtonAction(
                 event, this.tabFileMap.get(selectedTab));
     }
@@ -272,7 +272,7 @@ public class Controller {
      */
     @FXML
     private void handleCompileRunButtonAction(Event event) {
-        Tab selectedTab = this.tabPane.getSelectionModel().getSelectedItem();
+        Tab selectedTab = this.codeAreaTabPane.getSelectionModel().getSelectedItem();
         this.toolbarController.handleCompileRunButtonAction(
                 event, this.tabFileMap.get(selectedTab));
     }
@@ -447,7 +447,7 @@ public class Controller {
     @FXML
     private void handleFindAction(Event event) {
         // return if no tabs open
-        if (this.tabPane.getSelectionModel().isEmpty()) {
+        if (this.codeAreaTabPane.getSelectionModel().isEmpty()) {
             return;
         }
 
@@ -458,7 +458,7 @@ public class Controller {
         }
 
         // get active code area
-        Tab selectedTab = this.tabPane.getSelectionModel().getSelectedItem();
+        Tab selectedTab = this.codeAreaTabPane.getSelectionModel().getSelectedItem();
         CodeArea activeCodeArea = (CodeArea)
                 ((VirtualizedScrollPane) selectedTab.getContent()).getContent();
         // pass to toolbar controller
@@ -475,7 +475,7 @@ public class Controller {
             return;
         }
         // get active code area
-        Tab selectedTab = this.tabPane.getSelectionModel().getSelectedItem();
+        Tab selectedTab = this.codeAreaTabPane.getSelectionModel().getSelectedItem();
         CodeArea activeCodeArea = (CodeArea)
                 ((VirtualizedScrollPane) selectedTab.getContent()).getContent();
         // pass to toolbar controller

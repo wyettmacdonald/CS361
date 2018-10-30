@@ -1,11 +1,11 @@
 /*
  * File: Main.java
- * CS361 Project 6
+ * CS361 Project 7
  * Names: Douglas Abrams, Martin Deutsch, Robert Durst, Matt Jones
- * Date: 10/27/2018
+ * Date: 11/3/2018
  */
 
-package proj6AbramsDeutschDurstJones;
+package proj7AbramsDeutschDurstJones;
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
@@ -35,19 +35,19 @@ public class Main extends Application {
      * @param stage The stage that contains the window content
      */
     @Override public void start(Stage stage) throws Exception{
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/proj6AbramsDeutschDurstJones/Main.fxml"));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/proj7AbramsDeutschDurstJones/Main.fxml"));
         Parent root = loader.load();
 
         // initialize a scene and add features specified in the css file to the scene
         Scene scene = new Scene(root, 1000, 650);
         scene.getStylesheets().add(getClass().getResource(
-                "/proj6AbramsDeutschDurstJones/LightMode.css").toExternalForm());
+                "/proj7AbramsDeutschDurstJones/LightMode.css").toExternalForm());
       
         // configure the stage
         stage.setTitle("AbramsDeutschDurstJones's Project 6");
         stage.sizeToScene();
         stage.setScene(scene);
-        stage.setOnCloseRequest(event -> ((proj6AbramsDeutschDurstJones.Controller)
+        stage.setOnCloseRequest(event -> ((proj7AbramsDeutschDurstJones.Controller)
                 loader.getController()).handleExitAction(event));
         stage.show();
     }
