@@ -41,11 +41,11 @@
             <MenuItem text="Move Line Down" fx:id="moveDownMenuItem" onAction="#handleMoveDownAction" accelerator="Shortcut+Shift+DOWN"/>
             <MenuItem text="Duplicate Line" fx:id="duplicateLine" onAction="#handleDuplicateLineAction" accelerator="Shortcut+D" />
             <MenuItem text="Check Well-Formed Groupings" fx:id="checkWellFormedMenuItem"
-                      onAction="#handleCheckWellFormedAction"/>
+                      onAction="#handleCheckWellFormedAction" accelerator="Shortcut+Shift+C"/>
         </Menu>
         <Menu text="Preferences" fx:id="prefMenu">
-            <MenuItem text="Light Mode" fx:id="lightMode" onAction="#handleLightModeMenuAction"/>
-            <MenuItem text="Dark Mode" fx:id="darkMode" onAction="#handleDarkModeMenuAction"/>
+            <MenuItem text="Light Mode" fx:id="lightMode" onAction="#handleLightModeMenuAction" accelerator="Shortcut+Shift+L"/>
+            <MenuItem text="Dark Mode" fx:id="darkMode" onAction="#handleDarkModeMenuAction" accelerator="Shortcut+Shift+D"/>
         </Menu>
     </MenuBar>
     <ToolBar fx:id="toolbar" VBox.vgrow="ALWAYS">

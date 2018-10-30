@@ -33,7 +33,9 @@ public class CodeMenuController {
      *
      * @param codeAreaTabPane TabPane defined in Main.fxml
      */
-    public void setCodeAreaTabPane(CodeAreaTabPane codeAreaTabPane) { this.codeAreaTabPane = codeAreaTabPane; }
+    public void setCodeAreaTabPane(CodeAreaTabPane codeAreaTabPane) {
+        this.codeAreaTabPane = codeAreaTabPane;
+    }
 
     /**
      * Toggles commenting for each line in currently selected code block

@@ -32,7 +32,9 @@ public class EditMenuController {
      *
      * @param codeAreaTabPane TabPane defined in Main.fxml
      */
-    public void setCodeAreaTabPane(CodeAreaTabPane codeAreaTabPane) { this.codeAreaTabPane = codeAreaTabPane; }
+    public void setCodeAreaTabPane(CodeAreaTabPane codeAreaTabPane) {
+        this.codeAreaTabPane = codeAreaTabPane;
+    }
 
     /**
      * Handles the Edit menu action.
