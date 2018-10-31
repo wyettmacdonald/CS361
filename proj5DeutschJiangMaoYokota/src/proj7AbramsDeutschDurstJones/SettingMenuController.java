@@ -1,8 +1,8 @@
 /*
  * File: SettingMenuController.java
- * F18 CS361 Project 6
- * Names: Liwei Jiang, Tracy Quan, Chris Marcello
- * Date: 10/25/2018
+ * CS361 Project 7
+ * Names: Douglas Abrams, Martin Deutsch, Robert Durst, Matt Jones
+ * Date: 11/3/2018
  * This file contains the SettingMenuController class, handling Setting menu related actions.
  */
 

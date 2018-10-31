@@ -6,6 +6,7 @@
  */
 
 package proj7AbramsDeutschDurstJones;
+
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
@@ -36,7 +37,8 @@ public class Main extends Application {
      *
      * @param stage The stage that contains the window content
      */
-    @Override public void start(Stage stage) throws Exception{
+    @Override
+    public void start(Stage stage) throws Exception {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/proj7AbramsDeutschDurstJones/Main.fxml"));
         Parent root = loader.load();
         Main.parentRoot = root;
@@ -45,7 +47,7 @@ public class Main extends Application {
         Scene scene = new Scene(root, 1000, 650);
         scene.getStylesheets().add(getClass().getResource(
                 "/proj7AbramsDeutschDurstJones/LightMode.css").toExternalForm());
-      
+
         // configure the stage
         stage.setTitle("AbramsDeutschDurstJones's Project 6");
         stage.sizeToScene();

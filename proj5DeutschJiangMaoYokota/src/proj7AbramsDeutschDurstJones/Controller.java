@@ -119,27 +119,33 @@ public class Controller {
     /**
      * Find field defined in Main.fxml
      */
-    @FXML private TextField findTextEntry;
+    @FXML
+    private TextField findTextEntry;
     /**
      * Find button defined in Main.fxml
      */
-    @FXML private Button findButton;
+    @FXML
+    private Button findButton;
     /**
      * Find previous button defined in Main.fxml
      */
-    @FXML private Button findPrevBtn;
+    @FXML
+    private Button findPrevBtn;
     /**
      * Find next button defined in Main.fxml
      */
-    @FXML private Button findNextBtn;
+    @FXML
+    private Button findNextBtn;
     /**
      * Replace button defined in Main.fxml
      */
-    @FXML private Button replaceButton;
+    @FXML
+    private Button replaceButton;
     /**
      * Replace field defined in Main.fxml
      */
-    @FXML private TextField replaceTextEntry;
+    @FXML
+    private TextField replaceTextEntry;
     /**
      * a HashMap mapping the tabs and the associated files
      */
