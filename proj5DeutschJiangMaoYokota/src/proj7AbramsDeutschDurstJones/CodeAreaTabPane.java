@@ -29,6 +29,10 @@ public class CodeAreaTabPane extends TabPane {
      * @return the currently active code area
      */
     public CodeArea getActiveCodeArea() {
+        if (this.getTabs().isEmpty()) {
+            return null;
+        }
+
         Tab selectedTab = this.getSelectionModel().getSelectedItem();
         return (CodeArea)((VirtualizedScrollPane)selectedTab.getContent()).getContent();
     }

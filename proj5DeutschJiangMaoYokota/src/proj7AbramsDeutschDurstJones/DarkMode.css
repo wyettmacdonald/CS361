@@ -88,28 +88,6 @@
     -fx-background-color: lightgray;
 }
 
-/* style of Find button */
-#findButton {
-    /* set button color to black */
-    -fx-background-color: #242424;
-    /* set button text color to white */
-    -fx-text-fill: white;
-    /* set rounded corners */
-    -fx-border-radius: 5;
-    -fx-background-radius: 5;
-}
-
-/* style of Find Next button */
-#findNextButton {
-    /* set button color to black */
-    -fx-background-color: #242424;
-    /* set button text color to white */
-    -fx-text-fill: white;
-    /* set rounded corners */
-    -fx-border-radius: 5;
-    -fx-background-radius: 5;
-}
-
 /* style of directory tree pane */
 #directoryTree {
     -fx-base: gray;

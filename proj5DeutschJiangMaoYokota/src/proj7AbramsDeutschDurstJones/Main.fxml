@@ -38,6 +38,8 @@
                       onAction="#handleEditMenuAction" accelerator="Shortcut+]"/>
             <MenuItem text="Unindent Text" fx:id="unindentTextMenuItem"
                       onAction="#handleEditMenuAction" accelerator="Shortcut+["/>
+            <MenuItem onAction="#handleFocusOnFindTextEntry" text="Go To Find" accelerator="Shortcut+F"/>
+            <MenuItem onAction="#handleFocusOnReplaceTextEntry" text="Go To Replace" accelerator="Shortcut+R" />
         </Menu>
         <Menu text="Code" fx:id="codeMenu">
             <MenuItem text="Toggle Comments" fx:id="commentMenuItem" onAction="#handleToggleCommentAction" accelerator="Shortcut+/"/>
@@ -75,10 +77,12 @@
         <Button text="Compile" fx:id="compileButton" onAction ="#handleCompileButtonAction"/>
         <Button text="Compile &amp; Run" fx:id="compileRunButton" onAction="#handleCompileRunButtonAction"/>
         <Button text="Stop" fx:id="stopButton" onAction="#handleStopButtonAction"/>
-        <Separator/>
-        <Label text="Find:"/>
-        <TextField fx:id="findText" onKeyReleased="#handleFindAction"/>
-        <Button text="Next" fx:id="findNextButton" onAction="#handleFindNextAction"/>
+        <TextField fx:id="findTextEntry" promptText="Find" />
+        <Button fx:id="findButton" onAction="#handleFindText" text="Find" />
+        <Button fx:id="findPrevBtn" onAction="#handleHighlightPrevMatch" text="Previous" />
+        <Button fx:id="findNextBtn" onAction="#handleHighlightNextMatch" text="Next"/>
+        <TextField fx:id="replaceTextEntry" promptText="Replace" />
+        <Button fx:id="replaceButton" onAction="#handleReplaceText" text="Replace" />
     </ToolBar>
     <SplitPane dividerPositions="0.2" maxHeight="Infinity"
                maxWidth="Infinity"
