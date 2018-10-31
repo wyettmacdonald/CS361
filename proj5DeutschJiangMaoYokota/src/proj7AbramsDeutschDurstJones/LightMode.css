@@ -39,15 +39,6 @@
     -fx-background-radius: 5;
 }
 
-/* style of Find button */
-#findButton {
-    /* set button border to black */
-    -fx-border-color: black;
-    /* set rounded corners */
-    -fx-border-radius: 5;
-    -fx-background-radius: 5;
-}
-
 /* style of keywords */
 .keyword {
     -fx-fill: purple;

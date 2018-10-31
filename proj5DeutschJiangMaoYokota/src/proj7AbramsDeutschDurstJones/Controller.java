@@ -19,11 +19,7 @@ import java.io.File;
 import java.util.*;
 import javafx.beans.binding.BooleanBinding;
 import javafx.beans.binding.Bindings;
-import javafx.scene.input.KeyCode;
-import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.VBox;
-import org.fxmisc.flowless.VirtualizedScrollPane;
-import org.fxmisc.richtext.CodeArea;
 import org.fxmisc.richtext.StyleClassedTextArea;
 
 /**
@@ -116,15 +112,29 @@ public class Controller {
     @FXML
     private Menu codeMenu;
     /**
-     * Find TextField defined in Main.fxml
+     * Find field defined in Main.fxml
      */
-    @FXML
-    private TextField findText;
+    @FXML private TextField findTextEntry;
     /**
-     * Find Next Button defined in Main.fxml
+     * Find button defined in Main.fxml
      */
-    @FXML
-    private Button findNextButton;
+    @FXML private Button findButton;
+    /**
+     * Find previous button defined in Main.fxml
+     */
+    @FXML private Button findPrevBtn;
+    /**
+     * Find next button defined in Main.fxml
+     */
+    @FXML private Button findNextBtn;
+    /**
+     * Replace button defined in Main.fxml
+     */
+    @FXML private Button replaceButton;
+    /**
+     * Replace field defined in Main.fxml
+     */
+    @FXML private TextField replaceTextEntry;
     /**
      * a HashMap mapping the tabs and the associated files
      */
@@ -151,7 +161,6 @@ public class Controller {
      */
     private void setupToolbarController() {
         this.toolbarController.setConsole(this.console);
-        this.toolbarController.setFindText(this.findText);
         this.toolbarController.setFileMenuController(this.fileMenuController);
         this.toolbarController.initialize();
         this.compileWorker = this.toolbarController.getCompileWorker();
@@ -178,6 +187,10 @@ public class Controller {
      */
     private void setupEditMenuController() {
         this.editMenuController.setCodeAreaTabPane(this.codeAreaTabPane);
+        this.editMenuController.setFindTextEntry(this.findTextEntry);
+        this.editMenuController.setNextMatchBtn(this.findNextBtn);
+        this.editMenuController.setPrevMatchBtn(this.findPrevBtn);
+        this.editMenuController.setReplaceTextEntryTextEntry(this.replaceTextEntry);
     }
 
     /**
@@ -221,9 +234,6 @@ public class Controller {
                 ifCompiling.or(ifCompilingRunning).or(ifTabPaneEmpty));
         this.compileRunButton.disableProperty().bind(
                 ifCompiling.or(ifCompilingRunning).or(ifTabPaneEmpty));
-
-        this.findNextButton.disableProperty().bind(Bindings.size(
-                toolbarController.getMatches()).isEqualTo(0));
     }
 
     /**
@@ -354,7 +364,7 @@ public class Controller {
     }
 
     /**
-     * Calls the method that handles the Edit menu action from the
+     * Calls the method that handles the simple Edit menu actions from the
      * editMenuController.
      *
      * @param event ActionEvent object
@@ -362,6 +372,54 @@ public class Controller {
     @FXML
     private void handleEditMenuAction(ActionEvent event) {
         this.editMenuController.handleEditMenuAction(event);
+    }
+
+    /**
+     * Calls handleFindText() of the editController
+     */
+    @FXML
+    public void handleFindText() {
+        this.editMenuController.handleFindText(true);
+    }
+
+    /**
+     * Calls handleHighlightPrevMatch() of the editController
+     */
+    @FXML
+    public void handleHighlightPrevMatch() {
+        this.editMenuController.handleHighlightPrevMatch();
+    }
+
+    /**
+     * Calls handleHighlightNextMatch() of the editController
+     */
+    @FXML
+    public void handleHighlightNextMatch() {
+        this.editMenuController.handleHighlightNextMatch();
+    }
+
+    /**
+     * Calls handleReplaceText() of the editController
+     */
+    @FXML
+    public void handleReplaceText() {
+        this.editMenuController.handleReplaceText();
+    }
+
+    /**
+     * Focuses on the Find Text Entry Box
+     */
+    @FXML
+    public void handleFocusOnFindTextEntry() {
+        this.findTextEntry.requestFocus();
+    }
+
+    /**
+     * Focuses on the Replace Text Extry Box
+     */
+    @FXML
+    public void handleFocusOnReplaceTextEntry() {
+        this.replaceTextEntry.requestFocus();
     }
 
     /**
@@ -439,46 +497,5 @@ public class Controller {
     @FXML
     public void handleCheckWellFormedAction() {
         this.codeMenuController.handleCheckWellFormed();
-    }
-
-    /**
-     * Calls the method that handles the Find action from the toolbarController
-     */
-    @FXML
-    private void handleFindAction(Event event) {
-        // return if no tabs open
-        if (this.codeAreaTabPane.getSelectionModel().isEmpty()) {
-            return;
-        }
-
-        // go to next result if user presses enter
-        if (((KeyEvent) event).getCode() == KeyCode.ENTER) {
-            this.handleFindNextAction(event);
-            return;
-        }
-
-        // get active code area
-        Tab selectedTab = this.codeAreaTabPane.getSelectionModel().getSelectedItem();
-        CodeArea activeCodeArea = (CodeArea)
-                ((VirtualizedScrollPane) selectedTab.getContent()).getContent();
-        // pass to toolbar controller
-        toolbarController.handleFind(activeCodeArea);
-    }
-
-    /**
-     * Calls the method that handles the Next action from the toolbarController
-     */
-    @FXML
-    private void handleFindNextAction(Event event) {
-        // return if no search results
-        if (this.toolbarController.getMatches().isEmpty()) {
-            return;
-        }
-        // get active code area
-        Tab selectedTab = this.codeAreaTabPane.getSelectionModel().getSelectedItem();
-        CodeArea activeCodeArea = (CodeArea)
-                ((VirtualizedScrollPane) selectedTab.getContent()).getContent();
-        // pass to toolbar controller
-        this.toolbarController.handleFindNext(activeCodeArea);
     }
 }
