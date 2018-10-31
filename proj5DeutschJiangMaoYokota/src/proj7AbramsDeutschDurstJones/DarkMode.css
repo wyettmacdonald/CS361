@@ -171,3 +171,23 @@
 .paragraph-box:has-caret {
     -fx-background-color: #5f5e5e;
 }
+
+/* inverted from light mode's blue */
+.output{
+    -fx-fill: red;
+}
+
+/* inverted from light mode's red */
+.error{
+    -fx-fill: blue;
+}
+
+/* inverted from light mode's green */
+.processInfo{
+    -fx-fill: purple;
+}
+
+/* inverted from light mode's black */
+.default{
+    -fx-fill: white;
+}
