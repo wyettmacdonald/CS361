@@ -363,31 +363,4 @@ public class SettingMenuController {
         intColorWin.setScene(keywordColorScene);
         intColorWin.show();
     }
-
-    /**
-     * Handles DarkMode menu item action.
-     */
-    public void handleDarkMode() {
-        for (Tab tab : this.tabPane.getTabs()) {
-            tab.getContent();
-            VirtualizedScrollPane<StyledJavaCodeArea> codeArea =
-                    (VirtualizedScrollPane<StyledJavaCodeArea>) tab.getContent();
-            StyledJavaCodeArea styledCodeArea = codeArea.getContent();
-            String newcss = getClass().getResource("DarkModeStyledJavaCodeArea.css").toExternalForm();
-            styledCodeArea.getStylesheets().add(newcss);
-        }
-    }
-
-    /**
-     * Handles LightMode menu item action.
-     */
-    public void handleLightMode() {
-        for (Tab tab : this.tabPane.getTabs()) {
-            tab.getContent();
-            VirtualizedScrollPane<StyledJavaCodeArea> codeArea = (VirtualizedScrollPane<StyledJavaCodeArea>) tab.getContent();
-            StyledJavaCodeArea styledCodeArea = codeArea.getContent();
-            String newcss = getClass().getResource("DarkModeStyledJavaCodeArea.css").toExternalForm();
-            styledCodeArea.getStylesheets().remove(newcss);
-        }
-    }
 }
