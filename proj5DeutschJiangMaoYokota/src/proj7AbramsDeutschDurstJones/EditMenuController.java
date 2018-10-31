@@ -64,7 +64,39 @@ public class EditMenuController {
             case "selectMenuItem":
                 activeCodeArea.selectAll();
                 break;
+            case "indentTextMenuItem":
+                this.handleIndentText();
+            case "unindentTextMenuItem":
+                this.handleUnindentText();
             default:
         }
     }
+
+    /*
+     *Indents all highlighted text by one tab per line
+     */
+    public void handleIndentText() {
+        CodeArea activeCodeArea = this.codeAreaTabPane.getActiveCodeArea();
+        String selectedText = activeCodeArea.getSelectedText();
+        String selectedTextTabbed = selectedText.replace("\n", "\n\t");
+        activeCodeArea.replaceSelection("\t" + selectedTextTabbed);
+    }
+
+    /*
+     * Unindents all highlighted text by one tab per line if there is at least one tab on the line
+     * If there's no tab, nothing happens on that line
+     */
+    public void handleUnindentText() {
+        CodeArea activeCodeArea = this.codeAreaTabPane.getActiveCodeArea();
+        String selectedText = activeCodeArea.getSelectedText();
+        String selectedTextUntabbed = selectedText.replace("\n\t", "\n");
+        //The first line won't have a new line char and has to be handled separately
+        String firstLine = selectedText.split("(?<=\n)")[0];
+        int firstLineLength = firstLine.length();
+        //replaceFirst in case there are multiple tabs on the first line
+        String firstLineUntabbed = firstLine.replaceFirst("\t", "");
+        selectedTextUntabbed = firstLineUntabbed + selectedTextUntabbed.substring(firstLineLength);
+        activeCodeArea.replaceSelection(selectedTextUntabbed);
+    }
+
 }

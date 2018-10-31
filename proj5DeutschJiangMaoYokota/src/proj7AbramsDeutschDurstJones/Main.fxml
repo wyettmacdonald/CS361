@@ -34,6 +34,10 @@
             <MenuItem text="Copy" fx:id="copyMenuItem" onAction="#handleEditMenuAction" accelerator="Shortcut+C"/>
             <MenuItem text="Paste" fx:id="pasteMenuItem" onAction="#handleEditMenuAction" accelerator="Shortcut+V"/>
             <MenuItem text="Select all" fx:id="selectMenuItem" onAction="#handleEditMenuAction" accelerator="Shortcut+A"/>
+            <MenuItem text="Indent Text" fx:id="indentTextMenuItem"
+                      onAction="#handleEditMenuAction" accelerator="Shortcut+]"/>
+            <MenuItem text="Unindent Text" fx:id="unindentTextMenuItem"
+                      onAction="#handleEditMenuAction" accelerator="Shortcut+["/>
         </Menu>
         <Menu text="Code" fx:id="codeMenu">
             <MenuItem text="Toggle Comments" fx:id="commentMenuItem" onAction="#handleToggleCommentAction" accelerator="Shortcut+/"/>
