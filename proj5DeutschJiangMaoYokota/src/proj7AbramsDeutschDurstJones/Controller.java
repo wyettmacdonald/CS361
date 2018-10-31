@@ -17,6 +17,7 @@ import javafx.scene.control.*;
 
 import java.io.File;
 import java.util.*;
+
 import javafx.beans.binding.BooleanBinding;
 import javafx.beans.binding.Bindings;
 import javafx.scene.input.KeyCode;
@@ -55,6 +56,10 @@ public class Controller {
      * DirectoryController handling directory tree actions
      */
     private DirectoryController directoryController;
+    /**
+     * SettingMenuController handling Setting menu actions
+     */
+    private SettingMenuController settingMenuController;
     /**
      * VBox defined in Main.fxml
      */
@@ -200,6 +205,13 @@ public class Controller {
     }
 
     /**
+     * Creates a reference to the SettingMenuController.
+     */
+    private void setupSettingMenuController() {
+        this.settingMenuController.setTabPane(this.codeAreaTabPane);
+    }
+
+    /**
      * Binds the Close, Save, Save As menu items of the File menu,
      * the Edit menu, with the condition whether the tab pane is empty.
      */
@@ -240,6 +252,7 @@ public class Controller {
         this.codeMenuController = new CodeMenuController();
         this.toolbarController = new ToolBarController();
         this.directoryController = new DirectoryController();
+        this.settingMenuController = new SettingMenuController();
 
         // set up the sub controllers
         this.setupFileMenuController();
@@ -247,6 +260,7 @@ public class Controller {
         this.setupCodeMenuController();
         this.setupToolbarController();
         this.setupDirectoryController();
+        this.setupSettingMenuController();
 
         this.setButtonBinding();
     }
@@ -386,6 +400,38 @@ public class Controller {
         if (!vBox.getStylesheets().contains(darkModeCss)) {
             vBox.getStylesheets().add(darkModeCss);
         }
+    }
+
+    /**
+     * Calls the method that handles the Keyword color menu item from the settingMenuController.
+     */
+    @FXML
+    public void handleKeywordColorAction() {
+        this.settingMenuController.handleKeywordColorAction();
+    }
+
+    /**
+     * Calls the method that handles the Parentheses/Brackets color menu item from the settingMenuController.
+     */
+    @FXML
+    public void handleParenColorAction() {
+        this.settingMenuController.handleParenColorAction();
+    }
+
+    /**
+     * Calls the method that handles the String color menu item from the settingMenuController.
+     */
+    @FXML
+    public void handleStrColorAction() {
+        this.settingMenuController.handleStrColorAction();
+    }
+
+    /**
+     * Calls the method that handles the Int color menu item from the settingMenuController.
+     */
+    @FXML
+    public void handleIntColorAction() {
+        this.settingMenuController.handleIntColorAction();
     }
 
     /**

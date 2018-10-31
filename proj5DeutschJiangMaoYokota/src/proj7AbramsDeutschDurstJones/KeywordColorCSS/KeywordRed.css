@@ -1,0 +1,5 @@
+/* style of keywords - Red */
+.keyword {
+    -fx-fill: firebrick;
+    -fx-font-weight: bold;
+}

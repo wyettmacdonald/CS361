@@ -1,0 +1,17 @@
+/* style of parenthesis - Blue */
+.paren {
+    -fx-fill: royalblue;
+    -fx-font-weight: bold;
+}
+
+/* style of brackets - Blue */
+.bracket {
+    -fx-fill: royalblue;
+    -fx-font-weight: bold;
+}
+
+/* style of braces - Blue */
+.brace {
+    -fx-fill: royalblue;
+    -fx-font-weight: bold;
+}

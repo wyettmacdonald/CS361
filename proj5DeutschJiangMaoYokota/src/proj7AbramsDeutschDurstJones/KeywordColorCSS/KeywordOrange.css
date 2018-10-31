@@ -1,0 +1,5 @@
+/* style of keywords - Orange */
+.keyword {
+    -fx-fill: orange;
+    -fx-font-weight: bold;
+}

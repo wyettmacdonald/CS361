@@ -1,0 +1,17 @@
+/* style of parenthesis - Grey */
+.paren {
+    -fx-fill: silver;
+    -fx-font-weight: bold;
+}
+
+/* style of brackets - Grey */
+.bracket {
+    -fx-fill: silver;
+    -fx-font-weight: bold;
+}
+
+/* style of braces - Grey */
+.brace {
+    -fx-fill: silver;
+    -fx-font-weight: bold;
+}

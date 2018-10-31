@@ -48,8 +48,27 @@
                       onAction="#handleCheckWellFormedAction" accelerator="Shortcut+Shift+C"/>
         </Menu>
         <Menu text="Preferences" fx:id="prefMenu">
-            <MenuItem text="Light Mode" fx:id="lightMode" onAction="#handleLightModeMenuAction" accelerator="Shortcut+Shift+L"/>
-            <MenuItem text="Dark Mode" fx:id="darkMode" onAction="#handleDarkModeMenuAction" accelerator="Shortcut+Shift+D"/>
+            <Menu fx:id="colorPreferenceMenu" text="Color Preference">
+                <MenuItem text="Keyword" fx:id="keywordsPreItem"
+                          onAction="#handleKeywordColorAction"/>
+                <MenuItem text="Parentheses/Brackets" fx:id="parenPreItem"
+                          onAction="#handleParenColorAction"/>
+                <MenuItem text="String" fx:id="strPreItem"
+                          onAction="#handleStrColorAction"/>
+                <MenuItem text="Integer" fx:id="intPreItem"
+                          onAction="#handleIntColorAction"/>
+            </Menu>
+            <Menu text="Mode">
+                <fx:define>
+                    <ToggleGroup fx:id="darkModeToggle"/>
+                </fx:define>
+                <RadioMenuItem text="Light" onAction="#handleLightModeMenuAction"
+                               toggleGroup="$darkModeToggle"
+                               selected="true"/>
+                <RadioMenuItem text="Dark" fx:id="darkModeMenuItem"
+                               onAction="#handleDarkModeMenuAction"
+                               toggleGroup="$darkModeToggle"/>
+            </Menu>
         </Menu>
     </MenuBar>
     <ToolBar fx:id="toolbar" VBox.vgrow="ALWAYS">

@@ -25,6 +25,8 @@ import javafx.scene.Parent;
  * @author Matt Jones
  */
 public class Main extends Application {
+    private static Parent parentRoot;
+
     /**
      * Creates a stage as specified in Main.fxml, that contains a set of tabs,
      * embedded in a tab pane, with each tab window containing a code area; a menu
@@ -37,6 +39,7 @@ public class Main extends Application {
     @Override public void start(Stage stage) throws Exception{
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/proj7AbramsDeutschDurstJones/Main.fxml"));
         Parent root = loader.load();
+        Main.parentRoot = root;
 
         // initialize a scene and add features specified in the css file to the scene
         Scene scene = new Scene(root, 1000, 650);
@@ -50,6 +53,15 @@ public class Main extends Application {
         stage.setOnCloseRequest(event -> ((proj7AbramsDeutschDurstJones.Controller)
                 loader.getController()).handleExitAction(event));
         stage.show();
+    }
+
+    /**
+     * Gets the parent root of the main program.
+     *
+     * @return the parent root of the main program
+     */
+    static public Parent getParentRoot() {
+        return Main.parentRoot;
     }
 
     /**

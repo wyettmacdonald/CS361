@@ -1,0 +1,5 @@
+/* style of keywords - Black */
+.keyword {
+    -fx-fill: black;
+    -fx-font-weight: bold;
+}

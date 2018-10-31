@@ -1,0 +1,17 @@
+/* style of parenthesis - Red */
+.paren {
+    -fx-fill: firebrick;
+    -fx-font-weight: bold;
+}
+
+/* style of brackets - Red */
+.bracket {
+    -fx-fill: firebrick;
+    -fx-font-weight: bold;
+}
+
+/* style of braces - Red */
+.brace {
+    -fx-fill: firebrick;
+    -fx-font-weight: bold;
+}

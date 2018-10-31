@@ -1,0 +1,5 @@
+/* style of keywords - Green */
+.keyword {
+    -fx-fill: teal;
+    -fx-font-weight: bold;
+}

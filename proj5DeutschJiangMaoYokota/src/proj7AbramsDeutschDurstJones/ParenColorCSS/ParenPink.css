@@ -1,0 +1,17 @@
+/* style of parenthesis - Pink */
+.paren {
+    -fx-fill: orchid;
+    -fx-font-weight: bold;
+}
+
+/* style of brackets - Pink */
+.bracket {
+    -fx-fill: orchid;
+    -fx-font-weight: bold;
+}
+
+/* style of braces - Pink */
+.brace {
+    -fx-fill: orchid;
+    -fx-font-weight: bold;
+}
