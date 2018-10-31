@@ -216,8 +216,7 @@ public class ToolBarController {
                         Platform.runLater(() -> {
                             // print stop message if other thread hasn't
                             if (consoleLength == console.getLength()) {
-                                console.appendText("\nProgram exited unexpectedly\n");
-                                console.requestFollowCaret();
+                                WriteToConsole( "\nProgram exited unexpectedly\n", "Error");
                             }
                         });
                     }
@@ -233,8 +232,7 @@ public class ToolBarController {
                         Platform.runLater(() -> {
                             // print stop message if other thread hasn't
                             if (consoleLength == console.getLength()) {
-                                console.appendText("\nProgram exited unexpectedly\n");
-                                console.requestFollowCaret();
+                                WriteToConsole( "\nProgram exited unexpectedly\n", "Error");
                             }
                         });
                     }
@@ -261,10 +259,10 @@ public class ToolBarController {
         InputStream stderr = this.curProcess.getErrorStream();
 
         BufferedReader outputReader = new BufferedReader(new InputStreamReader(stdout));
-        printOutput(outputReader);
+        printOutput(outputReader, "Default");
 
         BufferedReader errorReader = new BufferedReader(new InputStreamReader(stderr));
-        printOutput(errorReader);
+        printOutput(errorReader, "Error");
     }
 
     /**
@@ -286,6 +284,34 @@ public class ToolBarController {
         }
         inputWriter.close();
     }
+    
+    /**
+     * Adds a new, separate line of text to the console.
+     * Used in ToolbarController when printing to the console.
+     * @param newString the string to add to the console
+     * @param type the content type added to the console
+     */
+    public void WriteToConsole(String newString, String type){
+
+        int fromIndex = this.console.getText().length();
+        this.console.appendText(newString);
+
+        // Style the texts differently base on their source provided
+        int toIndex = this.console.getText().length();
+        if(type.equals("Output")) {
+            this.console.setStyleClass(fromIndex, toIndex, "output");
+        }
+        else if(type.equals("Error")){
+            this.console.setStyleClass(fromIndex, toIndex, "error");
+        }
+        else if(type.equals("ProcessInfo")){
+            this.console.setStyleClass(fromIndex, toIndex, "processInfo");
+        }
+        // DO I NEED THIS COMMENETED OUT LINE VVV
+        // this.console.moveCaretToEnd();
+        this.console.requestFollowCaret();
+        this.console.setStyleClass(toIndex, toIndex, "default");
+    }
 
     /**
      * Helper method for printing to console
@@ -293,7 +319,7 @@ public class ToolBarController {
      * @throws java.io.IOException
      * @throws java.lang.InterruptedException
      */
-    private void printOutput(BufferedReader reader) throws java.io.IOException, java.lang.InterruptedException {
+    private void printOutput(BufferedReader reader, String type) throws java.io.IOException, java.lang.InterruptedException {
         // if the output stream is paused, signal the input thread
         if (!reader.ready()) {
             this.consoleMutex.release();
@@ -305,11 +331,7 @@ public class ToolBarController {
             this.consoleMutex.tryAcquire();
             char ch = (char) intch;
             String out = Character.toString(ch);
-            Platform.runLater(() -> {
-                // add output to console
-                this.console.appendText(out);
-                this.console.requestFollowCaret();
-            });
+            Platform.runLater(() -> WriteToConsole( Character.toString(ch), type));
             // update console length tracker to include output character
             this.consoleLength++;
 
@@ -393,7 +415,7 @@ public class ToolBarController {
                 @Override protected Boolean call() {
                     Boolean compileResult = compileJavaFile(file);
                     if (compileResult) {
-                        Platform.runLater(() -> console.appendText("Compilation was successful!\n"));
+                        Platform.runLater(() -> WriteToConsole( "Compilation was successful!\n", "ProcessInfo"));
                     }
                     return compileResult;
                 }
@@ -488,6 +510,7 @@ public class ToolBarController {
                 this.inThread.interrupt();
                 this.outThread.interrupt();
                 this.curProcess.destroy();
+                WriteToConsole( "\nProcess terminated.\n", "Output");
             }
         } catch (Throwable e) {
             this.fileMenuController.createErrorDialog("Program Stop",

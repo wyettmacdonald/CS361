@@ -87,3 +87,19 @@
 .paragraph-box:has-caret {
     -fx-background-color: #f2f9fc;
 }
+
+.output{
+    -fx-fill: blue;
+}
+
+.error{
+    -fx-fill: red;
+}
+
+.processInfo{
+    -fx-fill: green;
+}
+
+.default{
+    -fx-fill: black;
+}
