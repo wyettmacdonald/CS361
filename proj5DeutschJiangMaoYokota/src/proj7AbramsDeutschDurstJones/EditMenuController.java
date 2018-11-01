@@ -83,39 +83,57 @@ public class EditMenuController {
     }
 
     /**
-     * Handles the Edit menu action.
+     * Handles the Undo menu action.
      *
      *  @param event ActionEvent object
      */
-    public void handleEditMenuAction(Event event) {
-        // get the code area embedded in the selected tab window
-        CodeArea activeCodeArea = this.codeAreaTabPane.getActiveCodeArea();
-        MenuItem clickedItem = (MenuItem)event.getTarget();
-        switch(clickedItem.getId()) {
-            case "undoMenuItem":
-                activeCodeArea.undo();
-                break;
-            case "redoMenuItem":
-                activeCodeArea.redo();
-                break;
-            case "cutMenuItem":
-                activeCodeArea.cut();
-                break;
-            case "copyMenuItem":
-                activeCodeArea.copy();
-                break;
-            case "pasteMenuItem":
-                activeCodeArea.paste();
-                break;
-            case "selectMenuItem":
-                activeCodeArea.selectAll();
-                break;
-            case "indentTextMenuItem":
-                this.handleIndentText();
-            case "unindentTextMenuItem":
-                this.handleUnindentText();
-            default:
-        }
+    public void handleUndo(Event event) {
+        this.codeAreaTabPane.getActiveCodeArea().undo();
+    }
+
+    /**
+     * Handles the Redo menu action.
+     *
+     *  @param event ActionEvent object
+     */
+    public void handleRedo(Event event) {
+        this.codeAreaTabPane.getActiveCodeArea().redo();
+    }
+
+    /**
+     * Handles the Cut menu action.
+     *
+     *  @param event ActionEvent object
+     */
+    public void handleCut(Event event) {
+        this.codeAreaTabPane.getActiveCodeArea().cut();
+    }
+
+    /**
+     * Handles the Copy menu action.
+     *
+     *  @param event ActionEvent object
+     */
+    public void handleCopy(Event event) {
+        this.codeAreaTabPane.getActiveCodeArea().copy();
+    }
+
+    /**
+     * Handles the Paste menu action.
+     *
+     *  @param event ActionEvent object
+     */
+    public void handlePaste(Event event) {
+        this.codeAreaTabPane.getActiveCodeArea().paste();
+    }
+
+    /**
+     * Handles the Select all menu action.
+     *
+     *  @param event ActionEvent object
+     */
+    public void handleSelectAll(Event event) {
+        this.codeAreaTabPane.getActiveCodeArea().selectAll();
     }
 
     /*

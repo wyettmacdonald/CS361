@@ -28,16 +28,16 @@
             <MenuItem text="Exit" fx:id="exitMenuItem" onAction="#handleExitAction" accelerator="Shortcut+Shift+W"/>
         </Menu>
         <Menu text="Edit" fx:id="editMenu">
-            <MenuItem text="Undo" fx:id="undoMenuItem" onAction="#handleEditMenuAction" accelerator="Shortcut+Z"/>
-            <MenuItem text="Redo" fx:id="redoMenuItem" onAction="#handleEditMenuAction" accelerator="Shortcut+Y"/>
-            <MenuItem text="Cut" fx:id="cutMenuItem" onAction="#handleEditMenuAction" accelerator="Shortcut+X"/>
-            <MenuItem text="Copy" fx:id="copyMenuItem" onAction="#handleEditMenuAction" accelerator="Shortcut+C"/>
-            <MenuItem text="Paste" fx:id="pasteMenuItem" onAction="#handleEditMenuAction" accelerator="Shortcut+V"/>
-            <MenuItem text="Select all" fx:id="selectMenuItem" onAction="#handleEditMenuAction" accelerator="Shortcut+A"/>
+            <MenuItem text="Undo" fx:id="undoMenuItem" onAction="#handleUndoAction" accelerator="Shortcut+Z"/>
+            <MenuItem text="Redo" fx:id="redoMenuItem" onAction="#handleRedoAction" accelerator="Shortcut+Y"/>
+            <MenuItem text="Cut" fx:id="cutMenuItem" onAction="#handleCutAction" accelerator="Shortcut+X"/>
+            <MenuItem text="Copy" fx:id="copyMenuItem" onAction="#handleCopyAction" accelerator="Shortcut+C"/>
+            <MenuItem text="Paste" fx:id="pasteMenuItem" onAction="#handlePasteAction" accelerator="Shortcut+V"/>
+            <MenuItem text="Select all" fx:id="selectMenuItem" onAction="#handleSelectAllAction" accelerator="Shortcut+A"/>
             <MenuItem text="Indent Text" fx:id="indentTextMenuItem"
-                      onAction="#handleEditMenuAction" accelerator="Shortcut+]"/>
+                      onAction="#handleIndentAction" accelerator="Shortcut+]"/>
             <MenuItem text="Unindent Text" fx:id="unindentTextMenuItem"
-                      onAction="#handleEditMenuAction" accelerator="Shortcut+["/>
+                      onAction="#handleUnindentAction" accelerator="Shortcut+["/>
             <MenuItem onAction="#handleFocusOnFindTextEntry" text="Go To Find" accelerator="Shortcut+F"/>
             <MenuItem onAction="#handleFocusOnReplaceTextEntry" text="Go To Replace" accelerator="Shortcut+R" />
         </Menu>

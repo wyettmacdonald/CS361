@@ -384,14 +384,91 @@ public class Controller {
     }
 
     /**
-     * Calls the method that handles the simple Edit menu actions from the
+     * Calls the method that handles the Undo menu action from the
      * editMenuController.
      *
      * @param event ActionEvent object
      */
     @FXML
-    private void handleEditMenuAction(ActionEvent event) {
-        this.editMenuController.handleEditMenuAction(event);
+    private void handleUndoAction(ActionEvent event) {
+        this.editMenuController.handleUndo(event);
+    }
+
+    /**
+     * Calls the method that handles the Redo menu action from the
+     * editMenuController.
+     *
+     * @param event ActionEvent object
+     */
+    @FXML
+    private void handleRedoAction(ActionEvent event) {
+        this.editMenuController.handleRedo(event);
+    }
+
+    /**
+     * Calls the method that handles the Cut menu action from the
+     * editMenuController.
+     *
+     * @param event ActionEvent object
+     */
+    @FXML
+    private void handleCutAction(ActionEvent event) {
+        this.editMenuController.handleCut(event);
+    }
+
+    /**
+     * Calls the method that handles the Copy menu action from the
+     * editMenuController.
+     *
+     * @param event ActionEvent object
+     */
+    @FXML
+    private void handleCopyAction(ActionEvent event) {
+        this.editMenuController.handleCopy(event);
+    }
+
+    /**
+     * Calls the method that handles the Paste menu action from the
+     * editMenuController.
+     *
+     * @param event ActionEvent object
+     */
+    @FXML
+    private void handlePasteAction(ActionEvent event) {
+        this.editMenuController.handlePaste(event);
+    }
+
+    /**
+     * Calls the method that handles the Select All menu action from the
+     * editMenuController.
+     *
+     * @param event ActionEvent object
+     */
+    @FXML
+    private void handleSelectAllAction(ActionEvent event) {
+        this.editMenuController.handleSelectAll(event);
+    }
+
+    /**
+     * Calls the method that handles the Indent menu action from the
+     * editMenuController.
+     *
+     * @param event ActionEvent object
+     */
+    @FXML
+    private void handleIndentAction(ActionEvent event) {
+        this.editMenuController.handleIndentText();
+    }
+
+    /**
+     * Calls the method that handles the Unindent menu action from the
+     * editMenuController.
+     *
+     * @param event ActionEvent object
+     */
+    @FXML
+    private void handleUnindentAction(ActionEvent event) {
+        this.editMenuController.handleUnindentText();
     }
 
     /**
