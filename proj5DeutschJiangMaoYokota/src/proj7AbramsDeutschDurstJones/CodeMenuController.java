@@ -9,7 +9,6 @@
 package proj7AbramsDeutschDurstJones;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
-import javafx.scene.control.TabPane;
 import org.fxmisc.richtext.CaretSelectionBind;
 import org.fxmisc.richtext.CodeArea;
 import javafx.event.Event;
@@ -43,7 +42,9 @@ public class CodeMenuController {
      */
     public void handleToggleComment(Event event) {
         CodeArea activeCodeArea = codeAreaTabPane.getActiveCodeArea();
-
+        if (activeCodeArea == null) {
+            return;
+        }
         // get selected lines of text
         CaretSelectionBind<?, ?, ?> selection = activeCodeArea.getCaretSelectionBind();
         int startParagraph = selection.getStartParagraphIndex();
@@ -102,6 +103,9 @@ public class CodeMenuController {
      */
     public void handleMoveUp(Event event) {
         CodeArea activeCodeArea = codeAreaTabPane.getActiveCodeArea();
+        if (activeCodeArea == null) {
+            return;
+        }
         int paragraphIndex = activeCodeArea.getCurrentParagraph();
         int caretCol = activeCodeArea.getCaretColumn();
         int numLines = activeCodeArea.getParagraphs().size();
@@ -121,6 +125,9 @@ public class CodeMenuController {
      */
     public void handleMoveDown(Event event) {
         CodeArea activeCodeArea = codeAreaTabPane.getActiveCodeArea();
+        if (activeCodeArea == null) {
+            return;
+        }
         int paragraphIndex = activeCodeArea.getCurrentParagraph();
         int caretCol = activeCodeArea.getCaretColumn();
         int numLines = activeCodeArea.getParagraphs().size();
@@ -142,6 +149,9 @@ public class CodeMenuController {
      */
     private void swapLines(int p1, int p2) {
         CodeArea activeCodeArea = codeAreaTabPane.getActiveCodeArea();
+        if (activeCodeArea == null) {
+            return;
+        }
         String line1 = activeCodeArea.getText(p1);
         String line2 = activeCodeArea.getText(p2);
         activeCodeArea.replaceText(p1, 0, p2, activeCodeArea.getParagraphLength(p2), line2+"\n"+line1);
@@ -153,6 +163,9 @@ public class CodeMenuController {
      */
     public void handleCheckWellFormed() {
         CodeArea activeCodeArea = codeAreaTabPane.getActiveCodeArea();
+        if (activeCodeArea == null) {
+            return;
+        }
         // get the text of the current codeArea
         String text = activeCodeArea.getText();
         // now go through the text to check if it is malformed
@@ -204,6 +217,10 @@ public class CodeMenuController {
      */
     public void handleDuplicateLine(Event event) {
         CodeArea activeCodeArea = codeAreaTabPane.getActiveCodeArea();
+        if (activeCodeArea == null) {
+            return;
+        }
+        // replace current line with current line duplicated
         int paragraphIndex = activeCodeArea.getCurrentParagraph();
         String newText = activeCodeArea.getText(paragraphIndex) + "\n" + activeCodeArea.getText(paragraphIndex);
         activeCodeArea.replaceText(paragraphIndex, 0, paragraphIndex,
