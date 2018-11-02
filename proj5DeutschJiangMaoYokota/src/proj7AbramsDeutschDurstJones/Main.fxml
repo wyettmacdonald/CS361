@@ -89,9 +89,7 @@
                maxWidth="Infinity"
                VBox.vgrow="ALWAYS">
         <SplitPane dividerPositions="0.5" orientation="VERTICAL">
-                <!--<Label text = "Directory" />-->
                 <TreeView fx:id="directoryTree"/>
-                <!--<Label text="Structure" />-->
                 <TreeView fx:id="fileTree" editable="true" prefHeight="200.0" prefWidth="200.0"
                           SplitPane.resizableWithParent="false" onMouseClicked="#handleTreeItemClicked"/>
         </SplitPane>
