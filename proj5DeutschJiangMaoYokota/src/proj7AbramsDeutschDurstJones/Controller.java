@@ -20,7 +20,9 @@ import java.util.*;
 
 import javafx.beans.binding.BooleanBinding;
 import javafx.beans.binding.Bindings;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.VBox;
+import org.fxmisc.richtext.CodeArea;
 import org.fxmisc.richtext.StyleClassedTextArea;
 
 /**
@@ -57,6 +59,10 @@ public class Controller {
      */
     private SettingMenuController settingMenuController;
     /**
+     * treeStructure View Controller handling the current file's treeStructure View
+     */
+    private StructureViewController structureViewController;
+    /**
      * VBox defined in Main.fxml
      */
     @FXML
@@ -80,12 +86,17 @@ public class Controller {
      * TabPane defined in Main.fxml
      */
     @FXML
-    private CodeAreaTabPane codeAreaTabPane;
+    private CodeAreaTabPane tabPane;
     /**
      * Tree of current directory
      */
     @FXML
     private TreeView<String> directoryTree;
+    /**
+     * Tree of current file structure
+     */
+    @FXML
+    private TreeView fileTree;
     /**
      * the console pane defined in Main.fxml
      */
@@ -122,11 +133,6 @@ public class Controller {
     @FXML
     private TextField findTextEntry;
     /**
-     * Find button defined in Main.fxml
-     */
-    @FXML
-    private Button findButton;
-    /**
      * Find previous button defined in Main.fxml
      */
     @FXML
@@ -136,11 +142,6 @@ public class Controller {
      */
     @FXML
     private Button findNextBtn;
-    /**
-     * Replace button defined in Main.fxml
-     */
-    @FXML
-    private Button replaceButton;
     /**
      * Replace field defined in Main.fxml
      */
@@ -176,10 +177,6 @@ public class Controller {
         this.toolbarController.initialize();
         this.compileWorker = this.toolbarController.getCompileWorker();
         this.compileRunWorker = this.toolbarController.getCompileRunWorker();
-
-        // when the tab selection is change, matches is cleared
-        this.codeAreaTabPane.getSelectionModel().selectedItemProperty().addListener(
-                (ov, t, t1) -> this.toolbarController.clearMatches());
     }
 
     /**
@@ -189,7 +186,7 @@ public class Controller {
     private void setupFileMenuController() {
         this.fileMenuController.setDirectoryController(this.directoryController);
         this.fileMenuController.setTabFileMap(this.tabFileMap);
-        this.fileMenuController.setCodeAreaTabPane(this.codeAreaTabPane);
+        this.fileMenuController.setCodeAreaTabPane(this.tabPane);
     }
 
     /**
@@ -197,7 +194,7 @@ public class Controller {
      * and other sub Controllers when necessary.
      */
     private void setupEditMenuController() {
-        this.editMenuController.setCodeAreaTabPane(this.codeAreaTabPane);
+        this.editMenuController.setCodeAreaTabPane(this.tabPane);
         this.editMenuController.setFindTextEntry(this.findTextEntry);
         this.editMenuController.setNextMatchBtn(this.findNextBtn);
         this.editMenuController.setPrevMatchBtn(this.findPrevBtn);
@@ -209,7 +206,7 @@ public class Controller {
      * nd other sub Controllers when necessary
      */
     private void setupCodeMenuController() {
-        this.codeMenuController.setCodeAreaTabPane(this.codeAreaTabPane);
+        this.codeMenuController.setCodeAreaTabPane(this.tabPane);
     }
 
     /**
@@ -219,7 +216,7 @@ public class Controller {
     private void setupDirectoryController() {
         this.directoryController.setDirectoryTree(directoryTree);
         this.directoryController.setTabFileMap(this.tabFileMap);
-        this.directoryController.setTabPane(this.codeAreaTabPane);
+        this.directoryController.setTabPane(this.tabPane);
         this.directoryController.setFileMenuController(this.fileMenuController);
     }
 
@@ -227,7 +224,28 @@ public class Controller {
      * Creates a reference to the SettingMenuController.
      */
     private void setupSettingMenuController() {
-        this.settingMenuController.setTabPane(this.codeAreaTabPane);
+        this.settingMenuController.setTabPane(this.tabPane);
+    }
+
+    /**
+     * Creates a reference to the StructureViewController and passes in relevant items
+     */
+    private void setupStructureViewController() {
+        this.structureViewController.setTreeView(this.fileTree);
+
+        // Updates the file structure view whenever a key is typed
+        this.tabPane.addEventFilter(KeyEvent.KEY_RELEASED, event ->
+        {
+            this.updateStructureView();
+
+        });
+
+        // Updates the file structure view whenever the tab selection changes
+        // e.g., open tab, remove tab, select another tab
+        this.tabPane.getSelectionModel().selectedItemProperty().addListener((ov, oldTab, newTab) ->
+        {
+            this.updateStructureView();
+        });
     }
 
     /**
@@ -235,7 +253,7 @@ public class Controller {
      * the Edit menu, with the condition whether the tab pane is empty.
      */
     private void setButtonBinding() {
-        BooleanBinding ifTabPaneEmpty = Bindings.isEmpty(codeAreaTabPane.getTabs());
+        BooleanBinding ifTabPaneEmpty = Bindings.isEmpty(tabPane.getTabs());
         ReadOnlyBooleanProperty ifCompiling = this.compileWorker.runningProperty();
         ReadOnlyBooleanProperty ifCompilingRunning =
                 this.compileRunWorker.runningProperty();
@@ -269,6 +287,7 @@ public class Controller {
         this.toolbarController = new ToolBarController();
         this.directoryController = new DirectoryController();
         this.settingMenuController = new SettingMenuController();
+        this.structureViewController = new StructureViewController();
 
         // set up the sub controllers
         this.setupFileMenuController();
@@ -277,8 +296,55 @@ public class Controller {
         this.setupToolbarController();
         this.setupDirectoryController();
         this.setupSettingMenuController();
+        this.setupStructureViewController();
 
         this.setButtonBinding();
+    }
+
+    /**
+     * Parses and generates the structure view for the currently open code area
+     */
+    private void updateStructureView() {
+        CodeArea currentCodeArea = this.tabPane.getActiveCodeArea();
+        File currentFile = this.tabFileMap.get(this.tabPane.getSelectionModel().getSelectedItem());
+
+        // if the code area is open
+        if (currentCodeArea != null) {
+            // if this is not an unsaved file
+            if (currentFile != null) {
+                String fileName = currentFile.getName();
+                // if this is a java file
+                if (fileName.endsWith(".java")) {
+                    // Re-generates the tree
+                    this.structureViewController.generateStructureTree(currentCodeArea.getText());
+                }
+            } else {
+                // Gets rid of open structure view
+                this.resetStructureView();
+            }
+        }
+    }
+
+    /**
+     * Jump to the line where the selected class/method/field is declared.
+     */
+    @FXML
+    private void handleTreeItemClicked()
+    {
+        TreeItem selectedTreeItem = (TreeItem) this.fileTree.getSelectionModel().getSelectedItem();
+        CodeArea currentCodeArea = this.tabPane.getActiveCodeArea();
+        if (selectedTreeItem != null)
+        {
+            int lineNum = this.structureViewController.getTreeItemLineNum(selectedTreeItem);
+            if (currentCodeArea != null) currentCodeArea.showParagraphAtTop(lineNum - 1);
+        }
+    }
+
+    /**
+     * Clears the currently open structure view of all nodes
+     */
+    public void resetStructureView() {
+        this.structureViewController.resetRootNode();
     }
 
     /**
@@ -289,7 +355,7 @@ public class Controller {
      */
     @FXML
     private void handleCompileButtonAction(Event event) {
-        Tab selectedTab = this.codeAreaTabPane.getSelectionModel().getSelectedItem();
+        Tab selectedTab = this.tabPane.getSelectionModel().getSelectedItem();
         this.toolbarController.handleCompileButtonAction(
                 event, this.tabFileMap.get(selectedTab));
     }
@@ -302,7 +368,7 @@ public class Controller {
      */
     @FXML
     private void handleCompileRunButtonAction(Event event) {
-        Tab selectedTab = this.codeAreaTabPane.getSelectionModel().getSelectedItem();
+        Tab selectedTab = this.tabPane.getSelectionModel().getSelectedItem();
         this.toolbarController.handleCompileRunButtonAction(
                 event, this.tabFileMap.get(selectedTab));
     }
