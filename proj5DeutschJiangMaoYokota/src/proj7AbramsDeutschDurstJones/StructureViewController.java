@@ -1,8 +1,9 @@
 /*
-File: Controller.java
-CS361 Project 6
-Names: Melody Mao, Zena Abulhab, Yi Feng, and Evan Savillo
-Date: 10/27/2018
+ * File: Controller.java
+ * CS361 Project 7
+ * Names: Douglas Abrams, Martin Deutsch, Robert Durst, Matt Jones
+ * Date: 11/3/2018
+ * This file defines the functionality of the file structure view
 */
 
 package proj7AbramsDeutschDurstJones;
