@@ -88,18 +88,22 @@
     -fx-background-color: #f2f9fc;
 }
 
-.output{
+/* style of output type message in console */
+.output {
     -fx-fill: blue;
 }
 
-.error{
+/* style of error type message in console */
+.error { 
     -fx-fill: red;
 }
 
-.processInfo{
+/* style of processInfo type message in console */
+.processInfo {
     -fx-fill: green;
 }
 
-.default{
+/* style of default type message in console */
+.default {
     -fx-fill: black;
 }
