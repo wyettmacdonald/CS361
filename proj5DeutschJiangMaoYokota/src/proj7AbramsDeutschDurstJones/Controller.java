@@ -329,7 +329,7 @@ public class Controller {
      * Jump to the line where the selected class/method/field is declared.
      */
     @FXML
-    private void handleTreeItemClicked()
+    private void handleFileTreeItemClicked()
     {
         TreeItem selectedTreeItem = (TreeItem) this.fileTree.getSelectionModel().getSelectedItem();
         CodeArea currentCodeArea = this.tabPane.getActiveCodeArea();

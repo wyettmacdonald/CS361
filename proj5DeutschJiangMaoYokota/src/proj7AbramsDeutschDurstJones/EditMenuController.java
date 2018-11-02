@@ -26,8 +26,8 @@ public class EditMenuController {
      * TabPane defined in Main.fxml
      */
     private CodeAreaTabPane codeAreaTabPane;
-    private TextField findTextEntry;
     // fields relating to string finding
+    private TextField findTextEntry;
     private String fileTextSearched;
     private ArrayList<Integer> matchStartingIndices;
     private int curMatchLength;
@@ -287,14 +287,13 @@ public class EditMenuController {
      * Highlights the next matched word available
      */
     public void handleHighlightNextMatch() {
+        CodeArea curJavaCodeArea = codeAreaTabPane.getActiveCodeArea();
+        if (curJavaCodeArea == null) {
+            showAlert("NO FILES OPEN");
+            return;
+        }
 
         if (this.canHighlightMatches()) {
-
-            CodeArea curJavaCodeArea = codeAreaTabPane.getActiveCodeArea();
-            if (curJavaCodeArea == null) {
-                showAlert("NO FILES OPEN");
-                return;
-            }
 
             // if last match in file highlighted, wrap around to highlight the first match
             if (this.curMatchHighlightedIdx == this.matchStartingIndices.size()-1) {
@@ -331,7 +330,6 @@ public class EditMenuController {
     private boolean canHighlightMatches() {
         CodeArea curJavaCodeArea = codeAreaTabPane.getActiveCodeArea();
         if (curJavaCodeArea == null) {
-            showAlert("NO FILES OPEN");
             return false;
         }
         String openFileText = curJavaCodeArea.getText();
@@ -339,18 +337,14 @@ public class EditMenuController {
         // check if anything searched for
         if (this.fileTextSearched == null || this.curMatchHighlightedIdx == -1
                 || this.curMatchLength == -1) {
-            showAlert("MUST FIND MATCHING TEXT");
             return false;
         }
         // check if any matches found
         if (this.matchStartingIndices.size() == 0) {
-            showAlert("NO MATCHES FOUND");
             return false;
         }
         // check if the file has been changed since the last search
         if (!this.fileTextSearched.equals(openFileText)) {
-            showAlert("FILE HAS BEEN CHANGED SINCE PREVIOUS SEARCH, FIND AGAIN");
-            setMatchNavButtonsClickable(false);
             return false;
         }
         return true;

@@ -93,7 +93,7 @@
             </TitledPane>
             <TitledPane text="File Structure">
                 <TreeView fx:id="fileTree" editable="true" SplitPane.resizableWithParent="false"
-                          onMouseClicked="#handleTreeItemClicked"/>
+                          onMouseClicked="#handleFileTreeItemClicked"/>
             </TitledPane>
         </SplitPane>
         <SplitPane dividerPositions="0.8" orientation="VERTICAL">
