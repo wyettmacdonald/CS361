@@ -47,7 +47,7 @@
         <Button text="Compile &amp; Run" fx:id="compileRunButton" onAction="#handleCompileRunButtonAction"/>
         <Button text="Stop" fx:id="stopButton" onAction="#handleStopButtonAction"/>
     </ToolBar>
-    <CodeAreaTabPane fx:id="codeAreaTabPane" VBox.vgrow="ALWAYS">
+    <CodeAreaTabPane fx:id="tabPane" VBox.vgrow="ALWAYS">
         <tabs>
             <Tab text="untitled" fx:id="untitledTab" onCloseRequest="#handleCloseAction">
                 <content>

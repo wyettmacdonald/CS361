@@ -10,18 +10,14 @@ package proj7AbramsDeutschDurstJones;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.fxml.FXML;
 import javafx.scene.control.TextField;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
-import org.fxmisc.richtext.CodeArea;
 import org.fxmisc.richtext.StyleClassedTextArea;
 import javafx.event.Event;
 
 import java.util.concurrent.*;
 import java.io.*;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 import javafx.concurrent.Task;
 import javafx.concurrent.Service;
@@ -125,37 +121,12 @@ public class ToolBarController {
     }
 
     /**
-     * Sets the find field and the event listener to listen for the return key
-     *
-     * @param findText StyleClassedTextArea defined in Main.fxml
-     */
-    public void setFindText(TextField findText) {
-        this.findText = findText;
-    }
-
-    /**
      * Sets the FileMenuController.
      *
      * @param fileMenuController FileMenuController created in main Controller.
      */
     public void setFileMenuController(FileMenuController fileMenuController) {
         this.fileMenuController = fileMenuController;
-    }
-
-    /**
-     * Gets the list of matches found in search
-     *
-     * @return the matches list
-     */
-    public ObservableList<Integer> getMatches() {
-        return this.matches;
-    }
-
-    /**
-     * Clears the list of matches
-     */
-    public void clearMatches() {
-        this.matches.clear();
     }
 
     /**
@@ -535,54 +506,5 @@ public class ToolBarController {
             this.fileMenuController.createErrorDialog("Program Stop",
                     "Error stopping the Java program.");
         }
-    }
-
-    /**
-     * Handles the Find button actions. This will clear any previous data from a
-     * previous find instance. Then the sequence of characters in the find text field
-     * will be searched for in the currently selected tab. If a match is found, the
-     * first instance of the match will be selected.
-     */
-    @FXML
-    public void handleFind(CodeArea activeCodeArea) {
-        // reset matches
-        matches.clear();
-        findIdx = 0;
-
-        String contents = activeCodeArea.getText();
-        String findPhrase = this.findText.getText();
-
-        Pattern pattern = Pattern.compile(findPhrase);
-        Matcher matcher = pattern.matcher(contents);
-
-        // find all matches and add them to the matches field
-        boolean found = false;
-        while (matcher.find()) {
-            this.matches.add(matcher.start());
-            found = true;
-        }
-
-        // highlight string at the position of findIdx in matches
-        if (found) {
-            activeCodeArea.selectRange(matches.get(0),
-                        (matches.get(0) + findPhrase.length()));
-            activeCodeArea.requestFollowCaret();
-            findIdx = (findIdx >= matches.size() - 1) ? 0 : findIdx + 1;
-        }
-    }
-
-    /**
-     * Handles the Find Next button. This will highlight the next match in the match
-     * array list. If the last match is found, findIdx is reset, so the next time the
-     * button is pressed, the first element will be selected again.
-     */
-    @FXML
-    public void handleFindNext(CodeArea activeCodeArea) {
-        // highlight string at the position of findIdx in matches
-        activeCodeArea.selectRange(matches.get(findIdx),
-                    (matches.get(findIdx) + this.findText.getText().length()));
-        activeCodeArea.requestFollowCaret();
-
-        findIdx = (findIdx >= matches.size() - 1) ? 0 : findIdx + 1;
     }
 }
