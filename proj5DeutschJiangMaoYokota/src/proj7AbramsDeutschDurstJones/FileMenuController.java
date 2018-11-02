@@ -313,7 +313,6 @@ public class FileMenuController {
      */
     public void handleNewAction() {
         this.createTab("", "untitled", null);
-        this.createContextMenu();
     }
 
     /**
@@ -355,7 +354,6 @@ public class FileMenuController {
         }
 
         this.createTab(contentString, file.getName(), file);
-        this.createContextMenu();
     }
 
     /**
@@ -495,42 +493,5 @@ public class FileMenuController {
         // enable to resize the About window
         dialog.setResizable(true);
         dialog.showAndWait();
-    }
-
-    /**
-     * Handle a pop-up window. When a new tab is created a related ContextMenu will also be created.
-     * When right button is clicked it will show up with some functional menus.
-     * If the primary button is clicked outside of the menu the menu will be hidden.
-     */
-    private void createContextMenu() {
-        // setup context menu
-        CodeArea codeArea = this.codeAreaTabPane.getActiveCodeArea();
-        ContextMenu contextMenu = new ContextMenu();
-        MenuItem cut = new MenuItem("Cut");
-        MenuItem copy = new MenuItem("Copy");
-        MenuItem paste = new MenuItem("Paste");
-        MenuItem undo = new MenuItem("Undo");
-        MenuItem redo = new MenuItem("Redo");
-        MenuItem selectAll = new MenuItem("Select All");
-
-        // set onAction for each option in the context menu
-        contextMenu.getItems().addAll(cut, copy, paste, undo, redo, selectAll);
-        cut.setOnAction(event -> codeArea.cut());
-        copy.setOnAction(event -> codeArea.copy());
-        paste.setOnAction(event -> codeArea.paste());
-        undo.setOnAction(event -> codeArea.undo());
-        redo.setOnAction(event -> codeArea.redo());
-        selectAll.setOnAction(event -> codeArea.selectAll());
-
-        // sets the onMousePressed to show the context menu when the secondary button
-        // is pressed and to hide it if the primary button is pressed and the menu is
-        // already showing
-        codeArea.setOnMousePressed(event -> {
-            if (event.isSecondaryButtonDown()) {
-                contextMenu.show(codeArea, event.getScreenX(), event.getScreenY());
-            } else if (event.isPrimaryButtonDown() && contextMenu.isShowing()) {
-                contextMenu.hide();
-            }
-        });
     }
 }

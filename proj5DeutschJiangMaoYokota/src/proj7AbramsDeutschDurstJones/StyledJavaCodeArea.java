@@ -9,6 +9,8 @@
 
 package proj7AbramsDeutschDurstJones;
 
+import javafx.scene.control.ContextMenu;
+import javafx.scene.control.MenuItem;
 import org.fxmisc.richtext.CodeArea;
 import org.fxmisc.richtext.LineNumberFactory;
 import org.fxmisc.richtext.model.StyleSpans;
@@ -81,6 +83,7 @@ public class StyledJavaCodeArea extends CodeArea {
             this.handleTextChange();
         });
         this.setParagraphGraphicFactory(LineNumberFactory.get(this));
+        this.createContextMenu();
     }
 
     /**
@@ -93,6 +96,7 @@ public class StyledJavaCodeArea extends CodeArea {
         this.appendText(content);
         this.highlightText();
         this.setParagraphGraphicFactory(LineNumberFactory.get(this));
+        this.createContextMenu();
     }
 
     /**
@@ -151,5 +155,41 @@ public class StyledJavaCodeArea extends CodeArea {
         }
         spansBuilder.add(Collections.emptyList(), text.length() - lastKwEnd);
         return spansBuilder.create();
+    }
+
+    /**
+     * Handle a pop-up window. When a new tab is created a related ContextMenu will also be created.
+     * When right button is clicked it will show up with some functional menus.
+     * If the primary button is clicked outside of the menu the menu will be hidden.
+     */
+    private void createContextMenu() {
+        // setup context menu
+        ContextMenu contextMenu = new ContextMenu();
+        MenuItem cut = new MenuItem("Cut");
+        MenuItem copy = new MenuItem("Copy");
+        MenuItem paste = new MenuItem("Paste");
+        MenuItem undo = new MenuItem("Undo");
+        MenuItem redo = new MenuItem("Redo");
+        MenuItem selectAll = new MenuItem("Select All");
+
+        // set onAction for each option in the context menu
+        contextMenu.getItems().addAll(cut, copy, paste, undo, redo, selectAll);
+        cut.setOnAction(event -> this.cut());
+        copy.setOnAction(event -> this.copy());
+        paste.setOnAction(event -> this.paste());
+        undo.setOnAction(event -> this.undo());
+        redo.setOnAction(event -> this.redo());
+        selectAll.setOnAction(event -> this.selectAll());
+
+        // sets the onMousePressed to show the context menu when the secondary button
+        // is pressed and to hide it if the primary button is pressed and the menu is
+        // already showing
+        this.setOnMousePressed(event -> {
+            if (event.isSecondaryButtonDown()) {
+                contextMenu.show(this, event.getScreenX(), event.getScreenY());
+            } else if (event.isPrimaryButtonDown() && contextMenu.isShowing()) {
+                contextMenu.hide();
+            }
+        });
     }
 }

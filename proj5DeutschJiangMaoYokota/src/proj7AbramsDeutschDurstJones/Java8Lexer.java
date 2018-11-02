@@ -1,3 +1,10 @@
+/*
+ * File: Java8Lexer.java
+ * CS361 Project 7
+ * Names: Douglas Abrams, Martin Deutsch, Robert Durst, Matt Jones
+ * Date: 11/3/2018
+ */
+
 package proj7AbramsDeutschDurstJones;
 import org.antlr.v4.runtime.Lexer;
 import org.antlr.v4.runtime.CharStream;
