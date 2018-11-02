@@ -36,10 +36,6 @@ public class ToolBarController {
      */
     private StyleClassedTextArea console;
     /**
-     * Find field defined in Main.fxml
-     */
-    private TextField findText;
-    /**
      * Process currently compiling or running a Java file
      */
     private Process curProcess;
@@ -71,14 +67,6 @@ public class ToolBarController {
      * A CompileRunWorker object compiles and runs a Java file in a separate thread.
      */
     private CompileRunWorker compileRunWorker;
-    /**
-     * Array List that stores all the positions of items found in a given tab
-     */
-    private ObservableList<Integer> matches;
-    /**
-     * Index of the position that will be used in matches when Find Next button is pressed
-     */
-    private int findIdx;
 
     /**
      * OutputType defines the four different expected types of output the ide may produce
@@ -100,8 +88,6 @@ public class ToolBarController {
         this.compileWorker = new CompileWorker();
         this.compileRunWorker = new CompileRunWorker();
         this.consoleLength = 0;
-        this.matches  = FXCollections.observableArrayList();
-        this.findIdx = 0;
     }
 
     /**
