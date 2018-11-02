@@ -172,22 +172,22 @@
     -fx-background-color: #5f5e5e;
 }
 
-/* inverted from light mode's blue */
-.output{
-    -fx-fill: red;
+/* style of output type message in console */
+.output {
+    -fx-fill: lightblue;
 }
 
-/* inverted from light mode's red */
-.error{
-    -fx-fill: blue;
+/* style of error type message in console */
+.error {
+    -fx-fill: darkred;
 }
 
-/* inverted from light mode's green */
-.processInfo{
-    -fx-fill: purple;
+/* style of processInfo type message in console */
+.processInfo {
+    -fx-fill: teal;
 }
 
-/* inverted from light mode's black */
-.default{
+/* style of default type message in console */
+.default {
     -fx-fill: white;
 }

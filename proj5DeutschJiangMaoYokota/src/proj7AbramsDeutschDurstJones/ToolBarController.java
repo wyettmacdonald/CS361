@@ -85,6 +85,17 @@ public class ToolBarController {
     private int findIdx;
 
     /**
+     * OutputType defines the four different expected types of output the ide may produce
+     * and thus the console output may have to deal with.
+     */
+    private enum OutputType {
+        OUTPUT,
+        ERROR,
+        PROCESS_INFO,
+        DEFAULT,
+    }
+
+    /**
      * Initializes the ToolBarController controller.
      * Sets the Semaphore, the CompileWorker and the CompileRunWorker.
      */
@@ -216,7 +227,7 @@ public class ToolBarController {
                         Platform.runLater(() -> {
                             // print stop message if other thread hasn't
                             if (consoleLength == console.getLength()) {
-                                WriteToConsole( "\nProgram exited unexpectedly\n", "Error");
+                                WriteToConsole( "\nProgram exited unexpectedly\n", OutputType.ERROR);
                             }
                         });
                     }
@@ -232,7 +243,7 @@ public class ToolBarController {
                         Platform.runLater(() -> {
                             // print stop message if other thread hasn't
                             if (consoleLength == console.getLength()) {
-                                WriteToConsole( "\nProgram exited unexpectedly\n", "Error");
+                                WriteToConsole( "\nProgram exited unexpectedly\n", OutputType.ERROR);
                             }
                         });
                     }
@@ -259,10 +270,10 @@ public class ToolBarController {
         InputStream stderr = this.curProcess.getErrorStream();
 
         BufferedReader outputReader = new BufferedReader(new InputStreamReader(stdout));
-        printOutput(outputReader, "Default");
+        printOutput(outputReader, OutputType.DEFAULT);
 
         BufferedReader errorReader = new BufferedReader(new InputStreamReader(stderr));
-        printOutput(errorReader, "Error");
+        printOutput(errorReader, OutputType.ERROR);
     }
 
     /**
@@ -291,26 +302,34 @@ public class ToolBarController {
      * @param newString the string to add to the console
      * @param type the content type added to the console
      */
-    public void WriteToConsole(String newString, String type){
-
+    public void WriteToConsole(String newString, OutputType type){
         int fromIndex = this.console.getText().length();
         this.console.appendText(newString);
 
         // Style the texts differently base on their source provided
         int toIndex = this.console.getText().length();
-        if(type.equals("Output")) {
-            this.console.setStyleClass(fromIndex, toIndex, "output");
+        switch(type) {
+            case OUTPUT:
+                this.console.setStyleClass(fromIndex, toIndex, "output");
+                break;
+            case ERROR:
+                this.console.setStyleClass(fromIndex, toIndex, "error");
+                break;
+            case PROCESS_INFO:
+                this.console.setStyleClass(fromIndex, toIndex, "processInfo");
+                break;
+            case DEFAULT: // intentional default state
+            default: // non-intentional default state
+                // more elegant way of dealing with DEFAULT type
+                // than just reseting type at the end of this function
+                this.console.setStyleClass(fromIndex, toIndex, "default");
         }
-        else if(type.equals("Error")){
-            this.console.setStyleClass(fromIndex, toIndex, "error");
-        }
-        else if(type.equals("ProcessInfo")){
-            this.console.setStyleClass(fromIndex, toIndex, "processInfo");
-        }
-        // DO I NEED THIS COMMENETED OUT LINE VVV
-        // this.console.moveCaretToEnd();
+
+        // replicated previous group's: this.console.moveCaretToEnd();
+        // which is a method on the console class they had that moved
+        // the caret to the end of the output
+        this.console.moveTo(toIndex);
         this.console.requestFollowCaret();
-        this.console.setStyleClass(toIndex, toIndex, "default");
     }
 
     /**
@@ -319,7 +338,7 @@ public class ToolBarController {
      * @throws java.io.IOException
      * @throws java.lang.InterruptedException
      */
-    private void printOutput(BufferedReader reader, String type) throws java.io.IOException, java.lang.InterruptedException {
+    private void printOutput(BufferedReader reader, OutputType type) throws java.io.IOException, java.lang.InterruptedException {
         // if the output stream is paused, signal the input thread
         if (!reader.ready()) {
             this.consoleMutex.release();
@@ -415,7 +434,7 @@ public class ToolBarController {
                 @Override protected Boolean call() {
                     Boolean compileResult = compileJavaFile(file);
                     if (compileResult) {
-                        Platform.runLater(() -> WriteToConsole( "Compilation was successful!\n", "ProcessInfo"));
+                        Platform.runLater(() -> WriteToConsole( "Compilation was successful!\n", OutputType.PROCESS_INFO));
                     }
                     return compileResult;
                 }
@@ -510,7 +529,7 @@ public class ToolBarController {
                 this.inThread.interrupt();
                 this.outThread.interrupt();
                 this.curProcess.destroy();
-                WriteToConsole( "\nProcess terminated.\n", "Output");
+                WriteToConsole( "\nProcess terminated.\n", OutputType.OUTPUT);
             }
         } catch (Throwable e) {
             this.fileMenuController.createErrorDialog("Program Stop",
