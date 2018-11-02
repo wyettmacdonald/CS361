@@ -307,9 +307,13 @@ public class ToolBarController {
         else if(type.equals("ProcessInfo")){
             this.console.setStyleClass(fromIndex, toIndex, "processInfo");
         }
-        // DO I NEED THIS COMMENETED OUT LINE VVV
-        // this.console.moveCaretToEnd();
+
+        // replicated previous group's: this.console.moveCaretToEnd();
+        // which is a method on the console class they had that moved
+        // the caret to the end of the output
+        this.console.moveTo(toIndex);
         this.console.requestFollowCaret();
+
         this.console.setStyleClass(toIndex, toIndex, "default");
     }
 
