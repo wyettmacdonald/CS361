@@ -88,9 +88,13 @@
                maxWidth="Infinity"
                VBox.vgrow="ALWAYS">
         <SplitPane dividerPositions="0.5" orientation="VERTICAL">
+            <TitledPane text="Directory Tree">
                 <TreeView fx:id="directoryTree" />
-                <TreeView fx:id="fileTree" editable="true" prefHeight="200.0" prefWidth="200.0"
-                          SplitPane.resizableWithParent="false" onMouseClicked="#handleTreeItemClicked"/>
+            </TitledPane>
+            <TitledPane text="File Structure">
+                <TreeView fx:id="fileTree" editable="true" SplitPane.resizableWithParent="false"
+                          onMouseClicked="#handleTreeItemClicked"/>
+            </TitledPane>
         </SplitPane>
         <SplitPane dividerPositions="0.8" orientation="VERTICAL">
             <CodeAreaTabPane fx:id="tabPane"/>
