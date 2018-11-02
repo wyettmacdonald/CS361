@@ -49,7 +49,7 @@ public class Main extends Application {
                 "/proj7AbramsDeutschDurstJones/LightMode.css").toExternalForm());
 
         // configure the stage
-        stage.setTitle("AbramsDeutschDurstJones's Project 6");
+        stage.setTitle("AbramsDeutschDurstJones's IDE");
         stage.sizeToScene();
         stage.setScene(scene);
         stage.setOnCloseRequest(event -> ((proj7AbramsDeutschDurstJones.Controller)

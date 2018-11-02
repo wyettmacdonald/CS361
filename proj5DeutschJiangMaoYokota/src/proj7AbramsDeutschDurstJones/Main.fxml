@@ -12,7 +12,6 @@
 <?import javafx.scene.layout.*?>
 
 <?import proj7AbramsDeutschDurstJones.CodeAreaTabPane?>
-<?import javafx.scene.text.Text?>
 <VBox fx:id="vBox"
       fx:controller="proj7AbramsDeutschDurstJones.Controller"
       xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1">
@@ -89,7 +88,7 @@
                maxWidth="Infinity"
                VBox.vgrow="ALWAYS">
         <SplitPane dividerPositions="0.5" orientation="VERTICAL">
-                <TreeView fx:id="directoryTree"/>
+                <TreeView fx:id="directoryTree" />
                 <TreeView fx:id="fileTree" editable="true" prefHeight="200.0" prefWidth="200.0"
                           SplitPane.resizableWithParent="false" onMouseClicked="#handleTreeItemClicked"/>
         </SplitPane>
