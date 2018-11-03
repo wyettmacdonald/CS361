@@ -96,11 +96,14 @@ public class ToolBarController {
         this.console = console;
 
         // prevent the user from backspacing any previous contents of the console
-        this.console.addEventFilter(KeyEvent.KEY_RELEASED, event -> {
+        this.console.addEventFilter(KeyEvent.KEY_PRESSED, event -> {
             if (console.getCaretPosition() == consoleLength && event.getCode() == KeyCode.BACK_SPACE) {
                 event.consume();
             }
-            // set styling for user typed input
+        });
+
+        // set styling for user typed input
+        this.console.addEventFilter(KeyEvent.KEY_RELEASED, event -> {
             if (event.getCode() != KeyCode.ENTER) {
                 this.console.setStyleClass(consoleLength, this.console.getLength(), "default");
             }
