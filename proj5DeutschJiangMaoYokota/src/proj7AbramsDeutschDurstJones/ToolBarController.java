@@ -8,9 +8,6 @@
 
 package proj7AbramsDeutschDurstJones;
 import javafx.application.Platform;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
-import javafx.scene.control.TextField;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import org.fxmisc.richtext.StyleClassedTextArea;
@@ -99,9 +96,13 @@ public class ToolBarController {
         this.console = console;
 
         // prevent the user from backspacing any previous contents of the console
-        this.console.addEventFilter(KeyEvent.ANY, event -> {
+        this.console.addEventFilter(KeyEvent.KEY_RELEASED, event -> {
             if (console.getCaretPosition() == consoleLength && event.getCode() == KeyCode.BACK_SPACE) {
                 event.consume();
+            }
+            // set styling for user typed input
+            if (event.getCode() != KeyCode.ENTER) {
+                this.console.setStyleClass(consoleLength, this.console.getLength(), "default");
             }
         });
     }
@@ -227,7 +228,7 @@ public class ToolBarController {
         InputStream stderr = this.curProcess.getErrorStream();
 
         BufferedReader outputReader = new BufferedReader(new InputStreamReader(stdout));
-        printOutput(outputReader, OutputType.DEFAULT);
+        printOutput(outputReader, OutputType.OUTPUT);
 
         BufferedReader errorReader = new BufferedReader(new InputStreamReader(stderr));
         printOutput(errorReader, OutputType.ERROR);
@@ -287,6 +288,7 @@ public class ToolBarController {
         // the caret to the end of the output
         this.console.moveTo(toIndex);
         this.console.requestFollowCaret();
+        this.console.setStyleClass(toIndex, toIndex, "default");
     }
 
     /**
@@ -486,7 +488,7 @@ public class ToolBarController {
                 this.inThread.interrupt();
                 this.outThread.interrupt();
                 this.curProcess.destroy();
-                writeToConsole( "\nProcess terminated.\n", OutputType.OUTPUT);
+                writeToConsole( "\nProcess terminated.\n", OutputType.PROCESS_INFO);
             }
         } catch (Throwable e) {
             this.fileMenuController.createErrorDialog("Program Stop",
