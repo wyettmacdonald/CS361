@@ -104,7 +104,7 @@ public class ToolBarController {
 
         // set styling for user typed input
         this.console.addEventFilter(KeyEvent.KEY_RELEASED, event -> {
-            if (event.getCode() != KeyCode.ENTER) {
+            if (event.getCode() != KeyCode.ENTER && consoleLength < this.console.getLength()) {
                 this.console.setStyleClass(consoleLength, this.console.getLength(), "default");
             }
         });
@@ -170,7 +170,7 @@ public class ToolBarController {
         try {
             Platform.runLater(() -> {
                 this.console.clear();
-                consoleLength = 0;
+                this.consoleLength = 0;
             });
             ProcessBuilder pb = new ProcessBuilder("java", file.getName().substring(0,
                     file.getName().length() - 5));
