@@ -25,15 +25,15 @@ public class CodeMenuController {
     /**
      * TabPane defined in Main.fxml
      */
-    @FXML private CodeAreaTabPane codeAreaTabPane;
+    @FXML private JavaTabPane tabPane;
 
     /**
      * Sets the tab pane.
      *
-     * @param codeAreaTabPane TabPane defined in Main.fxml
+     * @param tabPane TabPane defined in Main.fxml
      */
-    public void setCodeAreaTabPane(CodeAreaTabPane codeAreaTabPane) {
-        this.codeAreaTabPane = codeAreaTabPane;
+    public void setTabPane(JavaTabPane tabPane) {
+        this.tabPane = tabPane;
     }
 
     /**
@@ -41,7 +41,7 @@ public class CodeMenuController {
      * @param event the Event object
      */
     public void handleToggleComment(Event event) {
-        CodeArea activeCodeArea = codeAreaTabPane.getActiveCodeArea();
+        CodeArea activeCodeArea = tabPane.getActiveCodeArea();
         if (activeCodeArea == null) {
             return;
         }
@@ -102,7 +102,7 @@ public class CodeMenuController {
      * @param event the Event object
      */
     public void handleMoveUp(Event event) {
-        CodeArea activeCodeArea = codeAreaTabPane.getActiveCodeArea();
+        CodeArea activeCodeArea = tabPane.getActiveCodeArea();
         if (activeCodeArea == null) {
             return;
         }
@@ -124,7 +124,7 @@ public class CodeMenuController {
      * @param event the Event object
      */
     public void handleMoveDown(Event event) {
-        CodeArea activeCodeArea = codeAreaTabPane.getActiveCodeArea();
+        CodeArea activeCodeArea = tabPane.getActiveCodeArea();
         if (activeCodeArea == null) {
             return;
         }
@@ -148,7 +148,7 @@ public class CodeMenuController {
      * @param p2 the line number of the second paragraph
      */
     private void swapLines(int p1, int p2) {
-        CodeArea activeCodeArea = codeAreaTabPane.getActiveCodeArea();
+        CodeArea activeCodeArea = tabPane.getActiveCodeArea();
         if (activeCodeArea == null) {
             return;
         }
@@ -162,7 +162,7 @@ public class CodeMenuController {
      * and braces matches
      */
     public void handleCheckWellFormed() {
-        CodeArea activeCodeArea = codeAreaTabPane.getActiveCodeArea();
+        CodeArea activeCodeArea = tabPane.getActiveCodeArea();
         if (activeCodeArea == null) {
             return;
         }
@@ -216,7 +216,7 @@ public class CodeMenuController {
      * @param event the Event object
      */
     public void handleDuplicateLine(Event event) {
-        CodeArea activeCodeArea = codeAreaTabPane.getActiveCodeArea();
+        CodeArea activeCodeArea = tabPane.getActiveCodeArea();
         if (activeCodeArea == null) {
             return;
         }

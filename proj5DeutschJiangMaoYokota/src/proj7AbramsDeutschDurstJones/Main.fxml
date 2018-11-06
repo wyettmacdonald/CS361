@@ -11,7 +11,7 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<?import proj7AbramsDeutschDurstJones.CodeAreaTabPane?>
+<?import proj7AbramsDeutschDurstJones.JavaTabPane?>
 <VBox fx:id="vBox"
       fx:controller="proj7AbramsDeutschDurstJones.Controller"
       xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1">
@@ -97,7 +97,7 @@
             </TitledPane>
         </SplitPane>
         <SplitPane dividerPositions="0.8" orientation="VERTICAL">
-            <CodeAreaTabPane fx:id="tabPane"/>
+            <JavaTabPane fx:id="tabPane"/>
             <VirtualizedScrollPane>
                 <content>
                     <StyleClassedTextArea fx:id="console"/>

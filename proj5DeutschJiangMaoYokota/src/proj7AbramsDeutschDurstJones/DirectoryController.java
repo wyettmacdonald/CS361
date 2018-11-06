@@ -29,17 +29,13 @@ public class DirectoryController {
      */
     private TreeView directoryTree;
     /**
-     * a HashMap mapping the tabs and the associated files
-     */
-    private Map<Tab, File> tabFileMap;
-    /**
      * A HashMap mapping the TreeItems and associated files
      */
     private Map<TreeItem<String>, File> treeItemFileMap;
     /**
      * TabPane defined in Main.fxml
      */
-    private TabPane tabPane;
+    private JavaTabPane tabPane;
     /**
      * FileMenuController defined in main controller
      */
@@ -60,20 +56,11 @@ public class DirectoryController {
     }
 
     /**
-     * Sets the tabFileMap.
-     *
-     * @param tabFileMap HashMap mapping the tabs and the associated files
-     */
-    public void setTabFileMap(Map<Tab, File> tabFileMap) {
-        this.tabFileMap = tabFileMap;
-    }
-
-    /**
      * Sets the tabPane.
      *
      * @param tabPane TabPane
      */
-    public void setTabPane(TabPane tabPane) {
+    public void setTabPane(JavaTabPane tabPane) {
         this.tabPane = tabPane;
         // add listener to tab selection to switch directories based on open file
         this.tabPane.getSelectionModel().selectedItemProperty().addListener((observable, oldTab, newTab) ->
@@ -118,7 +105,7 @@ public class DirectoryController {
      */
     public void createDirectoryTree() {
         // capture current file
-        File file = this.tabFileMap.get(this.tabPane.getSelectionModel().getSelectedItem());
+        File file = this.tabPane.getFileFromTab(this.tabPane.getSelectionModel().getSelectedItem());
         // create the directory tree
         if (file != null) {
             this.directoryTree.setRoot(this.getNode(file.getParentFile()));

@@ -25,7 +25,7 @@ public class EditMenuController {
     /**
      * TabPane defined in Main.fxml
      */
-    private CodeAreaTabPane codeAreaTabPane;
+    private JavaTabPane javaTabPane;
     // fields relating to string finding
     private TextField findTextEntry;
     private String fileTextSearched;
@@ -39,10 +39,10 @@ public class EditMenuController {
     /**
      * Sets the tab pane.
      *
-     * @param codeAreaTabPane TabPane defined in Main.fxml
+     * @param javaTabPane TabPane defined in Main.fxml
      */
-    public void setCodeAreaTabPane(CodeAreaTabPane codeAreaTabPane) {
-        this.codeAreaTabPane = codeAreaTabPane;
+    public void setJavaTabPane(JavaTabPane javaTabPane) {
+        this.javaTabPane = javaTabPane;
     }
 
     /**
@@ -88,7 +88,7 @@ public class EditMenuController {
      *  @param event ActionEvent object
      */
     public void handleUndo(Event event) {
-        this.codeAreaTabPane.getActiveCodeArea().undo();
+        this.javaTabPane.getActiveCodeArea().undo();
     }
 
     /**
@@ -97,7 +97,7 @@ public class EditMenuController {
      *  @param event ActionEvent object
      */
     public void handleRedo(Event event) {
-        this.codeAreaTabPane.getActiveCodeArea().redo();
+        this.javaTabPane.getActiveCodeArea().redo();
     }
 
     /**
@@ -106,7 +106,7 @@ public class EditMenuController {
      *  @param event ActionEvent object
      */
     public void handleCut(Event event) {
-        this.codeAreaTabPane.getActiveCodeArea().cut();
+        this.javaTabPane.getActiveCodeArea().cut();
     }
 
     /**
@@ -115,7 +115,7 @@ public class EditMenuController {
      *  @param event ActionEvent object
      */
     public void handleCopy(Event event) {
-        this.codeAreaTabPane.getActiveCodeArea().copy();
+        this.javaTabPane.getActiveCodeArea().copy();
     }
 
     /**
@@ -124,7 +124,7 @@ public class EditMenuController {
      *  @param event ActionEvent object
      */
     public void handlePaste(Event event) {
-        this.codeAreaTabPane.getActiveCodeArea().paste();
+        this.javaTabPane.getActiveCodeArea().paste();
     }
 
     /**
@@ -133,14 +133,14 @@ public class EditMenuController {
      *  @param event ActionEvent object
      */
     public void handleSelectAll(Event event) {
-        this.codeAreaTabPane.getActiveCodeArea().selectAll();
+        this.javaTabPane.getActiveCodeArea().selectAll();
     }
 
     /*
      *Indents all highlighted text by one tab per line
      */
     public void handleIndentText() {
-        CodeArea activeCodeArea = this.codeAreaTabPane.getActiveCodeArea();
+        CodeArea activeCodeArea = this.javaTabPane.getActiveCodeArea();
         String selectedText = activeCodeArea.getSelectedText();
         String selectedTextTabbed = selectedText.replace("\n", "\n\t");
         activeCodeArea.replaceSelection("\t" + selectedTextTabbed);
@@ -151,7 +151,7 @@ public class EditMenuController {
      * If there's no tab, nothing happens on that line
      */
     public void handleUnindentText() {
-        CodeArea activeCodeArea = this.codeAreaTabPane.getActiveCodeArea();
+        CodeArea activeCodeArea = this.javaTabPane.getActiveCodeArea();
         String selectedText = activeCodeArea.getSelectedText();
         String selectedTextUntabbed = selectedText.replace("\n\t", "\n");
         //The first line won't have a new line char and has to be handled separately
@@ -171,7 +171,7 @@ public class EditMenuController {
      */
     public void handleFindText(Boolean showNumMatchesAlert) {
 
-        CodeArea curJavaCodeArea = codeAreaTabPane.getActiveCodeArea();
+        CodeArea curJavaCodeArea = javaTabPane.getActiveCodeArea();
         if (curJavaCodeArea == null) {
             showAlert("NO FILES OPEN");
             resetFindMatchingStringData();
@@ -247,7 +247,7 @@ public class EditMenuController {
 
         if (this.canHighlightMatches()) {
 
-            CodeArea curJavaCodeArea = codeAreaTabPane.getActiveCodeArea();
+            CodeArea curJavaCodeArea = javaTabPane.getActiveCodeArea();
             if (curJavaCodeArea == null) {
                 showAlert("NO FILES OPEN");
                 return;
@@ -287,7 +287,7 @@ public class EditMenuController {
      * Highlights the next matched word available
      */
     public void handleHighlightNextMatch() {
-        CodeArea curJavaCodeArea = codeAreaTabPane.getActiveCodeArea();
+        CodeArea curJavaCodeArea = javaTabPane.getActiveCodeArea();
         if (curJavaCodeArea == null) {
             showAlert("NO FILES OPEN");
             return;
@@ -328,7 +328,7 @@ public class EditMenuController {
      * @return true if any matches from Find can currently be highlighted, else false
      */
     private boolean canHighlightMatches() {
-        CodeArea curJavaCodeArea = codeAreaTabPane.getActiveCodeArea();
+        CodeArea curJavaCodeArea = javaTabPane.getActiveCodeArea();
         if (curJavaCodeArea == null) {
             return false;
         }
@@ -391,7 +391,7 @@ public class EditMenuController {
 
 
                 // replace current highlighted mach with the replaced text
-                codeAreaTabPane.getActiveCodeArea().replaceText(curHighlightedMatchStartingIdx,
+                javaTabPane.getActiveCodeArea().replaceText(curHighlightedMatchStartingIdx,
                         curHighlightedMatchStartingIdx+this.curMatchLength,
                         textToReplaceMatch);
                 /* call find method to update the indices of the found matches

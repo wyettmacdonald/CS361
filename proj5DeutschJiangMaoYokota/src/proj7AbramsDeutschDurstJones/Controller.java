@@ -16,7 +16,6 @@ import javafx.fxml.FXML;
 import javafx.scene.control.*;
 
 import java.io.File;
-import java.util.*;
 
 import javafx.beans.binding.BooleanBinding;
 import javafx.beans.binding.Bindings;
@@ -86,7 +85,7 @@ public class Controller {
      * TabPane defined in Main.fxml
      */
     @FXML
-    private CodeAreaTabPane tabPane;
+    private JavaTabPane tabPane;
     /**
      * Tree of current directory
      */
@@ -148,10 +147,6 @@ public class Controller {
     @FXML
     private TextField replaceTextEntry;
     /**
-     * a HashMap mapping the tabs and the associated files
-     */
-    private Map<Tab, File> tabFileMap = new HashMap<>();
-    /**
      * Stores CSS files for different color modes
      */
     private String lightModeCss =
@@ -185,8 +180,8 @@ public class Controller {
      */
     private void setupFileMenuController() {
         this.fileMenuController.setDirectoryController(this.directoryController);
-        this.fileMenuController.setTabFileMap(this.tabFileMap);
-        this.fileMenuController.setCodeAreaTabPane(this.tabPane);
+        this.fileMenuController.setTabPane(this.tabPane);
+        this.tabPane.setFileMenuController(this.fileMenuController);
     }
 
     /**
@@ -194,7 +189,7 @@ public class Controller {
      * and other sub Controllers when necessary.
      */
     private void setupEditMenuController() {
-        this.editMenuController.setCodeAreaTabPane(this.tabPane);
+        this.editMenuController.setJavaTabPane(this.tabPane);
         this.editMenuController.setFindTextEntry(this.findTextEntry);
         this.editMenuController.setNextMatchBtn(this.findNextBtn);
         this.editMenuController.setPrevMatchBtn(this.findPrevBtn);
@@ -206,7 +201,7 @@ public class Controller {
      * nd other sub Controllers when necessary
      */
     private void setupCodeMenuController() {
-        this.codeMenuController.setCodeAreaTabPane(this.tabPane);
+        this.codeMenuController.setTabPane(this.tabPane);
     }
 
     /**
@@ -215,7 +210,6 @@ public class Controller {
      */
     private void setupDirectoryController() {
         this.directoryController.setDirectoryTree(directoryTree);
-        this.directoryController.setTabFileMap(this.tabFileMap);
         this.directoryController.setTabPane(this.tabPane);
         this.directoryController.setFileMenuController(this.fileMenuController);
     }
@@ -306,7 +300,7 @@ public class Controller {
      */
     private void updateStructureView() {
         CodeArea currentCodeArea = this.tabPane.getActiveCodeArea();
-        File currentFile = this.tabFileMap.get(this.tabPane.getSelectionModel().getSelectedItem());
+        File currentFile = this.tabPane.getFileFromTab(this.tabPane.getSelectionModel().getSelectedItem());
 
         // if the code area is open
         if (currentCodeArea != null) {
@@ -357,7 +351,7 @@ public class Controller {
     private void handleCompileButtonAction(Event event) {
         Tab selectedTab = this.tabPane.getSelectionModel().getSelectedItem();
         this.toolbarController.handleCompileButtonAction(
-                event, this.tabFileMap.get(selectedTab));
+                event, this.tabPane.getFileFromTab(selectedTab));
     }
 
     /**
@@ -368,9 +362,9 @@ public class Controller {
      */
     @FXML
     private void handleCompileRunButtonAction(Event event) {
-        Tab selectedTab = this.tabPane.getSelectionModel().getSelectedItem();
+        Tab selectedTab = this.tabPane.getSelectedTab();
         this.toolbarController.handleCompileRunButtonAction(
-                event, this.tabFileMap.get(selectedTab));
+                event, this.tabPane.getFileFromTab(selectedTab));
     }
 
     /**

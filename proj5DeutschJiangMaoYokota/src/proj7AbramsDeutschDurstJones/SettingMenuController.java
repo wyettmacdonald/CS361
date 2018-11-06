@@ -36,14 +36,14 @@ public class SettingMenuController {
     /**
      * TabPane defined in Main.fxml
      */
-    private TabPane tabPane;
+    private JavaTabPane tabPane;
 
     /**
      * Sets the tabPane.
      *
      * @param tabPane TabPane
      */
-    public void setTabPane(TabPane tabPane) {
+    public void setTabPane(JavaTabPane tabPane) {
         this.tabPane = tabPane;
     }
 
