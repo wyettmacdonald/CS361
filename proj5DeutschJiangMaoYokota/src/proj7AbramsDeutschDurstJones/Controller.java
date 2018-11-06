@@ -337,7 +337,7 @@ public class Controller {
     /**
      * Clears the currently open structure view of all nodes
      */
-    public void resetStructureView() {
+    private void resetStructureView() {
         this.structureViewController.resetRootNode();
     }
 
