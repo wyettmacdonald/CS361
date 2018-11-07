@@ -1,9 +1,10 @@
 /*
- * File: JavaTabPane.java
+ * File: JavaTab.java
  * CS361 Project 7
  * Names: Douglas Abrams, Martin Deutsch, Robert Durst, Matt Jones
  * Date: 11/3/2018
- * This file extends the TabPane class to include a getActiveCodeArea method
+ * This file extends the Tab class to include a StyledJavaCodeArea within
+ * a VirtualizedScrollPane on construction
  */
 
 package proj7AbramsDeutschDurstJones;
@@ -13,8 +14,8 @@ import org.fxmisc.flowless.VirtualizedScrollPane;
 import org.fxmisc.richtext.CodeArea;
 
 /**
- * This class extends the Tab class from JavaFx to handle
- * getting the code area from the active tab.
+ * This class extends the Tab class from JavaFx to include a
+ * CodeArea on construction
  *
  * @author Douglas Abrams
  * @author Martin Deutsch

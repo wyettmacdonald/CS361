@@ -7,11 +7,11 @@
 
 <!--imported packages-->
 <?import org.fxmisc.flowless.VirtualizedScrollPane?>
-<?import org.fxmisc.richtext.StyleClassedTextArea?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
-
 <?import proj7AbramsDeutschDurstJones.JavaTabPane?>
+<?import org.fxmisc.richtext.StyleClassedTextArea?>
+
 <VBox fx:id="vBox"
       fx:controller="proj7AbramsDeutschDurstJones.Controller"
       xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1">

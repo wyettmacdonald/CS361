@@ -9,7 +9,6 @@
 
 package proj7AbramsDeutschDurstJones;
 
-import javafx.application.Platform;
 import javafx.beans.property.ReadOnlyBooleanProperty;
 import javafx.event.ActionEvent;
 import javafx.event.Event;

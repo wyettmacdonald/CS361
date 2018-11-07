@@ -3,7 +3,8 @@
  * CS361 Project 7
  * Names: Douglas Abrams, Martin Deutsch, Robert Durst, Matt Jones
  * Date: 11/3/2018
- * This file extends the TabPane class to include a getActiveCodeArea method
+ * This file extends the TabPane class to handle mapping tabs to
+ * files and opening and closing tabs
  */
 
 package proj7AbramsDeutschDurstJones;
