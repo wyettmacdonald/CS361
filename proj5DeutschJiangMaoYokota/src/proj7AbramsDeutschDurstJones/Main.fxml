@@ -46,8 +46,8 @@
             <MenuItem text="Move Line Up" fx:id="moveUpMenuItem" onAction="#handleMoveUpAction" accelerator="Shortcut+Shift+UP"/>
             <MenuItem text="Move Line Down" fx:id="moveDownMenuItem" onAction="#handleMoveDownAction" accelerator="Shortcut+Shift+DOWN"/>
             <MenuItem text="Duplicate Line" fx:id="duplicateLine" onAction="#handleDuplicateLineAction" accelerator="Shortcut+D" />
-            <MenuItem text="Check Well-Formed Groupings" fx:id="checkWellFormedMenuItem"
-                      onAction="#handleCheckWellFormedAction" accelerator="Shortcut+Shift+C"/>
+            <MenuItem text="Check Same Number Open/Closed Groupings" fx:id="checkSameNumberMenuItem"
+                      onAction="#handleCheckSameNumberGroupingsAction" accelerator="Shortcut+Shift+C"/>
         </Menu>
         <Menu text="Preferences" fx:id="prefMenu">
             <Menu fx:id="colorPreferenceMenu" text="Color Preference">

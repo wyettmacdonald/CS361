@@ -8,6 +8,7 @@
 
 package proj7AbramsDeutschDurstJones;
 
+import javafx.application.Platform;
 import javafx.scene.control.TreeItem;
 import javafx.scene.control.TreeView;
 import javafx.scene.image.Image;
@@ -59,21 +60,28 @@ public class StructureViewController
      */
     public void generateStructureTree(String fileContents)
     {
-        TreeItem<String> newRoot = new TreeItem<>(fileContents);
+        Thread structureTreeGenerationThread = new Thread() {
+            public void run() {
+                TreeItem<String> newRoot = new TreeItem<>(fileContents);
 
-        //build lexer, parser, and parse tree for the given file
-        Java8Lexer lexer = new Java8Lexer(CharStreams.fromString(fileContents));
-        CommonTokenStream tokens = new CommonTokenStream(lexer);
-        Java8Parser parser = new Java8Parser(tokens);
-        lexer.removeErrorListeners();
-        parser.removeErrorListeners();
-        ParseTree tree = parser.compilationUnit();
+                //build lexer, parser, and parse tree for the given file
+                Java8Lexer lexer = new Java8Lexer(CharStreams.fromString(fileContents));
+                CommonTokenStream tokens = new CommonTokenStream(lexer);
+                Java8Parser parser = new Java8Parser(tokens);
+                lexer.removeErrorListeners();
+                parser.removeErrorListeners();
+                ParseTree tree = parser.compilationUnit();
 
-        //walk through parse tree with listening for code structure elements
-        CodeStructureListener codeStructureListener = new CodeStructureListener(newRoot, this.treeItemLineNumMap);
-        this.walker.walk(codeStructureListener, tree);
+                //walk through parse tree with listening for code structure elements
+                CodeStructureListener codeStructureListener = new CodeStructureListener(newRoot, treeItemLineNumMap);
+                walker.walk(codeStructureListener, tree);
 
-        this.setRootNode(newRoot);
+                Platform.runLater(() -> {
+                    setRootNode(newRoot);
+                });
+            }
+        };
+        structureTreeGenerationThread.start();
     }
 
     /**

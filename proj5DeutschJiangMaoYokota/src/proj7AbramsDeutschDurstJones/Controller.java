@@ -9,6 +9,7 @@
 
 package proj7AbramsDeutschDurstJones;
 
+import javafx.application.Platform;
 import javafx.beans.property.ReadOnlyBooleanProperty;
 import javafx.event.ActionEvent;
 import javafx.event.Event;
@@ -228,16 +229,13 @@ public class Controller {
         this.structureViewController.setTreeView(this.fileTree);
 
         // Updates the file structure view whenever a key is typed
-        this.tabPane.addEventFilter(KeyEvent.KEY_RELEASED, event ->
-        {
+        this.tabPane.addEventFilter(KeyEvent.KEY_RELEASED, event -> {
             this.updateStructureView();
-
         });
 
         // Updates the file structure view whenever the tab selection changes
         // e.g., open tab, remove tab, select another tab
-        this.tabPane.getSelectionModel().selectedItemProperty().addListener((ov, oldTab, newTab) ->
-        {
+        this.tabPane.getSelectionModel().selectedItemProperty().addListener((ov, oldTab, newTab) -> {
             this.updateStructureView();
         });
     }
@@ -680,11 +678,11 @@ public class Controller {
     }
 
     /**
-     * Calls the method that handles the Check Well Formed menu item action from the
+     * Calls the method that handles the Check Same Number menu item action from the
      * codeMenuController
      */
     @FXML
-    public void handleCheckWellFormedAction() {
-        this.codeMenuController.handleCheckWellFormed();
+    public void handleCheckSameNumberGroupingsAction() {
+        this.codeMenuController.handleCheckSameNumberGoupings();
     }
 }

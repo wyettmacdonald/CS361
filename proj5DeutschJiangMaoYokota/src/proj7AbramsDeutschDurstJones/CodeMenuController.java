@@ -161,7 +161,7 @@ public class CodeMenuController {
      * Check that the number of left-facing and right-facing parenthesis, brackets
      * and braces matches
      */
-    public void handleCheckWellFormed() {
+    public void handleCheckSameNumberGoupings() {
         CodeArea activeCodeArea = tabPane.getActiveCodeArea();
         if (activeCodeArea == null) {
             return;
@@ -178,9 +178,9 @@ public class CodeMenuController {
         long nOpenBrackets = text.chars().filter(ch -> ch == '[').count();
         long nCloseBrackets = text.chars().filter(ch -> ch == ']').count();
 
-        String bracesMessage = this.wellFormedMessage(nOpenBraces, nCloseBraces, "braces");
-        String parensMessage = this.wellFormedMessage(nOpenParens, nCloseParens, "parenthesis");
-        String bracketsMessage = this.wellFormedMessage(nOpenBrackets, nCloseBrackets, "brackets");
+        String bracesMessage = this.groupingMessage(nOpenBraces, nCloseBraces, "braces");
+        String parensMessage = this.groupingMessage(nOpenParens, nCloseParens, "parenthesis");
+        String bracketsMessage = this.groupingMessage(nOpenBrackets, nCloseBrackets, "brackets");
 
         // show messages
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
@@ -197,7 +197,7 @@ public class CodeMenuController {
      * @param type the String indicating the type of grouping
      * @return the info message
      */
-    private String wellFormedMessage(long nOpen, long nClosed, String type) {
+    private String groupingMessage(long nOpen, long nClosed, String type) {
         String message;
         if (nOpen > nClosed) {
             message = "Missing " + (nOpen - nClosed) + " close " + type + "\n";
@@ -206,7 +206,7 @@ public class CodeMenuController {
             message = "Missing " + (nClosed - nOpen) + " open " + type + "\n";
         }
         else {
-            message = type.substring(0, 1).toUpperCase() + type.substring(1) + " are well formed\n";
+            message = "Number of open and closed " + type + " match\n";
         }
         return message;
     }

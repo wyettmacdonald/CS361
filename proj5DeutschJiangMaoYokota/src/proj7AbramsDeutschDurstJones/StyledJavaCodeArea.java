@@ -74,18 +74,6 @@ public class StyledJavaCodeArea extends CodeArea {
                     + "|(?<INTEGER>" + INTEGER_PATTERN + ")"
     );
 
-
-    /**
-     * Constructor that sets the behavior of the code area on text change
-     */
-    public StyledJavaCodeArea() {
-        this.setOnKeyPressed((event) -> {
-            this.handleTextChange();
-        });
-        this.setParagraphGraphicFactory(LineNumberFactory.get(this));
-        this.createContextMenu();
-    }
-
     /**
      * Constructor that sets initial text and sets the behavior of the code area on text change
      */

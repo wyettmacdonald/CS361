@@ -10,6 +10,8 @@ package proj7AbramsDeutschDurstJones;
 import java.io.File;
 import java.util.HashMap;
 import java.util.Map;
+
+import javafx.application.Platform;
 import javafx.event.EventHandler;
 import javafx.scene.control.*;
 import javafx.scene.input.MouseEvent;
@@ -104,13 +106,21 @@ public class DirectoryController {
      * Adds the directory tree for the current file to the GUI
      */
     public void createDirectoryTree() {
-        // capture current file
-        File file = this.tabPane.getFileFromTab(this.tabPane.getSelectionModel().getSelectedItem());
-        // create the directory tree
-        if (file != null) {
-            this.directoryTree.setRoot(this.getNode(file.getParentFile()));
-            this.directoryTree.getRoot().setExpanded(true);
-        }
+        Thread directoryCreationThread = new Thread() {
+            public void run() {
+                // capture current file
+                File file = tabPane.getFileFromTab(tabPane.getSelectedTab());
+                // create the directory tree
+                if (file != null) {
+                    TreeItem headNode = getNode(file.getParentFile());
+                    Platform.runLater(() -> {
+                        directoryTree.setRoot(headNode);
+                        directoryTree.getRoot().setExpanded(true);
+                    });
+                }
+            }
+        };
+        directoryCreationThread.start();
     }
 
     /**
