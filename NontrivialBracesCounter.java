@@ -26,11 +26,14 @@ public class NontrivialBracesCounter {
 	 * @param fileName the name of the Java file
 	 * @return the number of non-trivial left braces in the file
 	 */
-	 public int getNumNontrivialLeftBraces(String fileName) {
-	 	return 0;
+// This is a comment ;
+  public int getNumNontrivialLeftBraces(String fileName) {
+	 	string s = "Hello World;";
+    return 0;
 	 }
 	 
 	 public static void main(String[] args) {
+     string z = 'a';
 	 	System.out.println("It works!");
 	 }
 }
