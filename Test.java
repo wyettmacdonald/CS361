@@ -18,43 +18,42 @@ import java.io.*;
  * @author Robert Durst
  * @author Matt Jones
  */
-public class NontrivialBracesCounter {
+public class Test {
 
     public int getNumNontrivialLeftBraces(String fileName) {
         try {
             File file = new File(fileName);
             Reader buffer = new BufferedReader(new FileReader(file));
-            return this.getNumLeftBraces(buffer);
+            return this.getNumLeftBrace(buffer);
         } catch (Exception e) {
-            e.printStackTrace();
+            System.out.println(e);
         }
         return -1;
     }
 
-    private int getNumLeftBraces(Reader reader) throws IOException {
+    private int getNumLeftBrace(Reader reader) throws IOException {
         int braceCounter = 0;
+        boolean startOfComment = false;
         int r;
 
         while ((r = reader.read()) != -1) {
             char ch = (char) r;
-            switch (ch) {
-                case '/':
-                    ch = (char) reader.read();
-                    if (ch == '*') {
-                        ignoreMultiLineComment(reader);
-                    } else if (ch == '/') {
-                        ignoreSingleLineComment(reader);
-                    }
-                    break;
-                case '\'':
-                    ignoreSingleQuotation(reader);
-                    break;
-                case '\"':
-                    ignoreDoubleQuotation(reader);
-                    break;
-                case '{':
-                    braceCounter++;
-                    break;
+
+            if (startOfComment) {
+                startOfComment = false;
+                if (ch == '*') {
+                    ignoreMultiLineComment(reader);
+                } else if (ch == '/') {
+                    ignoreSingleLineComment(reader);
+                }
+            } else if (ch == '\'') {
+                ignoreSingleQuotation(reader);
+            } else if (ch == '\"') {
+                ignoreDoubleQuotation(reader);
+            } else if (ch == '/') {
+                startOfComment = true;
+            } else if (ch == '{') {
+                braceCounter++;
             }
         }
         return braceCounter;
@@ -101,21 +100,17 @@ public class NontrivialBracesCounter {
         int r;
         boolean ignoreNext = false;
         while (((r = reader.read()) != -1)) {
-            if (ignoreNext) {
-                ignoreNext = false;
-                continue;
-            }
-            if ((char) r == '\\') {
-                ignoreNext = true;
-            }
-            if ((char) r == '\"') {
+            if ((char) r == '\"' && !ignoreNext) {
                 return;
             }
+            ignoreNext = (char) r == '\\';
+
         }
     }
 
     public static void main(String[] args) {
         NontrivialBracesCounter nbc = new NontrivialBracesCounter();
-        System.out.println(nbc.getNumNontrivialLeftBraces("Test.java"));
+        System.out.println(nbc.getNumNontrivialLeftBraces("NontrivialBracesCounter" +
+                ".java"));
     }
 }
