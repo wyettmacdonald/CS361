@@ -25,7 +25,7 @@ public class NontrivialBracesCounter {
         try {
              File file = new File(fileName);
              Reader buffer = new BufferedReader(new FileReader(file));
-             contents = this.handleCharacters(buffer);
+             contents = this.removeTrivialStringSections(buffer);
         }
         catch (Exception e) {
         	System.out.println(e);
@@ -33,7 +33,7 @@ public class NontrivialBracesCounter {
         return this.countLeftBraces(contents);
     }
 
-    private String handleCharacters(Reader reader)
+    private String removeTrivialStringSections(Reader reader)
             throws IOException {
         String contents = "";
         boolean startOfComment = false;
@@ -41,18 +41,17 @@ public class NontrivialBracesCounter {
         while ((r = reader.read()) != -1) {
             char ch = (char) r;
             
-            if (startOfComment && ch == '*') {
-              startOfComment = false;
-              reader = handleMultiLineComment(reader);
-            } else if (startOfComment && ch == '/') {
-              startOfComment = false;
-              reader = handleSingleLineComment(reader);
-            } else if (startOfComment) {
-              startOfComment = false;
+            if (startOfComment){
+                startOfComment = false;
+            	if (ch == '*') {
+              		reader = removeMultiLineComment(reader);
+            	} else if (ch == '/') {
+              		reader = removeSingleLineComment(reader);
+            	}
             } else if (ch == '\'') {
-              reader = handleSingleQuotation(reader);
+              reader = removeSingleQuotation(reader);
             } else if (ch == '\"') {
-              reader = handleDoubleQuotation(reader);
+              reader = removeDoubleQuotation(reader);
             } else if (ch == '/') {
               startOfComment = true;
             } else {
@@ -62,7 +61,7 @@ public class NontrivialBracesCounter {
         return contents;
    }
 
-   private Reader handleSingleLineComment(Reader reader) throws IOException {
+   private Reader removeSingleLineComment(Reader reader) throws IOException {
       int r;
       while(((r= reader.read()) != -1))
       {
@@ -73,7 +72,7 @@ public class NontrivialBracesCounter {
       return reader;
    }
 
-   private Reader handleMultiLineComment(Reader reader) throws IOException {
+   private Reader removeMultiLineComment(Reader reader) throws IOException {
       int r;
       boolean startEndComment = false;
       while((r = reader.read()) != -1)
@@ -87,7 +86,7 @@ public class NontrivialBracesCounter {
       return reader;
    }
    
-   private Reader handleSingleQuotation(Reader reader) throws IOException {
+   private Reader removeSingleQuotation(Reader reader) throws IOException {
       int r;
       while(((r= reader.read()) != -1))
       {
@@ -98,7 +97,7 @@ public class NontrivialBracesCounter {
 
       return reader;
    }
-   private Reader handleDoubleQuotation(Reader reader) throws IOException{
+   private Reader removeDoubleQuotation(Reader reader) throws IOException{
       int r;
       boolean ignoreNext = false;
       while(((r= reader.read()) != -1))
