@@ -13,7 +13,7 @@ SOURCEPATH = ./ # specify where the .class files should be found for file by fil
 .SUFFIXES: .java .class
   
 .java.class:
-  $(JC) -sourcepath $(SOURCEPATH) $(JFLAGS) $*.java
+	$(JC) -sourcepath $(SOURCEPATH) $(JFLAGS) $*.java
   
 # I think order matters here
 CLASSES = \
@@ -29,9 +29,9 @@ classes: $(CLASSES:.java=.class)
 # executes the code
 # notice the colon, this is necessary on unix to seperate between classpath and file to execute
 run:
-  $(JVM) -classpath $(CLASSPATH): $(MAIN)
+	$(JVM) -classpath $(CLASSPATH): $(MAIN)
   
 # cleans up all the compiled class files
 clean:
-  $(RM) proj8AbramsDeutschDurstJones/*.class
+	$(RM) proj8AbramsDeutschDurstJones/*.class
   
