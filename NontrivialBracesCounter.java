@@ -6,10 +6,10 @@
 * Date: November 9, 2018
 */
 
-package proj8AbramsDeutschDurstJones;
+//package proj8AbramsDeutschDurstJones;
 
-import java.nio.charset.Charset;
 import java.io.*;
+
 /**
  * This class contains a method for counting non-trivial left braces
  *
@@ -20,38 +20,32 @@ import java.io.*;
  */
 public class NontrivialBracesCounter {
 
-	   //Java 7 source level
-    public static void main(String[] args) throws IOException {
-        // replace this with a known encoding if possible
-        Charset encoding = Charset.defaultCharset();
-        for (String filename : args) {
-            File file = new File(filename);
-            handleFile(file, encoding);
+    public int getNumNontrivialLeftBraces(String fileName) {
+    	String contents = "";
+        try {
+             File file = new File(fileName);
+             Reader buffer = new BufferedReader(new FileReader(file));
+             contents = this.handleCharacters(buffer);
         }
+        catch (Exception e) {
+        	System.out.println(e);
+        }
+        return this.countLeftBraces(contents);
     }
 
-    private static void handleFile(File file, Charset encoding)
+    private String handleCharacters(Reader reader)
             throws IOException {
-        try (InputStream in = new FileInputStream(file);
-             Reader reader = new InputStreamReader(in, encoding);
-             // buffer for efficiency
-             Reader buffer = new BufferedReader(reader)) {
-            handleCharacters(buffer);
-        }
-    }
-
-    private static void handleCharacters(Reader reader)
-            throws IOException {
-       
+        String contents = "";
         boolean startOfComment = false;
         int r;
         while ((r = reader.read()) != -1) {
             char ch = (char) r;
-            // first check to see if inside one of the ignore comment
             
             if (startOfComment && ch == '*') {
+              startOfComment = false;
               reader = handleMultiLineComment(reader);
             } else if (startOfComment && ch == '/') {
+              startOfComment = false;
               reader = handleSingleLineComment(reader);
             } else if (startOfComment) {
               startOfComment = false;
@@ -62,41 +56,80 @@ public class NontrivialBracesCounter {
             } else if (ch == '/') {
               startOfComment = true;
             } else {
-              System.out.printf("%c", ch);
+              contents += ch;
             }
         }
+        return contents;
    }
 
-   private static Reader handleSingleLineComment(Reader reader) throws IOException {
+   private Reader handleSingleLineComment(Reader reader) throws IOException {
       int r;
-      while(((r= reader.read()) != -1) && ((char) r != '\n'))
-      {}
-
+      while(((r= reader.read()) != -1))
+      {
+      	if ((char) r == '\n') {
+      		return reader;
+      	}
+      }
       return reader;
    }
 
-   private static Reader handleMultiLineComment(Reader reader) throws IOException {
+   private Reader handleMultiLineComment(Reader reader) throws IOException {
       int r;
       boolean startEndComment = false;
-      while(((r= reader.read()) != -1) && !(((char)r == '/') && (startEndComment)))
-      {
-        startEndComment = (char)r == '*';  
+      while((r = reader.read()) != -1)
+      { 
+        if (( (char) r == '/') && (startEndComment)) {
+        	return reader;
+        }
+        startEndComment = (char)r == '*';
       }
 
       return reader;
    }
-   private static Reader handleSingleQuotation(Reader reader) throws IOException {
+   
+   private Reader handleSingleQuotation(Reader reader) throws IOException {
       int r;
-      while(((r= reader.read()) != -1) && ((char) r != '\''))
-      {}
+      while(((r= reader.read()) != -1))
+      {
+      	 if ((char) r == '\'') {
+      	 	return reader;
+      	 }
+      }
 
       return reader;
    }
-   private static Reader handleDoubleQuotation(Reader reader) throws IOException{
+   private Reader handleDoubleQuotation(Reader reader) throws IOException{
       int r;
-      while(((r= reader.read()) != -1) && ((char) r != '\"'))
-      {}
+      boolean ignoreNext = false;
+      while(((r= reader.read()) != -1))
+      {
+      	if (ignoreNext) {
+      		ignoreNext = false;
+      		continue;
+      	}
+      	if ((char) r == '\\') {
+      		ignoreNext = true;
+      	}
+      	 if((char) r == '\"') {
+      	 	return reader;
+      	 }
+      }
 
       return reader;
    }
+   
+   private int countLeftBraces(String text) {
+   	 int count = 0;
+     for (int i = 0; i < text.length(); i++) {
+     	if (text.charAt(i) == '{') {
+     		count++;
+     	}
+     }
+     return count;
+    }
+	 
+	 public static void main(String[] args) {
+	 	NontrivialBracesCounter nbc = new NontrivialBracesCounter();
+	 	System.out.println(nbc.getNumNontrivialLeftBraces("Test1.java"));
+	 }
 }
