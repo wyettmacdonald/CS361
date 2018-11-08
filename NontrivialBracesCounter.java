@@ -20,18 +20,35 @@ import java.io.*;
  */
 public class NontrivialBracesCounter {
 
+    /**
+     * This method returns the number of left braces in the given Java file,
+     * or -1 if reading the file throws an IOException
+     * @param fileName the Java file to analyze
+     * @return the number of left braces in the file or -1 if IOException thrown
+     */
     public int getNumNontrivialLeftBraces(String fileName) {
         try {
             File file = new File(fileName);
             Reader buffer = new BufferedReader(new FileReader(file));
-            return this.getNumLeftBraces(buffer);
-        } catch (Exception e) {
-            e.printStackTrace();
+            return this.countNontrivialLeftBraces(buffer);
+        }
+        catch (FileNotFoundException e) {
+        	System.out.println("File " + fileName + " not found");
+        }
+        catch (IOException e) {
+        	System.out.println("Error reading file " + fileName);
         }
         return -1;
     }
 
-    private int getNumLeftBraces(Reader reader) throws IOException {
+    /**
+     * This method counts the number of nontrivial left braces in the file being
+     * read by the given Reader
+     * @param reader the Reader object reading the Java file
+     * @return the number of left braces in the file being read
+     * @throws IOException
+     */
+    private int countNontrivialLeftBraces(Reader reader) throws IOException {
         int braceCounter = 0;
         int r;
 
@@ -47,10 +64,10 @@ public class NontrivialBracesCounter {
                     }
                     break;
                 case '\'':
-                    ignoreSingleQuotation(reader);
+                    ignoreQuotation(reader, '\'');
                     break;
                 case '\"':
-                    ignoreDoubleQuotation(reader);
+                    ignoreQuotation(reader, '\"');
                     break;
                 case '{':
                     braceCounter++;
@@ -60,6 +77,11 @@ public class NontrivialBracesCounter {
         return braceCounter;
     }
 
+    /**
+     * This method cycles the given Reader until it reaches the end of the current line
+     * @param reader the Reader object reading the Java file
+     * @throws IOException
+     */
     private void ignoreSingleLineComment(Reader reader) throws IOException {
         int r;
         while (((r = reader.read()) != -1)) {
@@ -69,6 +91,12 @@ public class NontrivialBracesCounter {
         }
     }
 
+    /**
+     * This method cycles the given Reader until it reaches the end of
+     * the multi-line comment
+     * @param reader the Reader object reading the Java file
+     * @throws IOException
+     */
     private void ignoreMultiLineComment(Reader reader) throws IOException {
         int r;
         boolean startEndComment = false;
@@ -80,7 +108,14 @@ public class NontrivialBracesCounter {
         }
     }
 
-    private void ignoreSingleQuotation(Reader reader) throws IOException {
+    /**
+     * This method cycles the given Reader until it reaches the end of the quotation
+     * @param reader the Reader object reading the Java file
+     * @param endQuote the type of quote (single or double) marking
+     *                 the end of the quotation
+     * @throws IOException
+     */
+    private void ignoreQuotation(Reader reader, char endQuote) throws IOException {
         int r;
         boolean ignoreNext = false;
         while (((r = reader.read()) != -1)) {
@@ -91,29 +126,15 @@ public class NontrivialBracesCounter {
             if ((char) r == '\\') {
                 ignoreNext = true;
             }
-            if ((char) r == '\'') {
+            if ((char) r == endQuote) {
                 return;
             }
         }
     }
 
-    private void ignoreDoubleQuotation(Reader reader) throws IOException {
-        int r;
-        boolean ignoreNext = false;
-        while (((r = reader.read()) != -1)) {
-            if (ignoreNext) {
-                ignoreNext = false;
-                continue;
-            }
-            if ((char) r == '\\') {
-                ignoreNext = true;
-            }
-            if ((char) r == '\"') {
-                return;
-            }
-        }
-    }
-
+    /**
+     * The main method runs getNumNontrivialLeftBraces on a test file
+     */
     public static void main(String[] args) {
         NontrivialBracesCounter nbc = new NontrivialBracesCounter();
         System.out.println(nbc.getNumNontrivialLeftBraces("Test.java"));
