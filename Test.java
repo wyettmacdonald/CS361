@@ -1,17 +1,15 @@
 /*
- * File: proj8AbramsDeutschDurstJones.NontrivialBracesCounter.java
+ * File: proj8AbramsDeutschDurstJones.Test.java
  * Names: Douglas Abrams, Martin Deutsch, Robert Durst, Matt Jones
  * Class: CS 361
  * Project 8
  * Date: November 9, 2018
  */
 
-//package proj8AbramsDeutschDurstJones;
-
-import java.io.*;
+package proj8AbramsDeutschDurstJones;
 
 /**
- * This class contains a method for counting non-trivial left braces
+ * This is a test class for the NontrivialBracesCounter
  *
  * @author Douglas Abrams
  * @author Martin Deutsch
@@ -20,97 +18,31 @@ import java.io.*;
  */
 public class Test {
 
-    public int getNumNontrivialLeftBraces(String fileName) {
-        try {
-            File file = new File(fileName);
-            Reader buffer = new BufferedReader(new FileReader(file));
-            return this.getNumLeftBrace(buffer);
-        } catch (Exception e) {
-            System.out.println(e);
-        }
-        return -1;
+	/**
+	 * This method contains single and multi-line comments
+	 */
+	private void commentTest() {
+		int i = 0; // {{{{
+		if (i < 1) /* sneaky comment {{{ */ {i++;}
+	}
+
+	/**
+	 * This method contains chars and strings
+	 */
+    private void charAndStringTest() {
+        char c1 = '\'';
+        char c2 = '\"';
+        char c3 = '{';
+        String str1 = "{{{ \" {{{";
+        String str2 = "Line one" +
+        	"line 2 {{{";
+        String str3 = "// this is not a comment"; if (c1 == '\'') {c1='a';}
     }
 
-    private int getNumLeftBrace(Reader reader) throws IOException {
-        int braceCounter = 0;
-        boolean startOfComment = false;
-        int r;
-
-        while ((r = reader.read()) != -1) {
-            char ch = (char) r;
-
-            if (startOfComment) {
-                startOfComment = false;
-                if (ch == '*') {
-                    ignoreMultiLineComment(reader);
-                } else if (ch == '/') {
-                    ignoreSingleLineComment(reader);
-                }
-            } else if (ch == '\'') {
-                ignoreSingleQuotation(reader);
-            } else if (ch == '\"') {
-                ignoreDoubleQuotation(reader);
-            } else if (ch == '/') {
-                startOfComment = true;
-            } else if (ch == '{') {
-                braceCounter++;
-            }
-        }
-        return braceCounter;
-    }
-
-    private void ignoreSingleLineComment(Reader reader) throws IOException {
-        int r;
-        while (((r = reader.read()) != -1)) {
-            if ((char) r == '\n') {
-                return;
-            }
-        }
-    }
-
-    private void ignoreMultiLineComment(Reader reader) throws IOException {
-        int r;
-        boolean startEndComment = false;
-        while ((r = reader.read()) != -1) {
-            if (((char) r == '/') && (startEndComment)) {
-                return;
-            }
-            startEndComment = (char) r == '*';
-        }
-    }
-
-    private void ignoreSingleQuotation(Reader reader) throws IOException {
-        int r;
-        boolean ignoreNext = false;
-        while (((r = reader.read()) != -1)) {
-            if (ignoreNext) {
-                ignoreNext = false;
-                continue;
-            }
-            if ((char) r == '\\') {
-                ignoreNext = true;
-            }
-            if ((char) r == '\'') {
-                return;
-            }
-        }
-    }
-
-    private void ignoreDoubleQuotation(Reader reader) throws IOException {
-        int r;
-        boolean ignoreNext = false;
-        while (((r = reader.read()) != -1)) {
-            if ((char) r == '\"' && !ignoreNext) {
-                return;
-            }
-            ignoreNext = (char) r == '\\';
-
-        }
-    }
-
+	/**
+	 * Main method for printing how many non-trivial left braces there are
+	 */
     public static void main(String[] args) {
-        NontrivialBracesCounter nbc = new NontrivialBracesCounter();
-        System.out.println(nbc.getNumNontrivialLeftBraces("NontrivialBracesCounter" +
-                ".java"));
+        System.out.println("This file contains 6 non-trivial left braces");
     }
 }
