@@ -6,7 +6,7 @@
  * Date: November 9, 2018
  */
 
-//package proj8AbramsDeutschDurstJones;
+package proj8AbramsDeutschDurstJones;
 
 import java.io.*;
 
@@ -56,18 +56,13 @@ public class NontrivialBracesCounter {
             char ch = (char) r;
             switch (ch) {
                 case '/':
-                    ch = (char) reader.read();
-                    if (ch == '*') {
-                        ignoreMultiLineComment(reader);
-                    } else if (ch == '/') {
-                        ignoreSingleLineComment(reader);
-                    }
+                    this.ignoreComment(reader);
                     break;
                 case '\'':
-                    ignoreQuotation(reader, '\'');
+                    this.ignoreQuotation(reader, '\'');
                     break;
                 case '\"':
-                    ignoreQuotation(reader, '\"');
+                    this.ignoreQuotation(reader, '\"');
                     break;
                 case '{':
                     braceCounter++;
@@ -76,6 +71,21 @@ public class NontrivialBracesCounter {
         }
         return braceCounter;
     }
+    
+    /**
+     * This method gets the next character after / and calls the appropriate
+     * (single-line or multi-line) comment handler
+     * @param reader the Reader object reading the Java file
+     * @throws IOException
+     */
+    private void ignoreComment(Reader reader) throws IOException {
+    	char ch = (char) reader.read();
+        if (ch == '*') {
+            this.ignoreMultiLineComment(reader);
+        } else if (ch == '/') {
+            this.ignoreSingleLineComment(reader);
+        }
+    }  
 
     /**
      * This method cycles the given Reader until it reaches the end of the current line
