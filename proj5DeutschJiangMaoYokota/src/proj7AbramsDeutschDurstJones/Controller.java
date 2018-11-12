@@ -38,6 +38,10 @@ public class Controller {
      */
     private ToolBarController toolbarController;
     /**
+     * FindReplaceController handling find and replace actions
+     */
+    private FindReplaceController findReplaceController;
+    /**
      * FileMenuController handling File menu actions
      */
     private FileMenuController fileMenuController;
@@ -163,8 +167,7 @@ public class Controller {
     private ToolBarController.CompileRunWorker compileRunWorker;
 
     /**
-     * Creates a reference to the ToolbarController and passes in window items
-     * and other sub Controllers when necessary.
+     * Passes in relevant items to ToolbarController.
      */
     private void setupToolbarController() {
         this.toolbarController.setConsole(this.console);
@@ -175,8 +178,18 @@ public class Controller {
     }
 
     /**
-     * Creates a reference to the FileMenuController and passes in window items
-     * and other sub Controllers when necessary.
+     * Passes in relevant items to FindReplaceController
+     */
+    private void setupFindReplaceController() {
+        this.findReplaceController.setJavaTabPane(this.tabPane);
+        this.findReplaceController.setFindTextEntry(this.findTextEntry);
+        this.findReplaceController.setNextMatchBtn(this.findNextBtn);
+        this.findReplaceController.setPrevMatchBtn(this.findPrevBtn);
+        this.findReplaceController.setReplaceTextEntryTextEntry(this.replaceTextEntry);
+    }
+
+    /**
+     *  Passes in relevant items to FileMenuController.
      */
     private void setupFileMenuController() {
         this.fileMenuController.setDirectoryController(this.directoryController);
@@ -185,28 +198,21 @@ public class Controller {
     }
 
     /**
-     * Creates a reference to the EditMenuController and passes in window items
-     * and other sub Controllers when necessary.
+     *  Passes in relevant items to EditMenuController.
      */
     private void setupEditMenuController() {
         this.editMenuController.setJavaTabPane(this.tabPane);
-        this.editMenuController.setFindTextEntry(this.findTextEntry);
-        this.editMenuController.setNextMatchBtn(this.findNextBtn);
-        this.editMenuController.setPrevMatchBtn(this.findPrevBtn);
-        this.editMenuController.setReplaceTextEntryTextEntry(this.replaceTextEntry);
     }
 
     /**
-     * Creates a reference to the CodeMenuController and passes in window items
-     * nd other sub Controllers when necessary
+     *  Passes in relevant items to CodeMenuController.
      */
     private void setupCodeMenuController() {
         this.codeMenuController.setTabPane(this.tabPane);
     }
 
     /**
-     * Creates a reference to the DirectoryController and passes in the directory
-     * tree for the controller to take ownership of.
+     * Passes in relevant items to DirectoryController.
      */
     private void setupDirectoryController() {
         this.directoryController.setDirectoryTree(directoryTree);
@@ -215,14 +221,14 @@ public class Controller {
     }
 
     /**
-     * Creates a reference to the SettingMenuController.
+     *  Passes in relevant items to SettingMenuController.
      */
     private void setupSettingMenuController() {
         this.settingMenuController.setTabPane(this.tabPane);
     }
 
     /**
-     * Creates a reference to the StructureViewController and passes in relevant items
+     * Passes in relevant items to StructureViewController
      */
     private void setupStructureViewController() {
         this.structureViewController.setTreeView(this.fileTree);
@@ -265,9 +271,7 @@ public class Controller {
 
     /**
      * This function is called after the FXML fields are populated.
-     * Initializes the tab file map with the default tab.
-     * Sets up bindings.
-     * Sets up references to the sub Controllers.
+     * Sets up the sub Controllers and button bindings.
      */
     @FXML
     public void initialize() {
@@ -279,6 +283,7 @@ public class Controller {
         this.directoryController = new DirectoryController();
         this.settingMenuController = new SettingMenuController();
         this.structureViewController = new StructureViewController();
+        this.findReplaceController = new FindReplaceController();
 
         // set up the sub controllers
         this.setupFileMenuController();
@@ -288,6 +293,7 @@ public class Controller {
         this.setupDirectoryController();
         this.setupSettingMenuController();
         this.setupStructureViewController();
+        this.setupFindReplaceController();
 
         this.setButtonBinding();
     }
@@ -529,35 +535,35 @@ public class Controller {
     }
 
     /**
-     * Calls handleFindText() of the editController
+     * Calls handleFindText() of the findReplaceController
      */
     @FXML
     public void handleFindText() {
-        this.editMenuController.handleFindText(true);
+        this.findReplaceController.handleFindText();
     }
 
     /**
-     * Calls handleHighlightPrevMatch() of the editController
+     * Calls handleHighlightPrevMatch() of the findReplaceController
      */
     @FXML
     public void handleHighlightPrevMatch() {
-        this.editMenuController.handleHighlightPrevMatch();
+        this.findReplaceController.handleHighlightPrevMatch();
     }
 
     /**
-     * Calls handleHighlightNextMatch() of the editController
+     * Calls handleHighlightNextMatch() of the findReplaceController
      */
     @FXML
     public void handleHighlightNextMatch() {
-        this.editMenuController.handleHighlightNextMatch();
+        this.findReplaceController.handleHighlightNextMatch();
     }
 
     /**
-     * Calls handleReplaceText() of the editController
+     * Calls handleReplaceText() of the findReplaceController
      */
     @FXML
     public void handleReplaceText() {
-        this.editMenuController.handleReplaceText();
+        this.findReplaceController.handleReplaceText();
     }
 
     /**
@@ -569,7 +575,7 @@ public class Controller {
     }
 
     /**
-     * Focuses on the Replace Text Extry Box
+     * Focuses on the Replace Text Entry Box
      */
     @FXML
     public void handleFocusOnReplaceTextEntry() {

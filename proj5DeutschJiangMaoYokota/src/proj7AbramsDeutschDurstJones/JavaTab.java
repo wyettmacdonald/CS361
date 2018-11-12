@@ -39,7 +39,7 @@ public class JavaTab extends Tab {
      * Gets the Java code area in this tab
      * @return the CodeArea in the tab
      */
-    public CodeArea getCodeArea() {
-        return (CodeArea)((VirtualizedScrollPane)this.getContent()).getContent();
+    public StyledJavaCodeArea getCodeArea() {
+        return (StyledJavaCodeArea)((VirtualizedScrollPane)this.getContent()).getContent();
     }
 }

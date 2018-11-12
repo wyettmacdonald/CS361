@@ -63,7 +63,7 @@ public class JavaTabPane extends TabPane {
      * Gets the code area from the active tab
      * @return the currently active code area
      */
-    public CodeArea getActiveCodeArea() {
+    public StyledJavaCodeArea getActiveCodeArea() {
         if (this.getTabs().isEmpty()) {
             return null;
         }
