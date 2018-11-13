@@ -12,6 +12,7 @@ import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.geometry.Pos;
+import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
@@ -22,7 +23,7 @@ import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
-import org.fxmisc.flowless.VirtualizedScrollPane;
+import java.util.Set;
 
 
 /**
@@ -33,334 +34,91 @@ import org.fxmisc.flowless.VirtualizedScrollPane;
  * @author Chris Marcello
  */
 public class SettingMenuController {
-    /**
-     * TabPane defined in Main.fxml
-     */
-    private JavaTabPane tabPane;
 
     /**
-     * Sets the tabPane.
+     * Handles Color menu item action.
+     * Pops up a window displaying the color preference.
+     * By selecting a color from the drop-down menu, the color of the given styleClass will change accordingly.
      *
-     * @param tabPane TabPane
+     * @param styleClass the styleClass to change the color of - keyword, paren, string, or integer
      */
-    public void setTabPane(JavaTabPane tabPane) {
-        this.tabPane = tabPane;
-    }
-
-    /**
-     * Handles Keyword Color menu item action.
-     * Pops up a window displaying the color preference for the keywords.
-     * By selecting a color from the drop-down menu, the color of the keywords will change accordingly.
-     */
-    public void handleKeywordColorAction() {
-        Stage keywordColorWin = new Stage();
-        keywordColorWin.setTitle("Keyword Color");
+    public void handleColorAction(String styleClass) {
+        String element = styleClass.substring(0,1).toUpperCase() + styleClass.substring(1);
+        Stage colorWin = new Stage();
+        colorWin.setTitle(element + " Color");
 
         Parent root = Main.getParentRoot();
 
-        VBox keywordColorRoot = new VBox();
-        keywordColorRoot.setAlignment(Pos.CENTER);
-        keywordColorRoot.setSpacing(10);
+        VBox colorRoot = new VBox();
+        colorRoot.setAlignment(Pos.CENTER);
+        colorRoot.setSpacing(10);
 
-        final Rectangle rect = new Rectangle(75, 75, Color.PURPLE);
+        final Rectangle rect = new Rectangle(75, 75, Color.WHITE);
 
-        ChoiceBox keywordColorCB = new ChoiceBox(FXCollections.observableArrayList(
-                "Purple", "Black", "Blue", "Green", "Pink", "Yellow", "Red"));
-        keywordColorCB.setValue("Purple");
+        ChoiceBox colorCB = new ChoiceBox(FXCollections.observableArrayList(
+                "Purple", "Black", "Blue", "Teal", "Pink", "Yellow", "Red"));
+        // set initial value to blank
+        colorCB.setValue("");
 
-        // load temporary CSS files into strings
-        String kwBlack = getClass().getResource("KeywordColorCSS/KeywordBlack.css").toExternalForm();
-        String kwRed = getClass().getResource("KeywordColorCSS/KeywordRed.css").toExternalForm();
-        String kwBlue = getClass().getResource("KeywordColorCSS/KeywordBlue.css").toExternalForm();
-        String kwYellow = getClass().getResource("KeywordColorCSS/KeywordOrange.css").toExternalForm();
-        String kwPink = getClass().getResource("KeywordColorCSS/KeywordPink.css").toExternalForm();
-        String kwGreen = getClass().getResource("KeywordColorCSS/KeywordGreen.css").toExternalForm();
-
-        Text message = new Text("Keyword Color");
+        Text message = new Text(element + " Color");
         message.setFont(Font.font("Arial", FontWeight.BOLD, 14));
-        message.setFill(Color.PURPLE);
 
-        keywordColorCB.getSelectionModel().selectedItemProperty().addListener(new ChangeListener() {
-            @Override
-            public void changed(ObservableValue observable, Object oldValue, Object newValue) {
-                if (keywordColorCB.getValue() == "Purple") {
-                    rect.setFill(Color.PURPLE);
-                    message.setFill(Color.PURPLE);
-                    root.getStylesheets().removeAll(kwBlack, kwBlue, kwRed, kwYellow, kwPink, kwGreen);
-                } else if (keywordColorCB.getValue() == "Black") {
-                    rect.setFill(Color.BLACK);
-                    message.setFill(Color.BLACK);
-                    root.getStylesheets().removeAll(kwBlack, kwBlue, kwRed, kwYellow, kwPink, kwGreen);
-                    root.getStylesheets().add(kwBlack);
-                } else if (keywordColorCB.getValue() == "Blue") {
-                    rect.setFill(Color.ROYALBLUE);
-                    message.setFill(Color.ROYALBLUE);
-                    root.getStylesheets().removeAll(kwBlack, kwBlue, kwRed, kwYellow, kwPink, kwGreen);
-                    root.getStylesheets().add(kwBlue);
-                } else if (keywordColorCB.getValue() == "Red") {
-                    rect.setFill(Color.FIREBRICK);
-                    message.setFill(Color.FIREBRICK);
-                    root.getStylesheets().removeAll(kwBlack, kwBlue, kwRed, kwYellow, kwPink, kwGreen);
-                    root.getStylesheets().add(kwRed);
-                } else if (keywordColorCB.getValue() == "Yellow") {
-                    rect.setFill(Color.ORANGE);
-                    message.setFill(Color.ORANGE);
-                    root.getStylesheets().removeAll(kwBlack, kwBlue, kwRed, kwYellow, kwPink, kwGreen);
-                    root.getStylesheets().add(kwYellow);
-                } else if (keywordColorCB.getValue() == "Pink") {
-                    rect.setFill(Color.ORCHID);
-                    message.setFill(Color.ORCHID);
-                    root.getStylesheets().removeAll(kwBlack, kwBlue, kwRed, kwYellow, kwPink, kwGreen);
-                    root.getStylesheets().add(kwPink);
-                } else if (keywordColorCB.getValue() == "Green") {
-                    rect.setFill(Color.TEAL);
-                    message.setFill(Color.TEAL);
-                    root.getStylesheets().removeAll(kwBlack, kwBlue, kwRed, kwYellow, kwPink, kwGreen);
-                    root.getStylesheets().add(kwGreen);
+        Set<Node> nodes = root.lookupAll("." + styleClass);
+
+        if (!nodes.isEmpty()) {
+            colorCB.getSelectionModel().selectedItemProperty().addListener(new ChangeListener() {
+                @Override
+                public void changed(ObservableValue observable, Object oldValue, Object newValue) {
+                    if (colorCB.getValue() == "Purple") {
+                        rect.setFill(Color.PURPLE);
+                        message.setFill(Color.PURPLE);
+                        for (Node node : nodes) {
+                            node.setStyle("-fx-fill: purple;");
+                        }
+                    } else if (colorCB.getValue() == "Black") {
+                        rect.setFill(Color.BLACK);
+                        message.setFill(Color.BLACK);
+                        for (Node node : nodes) {
+                            node.setStyle("-fx-fill: black;");
+                        }
+                    } else if (colorCB.getValue() == "Blue") {
+                        rect.setFill(Color.ROYALBLUE);
+                        message.setFill(Color.ROYALBLUE);
+                        for (Node node : nodes) {
+                            node.setStyle("-fx-fill: blue;");
+                        }
+                    } else if (colorCB.getValue() == "Red") {
+                        rect.setFill(Color.FIREBRICK);
+                        message.setFill(Color.FIREBRICK);
+                        for (Node node : nodes) {
+                            node.setStyle("-fx-fill: firebrick;");
+                        }
+                    } else if (colorCB.getValue() == "Yellow") {
+                        rect.setFill(Color.ORANGE);
+                        message.setFill(Color.ORANGE);
+                        for (Node node : nodes) {
+                            node.setStyle("-fx-fill: yellow;");
+                        }
+                    } else if (colorCB.getValue() == "Pink") {
+                        rect.setFill(Color.ORCHID);
+                        message.setFill(Color.ORCHID);
+                        for (Node node : nodes) {
+                            node.setStyle("-fx-fill: orchid;");
+                        }
+                    } else if (colorCB.getValue() == "Teal") {
+                        rect.setFill(Color.TEAL);
+                        message.setFill(Color.TEAL);
+                        for (Node node : nodes) {
+                            node.setStyle("-fx-fill: teal;");
+                        }
+                    }
                 }
-            }
-        });
+            });
+        }
 
-        keywordColorRoot.getChildren().addAll(message, rect, keywordColorCB);
-        Scene keywordColorScene = new Scene(keywordColorRoot, 200, 200);
-        keywordColorWin.setScene(keywordColorScene);
-        keywordColorWin.show();
-
-    }
-
-    /**
-     * Handles Parentheses/Brackets Color menu item action.
-     */
-    public void handleParenColorAction() {
-        Stage parenColorWin = new Stage();
-        parenColorWin.setTitle("Parentheses/Brackets Color");
-
-        Parent root = Main.getParentRoot();
-
-        VBox parenColorRoot = new VBox();
-        parenColorRoot.setAlignment(Pos.CENTER);
-        parenColorRoot.setSpacing(10);
-
-        final Rectangle rect = new Rectangle(75, 75, Color.TEAL);
-
-        ChoiceBox parenColorCB = new ChoiceBox(FXCollections.observableArrayList(
-                "Teal", "Black", "Blue", "Grey", "Pink", "Yellow", "Red"));
-        parenColorCB.setValue("Teal");
-
-        // load temporary CSS files into strings
-        String kwBlack = getClass().getResource("ParenColorCSS/ParenBlack.css").toExternalForm();
-        String kwRed = getClass().getResource("ParenColorCSS/ParenRed.css").toExternalForm();
-        String kwBlue = getClass().getResource("ParenColorCSS/ParenBlue.css").toExternalForm();
-        String kwYellow = getClass().getResource("ParenColorCSS/ParenYellow.css").toExternalForm();
-        String kwPink = getClass().getResource("ParenColorCSS/ParenPink.css").toExternalForm();
-        String kwGrey = getClass().getResource("ParenColorCSS/ParenGrey.css").toExternalForm();
-
-        Text message = new Text("Parentheses/Brackets Color");
-        message.setFont(Font.font("Arial", FontWeight.BOLD, 14));
-        message.setFill(Color.TEAL);
-
-        parenColorCB.getSelectionModel().selectedItemProperty().addListener(new ChangeListener() {
-            @Override
-            public void changed(ObservableValue observable, Object oldValue, Object newValue) {
-                if (parenColorCB.getValue() == "Teal") {
-                    rect.setFill(Color.TEAL);
-                    message.setFill(Color.TEAL);
-                    root.getStylesheets().removeAll(kwBlack, kwBlue, kwRed, kwYellow, kwPink, kwGrey);
-                } else if (parenColorCB.getValue() == "Black") {
-                    rect.setFill(Color.BLACK);
-                    message.setFill(Color.BLACK);
-                    root.getStylesheets().removeAll(kwBlack, kwBlue, kwRed, kwYellow, kwPink, kwGrey);
-                    root.getStylesheets().add(kwBlack);
-                } else if (parenColorCB.getValue() == "Blue") {
-                    rect.setFill(Color.ROYALBLUE);
-                    message.setFill(Color.ROYALBLUE);
-                    root.getStylesheets().removeAll(kwBlack, kwBlue, kwRed, kwYellow, kwPink, kwGrey);
-                    root.getStylesheets().add(kwBlue);
-                } else if (parenColorCB.getValue() == "Red") {
-                    rect.setFill(Color.FIREBRICK);
-                    message.setFill(Color.FIREBRICK);
-                    root.getStylesheets().removeAll(kwBlack, kwBlue, kwRed, kwYellow, kwPink, kwGrey);
-                    root.getStylesheets().add(kwRed);
-                } else if (parenColorCB.getValue() == "Yellow") {
-                    rect.setFill(Color.ORANGE);
-                    message.setFill(Color.ORANGE);
-                    root.getStylesheets().removeAll(kwBlack, kwBlue, kwRed, kwYellow, kwPink, kwGrey);
-                    root.getStylesheets().add(kwYellow);
-                } else if (parenColorCB.getValue() == "Pink") {
-                    rect.setFill(Color.ORCHID);
-                    message.setFill(Color.ORCHID);
-                    root.getStylesheets().removeAll(kwBlack, kwBlue, kwRed, kwYellow, kwPink, kwGrey);
-                    root.getStylesheets().add(kwPink);
-                } else if (parenColorCB.getValue() == "Grey") {
-                    rect.setFill(Color.SILVER);
-                    message.setFill(Color.SILVER);
-                    root.getStylesheets().removeAll(kwBlack, kwBlue, kwRed, kwYellow, kwPink, kwGrey);
-                    root.getStylesheets().add(kwGrey);
-                }
-            }
-        });
-
-        parenColorRoot.getChildren().addAll(message, rect, parenColorCB);
-        Scene keywordColorScene = new Scene(parenColorRoot, 230, 200);
-        parenColorWin.setScene(keywordColorScene);
-        parenColorWin.show();
-    }
-
-
-    /**
-     * Handles String Color menu item action.
-     */
-    public void handleStrColorAction() {
-        Stage strColorWin = new Stage();
-        strColorWin.setTitle("String Color");
-
-        Parent root = Main.getParentRoot();
-
-        VBox strColorRoot = new VBox();
-        strColorRoot.setAlignment(Pos.CENTER);
-        strColorRoot.setSpacing(10);
-
-        final Rectangle rect = new Rectangle(75, 75, Color.BLUE);
-
-        ChoiceBox strColorCB = new ChoiceBox(FXCollections.observableArrayList(
-                "Blue", "Black", "Green", "SkyBlue", "Pink", "Yellow", "Red"));
-        strColorCB.setValue("Blue");
-
-        // load temporary CSS files into strings
-        String kwBlack = getClass().getResource("StrColorCSS/StrColorBlack.css").toExternalForm();
-        String kwRed = getClass().getResource("StrColorCSS/StrColorRed.css").toExternalForm();
-        String kwGreen = getClass().getResource("StrColorCSS/StrColorGreen.css").toExternalForm();
-        String kwYellow = getClass().getResource("StrColorCSS/StrColorYellow.css").toExternalForm();
-        String kwPink = getClass().getResource("StrColorCSS/StrColorPink.css").toExternalForm();
-        String kwSkyBlue = getClass().getResource("StrColorCSS/StrColorSkyBlue.css").toExternalForm();
-
-        Text message = new Text("String Color");
-        message.setFont(Font.font("Arial", FontWeight.BOLD, 14));
-        message.setFill(Color.BLUE);
-
-        strColorCB.getSelectionModel().selectedItemProperty().addListener(new ChangeListener() {
-            @Override
-            public void changed(ObservableValue observable, Object oldValue, Object newValue) {
-                if (strColorCB.getValue() == "Blue") {
-                    rect.setFill(Color.BLUE);
-                    message.setFill(Color.BLUE);
-                    root.getStylesheets().removeAll(kwBlack, kwGreen, kwRed, kwYellow, kwPink, kwSkyBlue);
-                } else if (strColorCB.getValue() == "Black") {
-                    rect.setFill(Color.BLACK);
-                    message.setFill(Color.BLACK);
-                    root.getStylesheets().removeAll(kwBlack, kwGreen, kwRed, kwYellow, kwPink, kwSkyBlue);
-                    root.getStylesheets().add(kwBlack);
-                } else if (strColorCB.getValue() == "Green") {
-                    rect.setFill(Color.TEAL);
-                    message.setFill(Color.TEAL);
-                    root.getStylesheets().removeAll(kwBlack, kwGreen, kwRed, kwYellow, kwPink, kwSkyBlue);
-                    root.getStylesheets().add(kwGreen);
-                } else if (strColorCB.getValue() == "Red") {
-                    rect.setFill(Color.FIREBRICK);
-                    message.setFill(Color.FIREBRICK);
-                    root.getStylesheets().removeAll(kwBlack, kwGreen, kwRed, kwYellow, kwPink, kwSkyBlue);
-                    root.getStylesheets().add(kwRed);
-                } else if (strColorCB.getValue() == "Yellow") {
-                    rect.setFill(Color.ORANGE);
-                    message.setFill(Color.ORANGE);
-                    root.getStylesheets().removeAll(kwBlack, kwGreen, kwRed, kwYellow, kwPink, kwSkyBlue);
-                    root.getStylesheets().add(kwYellow);
-                } else if (strColorCB.getValue() == "Pink") {
-                    rect.setFill(Color.ORCHID);
-                    message.setFill(Color.ORCHID);
-                    root.getStylesheets().removeAll(kwBlack, kwGreen, kwRed, kwYellow, kwPink, kwSkyBlue);
-                    root.getStylesheets().add(kwPink);
-                } else if (strColorCB.getValue() == "SkyBlue") {
-                    rect.setFill(Color.SKYBLUE);
-                    message.setFill(Color.SKYBLUE);
-                    root.getStylesheets().removeAll(kwBlack, kwGreen, kwRed, kwYellow, kwPink, kwSkyBlue);
-                    root.getStylesheets().add(kwSkyBlue);
-                }
-            }
-        });
-
-        strColorRoot.getChildren().addAll(message, rect, strColorCB);
-        Scene keywordColorScene = new Scene(strColorRoot, 230, 200);
-        strColorWin.setScene(keywordColorScene);
-        strColorWin.show();
-    }
-
-
-    /**
-     * Handles int Color menu item action.
-     */
-    public void handleIntColorAction() {
-        Stage intColorWin = new Stage();
-        intColorWin.setTitle("int Color");
-
-        Parent root = Main.getParentRoot();
-
-        VBox intColorRoot = new VBox();
-        intColorRoot.setAlignment(Pos.CENTER);
-        intColorRoot.setSpacing(10);
-
-        final Rectangle rect = new Rectangle(75, 75, Color.FIREBRICK);
-
-        ChoiceBox intColorCB = new ChoiceBox(FXCollections.observableArrayList(
-                "Red", "Black", "Blue", "SkyBlue", "Pink", "Yellow", "Teal"));
-        intColorCB.setValue("Red");
-
-        // load temporary CSS files into strings
-        String kwBlack = getClass().getResource("IntColorCSS/IntBlack.css").toExternalForm();
-        String kwGreen = getClass().getResource("IntColorCSS/IntGreen.css").toExternalForm();
-        String kwBlue = getClass().getResource("IntColorCSS/IntBlue.css").toExternalForm();
-        String kwYellow = getClass().getResource("IntColorCSS/IntYellow.css").toExternalForm();
-        String kwPink = getClass().getResource("IntColorCSS/IntPink.css").toExternalForm();
-        String kwSkyBlue = getClass().getResource("IntColorCSS/IntSkyBlue.css").toExternalForm();
-
-        Text message = new Text("Integer(int) Color");
-        message.setFont(Font.font("Arial", FontWeight.BOLD, 14));
-        message.setFill(Color.FIREBRICK);
-
-        intColorCB.getSelectionModel().selectedItemProperty().addListener(new ChangeListener() {
-            @Override
-            public void changed(ObservableValue observable, Object oldValue, Object newValue) {
-                if (intColorCB.getValue() == "Red") {
-                    rect.setFill(Color.FIREBRICK);
-                    message.setFill(Color.FIREBRICK);
-                    root.getStylesheets().removeAll(kwBlack, kwBlue, kwGreen, kwYellow, kwPink, kwSkyBlue);
-                } else if (intColorCB.getValue() == "Black") {
-                    rect.setFill(Color.BLACK);
-                    message.setFill(Color.BLACK);
-                    root.getStylesheets().removeAll(kwBlack, kwBlue, kwGreen, kwYellow, kwPink, kwSkyBlue);
-                    root.getStylesheets().add(kwBlack);
-                } else if (intColorCB.getValue() == "Blue") {
-                    rect.setFill(Color.ROYALBLUE);
-                    message.setFill(Color.ROYALBLUE);
-                    root.getStylesheets().removeAll(kwBlack, kwBlue, kwGreen, kwYellow, kwPink, kwSkyBlue);
-                    root.getStylesheets().add(kwBlue);
-                } else if (intColorCB.getValue() == "Green") {
-                    rect.setFill(Color.TEAL);
-                    message.setFill(Color.TEAL);
-                    root.getStylesheets().removeAll(kwBlack, kwBlue, kwGreen, kwYellow, kwPink, kwSkyBlue);
-                    root.getStylesheets().add(kwGreen);
-                } else if (intColorCB.getValue() == "Yellow") {
-                    rect.setFill(Color.ORANGE);
-                    message.setFill(Color.ORANGE);
-                    root.getStylesheets().removeAll(kwBlack, kwBlue, kwGreen, kwYellow, kwPink, kwSkyBlue);
-                    root.getStylesheets().add(kwYellow);
-                } else if (intColorCB.getValue() == "SkyBlue") {
-                    rect.setFill(Color.SKYBLUE);
-                    message.setFill(Color.SKYBLUE);
-                    root.getStylesheets().removeAll(kwBlack, kwBlue, kwGreen, kwYellow, kwPink, kwSkyBlue);
-                    root.getStylesheets().add(kwSkyBlue);
-                } else if (intColorCB.getValue() == "Pink") {
-                    rect.setFill(Color.ORCHID);
-                    message.setFill(Color.ORCHID);
-                    root.getStylesheets().removeAll(kwBlack, kwBlue, kwGreen, kwYellow, kwPink, kwSkyBlue);
-                    root.getStylesheets().add(kwPink);
-                }
-            }
-        });
-
-        intColorRoot.getChildren().addAll(message, rect, intColorCB);
-        Scene keywordColorScene = new Scene(intColorRoot, 230, 200);
-        intColorWin.setScene(keywordColorScene);
-        intColorWin.show();
+        colorRoot.getChildren().addAll(message, rect, colorCB);
+        Scene colorScene = new Scene(colorRoot, 200, 200);
+        colorWin.setScene(colorScene);
+        colorWin.show();
     }
 }

@@ -221,13 +221,6 @@ public class Controller {
     }
 
     /**
-     *  Passes in relevant items to SettingMenuController.
-     */
-    private void setupSettingMenuController() {
-        this.settingMenuController.setTabPane(this.tabPane);
-    }
-
-    /**
      * Passes in relevant items to StructureViewController
      */
     private void setupStructureViewController() {
@@ -291,7 +284,6 @@ public class Controller {
         this.setupCodeMenuController();
         this.setupToolbarController();
         this.setupDirectoryController();
-        this.setupSettingMenuController();
         this.setupStructureViewController();
         this.setupFindReplaceController();
 
@@ -611,7 +603,7 @@ public class Controller {
      */
     @FXML
     public void handleKeywordColorAction() {
-        this.settingMenuController.handleKeywordColorAction();
+        this.settingMenuController.handleColorAction("keyword");
     }
 
     /**
@@ -619,7 +611,7 @@ public class Controller {
      */
     @FXML
     public void handleParenColorAction() {
-        this.settingMenuController.handleParenColorAction();
+        this.settingMenuController.handleColorAction("paren");
     }
 
     /**
@@ -627,7 +619,7 @@ public class Controller {
      */
     @FXML
     public void handleStrColorAction() {
-        this.settingMenuController.handleStrColorAction();
+        this.settingMenuController.handleColorAction("string");
     }
 
     /**
@@ -635,7 +627,7 @@ public class Controller {
      */
     @FXML
     public void handleIntColorAction() {
-        this.settingMenuController.handleIntColorAction();
+        this.settingMenuController.handleColorAction("integer");
     }
 
     /**

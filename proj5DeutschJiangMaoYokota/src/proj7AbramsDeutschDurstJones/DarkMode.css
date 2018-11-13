@@ -125,7 +125,7 @@
 
 /* style of keywords */
 .keyword {
-    -fx-fill: orange;
+    -fx-fill: yellow;
     -fx-font-weight: bold;
 }
 
@@ -136,7 +136,7 @@
 
 /* style of parenthesis */
 .paren {
-    -fx-fill: darkorange;
+    -fx-fill: teal;
     -fx-font-weight: bold;
 }
 
@@ -154,7 +154,7 @@
 
 /* style of strings */
 .string {
-    -fx-fill: lightgreen;
+    -fx-fill: orchid;
 }
 
 /* style of integers */

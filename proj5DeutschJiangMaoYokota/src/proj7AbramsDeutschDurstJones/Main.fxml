@@ -53,7 +53,7 @@
             <Menu fx:id="colorPreferenceMenu" text="Color Preference">
                 <MenuItem text="Keyword" fx:id="keywordsPreItem"
                           onAction="#handleKeywordColorAction"/>
-                <MenuItem text="Parentheses/Brackets" fx:id="parenPreItem"
+                <MenuItem text="Parentheses" fx:id="parenPreItem"
                           onAction="#handleParenColorAction"/>
                 <MenuItem text="String" fx:id="strPreItem"
                           onAction="#handleStrColorAction"/>
