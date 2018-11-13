@@ -1,8 +1,8 @@
 /*
  * File: FileMenuController.java
- * CS361 Project 7
+ * CS361 Project 9
  * Names: Douglas Abrams, Martin Deutsch, Robert Durst, Matt Jones
- * Date: 11/3/2018
+ * Date: 11/20/2018
  * This file contains the FileMenuController class, handling File menu related
  * actions.
  */
@@ -100,49 +100,6 @@ public class FileMenuController {
     }
 
     /**
-     * Helper method to check if the content of the specified StyledJavaCodeArea
-     * matches the content of the specified File.
-     *
-     * @param codeArea CodeArea to compare with the the specified
-     *                 File
-     * @param file     File to compare with the the specified StyledJavaCodeArea
-     * @return true if the content of the StyledJavaCodeArea matches the content
-     * of the File; false if not
-     */
-    public boolean fileContainsMatch(CodeArea codeArea, File file) {
-        String styledCodeAreaContent = codeArea.getText();
-        String fileContent = this.getFileContents(file);
-        return styledCodeAreaContent.equals(fileContent);
-    }
-
-    /**
-     * Helper method to handle closing tag action.
-     * Checks if the text content within the specified tab window should be saved.
-     *
-     * @param tab             Tab to be closed
-     * @param ifSaveEmptyFile boolean false if not to save the empty file; true if
-     *                        to save the empty file
-     * @return true if the tab needs saving; false if the tab does not need
-     * saving.
-     */
-    public boolean tabNeedsSaving(Tab tab, boolean ifSaveEmptyFile) {
-        CodeArea activeCodeArea = this.tabPane.getActiveCodeArea();
-        // check whether the embedded text has been saved or not
-        if (this.tabPane.getFileFromTab(tab) == null) {
-            // if the newly created file is empty, don't save
-            if (!ifSaveEmptyFile) {
-                return !activeCodeArea.getText().equals("");
-            }
-            return true;
-        }
-        // check whether the saved file match the tab content or not
-        else {
-            return !this.fileContainsMatch(activeCodeArea,
-                    this.tabPane.getFileFromTab(tab));
-        }
-    }
-
-    /**
      * Checks whether a file embedded in the specified tab should be saved before
      * compiling. Pops up a dialog asking whether the user wants to save the file
      * before compiling. Saves the file if the user agrees so.
@@ -151,9 +108,9 @@ public class FileMenuController {
      * 2 is user clicked Cancel button; -1 is no saving is needed
      */
     public int checkSaveBeforeCompile() {
-        Tab selectedTab = this.tabPane.getSelectedTab();
+        JavaTab selectedTab = this.tabPane.getSelectedTab();
         // if the file has not been saved or has been changed
-        if (this.tabNeedsSaving(selectedTab, true)) {
+        if (selectedTab.isSaved()) {
             int buttonClicked = this.createConfirmationDialog(
                     "Save Changes?", "Do you want to save the changes before compiling?",
                     "Your recent file changes would not be compiled if not saved.");
@@ -211,7 +168,7 @@ public class FileMenuController {
     private boolean closeTab(Tab tab) {
         // if the file has not been saved or has been changed
         // pop up a dialog window asking whether to save the file
-        if (this.tabNeedsSaving(tab, false)) {
+        if (!((JavaTab) tab).isSaved()) {
             int buttonClicked = this.createConfirmationDialog(
                     "Save Changes?", "Do you want to save the changes you made?",
                     "Your changes will be lost if you don't save them.");
@@ -313,7 +270,7 @@ public class FileMenuController {
      */
     public boolean handleSaveAction() {
         // get the selected tab from the tab pane
-        Tab selectedTab = this.tabPane.getSelectedTab();
+        JavaTab selectedTab = this.tabPane.getSelectedTab();
 
         // if the tab content was not loaded from a file nor ever saved to a file
         // save the content of the active styled code area to the selected file path
@@ -324,8 +281,12 @@ public class FileMenuController {
         // saved to a file, then the styled code area is saved to that file
         else {
             CodeArea activeCodeArea = this.tabPane.getActiveCodeArea();
-            return this.setFileContents(activeCodeArea.getText(),
-                    this.tabPane.getFileFromTab(selectedTab));
+            if(this.setFileContents(activeCodeArea.getText(),
+                    this.tabPane.getFileFromTab(selectedTab))) {
+                selectedTab.setSaved(true);
+                return true;
+            }
+            return false;
         }
     }
 
@@ -351,7 +312,7 @@ public class FileMenuController {
             return false;
         }
         // get the selected tab from the tab pane
-        Tab selectedTab = this.tabPane.getSelectedTab();
+        JavaTab selectedTab = this.tabPane.getSelectedTab();
         CodeArea activeCodeArea = this.tabPane.getActiveCodeArea();
         if (!this.setFileContents(activeCodeArea.getText(), saveFile)) {
             return false;
@@ -361,6 +322,7 @@ public class FileMenuController {
 
         // map the tab and the associated file
         this.tabPane.mapTabToFile(selectedTab, saveFile);
+        selectedTab.setSaved(true);
 
         // open file directory
         this.directoryController.createDirectoryTree();

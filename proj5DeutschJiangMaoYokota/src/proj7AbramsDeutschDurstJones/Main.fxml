@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--File: Main.fxml-->
-<!--CS361 Project 7-->
+<!--CS361 Project 9-->
 <!--Names: Douglas Abrams, Martin Deutsch, Robert Durst, Matt Jones-->
 <!--FXML file, laying out GUI elements of Main.java-->
-<!--Date: 11/3/2018-->
+<!--Date: 11/20/2018-->
 
 <!--imported packages-->
 <?import org.fxmisc.flowless.VirtualizedScrollPane?>

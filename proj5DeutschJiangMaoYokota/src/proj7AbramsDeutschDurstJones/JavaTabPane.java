@@ -1,8 +1,8 @@
 /*
  * File: JavaTabPane.java
- * CS361 Project 7
+ * CS361 Project 9
  * Names: Douglas Abrams, Martin Deutsch, Robert Durst, Matt Jones
- * Date: 11/3/2018
+ * Date: 11/20/2018
  * This file extends the TabPane class to handle mapping tabs to
  * files and opening and closing tabs
  */
@@ -11,7 +11,6 @@ package proj7AbramsDeutschDurstJones;
 
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
-import org.fxmisc.richtext.CodeArea;
 import java.io.File;
 import java.util.*;
 
@@ -153,9 +152,9 @@ public class JavaTabPane extends TabPane {
 
     /**
      * Get the currently selected tab
-     * @return the selected tab
+     * @return the selected JavaTab
      */
-    public Tab getSelectedTab() {
-        return this.getSelectionModel().getSelectedItem();
+    public JavaTab getSelectedTab() {
+        return (JavaTab) this.getSelectionModel().getSelectedItem();
     }
 }

@@ -1,8 +1,8 @@
 /*
  * File: Controller.java
- * CS361 Project 7
+ * CS361 Project 9
  * Names: Douglas Abrams, Martin Deutsch, Robert Durst, Matt Jones
- * Date: 11/3/2018
+ * Date: 11/20/2018
  * This file contains the Main controller class, handling actions evoked by the
  * Main window.
  */
@@ -154,9 +154,9 @@ public class Controller {
      * Stores CSS files for different color modes
      */
     private String lightModeCss =
-            getClass().getResource("LightMode.css").toExternalForm();
+            getClass().getResource("CSS/LightMode.css").toExternalForm();
     private String darkModeCss =
-            getClass().getResource("DarkMode.css").toExternalForm();
+            getClass().getResource("CSS/DarkMode.css").toExternalForm();
     /**
      * The worker running the compile task
      */

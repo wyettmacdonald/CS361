@@ -1,8 +1,8 @@
 /*
  * File: EditMenuController.java
- * CS361 Project 7
+ * CS361 Project 9
  * Names: Douglas Abrams, Martin Deutsch, Robert Durst, Matt Jones
- * Date: 11/3/2018
+ * Date: 11/20/2018
  * This file contains the EditMenuController class, handling Edit menu related actions.
  */
 

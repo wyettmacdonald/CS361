@@ -1,8 +1,8 @@
 /*
  * File: Main.java
- * CS361 Project 7
+ * CS361 Project 9
  * Names: Douglas Abrams, Martin Deutsch, Robert Durst, Matt Jones
- * Date: 11/3/2018
+ * Date: 11/20/2018
  */
 
 package proj7AbramsDeutschDurstJones;
@@ -46,7 +46,7 @@ public class Main extends Application {
         // initialize a scene and add features specified in the css file to the scene
         Scene scene = new Scene(root, 1000, 650);
         scene.getStylesheets().add(getClass().getResource(
-                "/proj7AbramsDeutschDurstJones/LightMode.css").toExternalForm());
+                "/proj7AbramsDeutschDurstJones/CSS/LightMode.css").toExternalForm());
 
         // configure the stage
         stage.setTitle("AbramsDeutschDurstJones's IDE");
