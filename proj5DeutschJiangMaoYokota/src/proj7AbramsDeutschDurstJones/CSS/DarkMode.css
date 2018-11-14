@@ -1,8 +1,8 @@
 /*
  * File: DarkMode.css
- * CS361 Project 7
+ * CS361 Project 9
  * Names: Douglas Abrams, Martin Deutsch, Robert Durst, Matt Jones
- * Date: 11/3/2018
+ * Date: 11/20/2018
  * Cascading Style Sheet for Main.java, defining the design styles of the GUI elements
  * When this stylesheet is used, Dark Mode is active
  */
@@ -154,12 +154,12 @@
 
 /* style of strings */
 .string {
-    -fx-fill: orchid;
+    -fx-fill: pink;
 }
 
 /* style of integers */
 .integer {
-    -fx-fill: firebrick;
+    -fx-fill: red;
 }
 
 /* style of comments */

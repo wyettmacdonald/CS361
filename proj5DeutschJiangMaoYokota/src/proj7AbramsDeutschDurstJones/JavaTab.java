@@ -34,10 +34,12 @@ public class JavaTab extends Tab {
      * @param contentString the initial contents of the tab
      */
     public JavaTab(String name, String contentString) {
-        this.isSaved = true;
         StyledJavaCodeArea newStyledCodeArea = new StyledJavaCodeArea(contentString);
         this.setText(name);
         this.setContent(new VirtualizedScrollPane<>(newStyledCodeArea));
+        this.isSaved = true;
+
+        // when text is changed, mark tab as dirty
         newStyledCodeArea.textProperty().addListener((obj, oldVal, newVal) -> {
             isSaved = false;
             this.setStyle("-fx-text-base-color: green");

@@ -96,8 +96,7 @@ public class StyledJavaCodeArea extends CodeArea {
 
     /**
      * Handles the text change action.
-     * Changes the tab title to green when the selected StyledJavaCodeArea has been changed and not been saved.
-     * Listens to the text changes and highlights the keywords real-time.
+     * Listens to the text changes and highlights the keywords in real-time.
      */
     private void handleTextChange() {
         Subscription cleanupWhenNoLongerNeedIt = this
@@ -107,8 +106,8 @@ public class StyledJavaCodeArea extends CodeArea {
                 // when making multiple changes (e.g. renaming a method at multiple parts in file)
                 .multiPlainChanges()
 
-                // do not emit an event until 500 ms have passed since the last emission of previous stream
-                .successionEnds(Duration.ofMillis(500))
+                // do not emit an event until 100 ms have passed since the last emission of previous stream
+                .successionEnds(Duration.ofMillis(100))
 
                 // run the following code block when previous stream emits an event
                 .subscribe(ignore -> this.highlightText());

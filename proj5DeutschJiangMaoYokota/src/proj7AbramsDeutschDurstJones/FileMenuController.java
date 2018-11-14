@@ -110,7 +110,7 @@ public class FileMenuController {
     public int checkSaveBeforeCompile() {
         JavaTab selectedTab = this.tabPane.getSelectedTab();
         // if the file has not been saved or has been changed
-        if (selectedTab.isSaved()) {
+        if (!selectedTab.isSaved()) {
             int buttonClicked = this.createConfirmationDialog(
                     "Save Changes?", "Do you want to save the changes before compiling?",
                     "Your recent file changes would not be compiled if not saved.");

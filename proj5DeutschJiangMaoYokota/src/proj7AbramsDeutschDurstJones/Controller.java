@@ -151,13 +151,6 @@ public class Controller {
     @FXML
     private TextField replaceTextEntry;
     /**
-     * Stores CSS files for different color modes
-     */
-    private String lightModeCss =
-            getClass().getResource("CSS/LightMode.css").toExternalForm();
-    private String darkModeCss =
-            getClass().getResource("CSS/DarkMode.css").toExternalForm();
-    /**
      * The worker running the compile task
      */
     private ToolBarController.CompileWorker compileWorker;
@@ -209,6 +202,13 @@ public class Controller {
      */
     private void setupCodeMenuController() {
         this.codeMenuController.setTabPane(this.tabPane);
+    }
+
+    /**
+     *  Passes in relevant items to SettingMenuController.
+     */
+    private void setupSettingMenuController() {
+        this.settingMenuController.setVBox(this.vBox);
     }
 
     /**
@@ -284,6 +284,7 @@ public class Controller {
         this.setupCodeMenuController();
         this.setupToolbarController();
         this.setupDirectoryController();
+        this.setupSettingMenuController();
         this.setupStructureViewController();
         this.setupFindReplaceController();
 
@@ -575,27 +576,19 @@ public class Controller {
     }
 
     /**
-     * Handles onAction for the Light Mode menu item to switch CSS for vBox to
-     * LightMode.css
+     * Handles onAction for the Light Mode menu item
      */
     @FXML
     private void handleLightModeMenuAction() {
-        vBox.getStylesheets().remove(darkModeCss);
-        if (!vBox.getStylesheets().contains(lightModeCss)) {
-            vBox.getStylesheets().add(lightModeCss);
-        }
+        this.settingMenuController.handleLightMode();
     }
 
     /**
-     * Handles onAction for the Dark Mode menu item to switch CSS for vBox to
-     * DarkMode.css
+     * Handles onAction for the Dark Mode menu item
      */
     @FXML
     private void handleDarkModeMenuAction() {
-        vBox.getStylesheets().remove(lightModeCss);
-        if (!vBox.getStylesheets().contains(darkModeCss)) {
-            vBox.getStylesheets().add(darkModeCss);
-        }
+        this.settingMenuController.handleDarkMode();
     }
 
     /**
