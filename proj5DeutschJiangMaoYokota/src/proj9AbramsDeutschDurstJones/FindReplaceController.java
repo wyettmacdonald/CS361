@@ -6,7 +6,7 @@
  * This file contains the FindReplaceController class, handling find and replace related actions.
  */
 
-package proj7AbramsDeutschDurstJones;
+package proj9AbramsDeutschDurstJones;
 
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;

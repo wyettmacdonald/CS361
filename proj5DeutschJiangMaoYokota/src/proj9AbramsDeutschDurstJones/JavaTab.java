@@ -7,7 +7,7 @@
  * a VirtualizedScrollPane on construction
  */
 
-package proj7AbramsDeutschDurstJones;
+package proj9AbramsDeutschDurstJones;
 
 import javafx.scene.control.Tab;
 import org.fxmisc.flowless.VirtualizedScrollPane;

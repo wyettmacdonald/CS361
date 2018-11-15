@@ -6,13 +6,12 @@
  * This file contains the SettingMenuController class, handling Setting menu related actions.
  */
 
-package proj7AbramsDeutschDurstJones;
+package proj9AbramsDeutschDurstJones;
 
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.geometry.Pos;
-import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
@@ -23,10 +22,8 @@ import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
-
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Set;
 
 
 /**
@@ -58,8 +55,8 @@ public class SettingMenuController {
      * Constructor initializes fields
      */
     public SettingMenuController() {
-        this.lightModeCss = getClass().getResource("CSS/LightMode.css").toExternalForm();
-        this.darkModeCss = getClass().getResource("CSS/DarkMode.css").toExternalForm();
+        this.lightModeCss = getClass().getResource("resources/LightMode.css").toExternalForm();
+        this.darkModeCss = getClass().getResource("resources/DarkMode.css").toExternalForm();
         this.styleClassColorMap = new HashMap<>();
         this.initializeLightMode();
     }
@@ -77,10 +74,8 @@ public class SettingMenuController {
      * LightMode.css and stores the default styleClass colors if necessary
      */
     public void handleLightMode() {
-        vBox.getStylesheets().remove(darkModeCss);
-        if (!vBox.getStylesheets().contains(lightModeCss)) {
-            vBox.getStylesheets().add(lightModeCss);
-        }
+        vBox.getStylesheets().clear();
+        vBox.getStylesheets().add(lightModeCss);
         this.initializeLightMode();
     }
 
@@ -89,10 +84,8 @@ public class SettingMenuController {
      * DarkMode.css and stores the default styleClass colors if necessary
      */
     public void handleDarkMode() {
-        vBox.getStylesheets().remove(lightModeCss);
-        if (!vBox.getStylesheets().contains(darkModeCss)) {
-            vBox.getStylesheets().add(darkModeCss);
-        }
+        vBox.getStylesheets().clear();
+        vBox.getStylesheets().add(darkModeCss);
         this.initializeDarkMode();
     }
 
@@ -104,6 +97,7 @@ public class SettingMenuController {
         this.styleClassColorMap.put("paren", "teal");
         this.styleClassColorMap.put("string", "blue");
         this.styleClassColorMap.put("integer", "red");
+        this.updateColors();
     }
 
     /**
@@ -111,9 +105,10 @@ public class SettingMenuController {
      */
     private void initializeDarkMode() {
         this.styleClassColorMap.put("keyword", "yellow");
-        this.styleClassColorMap.put("paren", "teal");
+        this.styleClassColorMap.put("paren", "orange");
         this.styleClassColorMap.put("string", "pink");
         this.styleClassColorMap.put("integer", "red");
+        this.updateColors();
     }
 
     /**
@@ -122,7 +117,7 @@ public class SettingMenuController {
      */
     public void handleColorAction(String styleClass) {
         ChoiceBox colorCB = new ChoiceBox(FXCollections.observableArrayList(
-                "Purple", "Black", "Blue", "Teal", "Pink", "Yellow", "Red"));
+                "Purple", "Black", "Blue", "Teal", "Pink", "Yellow", "Orange", "Red"));
         String color = this.styleClassColorMap.get(styleClass);
         color = color.substring(0,1).toUpperCase() + color.substring(1);
         colorCB.setValue(color);
@@ -168,13 +163,14 @@ public class SettingMenuController {
     /**
      * Set all elements of the style classes in the color map to their respective colors
      */
-    public void updateColors() {
+    private void updateColors() {
         Parent root = Main.getParentRoot();
+        String newStyles = "";
         for (String styleClass : this.styleClassColorMap.keySet()) {
-            Set<Node> nodes = root.lookupAll("." + styleClass);
-            for (Node node : nodes) {
-                node.setStyle("-fx-fill: " + this.styleClassColorMap.get(styleClass));
-            }
+            newStyles += styleClass + "-color: " + this.styleClassColorMap.get(styleClass) + ";\n";
+        }
+        if (root != null) {
+            root.setStyle(newStyles);
         }
     }
 }

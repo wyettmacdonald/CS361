@@ -7,7 +7,7 @@
  * files and opening and closing tabs
  */
 
-package proj7AbramsDeutschDurstJones;
+package proj9AbramsDeutschDurstJones;
 
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;

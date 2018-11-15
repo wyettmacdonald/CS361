@@ -9,11 +9,11 @@
 <?import org.fxmisc.flowless.VirtualizedScrollPane?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
-<?import proj7AbramsDeutschDurstJones.JavaTabPane?>
+<?import proj9AbramsDeutschDurstJones.JavaTabPane?>
 <?import org.fxmisc.richtext.StyleClassedTextArea?>
 
 <VBox fx:id="vBox"
-      fx:controller="proj7AbramsDeutschDurstJones.Controller"
+      fx:controller="proj9AbramsDeutschDurstJones.Controller"
       xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1">
       <MenuBar fx:id="menuBar" VBox.vgrow="NEVER">
         <Menu text="File" fx:id="fileMenu">

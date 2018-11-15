@@ -5,7 +5,7 @@
  * Date: 11/20/2018
  */
 
-package proj7AbramsDeutschDurstJones;
+package proj9AbramsDeutschDurstJones;
 
 import javafx.application.Application;
 import javafx.scene.Scene;
@@ -39,20 +39,20 @@ public class Main extends Application {
      */
     @Override
     public void start(Stage stage) throws Exception {
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/proj7AbramsDeutschDurstJones/Main.fxml"));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/proj9AbramsDeutschDurstJones/resources/Main.fxml"));
         Parent root = loader.load();
         Main.parentRoot = root;
 
         // initialize a scene and add features specified in the css file to the scene
         Scene scene = new Scene(root, 1000, 650);
         scene.getStylesheets().add(getClass().getResource(
-                "/proj7AbramsDeutschDurstJones/CSS/LightMode.css").toExternalForm());
+                "/proj9AbramsDeutschDurstJones/resources/LightMode.css").toExternalForm());
 
         // configure the stage
         stage.setTitle("AbramsDeutschDurstJones's IDE");
         stage.sizeToScene();
         stage.setScene(scene);
-        stage.setOnCloseRequest(event -> ((proj7AbramsDeutschDurstJones.Controller)
+        stage.setOnCloseRequest(event -> ((proj9AbramsDeutschDurstJones.Controller)
                 loader.getController()).handleExitAction(event));
         stage.show();
     }

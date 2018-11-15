@@ -7,6 +7,14 @@
  * When this stylesheet is used, Dark Mode is active
  */
 
+/* Defines looked-up colors for elements stylable from preferences menu */
+.root {
+    keyword-color: yellow;
+    paren-color: orange;
+    string-color: pink;
+    integer-color: red;
+}
+
 /* style of vBox */
 #vBox {
     -fx-background-color: #535353;
@@ -125,7 +133,7 @@
 
 /* style of keywords */
 .keyword {
-    -fx-fill: yellow;
+    -fx-fill: keyword-color;
     -fx-font-weight: bold;
 }
 
@@ -136,30 +144,30 @@
 
 /* style of parenthesis */
 .paren {
-    -fx-fill: teal;
+    -fx-fill: paren-color;
     -fx-font-weight: bold;
 }
 
 /* style of brackets */
 .bracket {
-    -fx-fill: darkorange;
+    -fx-fill: orange;
     -fx-font-weight: bold;
 }
 
 /* style of braces */
 .brace {
-    -fx-fill: darkorange;
+    -fx-fill: orange;
     -fx-font-weight: bold;
 }
 
 /* style of strings */
 .string {
-    -fx-fill: pink;
+    -fx-fill: string-color;
 }
 
 /* style of integers */
 .integer {
-    -fx-fill: red;
+    -fx-fill: integer-color;
 }
 
 /* style of comments */

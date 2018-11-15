@@ -6,7 +6,7 @@
  * This file contains the DirectoryController class, handling the file directory portion of the GUI.
  */
 
-package proj7AbramsDeutschDurstJones;
+package proj9AbramsDeutschDurstJones;
 import java.io.File;
 import java.util.HashMap;
 import java.util.Map;

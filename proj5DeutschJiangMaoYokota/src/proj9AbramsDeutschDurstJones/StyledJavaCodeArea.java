@@ -7,7 +7,7 @@
  * to handle syntax highlighting.
  */
 
-package proj7AbramsDeutschDurstJones;
+package proj9AbramsDeutschDurstJones;
 
 import javafx.scene.control.ContextMenu;
 import javafx.scene.control.MenuItem;

@@ -5,15 +5,12 @@
  * Date: 11/3/2018
  */
 
-package proj7AbramsDeutschDurstJones.Java8Files;
+package proj9AbramsDeutschDurstJones.Java8Files;
 import org.antlr.v4.runtime.Lexer;
 import org.antlr.v4.runtime.CharStream;
-import org.antlr.v4.runtime.Token;
-import org.antlr.v4.runtime.TokenStream;
 import org.antlr.v4.runtime.*;
 import org.antlr.v4.runtime.atn.*;
 import org.antlr.v4.runtime.dfa.DFA;
-import org.antlr.v4.runtime.misc.*;
 
 @SuppressWarnings({"all", "warnings", "unchecked", "unused", "cast"})
 public class Java8Lexer extends Lexer {

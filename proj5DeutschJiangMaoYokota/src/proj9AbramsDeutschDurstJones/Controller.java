@@ -7,7 +7,7 @@
  * Main window.
  */
 
-package proj7AbramsDeutschDurstJones;
+package proj9AbramsDeutschDurstJones;
 
 import javafx.beans.property.ReadOnlyBooleanProperty;
 import javafx.event.ActionEvent;

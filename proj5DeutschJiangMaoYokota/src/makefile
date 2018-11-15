@@ -8,7 +8,7 @@
 JFLAGS = -g # compiler flags
 JC = javac # compiler variable
 JVM= java   # specify JVM
-CLASSPATH = proj7AbramsDeutschDurstJones/richtextfx-fat-0.9.1.jar# our only dependency right now -- with more this will be more complex
+CLASSPATH = proj9AbramsDeutschDurstJones/richtextfx-fat-0.9.1.jar# our only dependency right now -- with more this will be more complex
 SOURCEPATH = ./ # specify where the .class files should be found for file by file compilation
 
 .SUFFIXES: .java .class
@@ -18,16 +18,16 @@ SOURCEPATH = ./ # specify where the .class files should be found for file by fil
 
 # I think order matters here
 CLASSES = \
-					proj7AbramsDeutschDurstJones/StyledJavaCodeArea.java \
-					proj7AbramsDeutschDurstJones/FileMenuController.java \
-					proj7AbramsDeutschDurstJones/Controller.java \
-					proj7AbramsDeutschDurstJones/DirectoryController.java \
-					proj7AbramsDeutschDurstJones/EditMenuController.java \
-					proj7AbramsDeutschDurstJones/ToolBarController.java \
-					proj7AbramsDeutschDurstJones/Main.java
+					proj9AbramsDeutschDurstJones/StyledJavaCodeArea.java \
+					proj9AbramsDeutschDurstJones/FileMenuController.java \
+					proj9AbramsDeutschDurstJones/Controller.java \
+					proj9AbramsDeutschDurstJones/DirectoryController.java \
+					proj9AbramsDeutschDurstJones/EditMenuController.java \
+					proj9AbramsDeutschDurstJones/ToolBarController.java \
+					proj9AbramsDeutschDurstJones/Main.java
 
 # Name of our main class with its preceding path location
-MAIN = proj7AbramsDeutschDurstJones.Main
+MAIN = proj9AbramsDeutschDurstJones.Main
 
 default: classes
 
@@ -40,6 +40,6 @@ run:
 
 # cleans up all the compiled class files
 clean:
-	$(RM) proj7AbramsDeutschDurstJones/*.class
+	$(RM) proj9AbramsDeutschDurstJones/*.class
 
 
