@@ -1,0 +1,10 @@
+<component name="libraryTable">
+  <library name="resources">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/proj5DeutschJiangMaoYokota/src/proj9AbramsDeutschDurstJones/resources/richtextfx-fat-0.9.1.jar!/" />
+      <root url="jar://$PROJECT_DIR$/proj5DeutschJiangMaoYokota/src/proj9AbramsDeutschDurstJones/resources/antlr-4.7.1-complete.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>
