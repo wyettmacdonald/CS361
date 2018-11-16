@@ -206,7 +206,7 @@ public class FileMenuController {
     public void createErrorDialog(String errorTitle, String errorString) {
         Alert alert = new Alert(Alert.AlertType.WARNING);
         alert.setTitle(errorTitle + " Error");
-        alert.setHeaderText("Error for " + errorTitle);
+        alert.setHeaderText("Error " + errorTitle);
         alert.setContentText(errorString);
         alert.showAndWait();
     }
@@ -247,6 +247,12 @@ public class FileMenuController {
         // the tab containing this file becomes the current (topmost) one
         if (this.tabPane.containsFile(file)) {
             this.tabPane.selectTabFromFile(file);
+            return;
+        }
+        // if the selected file is not a java file, do not open it
+        if (!file.getName().endsWith(".java")) {
+            this.createErrorDialog("Opening File",
+                    "Cannot open non-Java files");
             return;
         }
         String contentString = this.getFileContents(file);
