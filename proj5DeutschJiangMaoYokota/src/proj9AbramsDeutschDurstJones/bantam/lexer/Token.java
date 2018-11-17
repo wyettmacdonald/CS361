@@ -16,6 +16,8 @@
  package proj9AbramsDeutschDurstJones.bantam.lexer;
 
  import java.util.Set;
+ import java.util.stream.Collectors;
+ import java.util.stream.Stream;
 
  public class Token
  {
@@ -38,7 +40,9 @@
          if (kind == Kind.IDENTIFIER && (spelling.equals("true") || spelling.equals("false"))) {
              this.kind = Kind.BOOLEAN;
          }
-//         s
+         else if (kind == Kind.IDENTIFIER && reservedWords.contains(spelling)) {
+             this.kind = Enum.valueOf(Kind.class, spelling.toUpperCase());
+         }
          else {
              this.kind = kind;
          }
@@ -74,7 +78,7 @@
          RETURN, WHILE
      }
 
-//     private static Set<String> reservedWords = Set.of("break", "cast", "class", "var",
-//             "else", "extends", "for", "if", "instanceof", "new", "return", "while");
+     private static Set<String> reservedWords = Stream.of("break", "cast", "class", "var",
+             "else", "extends", "for", "if", "instanceof", "new", "return", "while").collect(Collectors.toSet());
 
  }
