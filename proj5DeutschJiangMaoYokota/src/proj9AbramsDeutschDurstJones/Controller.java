@@ -37,6 +37,10 @@ public class Controller {
      */
     private ToolBarController toolbarController;
     /**
+     * FindReplaceController handling find and replace actions
+     */
+    private FindReplaceController findReplaceController;
+    /**
      * FileMenuController handling File menu actions
      */
     private FileMenuController fileMenuController;
@@ -115,6 +119,26 @@ public class Controller {
      */
     @FXML
     private Menu codeMenu;
+    /**
+     * Find field defined in Main.fxml
+     */
+    @FXML
+    private TextField findTextEntry;
+    /**
+     * Find previous button defined in Main.fxml
+     */
+    @FXML
+    private Button findPrevBtn;
+    /**
+     * Find next button defined in Main.fxml
+     */
+    @FXML
+    private Button findNextBtn;
+    /**
+     * Replace field defined in Main.fxml
+     */
+    @FXML
+    private TextField replaceTextEntry;
 
     /**
      * Passes in relevant items to ToolbarController.
@@ -123,6 +147,17 @@ public class Controller {
         this.toolbarController.setConsole(this.console);
         this.toolbarController.setTabPane(this.tabPane);
         this.toolbarController.setFileMenuController(this.fileMenuController);
+    }
+
+    /**
+     * Passes in relevant items to FindReplaceController
+     */
+    private void setupFindReplaceController() {
+        this.findReplaceController.setJavaTabPane(this.tabPane);
+        this.findReplaceController.setFindTextEntry(this.findTextEntry);
+        this.findReplaceController.setNextMatchBtn(this.findNextBtn);
+        this.findReplaceController.setPrevMatchBtn(this.findPrevBtn);
+        this.findReplaceController.setReplaceTextEntryTextEntry(this.replaceTextEntry);
     }
 
     /**
@@ -210,6 +245,7 @@ public class Controller {
         this.directoryController = new DirectoryController();
         this.settingMenuController = new SettingMenuController();
         this.structureViewController = new StructureViewController();
+        this.findReplaceController = new FindReplaceController();
 
         // set up the sub controllers
         this.setupFileMenuController();
@@ -219,6 +255,7 @@ public class Controller {
         this.setupDirectoryController();
         this.setupSettingMenuController();
         this.setupStructureViewController();
+        this.setupFindReplaceController();
 
         this.setButtonBinding();
     }
@@ -435,6 +472,54 @@ public class Controller {
     @FXML
     private void handleUnindentAction(ActionEvent event) {
         this.editMenuController.handleUnindentText();
+    }
+
+    /**
+     * Calls handleFindText() of the findReplaceController
+     */
+    @FXML
+    public void handleFindText() {
+        this.findReplaceController.handleFindText();
+    }
+
+    /**
+     * Calls handleHighlightPrevMatch() of the findReplaceController
+     */
+    @FXML
+    public void handleHighlightPrevMatch() {
+        this.findReplaceController.handleHighlightPrevMatch();
+    }
+
+    /**
+     * Calls handleHighlightNextMatch() of the findReplaceController
+     */
+    @FXML
+    public void handleHighlightNextMatch() {
+        this.findReplaceController.handleHighlightNextMatch();
+    }
+
+    /**
+     * Calls handleReplaceText() of the findReplaceController
+     */
+    @FXML
+    public void handleReplaceText() {
+        this.findReplaceController.handleReplaceText();
+    }
+
+    /**
+     * Focuses on the Find Text Entry Box
+     */
+    @FXML
+    public void handleFocusOnFindTextEntry() {
+        this.findTextEntry.requestFocus();
+    }
+
+    /**
+     * Focuses on the Replace Text Entry Box
+     */
+    @FXML
+    public void handleFocusOnReplaceTextEntry() {
+        this.replaceTextEntry.requestFocus();
     }
 
     /**
