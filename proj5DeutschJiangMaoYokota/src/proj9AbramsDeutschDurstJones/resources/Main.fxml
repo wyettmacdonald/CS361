@@ -38,16 +38,12 @@
                       onAction="#handleIndentAction" accelerator="Shortcut+]"/>
             <MenuItem text="Unindent Text" fx:id="unindentTextMenuItem"
                       onAction="#handleUnindentAction" accelerator="Shortcut+["/>
-            <MenuItem onAction="#handleFocusOnFindTextEntry" text="Go To Find" accelerator="Shortcut+F"/>
-            <MenuItem onAction="#handleFocusOnReplaceTextEntry" text="Go To Replace" accelerator="Shortcut+R" />
         </Menu>
         <Menu text="Code" fx:id="codeMenu">
             <MenuItem text="Toggle Comments" fx:id="commentMenuItem" onAction="#handleToggleCommentAction" accelerator="Shortcut+/"/>
             <MenuItem text="Move Line Up" fx:id="moveUpMenuItem" onAction="#handleMoveUpAction" accelerator="Shortcut+Shift+UP"/>
             <MenuItem text="Move Line Down" fx:id="moveDownMenuItem" onAction="#handleMoveDownAction" accelerator="Shortcut+Shift+DOWN"/>
             <MenuItem text="Duplicate Line" fx:id="duplicateLine" onAction="#handleDuplicateLineAction" accelerator="Shortcut+D" />
-            <MenuItem text="Check Same Number Open/Closed Groupings" fx:id="checkSameNumberMenuItem"
-                      onAction="#handleCheckSameNumberGroupingsAction" accelerator="Shortcut+Shift+C"/>
         </Menu>
         <Menu text="Preferences" fx:id="prefMenu">
             <Menu fx:id="colorPreferenceMenu" text="Color Preference">
@@ -74,15 +70,7 @@
         </Menu>
     </MenuBar>
     <ToolBar fx:id="toolbar" VBox.vgrow="ALWAYS">
-        <Button text="Compile" fx:id="compileButton" onAction ="#handleCompileButtonAction"/>
-        <Button text="Compile &amp; Run" fx:id="compileRunButton" onAction="#handleCompileRunButtonAction"/>
-        <Button text="Stop" fx:id="stopButton" onAction="#handleStopButtonAction"/>
-        <TextField fx:id="findTextEntry" promptText="Find" />
-        <Button fx:id="findButton" onAction="#handleFindText" text="Find" />
-        <Button fx:id="findPrevBtn" onAction="#handleHighlightPrevMatch" text="Previous" />
-        <Button fx:id="findNextBtn" onAction="#handleHighlightNextMatch" text="Next"/>
-        <TextField fx:id="replaceTextEntry" promptText="Replace" />
-        <Button fx:id="replaceButton" onAction="#handleReplaceText" text="Replace" />
+        <Button text="Scan" fx:id="scanButton" onAction ="#handleScanButtonAction"/>
     </ToolBar>
     <SplitPane dividerPositions="0.2" maxHeight="Infinity"
                maxWidth="Infinity"

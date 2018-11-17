@@ -158,60 +158,6 @@ public class CodeMenuController {
     }
 
     /**
-     * Check that the number of left-facing and right-facing parenthesis, brackets
-     * and braces matches
-     */
-    public void handleCheckSameNumberGoupings() {
-        CodeArea activeCodeArea = tabPane.getActiveCodeArea();
-        if (activeCodeArea == null) {
-            return;
-        }
-        // get the text of the current codeArea
-        String text = activeCodeArea.getText();
-        // now go through the text to check if it is malformed
-        long nOpenBraces = text.chars().filter(ch -> ch == '{').count();
-        long nCloseBraces= text.chars().filter(ch -> ch == '}').count();
-
-        long nOpenParens = text.chars().filter(ch -> ch == '(').count();
-        long nCloseParens = text.chars().filter(ch -> ch == ')').count();
-
-        long nOpenBrackets = text.chars().filter(ch -> ch == '[').count();
-        long nCloseBrackets = text.chars().filter(ch -> ch == ']').count();
-
-        String bracesMessage = this.groupingMessage(nOpenBraces, nCloseBraces, "braces");
-        String parensMessage = this.groupingMessage(nOpenParens, nCloseParens, "parenthesis");
-        String bracketsMessage = this.groupingMessage(nOpenBrackets, nCloseBrackets, "brackets");
-
-        // show messages
-        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-        alert.setTitle("Code formation report");
-        alert.setHeaderText("Checking brackets, parentheses and braces");
-        alert.setContentText(bracesMessage + parensMessage + bracketsMessage);
-        alert.showAndWait();
-    }
-
-    /**
-     * Returns a message indicating if the number of closed and open groupings of a given type match
-     * @param nOpen the number of the open grouping symbols
-     * @param nClosed the number of closed grouping symbols
-     * @param type the String indicating the type of grouping
-     * @return the info message
-     */
-    private String groupingMessage(long nOpen, long nClosed, String type) {
-        String message;
-        if (nOpen > nClosed) {
-            message = "Missing " + (nOpen - nClosed) + " close " + type + "\n";
-        }
-        else if (nOpen < nClosed) {
-            message = "Missing " + (nClosed - nOpen) + " open " + type + "\n";
-        }
-        else {
-            message = "Number of open and closed " + type + " match\n";
-        }
-        return message;
-    }
-
-    /**
      * Duplicates the line with the caret on it
      * @param event the Event object
      */

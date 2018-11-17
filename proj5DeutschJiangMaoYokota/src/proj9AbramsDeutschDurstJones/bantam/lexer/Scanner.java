@@ -12,7 +12,6 @@ import proj9AbramsDeutschDurstJones.bantam.util.Error;
 import proj9AbramsDeutschDurstJones.bantam.util.ErrorHandler;
 
 
-import java.io.Reader;
 import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -22,7 +21,7 @@ public class Scanner
     private SourceFile sourceFile;
     private ErrorHandler errorHandler;
     private char currentChar;
-    private String currentSpelling; // maybe put in scan and pass to handler methods?????
+    private String currentSpelling;
 
 
 //    public ScannerCode(ErrorHandler handler) {
@@ -44,8 +43,9 @@ public class Scanner
 
     public Token scan()
     {
-        // initialize the spelling
+        // initialize the spelling and kind of the token
         currentSpelling = "";
+        Token.Kind kind;
 
         // initialize current char if this is the start of the file
         if (currentChar == ' ') {
@@ -59,38 +59,44 @@ public class Scanner
 
         // identifier
         if (Character.isLetter(currentChar)) {
-            return new Token(handleIdentifier(), currentSpelling, sourceFile.getCurrentLineNumber());
+            kind = handleIdentifier();
 
         }
         // integer
         else if (Character.isDigit(currentChar)) {
-            return new Token(handleInteger(), currentSpelling, sourceFile.getCurrentLineNumber());
+            kind = handleInteger();
         }
         // string
         else if (currentChar == '"') {
-            return new Token(handleString(), currentSpelling, sourceFile.getCurrentLineNumber());
+            kind = handleString();
         }
         // punctuation
         else if (punctuation.contains(currentChar)) {
-            return new Token(handlePunctuation(), currentSpelling, sourceFile.getCurrentLineNumber());
+            kind = handlePunctuation();
         }
         // brackets
         else if (brackets.contains(currentChar)) {
-            return new Token(handleBracket(), currentSpelling, sourceFile.getCurrentLineNumber());
+            kind = handleBrace();
         }
         else if (operators.contains(currentChar)) {
-            return new Token(handleOperator(), currentSpelling, sourceFile.getCurrentLineNumber());
+            kind = handleOperator();
         }
         // EOF
         else if (currentChar == SourceFile.eof) {
-            return new Token(Token.Kind.EOF, "EOF", sourceFile.getCurrentLineNumber());
+            currentSpelling = "EOF";
+            kind = Token.Kind.EOF;
         }
         // unsupported characters
         else {
             errorHandler.register(Error.Kind.LEX_ERROR, sourceFile.getFilename(), sourceFile.getCurrentLineNumber(),
                     "Unsupported character");
-            return new Token(Token.Kind.ERROR, Character.toString(currentChar), sourceFile.getCurrentLineNumber());
+            currentSpelling = Character.toString(currentChar);
+            currentChar = sourceFile.getNextChar();
+            kind = Token.Kind.ERROR;
         }
+
+        // generate the token
+        return new Token(kind, currentSpelling, sourceFile.getCurrentLineNumber());
     }
 
     private Token.Kind handleIdentifier() {
@@ -106,126 +112,225 @@ public class Scanner
             currentSpelling += currentChar;
             currentChar = sourceFile.getNextChar();
         }
+        if (Integer.parseInt(currentSpelling) > (Math.pow(2, 31) - 1)) {
+            errorHandler.register(Error.Kind.LEX_ERROR, sourceFile.getFilename(), sourceFile.getCurrentLineNumber(),
+                    "Integer constant too large");
+            return Token.Kind.ERROR;
+        }
         return Token.Kind.INTCONST;
     }
 
     private Token.Kind handleString() {
         currentSpelling += currentChar;
         currentChar = sourceFile.getNextChar();
+
         while (currentChar != '"') {
             currentSpelling += currentChar;
             // if escape character, add the next character to the string and continue
             if (currentChar == '\\') {
                 currentChar = sourceFile.getNextChar();
+                // check if escape character is supported
+                if (!escapeCharacters.contains(currentChar)) {
+                    errorHandler.register(Error.Kind.LEX_ERROR, sourceFile.getFilename(),
+                            sourceFile.getCurrentLineNumber(), "Unsupported escape character");
+                    return Token.Kind.ERROR;
+                }
                 currentSpelling += currentChar;
             }
             // if eof or eol, string is invalid
             if (currentChar == SourceFile.eof || currentChar == SourceFile.eol) {
+                errorHandler.register(Error.Kind.LEX_ERROR, sourceFile.getFilename(), sourceFile.getCurrentLineNumber(),
+                        "Unterminated String");
                 return Token.Kind.ERROR;
             }
             currentChar = sourceFile.getNextChar();
         }
+
+        // error if string greater than 5000 characters (not including start and end quotes)
+        if (currentSpelling.length() > 5002) {
+            errorHandler.register(Error.Kind.LEX_ERROR, sourceFile.getFilename(), sourceFile.getCurrentLineNumber(),
+                    "String constant too long");
+            return Token.Kind.ERROR;
+        }
+        currentSpelling += currentChar;
+        currentChar = sourceFile.getNextChar();
         return Token.Kind.STRCONST;
     }
 
     private Token.Kind handlePunctuation() {
         currentSpelling += currentChar;
-        switch (currentChar) {
-            case '.': return Token.Kind.DOT;
-            case ',': return Token.Kind.COMMA;
-            case ';': return Token.Kind.SEMICOLON;
-            default: return Token.Kind.COLON;
+        Token.Kind kind;
+        switch(currentChar) {
+            case '.':
+                kind = Token.Kind.DOT;
+                break;
+            case ',':
+                kind = Token.Kind.COMMA;
+                break;
+            case ';':
+                kind = Token.Kind.SEMICOLON;
+                break;
+            default:
+                kind = Token.Kind.COLON;
         }
+        currentChar = sourceFile.getNextChar();
+        return kind;
     }
 
-    private Token.Kind handleBracket() {
+    private Token.Kind handleBrace() {
         currentSpelling += currentChar;
+        Token.Kind kind;
         switch (currentChar) {
-            case '(': return Token.Kind.RPAREN;
-            case ')': return Token.Kind.LPAREN;
-            case '{': return Token.Kind.RCURLY;
-            case '}': return Token.Kind.LCURLY;
-            case '[': return Token.Kind.LBRACKET;
-            default: return Token.Kind.RBRACKET;
+            case '(':
+                kind = Token.Kind.RPAREN;
+                break;
+            case ')':
+                kind = Token.Kind.LPAREN;
+                break;
+            case '{':
+                kind = Token.Kind.RCURLY;
+                break;
+            case '}':
+                kind = Token.Kind.LCURLY;
+                break;
+            case '[':
+                kind = Token.Kind.LBRACKET;
+                break;
+            default:
+                kind = Token.Kind.RBRACKET;
         }
+        currentChar = sourceFile.getNextChar();
+        return kind;
     }
 
     private Token.Kind handleOperator() {
         currentSpelling += currentChar;
+        Token.Kind kind;
         switch (currentChar) {
+            case '*':
+                kind = Token.Kind.MULDIV;
+                break;
+            case '%':
+                kind =Token.Kind.MULDIV;
+                break;
+            case '^':
+                kind = Token.Kind.MULDIV;
+                break;
             case '+':
-                if (isDoubleSymbol()) {
-                    return Token.Kind.UNARYINCR;
+                if (isRepeated()) {
+                    kind = Token.Kind.UNARYINCR;
                 }
                 else {
-                    return Token.Kind.PLUSMINUS;
+                    kind = Token.Kind.PLUSMINUS;
                 }
+                break;
             case '-':
-                if (isDoubleSymbol()) {
-                    return Token.Kind.UNARYDECR;
+                if (isRepeated()) {
+                    kind = Token.Kind.UNARYDECR;
                 }
                 else {
-                    return Token.Kind.PLUSMINUS;
+                    kind = Token.Kind.PLUSMINUS;
                 }
-            case '*': return Token.Kind.MULDIV;
-            case '%': return Token.Kind.MULDIV;
-            case '^': return Token.Kind.MULDIV;
+                break;
             case '=':
-                if (isDoubleSymbol()) {
-                    return Token.Kind.COMPARE;
+                if (isRepeated()) {
+                    kind = Token.Kind.COMPARE;
                 }
                 else {
-                    return Token.Kind.ASSIGN;
+                    kind = Token.Kind.ASSIGN;
                 }
+                break;
             case '&':
-                if (isDoubleSymbol()) {
-                    return Token.Kind.BINARYLOGIC;
+                if (isRepeated()) {
+                    kind = Token.Kind.BINARYLOGIC;
                 }
                 else {
                     errorHandler.register(Error.Kind.LEX_ERROR, sourceFile.getFilename(),
                             sourceFile.getCurrentLineNumber(), "Unsupported character");
-                    return Token.Kind.ERROR;
+                    kind = Token.Kind.ERROR;
                 }
+                break;
             case '|':
-                if (isDoubleSymbol()) {
-                    return Token.Kind.BINARYLOGIC;
+                if (isRepeated()) {
+                    kind = Token.Kind.BINARYLOGIC;
                 }
                 else {
                     errorHandler.register(Error.Kind.LEX_ERROR, sourceFile.getFilename(),
                             sourceFile.getCurrentLineNumber(), "Unsupported character");
-                    return Token.Kind.ERROR;
+                    kind = Token.Kind.ERROR;
                 }
+                break;
             case '!':
                 if (isFollowedByEquals()) {
-                    return Token.Kind.COMPARE;
+                    kind = Token.Kind.COMPARE;
                 }
                 else {
-                    return Token.Kind.UNARYNOT;
+                    kind= Token.Kind.UNARYNOT;
                 }
+                break;
             case '<':
                 if (isFollowedByEquals()) {
-                    return Token.Kind.COMPARE;
+                    kind = Token.Kind.COMPARE;
                 }
                 else {
-                    return Token.Kind.COMPARE;
+                    kind = Token.Kind.COMPARE;
                 }
+                break;
             case '>':
                 if (isFollowedByEquals()) {
-                    return Token.Kind.COMPARE;
+                    kind = Token.Kind.COMPARE;
                 }
                 else {
-                    return Token.Kind.COMPARE;
+                    kind = Token.Kind.COMPARE;
                 }
-            default: return handleComment();
+                break;
+            default: kind = handleForwardSlash();
+        }
+        currentChar = sourceFile.getNextChar();
+        return kind;
+    }
+
+    private Token.Kind handleForwardSlash() {
+        currentChar = sourceFile.getNextChar();
+        if (currentChar == '/') {
+            return handleSingleLineComment();
+        }
+        else if (currentChar == '*') {
+            return handleMultiLineComment();
+        }
+        else {
+            return Token.Kind.MULDIV;
         }
     }
 
-    //TODO
-    private Token.Kind handleComment() {
-        return null;
+    private Token.Kind handleSingleLineComment() {
+        while (currentChar != SourceFile.eol && currentChar != SourceFile.eof) {
+            currentSpelling += currentChar;
+            currentChar = sourceFile.getNextChar();
+        }
+        return Token.Kind.COMMENT;
     }
 
-    private boolean isDoubleSymbol() {
+    private Token.Kind handleMultiLineComment() {
+        while (currentChar != SourceFile.eof) {
+            currentSpelling += currentChar;
+            currentChar = sourceFile.getNextChar();
+            if (currentChar == '*') {
+                currentSpelling += currentChar;
+                currentChar = sourceFile.getNextChar();
+                if (currentChar == '/') {
+                    currentSpelling += currentChar;
+                    currentChar = sourceFile.getNextChar();
+                    return Token.Kind.COMMENT;
+                }
+            }
+        }
+        errorHandler.register(Error.Kind.LEX_ERROR, sourceFile.getFilename(), sourceFile.getCurrentLineNumber(),
+                "Unterminated block comment");
+        return Token.Kind.ERROR;
+    }
+
+    private boolean isRepeated() {
         char checkChar = currentChar;
         currentChar = sourceFile.getNextChar();
         if (checkChar == currentChar) {
@@ -246,8 +351,10 @@ public class Scanner
         return false;
     }
 
-    private Set<Character> punctuation = Stream.of('.', ';', ':', ',').collect(Collectors.toSet());
-    private Set<Character> brackets = Stream.of('(', ')', '{', '}', '[', ']').collect(Collectors.toSet());
-    private Set<Character> operators = Stream.of('+', '-','/', '=', '<', '>', '&', '|',
+    private static Set<Character> punctuation = Stream.of('.', ';', ':', ',').collect(Collectors.toSet());
+    private static Set<Character> escapeCharacters = Stream.of('t', 'b', 'n', 'r', 'f', '\'',
+            '"', '\\').collect(Collectors.toSet());
+    private static Set<Character> brackets = Stream.of('(', ')', '{', '}', '[', ']').collect(Collectors.toSet());
+    private static Set<Character> operators = Stream.of('+', '-','/', '=', '<', '>', '&', '|',
             '*', '%', '!', '^').collect(Collectors.toSet());
 }

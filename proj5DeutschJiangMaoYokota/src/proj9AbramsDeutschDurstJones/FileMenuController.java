@@ -85,7 +85,7 @@ public class FileMenuController {
      * @return true is the specified file is successfully saved; false if an error
      * occurs when saving the specified file.
      */
-    public boolean setFileContents(String content, File file) {
+    private boolean setFileContents(String content, File file) {
         try {
             FileWriter fileWriter = new FileWriter(file);
             fileWriter.write(content);
@@ -106,18 +106,13 @@ public class FileMenuController {
      * @return 0 if user clicked NO button; 1 if user clicked OK button;
      * 2 is user clicked Cancel button; -1 is no saving is needed
      */
-    public int checkSaveBeforeCompile() {
+    public int checkSaveBeforeContinue() {
         JavaTab selectedTab = this.tabPane.getSelectedTab();
         // if the file has not been saved or has been changed
         if (!selectedTab.isSaved()) {
-            int buttonClicked = this.createConfirmationDialog(
-                    "Save Changes?", "Do you want to save the changes before compiling?",
-                    "Your recent file changes would not be compiled if not saved.");
-            // if user presses Yes button
-            if (buttonClicked == 1) {
-                this.handleSaveAction();
-            }
-            return buttonClicked;
+            return this.createConfirmationDialog(
+                    "Save Changes?", "Do you want to save the changes before continuing?",
+                    "Your recent file changes would not be scanned if not saved.");
         }
         return -1;
     }
@@ -131,7 +126,7 @@ public class FileMenuController {
      * @return 0 if the user clicks No button; 1 if the user clicks the Yes
      * button; 2 if the user clicks cancel button.
      */
-    public int createConfirmationDialog(String title, String headerText, String contentText) {
+    private int createConfirmationDialog(String title, String headerText, String contentText) {
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
         alert.setTitle(title);
         alert.setHeaderText(headerText);

@@ -9,7 +9,6 @@
 
 package proj9AbramsDeutschDurstJones;
 
-import javafx.beans.property.ReadOnlyBooleanProperty;
 import javafx.event.ActionEvent;
 import javafx.event.Event;
 import javafx.fxml.FXML;
@@ -37,10 +36,6 @@ public class Controller {
      * ToolbarController handling toolbar actions
      */
     private ToolBarController toolbarController;
-    /**
-     * FindReplaceController handling find and replace actions
-     */
-    private FindReplaceController findReplaceController;
     /**
      * FileMenuController handling File menu actions
      */
@@ -74,17 +69,7 @@ public class Controller {
      * Compile button defined in Main.fxml
      */
     @FXML
-    private Button compileButton;
-    /**
-     * CompileRun button defined in Main.fxml
-     */
-    @FXML
-    private Button compileRunButton;
-    /**
-     * Stop button defined in Main.fxml
-     */
-    @FXML
-    private Button stopButton;
+    private Button scanButton;
     /**
      * TabPane defined in Main.fxml
      */
@@ -130,55 +115,14 @@ public class Controller {
      */
     @FXML
     private Menu codeMenu;
-    /**
-     * Find field defined in Main.fxml
-     */
-    @FXML
-    private TextField findTextEntry;
-    /**
-     * Find previous button defined in Main.fxml
-     */
-    @FXML
-    private Button findPrevBtn;
-    /**
-     * Find next button defined in Main.fxml
-     */
-    @FXML
-    private Button findNextBtn;
-    /**
-     * Replace field defined in Main.fxml
-     */
-    @FXML
-    private TextField replaceTextEntry;
-    /**
-     * The worker running the compile task
-     */
-    private ToolBarController.CompileWorker compileWorker;
-    /**
-     * The worker running the compile and run tasks
-     */
-    private ToolBarController.CompileRunWorker compileRunWorker;
 
     /**
      * Passes in relevant items to ToolbarController.
      */
     private void setupToolbarController() {
         this.toolbarController.setConsole(this.console);
+        this.toolbarController.setTabPane(this.tabPane);
         this.toolbarController.setFileMenuController(this.fileMenuController);
-        this.toolbarController.initialize();
-        this.compileWorker = this.toolbarController.getCompileWorker();
-        this.compileRunWorker = this.toolbarController.getCompileRunWorker();
-    }
-
-    /**
-     * Passes in relevant items to FindReplaceController
-     */
-    private void setupFindReplaceController() {
-        this.findReplaceController.setJavaTabPane(this.tabPane);
-        this.findReplaceController.setFindTextEntry(this.findTextEntry);
-        this.findReplaceController.setNextMatchBtn(this.findNextBtn);
-        this.findReplaceController.setPrevMatchBtn(this.findPrevBtn);
-        this.findReplaceController.setReplaceTextEntryTextEntry(this.replaceTextEntry);
     }
 
     /**
@@ -244,22 +188,12 @@ public class Controller {
      */
     private void setButtonBinding() {
         BooleanBinding ifTabPaneEmpty = Bindings.isEmpty(tabPane.getTabs());
-        ReadOnlyBooleanProperty ifCompiling = this.compileWorker.runningProperty();
-        ReadOnlyBooleanProperty ifCompilingRunning =
-                this.compileRunWorker.runningProperty();
 
         this.closeMenuItem.disableProperty().bind(ifTabPaneEmpty);
         this.saveMenuItem.disableProperty().bind(ifTabPaneEmpty);
         this.saveAsMenuItem.disableProperty().bind(ifTabPaneEmpty);
         this.editMenu.disableProperty().bind(ifTabPaneEmpty);
         this.codeMenu.disableProperty().bind(ifTabPaneEmpty);
-
-        this.stopButton.disableProperty().bind(
-                ((ifCompiling.not()).and(ifCompilingRunning.not())).or(ifTabPaneEmpty));
-        this.compileButton.disableProperty().bind(
-                ifCompiling.or(ifCompilingRunning).or(ifTabPaneEmpty));
-        this.compileRunButton.disableProperty().bind(
-                ifCompiling.or(ifCompilingRunning).or(ifTabPaneEmpty));
     }
 
     /**
@@ -276,7 +210,6 @@ public class Controller {
         this.directoryController = new DirectoryController();
         this.settingMenuController = new SettingMenuController();
         this.structureViewController = new StructureViewController();
-        this.findReplaceController = new FindReplaceController();
 
         // set up the sub controllers
         this.setupFileMenuController();
@@ -286,7 +219,6 @@ public class Controller {
         this.setupDirectoryController();
         this.setupSettingMenuController();
         this.setupStructureViewController();
-        this.setupFindReplaceController();
 
         this.setButtonBinding();
     }
@@ -338,38 +270,16 @@ public class Controller {
     }
 
     /**
-     * Calls the method that handles the Compile button action from the
+     * Calls the method that handles the Scan button action from the
      * toolbarController.
      *
      * @param event Event object
      */
     @FXML
-    private void handleCompileButtonAction(Event event) {
+    private void handleScanButtonAction(Event event) {
         Tab selectedTab = this.tabPane.getSelectionModel().getSelectedItem();
-        this.toolbarController.handleCompileButtonAction(
+        this.toolbarController.handleScanButtonAction(
                 event, this.tabPane.getFileFromTab(selectedTab));
-    }
-
-    /**
-     * Calls the method that handles the CompileRun button action from the
-     * toolbarController.
-     *
-     * @param event Event object
-     */
-    @FXML
-    private void handleCompileRunButtonAction(Event event) {
-        Tab selectedTab = this.tabPane.getSelectedTab();
-        this.toolbarController.handleCompileRunButtonAction(
-                event, this.tabPane.getFileFromTab(selectedTab));
-    }
-
-    /**
-     * Calls the method that handles the Stop button action from the
-     * toolbarController.
-     */
-    @FXML
-    private void handleStopButtonAction() {
-        this.toolbarController.handleStopButtonAction();
     }
 
     /**
@@ -528,54 +438,6 @@ public class Controller {
     }
 
     /**
-     * Calls handleFindText() of the findReplaceController
-     */
-    @FXML
-    public void handleFindText() {
-        this.findReplaceController.handleFindText();
-    }
-
-    /**
-     * Calls handleHighlightPrevMatch() of the findReplaceController
-     */
-    @FXML
-    public void handleHighlightPrevMatch() {
-        this.findReplaceController.handleHighlightPrevMatch();
-    }
-
-    /**
-     * Calls handleHighlightNextMatch() of the findReplaceController
-     */
-    @FXML
-    public void handleHighlightNextMatch() {
-        this.findReplaceController.handleHighlightNextMatch();
-    }
-
-    /**
-     * Calls handleReplaceText() of the findReplaceController
-     */
-    @FXML
-    public void handleReplaceText() {
-        this.findReplaceController.handleReplaceText();
-    }
-
-    /**
-     * Focuses on the Find Text Entry Box
-     */
-    @FXML
-    public void handleFocusOnFindTextEntry() {
-        this.findTextEntry.requestFocus();
-    }
-
-    /**
-     * Focuses on the Replace Text Entry Box
-     */
-    @FXML
-    public void handleFocusOnReplaceTextEntry() {
-        this.replaceTextEntry.requestFocus();
-    }
-
-    /**
      * Handles onAction for the Light Mode menu item
      */
     @FXML
@@ -665,14 +527,5 @@ public class Controller {
     @FXML
     public void handleDuplicateLineAction(Event event) {
         this.codeMenuController.handleDuplicateLine(event);
-    }
-
-    /**
-     * Calls the method that handles the Check Same Number menu item action from the
-     * codeMenuController
-     */
-    @FXML
-    public void handleCheckSameNumberGroupingsAction() {
-        this.codeMenuController.handleCheckSameNumberGoupings();
     }
 }
