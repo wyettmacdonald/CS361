@@ -12,10 +12,19 @@ import proj9AbramsDeutschDurstJones.bantam.util.Error;
 import proj9AbramsDeutschDurstJones.bantam.util.ErrorHandler;
 
 
+import java.io.Reader;
 import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+/**
+ * This class handles tokenizing a Java file, returning the next token when scan is called
+ *
+ * @author Douglas Abrams
+ * @author Martin Deutsch
+ * @author Robert Durst
+ * @author Matt Jones
+ */
 public class Scanner
 {
     private SourceFile sourceFile;
@@ -23,23 +32,43 @@ public class Scanner
     private char currentChar;
     private String currentSpelling;
 
+    private static Set<Character> punctuation = Stream.of('.', ';', ':', ',').collect(Collectors.toSet());
+    private static Set<Character> escapeCharacters = Stream.of('t', 'b', 'n', 'r', 'f', '\'',
+            '"', '\\').collect(Collectors.toSet());
+    private static Set<Character> brackets = Stream.of('(', ')', '{', '}', '[', ']').collect(Collectors.toSet());
+    private static Set<Character> operators = Stream.of('+', '-','/', '=', '<', '>', '&', '|',
+            '*', '%', '!', '^').collect(Collectors.toSet());
 
-//    public ScannerCode(ErrorHandler handler) {
-//        errorHandler = handler;
-//        currentChar = ' ';
-//        sourceFile = null;
-//    }
+    /**
+     * Constructor just getting the error handler
+     * @param handler the ErrorHandler to register errors with
+     */
+    public Scanner(ErrorHandler handler) {
+        errorHandler = handler;
+        currentChar = ' ';
+        sourceFile = null;
+    }
 
+    /**
+     * Constructor getting the file to tokenize and the error handler
+     * @param filename the path to the file to tokenize
+     * @param handler the ErrorHandler to register errors with
+     */
     public Scanner(String filename, ErrorHandler handler) {
         errorHandler = handler;
         currentChar = ' ';
         sourceFile = new SourceFile(filename);
     }
 
-//    public ScannerCode(Reader reader, ErrorHandler handler) {
-//        errorHandler = handler;
-//        sourceFile = new SourceFile(reader);
-//    }
+    /**
+     * Constructor getting a file reader and the error handler
+     * @param reader the reader to initialize the SourceFile object with
+     * @param handler the ErrorHandler to register errors with
+     */
+    public Scanner(Reader reader, ErrorHandler handler) {
+        errorHandler = handler;
+        sourceFile = new SourceFile(reader);
+    }
 
     public Token scan()
     {
@@ -209,12 +238,15 @@ public class Scanner
         switch (currentChar) {
             case '*':
                 kind = Token.Kind.MULDIV;
+                currentChar = sourceFile.getNextChar();
                 break;
             case '%':
                 kind =Token.Kind.MULDIV;
+                currentChar = sourceFile.getNextChar();
                 break;
             case '^':
                 kind = Token.Kind.MULDIV;
+                currentChar = sourceFile.getNextChar();
                 break;
             case '+':
                 if (isRepeated()) {
@@ -286,7 +318,6 @@ public class Scanner
                 break;
             default: kind = handleForwardSlash();
         }
-        currentChar = sourceFile.getNextChar();
         return kind;
     }
 
@@ -351,10 +382,28 @@ public class Scanner
         return false;
     }
 
-    private static Set<Character> punctuation = Stream.of('.', ';', ':', ',').collect(Collectors.toSet());
-    private static Set<Character> escapeCharacters = Stream.of('t', 'b', 'n', 'r', 'f', '\'',
-            '"', '\\').collect(Collectors.toSet());
-    private static Set<Character> brackets = Stream.of('(', ')', '{', '}', '[', ']').collect(Collectors.toSet());
-    private static Set<Character> operators = Stream.of('+', '-','/', '=', '<', '>', '&', '|',
-            '*', '%', '!', '^').collect(Collectors.toSet());
+    public static void main(String[] args) {
+        if (args.length == 0) {
+            System.out.println("Please enter files to scan");
+        }
+
+        ErrorHandler errorHandler = new ErrorHandler();
+        for (int i = 0; i < args.length; i++) {
+            Scanner scanner = new Scanner(args[i], errorHandler);
+            System.out.println(args[i]);
+            Token token = scanner.scan();
+            while (token.kind != Token.Kind.EOF) {
+                System.out.println(token.toString());
+                token = scanner.scan();
+            }
+            System.out.println(token.toString());
+            if (errorHandler.errorsFound()) {
+                System.out.println(errorHandler.getErrorList().size() + " illegal tokens");
+            }
+            else {
+                System.out.println("Scanning successful");
+            }
+            errorHandler.clear();
+        }
+    }
 }
