@@ -14,34 +14,12 @@
     integer-color: red;
 }
 
-/* style of Compile button */
-#compileButton {
+/* style of Scan button */
+#scanButton {
 	/* set button color to green */
     -fx-background-color:#afeeee;
     /* set button border to black */
     -fx-border-color: black; 
-    /* set rounded corners */
-    -fx-border-radius: 5;
-    -fx-background-radius: 5;
-}
-
-/* style of CompileRun button */
-#compileRunButton {
-	/* set button color to red */
-    -fx-background-color:#98FB98;
-    /* set button border to black */
-    -fx-border-color: black;
-    /* set rounded corners */
-    -fx-border-radius: 5;
-    -fx-background-radius: 5;
-}
-
-/* style of Stop button */
-#stopButton {
-	/* set button color to red */
-    -fx-background-color:#ffab99;
-    /* set button border to black */
-    -fx-border-color: black;
     /* set rounded corners */
     -fx-border-radius: 5;
     -fx-background-radius: 5;
