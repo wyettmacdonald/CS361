@@ -168,14 +168,77 @@ public class Scanner
                     return Token.Kind.PLUSMINUS;
                 }
             case '*': return Token.Kind.MULDIV;
-            default: return null;
+            case '%': return Token.Kind.MULDIV;
+            case '^': return Token.Kind.MULDIV;
+            case '=':
+                if (isDoubleSymbol()) {
+                    return Token.Kind.COMPARE;
+                }
+                else {
+                    return Token.Kind.ASSIGN;
+                }
+            case '&':
+                if (isDoubleSymbol()) {
+                    return Token.Kind.BINARYLOGIC;
+                }
+                else {
+                    errorHandler.register(Error.Kind.LEX_ERROR, sourceFile.getFilename(),
+                            sourceFile.getCurrentLineNumber(), "Unsupported character");
+                    return Token.Kind.ERROR;
+                }
+            case '|':
+                if (isDoubleSymbol()) {
+                    return Token.Kind.BINARYLOGIC;
+                }
+                else {
+                    errorHandler.register(Error.Kind.LEX_ERROR, sourceFile.getFilename(),
+                            sourceFile.getCurrentLineNumber(), "Unsupported character");
+                    return Token.Kind.ERROR;
+                }
+            case '!':
+                if (isFollowedByEquals()) {
+                    return Token.Kind.COMPARE;
+                }
+                else {
+                    return Token.Kind.UNARYNOT;
+                }
+            case '<':
+                if (isFollowedByEquals()) {
+                    return Token.Kind.COMPARE;
+                }
+                else {
+                    return Token.Kind.COMPARE;
+                }
+            case '>':
+                if (isFollowedByEquals()) {
+                    return Token.Kind.COMPARE;
+                }
+                else {
+                    return Token.Kind.COMPARE;
+                }
+            default: return handleComment();
         }
+    }
+
+    //TODO
+    private Token.Kind handleComment() {
+        return null;
     }
 
     private boolean isDoubleSymbol() {
         char checkChar = currentChar;
         currentChar = sourceFile.getNextChar();
         if (checkChar == currentChar) {
+            currentSpelling += currentChar;
+            currentChar = sourceFile.getNextChar();
+            return true;
+        }
+        return false;
+    }
+
+    private boolean isFollowedByEquals() {
+        currentChar = sourceFile.getNextChar();
+        if (currentChar == '=') {
             currentSpelling += currentChar;
             currentChar = sourceFile.getNextChar();
             return true;
