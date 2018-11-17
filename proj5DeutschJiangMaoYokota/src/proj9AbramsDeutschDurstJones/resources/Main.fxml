@@ -71,6 +71,13 @@
     </MenuBar>
     <ToolBar fx:id="toolbar" VBox.vgrow="ALWAYS">
         <Button text="Scan" fx:id="scanButton" onAction ="#handleScanButtonAction"/>
+        <Separator orientation="VERTICAL"/>
+        <TextField fx:id="findTextEntry" promptText="Find" />
+        <Button fx:id="findButton" onAction="#handleFindText" text="Find" />
+        <Button fx:id="findPrevBtn" onAction="#handleHighlightPrevMatch" text="Previous" />
+        <Button fx:id="findNextBtn" onAction="#handleHighlightNextMatch" text="Next"/>
+        <TextField fx:id="replaceTextEntry" promptText="Replace" />
+        <Button fx:id="replaceButton" onAction="#handleReplaceText" text="Replace" />
     </ToolBar>
     <SplitPane dividerPositions="0.2" maxHeight="Infinity"
                maxWidth="Infinity"
