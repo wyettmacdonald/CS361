@@ -5,9 +5,10 @@ import static org.junit.Assert.*;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
+import java.io.File;
 import proj9AbramsDeutschDurstJones.bantam.lexer.Scanner;
 import proj9AbramsDeutschDurstJones.bantam.lexer.Token;
-import static proj9AbramsDeutschDurstJones.bantam.lexer.Token.Kind;
+import proj9AbramsDeutschDurstJones.bantam.lexer.Token.Kind;
 import proj9AbramsDeutschDurstJones.bantam.util.Error;
 import proj9AbramsDeutschDurstJones.bantam.util.ErrorHandler;
 
@@ -19,7 +20,9 @@ public class TestHelloWorld {
     @BeforeClass
     static public void startTest() {
       errorHandler = new ErrorHandler();
-      scanner = new Scanner("/home/rsd/Desktop/CS361Project6/proj5DeutschJiangMaoYokota/src/proj9AbramsDeutschDurstJones/bantam/tests/HelloWorld.java", errorHandler);
+      String filepath = new File("").getAbsolutePath();
+      filepath = filepath.concat("/proj9AbramsDeutschDurstJones/bantam/tests/test_bantam_files/HelloWorld.java"); 
+      scanner = new Scanner(filepath, errorHandler);
     }
 
     @Test
