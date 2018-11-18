@@ -8,10 +8,8 @@
 
 package proj9AbramsDeutschDurstJones.bantam.lexer;
 
-import proj9AbramsDeutschDurstJones.bantam.util.CompilationException;
 import proj9AbramsDeutschDurstJones.bantam.util.Error;
 import proj9AbramsDeutschDurstJones.bantam.util.ErrorHandler;
-
 import java.io.Reader;
 import java.util.Set;
 import java.util.stream.Collectors;
