@@ -73,8 +73,8 @@ public class Scanner
 
     /**
      * Looks for the next token. Will return the constructed token when any of the
-     * conditions that end a token are met. Returns eof if the end of the file
-     * has been reached.
+     * conditions that end a token are met. Returns a Token of type eof if the
+     * end of the file has been reached.
      *
      * @return returns a Token associated with what was built
      */
