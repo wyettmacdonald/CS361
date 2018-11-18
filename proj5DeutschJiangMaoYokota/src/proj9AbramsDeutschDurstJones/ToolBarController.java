@@ -124,7 +124,7 @@ public class ToolBarController {
 
         } catch (Throwable e) {
             Platform.runLater(() -> {
-                this.fileMenuController.createErrorDialog("File Compilation", "Error compiling.\n" +
+                this.fileMenuController.createErrorDialog("Reading File",
                         "Please try again with another valid Java File.");
             });
         }

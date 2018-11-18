@@ -8,6 +8,7 @@
 
 package proj9AbramsDeutschDurstJones.bantam.lexer;
 
+import proj9AbramsDeutschDurstJones.bantam.util.CompilationException;
 import proj9AbramsDeutschDurstJones.bantam.util.Error;
 import proj9AbramsDeutschDurstJones.bantam.util.ErrorHandler;
 
@@ -72,10 +73,6 @@ public class Scanner
 
     public Token scan()
     {
-        // initialize the spelling and kind of the token
-        currentSpelling = "";
-        Token.Kind kind;
-
         // initialize current char if this is the start of the file
         if (currentChar == ' ') {
             currentChar = sourceFile.getNextChar();
@@ -85,6 +82,11 @@ public class Scanner
         while (Character.isWhitespace(currentChar)) {
             currentChar = sourceFile.getNextChar();
         }
+
+        // initialize the spelling, kind and position of the token
+        currentSpelling = "";
+        Token.Kind kind;
+        int position = sourceFile.getCurrentLineNumber();
 
         // identifier
         if (Character.isLetter(currentChar)) {
@@ -107,6 +109,7 @@ public class Scanner
         else if (brackets.contains(currentChar)) {
             kind = handleBrace();
         }
+        // operators
         else if (operators.contains(currentChar)) {
             kind = handleOperator();
         }
@@ -117,15 +120,11 @@ public class Scanner
         }
         // unsupported characters
         else {
-            errorHandler.register(Error.Kind.LEX_ERROR, sourceFile.getFilename(), sourceFile.getCurrentLineNumber(),
-                    "Unsupported character");
-            currentSpelling = Character.toString(currentChar);
-            currentChar = sourceFile.getNextChar();
-            kind = Token.Kind.ERROR;
+            kind = handleUnsupportedChar();
         }
 
         // generate the token
-        return new Token(kind, currentSpelling, sourceFile.getCurrentLineNumber());
+        return new Token(kind, currentSpelling, position);
     }
 
     private Token.Kind handleIdentifier() {
@@ -137,12 +136,14 @@ public class Scanner
     }
 
     private Token.Kind handleInteger() {
+        int position = sourceFile.getCurrentLineNumber();
+
         while (Character.isDigit(currentChar)) {
             currentSpelling += currentChar;
             currentChar = sourceFile.getNextChar();
         }
         if (Integer.parseInt(currentSpelling) > (Math.pow(2, 31) - 1)) {
-            errorHandler.register(Error.Kind.LEX_ERROR, sourceFile.getFilename(), sourceFile.getCurrentLineNumber(),
+            errorHandler.register(Error.Kind.LEX_ERROR, sourceFile.getFilename(), position,
                     "Integer constant too large");
             return Token.Kind.ERROR;
         }
@@ -150,6 +151,7 @@ public class Scanner
     }
 
     private Token.Kind handleString() {
+        int position = sourceFile.getCurrentLineNumber();
         currentSpelling += currentChar;
         currentChar = sourceFile.getNextChar();
 
@@ -161,14 +163,14 @@ public class Scanner
                 // check if escape character is supported
                 if (!escapeCharacters.contains(currentChar)) {
                     errorHandler.register(Error.Kind.LEX_ERROR, sourceFile.getFilename(),
-                            sourceFile.getCurrentLineNumber(), "Unsupported escape character");
+                            position, "Unsupported escape character");
                     return Token.Kind.ERROR;
                 }
                 currentSpelling += currentChar;
             }
             // if eof or eol, string is invalid
             if (currentChar == SourceFile.eof || currentChar == SourceFile.eol) {
-                errorHandler.register(Error.Kind.LEX_ERROR, sourceFile.getFilename(), sourceFile.getCurrentLineNumber(),
+                errorHandler.register(Error.Kind.LEX_ERROR, sourceFile.getFilename(), position,
                         "Unterminated String");
                 return Token.Kind.ERROR;
             }
@@ -177,7 +179,7 @@ public class Scanner
 
         // error if string greater than 5000 characters (not including start and end quotes)
         if (currentSpelling.length() > 5002) {
-            errorHandler.register(Error.Kind.LEX_ERROR, sourceFile.getFilename(), sourceFile.getCurrentLineNumber(),
+            errorHandler.register(Error.Kind.LEX_ERROR, sourceFile.getFilename(), position,
                     "String constant too long");
             return Token.Kind.ERROR;
         }
@@ -233,8 +235,10 @@ public class Scanner
     }
 
     private Token.Kind handleOperator() {
+        int position = sourceFile.getCurrentLineNumber();
         currentSpelling += currentChar;
         Token.Kind kind;
+
         switch (currentChar) {
             case '*':
                 kind = Token.Kind.MULDIV;
@@ -278,7 +282,7 @@ public class Scanner
                 }
                 else {
                     errorHandler.register(Error.Kind.LEX_ERROR, sourceFile.getFilename(),
-                            sourceFile.getCurrentLineNumber(), "Unsupported character");
+                            position, "Unsupported character");
                     kind = Token.Kind.ERROR;
                 }
                 break;
@@ -288,7 +292,7 @@ public class Scanner
                 }
                 else {
                     errorHandler.register(Error.Kind.LEX_ERROR, sourceFile.getFilename(),
-                            sourceFile.getCurrentLineNumber(), "Unsupported character");
+                            position, "Unsupported character");
                     kind = Token.Kind.ERROR;
                 }
                 break;
@@ -343,6 +347,8 @@ public class Scanner
     }
 
     private Token.Kind handleMultiLineComment() {
+        int position = sourceFile.getCurrentLineNumber();
+
         while (currentChar != SourceFile.eof) {
             currentSpelling += currentChar;
             currentChar = sourceFile.getNextChar();
@@ -356,8 +362,16 @@ public class Scanner
                 }
             }
         }
-        errorHandler.register(Error.Kind.LEX_ERROR, sourceFile.getFilename(), sourceFile.getCurrentLineNumber(),
+        errorHandler.register(Error.Kind.LEX_ERROR, sourceFile.getFilename(), position,
                 "Unterminated block comment");
+        return Token.Kind.ERROR;
+    }
+
+    private Token.Kind handleUnsupportedChar() {
+        errorHandler.register(Error.Kind.LEX_ERROR, sourceFile.getFilename(), sourceFile.getCurrentLineNumber(),
+                "Unsupported character");
+        currentSpelling = Character.toString(currentChar);
+        currentChar = sourceFile.getNextChar();
         return Token.Kind.ERROR;
     }
 
@@ -389,21 +403,25 @@ public class Scanner
 
         ErrorHandler errorHandler = new ErrorHandler();
         for (int i = 0; i < args.length; i++) {
-            Scanner scanner = new Scanner(args[i], errorHandler);
-            System.out.println(args[i]);
-            Token token = scanner.scan();
-            while (token.kind != Token.Kind.EOF) {
+            try {
+                Scanner scanner = new Scanner(args[i], errorHandler);
+                System.out.println(args[i]);
+                Token token = scanner.scan();
+                while (token.kind != Token.Kind.EOF) {
+                    System.out.println(token.toString());
+                    token = scanner.scan();
+                }
                 System.out.println(token.toString());
-                token = scanner.scan();
+                if (errorHandler.errorsFound()) {
+                    System.out.println(errorHandler.getErrorList().size() + " illegal tokens");
+                } else {
+                    System.out.println("Scanning successful");
+                }
+                errorHandler.clear();
             }
-            System.out.println(token.toString());
-            if (errorHandler.errorsFound()) {
-                System.out.println(errorHandler.getErrorList().size() + " illegal tokens");
+            catch (CompilationException e) {
+                System.out.println("Unable to read file " + args[i]);
             }
-            else {
-                System.out.println("Scanning successful");
-            }
-            errorHandler.clear();
         }
     }
 }
