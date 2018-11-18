@@ -8,6 +8,7 @@
 
 package proj9AbramsDeutschDurstJones.bantam.lexer;
 
+import proj9AbramsDeutschDurstJones.bantam.util.CompilationException;
 import proj9AbramsDeutschDurstJones.bantam.util.Error;
 import proj9AbramsDeutschDurstJones.bantam.util.ErrorHandler;
 import java.io.Reader;
@@ -487,5 +488,39 @@ public class Scanner
     private void registerError(int position, String message) {
         this.errorHandler.register(Error.Kind.LEX_ERROR, this.sourceFile.getFilename(),
                 position, message);
+    }
+
+    /**
+     * Main method scans the given files and prints out their tokens and
+     * the number of errors
+     * @param args a list of file names
+     */
+    public static void main(String[] args) {
+        if (args.length == 0) {
+            System.out.println("Please enter files to scan");
+        }
+
+        ErrorHandler errorHandler = new ErrorHandler();
+        for (int i = 0; i < args.length; i++) {
+            try {
+                Scanner scanner = new Scanner(args[i], errorHandler);
+                System.out.println(args[i]);
+                Token token = scanner.scan();
+                while (token.kind != Token.Kind.EOF) {
+                    System.out.println(token.toString());
+                    token = scanner.scan();
+                }
+                System.out.println(token.toString());
+                if (errorHandler.errorsFound()) {
+                    System.out.println(errorHandler.getErrorList().size() + " illegal tokens");
+                } else {
+                    System.out.println("Scanning successful");
+                }
+                errorHandler.clear();
+            }
+            catch (CompilationException e) {
+                System.out.println("Unable to read file " + args[i]);
+            }
+        }
     }
 }

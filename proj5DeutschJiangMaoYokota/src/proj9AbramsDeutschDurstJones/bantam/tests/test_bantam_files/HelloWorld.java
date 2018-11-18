@@ -5,8 +5,7 @@ public class HelloWorld {
     // begin fake java
     && * > ++ -- ! , break cast
     /*return to real java*/
-    String s = "
-    ";
+    String s = "";
     System.out.println("Hello World");
   }
 }
