@@ -239,16 +239,16 @@ public class Scanner {
         Token.Kind kind;
         switch (this.currentChar) {
             case '(':
-                kind = Token.Kind.RPAREN;
-                break;
-            case ')':
                 kind = Token.Kind.LPAREN;
                 break;
+            case ')':
+                kind = Token.Kind.RPAREN;
+                break;
             case '{':
-                kind = Token.Kind.RCURLY;
+                kind = Token.Kind.LCURLY;
                 break;
             case '}':
-                kind = Token.Kind.LCURLY;
+                kind = Token.Kind.RCURLY;
                 break;
             case '[':
                 kind = Token.Kind.LBRACKET;
