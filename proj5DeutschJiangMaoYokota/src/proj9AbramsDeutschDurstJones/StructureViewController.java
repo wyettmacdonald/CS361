@@ -23,8 +23,6 @@ import proj9AbramsDeutschDurstJones.Java8Files.Java8BaseListener;
 import proj9AbramsDeutschDurstJones.Java8Files.Java8Lexer;
 import proj9AbramsDeutschDurstJones.Java8Files.Java8Parser;
 
-import java.io.FileInputStream;
-import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -142,13 +140,13 @@ public class StructureViewController
 
             try
             {
-                this.classPic = new Image(new FileInputStream(System.getProperty("user.dir") + "/include/c.png"));
-                this.methodPic = new Image(new FileInputStream(System.getProperty("user.dir") + "/include/m.png"));
-                this.fieldPic = new Image(new FileInputStream(System.getProperty("user.dir") + "/include/f.png"));
+                this.classPic = new Image(getClass().getResource("resources/c.png").toString());
+                this.methodPic = new Image(getClass().getResource("resources/m.png").toString());
+                this.fieldPic = new Image(getClass().getResource("resources/f.png").toString());
             }
-            catch (IOException e)
+            catch (Exception e)
             {
-                System.out.println("Error Loading Images");
+                // do nothing
             }
         }
 

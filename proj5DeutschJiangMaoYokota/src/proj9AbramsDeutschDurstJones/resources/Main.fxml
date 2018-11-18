@@ -38,6 +38,10 @@
                       onAction="#handleIndentAction" accelerator="Shortcut+]"/>
             <MenuItem text="Unindent Text" fx:id="unindentTextMenuItem"
                       onAction="#handleUnindentAction" accelerator="Shortcut+["/>
+            <MenuItem text="Go to Find" fx:id="goToFindMenuItem"
+                      onAction="#handleGoToFind" accelerator="Shortcut+F"/>
+            <MenuItem text="Go to Replace" fx:id="goToReplaceMenuItem"
+                      onAction="#handleGoToReplace" accelerator="Shortcut+R"/>
         </Menu>
         <Menu text="Code" fx:id="codeMenu">
             <MenuItem text="Toggle Comments" fx:id="commentMenuItem" onAction="#handleToggleCommentAction" accelerator="Shortcut+/"/>

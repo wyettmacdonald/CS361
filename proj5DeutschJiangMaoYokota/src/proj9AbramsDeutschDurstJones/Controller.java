@@ -475,6 +475,22 @@ public class Controller {
     }
 
     /**
+     * Focus on the find text entry
+     */
+    @FXML
+    public void handleGoToFind() {
+        this.findTextEntry.requestFocus();
+    }
+
+    /**
+     * Focus on the replace text entry
+     */
+    @FXML
+    public void handleGoToReplace() {
+        this.replaceTextEntry.requestFocus();
+    }
+
+    /**
      * Calls handleFindText() of the findReplaceController
      */
     @FXML
