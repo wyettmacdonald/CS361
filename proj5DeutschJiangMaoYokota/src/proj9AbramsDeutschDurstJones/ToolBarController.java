@@ -130,6 +130,11 @@ public class ToolBarController {
         }
     }
 
+    /**
+     * Helper method for printing the given list of Errors to the console
+     *
+     * @param errorList the list of Error objects to display
+     */
     private void printErrorList(List<Error> errorList) {
         String errors = "";
         for (Error e : errorList) {
