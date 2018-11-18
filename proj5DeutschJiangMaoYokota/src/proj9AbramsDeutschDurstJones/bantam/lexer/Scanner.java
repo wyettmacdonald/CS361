@@ -8,7 +8,6 @@
 
 package proj9AbramsDeutschDurstJones.bantam.lexer;
 
-import proj9AbramsDeutschDurstJones.bantam.util.CompilationException;
 import proj9AbramsDeutschDurstJones.bantam.util.Error;
 import proj9AbramsDeutschDurstJones.bantam.util.ErrorHandler;
 
@@ -25,22 +24,21 @@ import java.util.stream.Stream;
  * @author Robert Durst
  * @author Matt Jones
  */
-public class Scanner {
+public class Scanner
+{
     private SourceFile sourceFile;
     private ErrorHandler errorHandler;
     private char currentChar;
-    private StringBuilder currentSpelling;
 
     private static Set<Character> punctuation = Stream.of('.', ';', ':', ',').collect(Collectors.toSet());
     private static Set<Character> escapeCharacters = Stream.of('t', 'b', 'n', 'r', 'f', '\'',
             '"', '\\').collect(Collectors.toSet());
     private static Set<Character> brackets = Stream.of('(', ')', '{', '}', '[', ']').collect(Collectors.toSet());
-    private static Set<Character> operators = Stream.of('+', '-', '/', '=', '<', '>', '&', '|',
+    private static Set<Character> operators = Stream.of('+', '-','/', '=', '<', '>', '&', '|',
             '*', '%', '!', '^').collect(Collectors.toSet());
 
     /**
      * Constructor just taking the error handler
-     *
      * @param handler the ErrorHandler to register errors with
      */
     public Scanner(ErrorHandler handler) {
@@ -51,9 +49,8 @@ public class Scanner {
 
     /**
      * Constructor taking the file to tokenize and the error handler
-     *
      * @param filename the path to the file to tokenize
-     * @param handler  the ErrorHandler to register errors with
+     * @param handler the ErrorHandler to register errors with
      */
     public Scanner(String filename, ErrorHandler handler) {
         this.errorHandler = handler;
@@ -63,8 +60,7 @@ public class Scanner {
 
     /**
      * Constructor taking a file reader and the error handler
-     *
-     * @param reader  the reader to initialize the SourceFile object with
+     * @param reader the reader to initialize the SourceFile object with
      * @param handler the ErrorHandler to register errors with
      */
     public Scanner(Reader reader, ErrorHandler handler) {
@@ -72,147 +68,110 @@ public class Scanner {
         this.sourceFile = new SourceFile(reader);
     }
 
-    /**
-     * Looks for the next token. Will return the constructed token when any of the
-     * conditions that end a token are met.
-     *
-     * @return returns a Token associated with what was built
-     */
-    public Token scan() {
+    public Token scan()
+    {
         // go to next meaningful character
         this.goToNonWhitespaceChar();
 
         // initialize the spelling, kind and position of the token
-        this.currentSpelling = new StringBuilder();
+        StringBuilder spelling = new StringBuilder();
         Token.Kind kind;
         int position = this.sourceFile.getCurrentLineNumber();
 
         // identifier
         if (Character.isLetter(this.currentChar)) {
-            kind = this.handleIdentifier();
+            kind = this.handleIdentifier(spelling);
         }
         // integer
         else if (Character.isDigit(this.currentChar)) {
-            kind = this.handleInteger();
+            kind = this.handleInteger(spelling);
         }
         // string
         else if (this.currentChar == '"') {
-            kind = this.handleString();
+            kind = this.handleString(spelling);
         }
         // punctuation
         else if (punctuation.contains(this.currentChar)) {
-            kind = this.handlePunctuation();
+            kind = this.handlePunctuation(spelling);
         }
         // brackets
         else if (brackets.contains(this.currentChar)) {
-            kind = this.handleBrace();
+            kind = this.handleBrace(spelling);
         }
         // operators
         else if (operators.contains(this.currentChar)) {
-            kind = this.handleOperator();
+            kind = this.handleOperator(spelling);
         }
         // EOF
         else if (this.currentChar == SourceFile.eof) {
-            this.currentSpelling.append("EOF");
-            kind = Token.Kind.EOF;
+            kind = this.handleEOF(spelling);
         }
         // unsupported characters
         else {
-            kind = this.handleUnsupportedChar();
+            kind = this.handleUnsupportedChar(spelling);
         }
 
         // generate the token
-        return new Token(kind, currentSpelling.toString(), position);
+        return new Token(kind, spelling.toString(), position);
     }
 
-    /**
-     * Handles creating an identifier token.
-     *
-     * @return The token kind "IDENTIFIER"
-     */
-    private Token.Kind handleIdentifier() {
+    private Token.Kind handleIdentifier(StringBuilder spelling) {
         while (Character.isLetterOrDigit(this.currentChar) || this.currentChar == '_') {
-            this.currentSpelling.append(this.currentChar);
-            this.currentChar = this.sourceFile.getNextChar();
+            this.appendAndAdvance(spelling);
         }
         return Token.Kind.IDENTIFIER;
     }
 
-    /**
-     * Handles creating an integer token.
-     *
-     * @return The token kind "INTCONST" assuming the integer is not too long. If the
-     * integer is longer than 2^31-1, then the token kind will be "ERROR"
-     */
-    private Token.Kind handleInteger() {
-        int position = this.sourceFile.getCurrentLineNumber();
+    private Token.Kind handleInteger(StringBuilder spelling) {
+        int start = this.sourceFile.getCurrentLineNumber();
 
         while (Character.isDigit(this.currentChar)) {
-            this.currentSpelling.append(this.currentChar);
-            this.currentChar = this.sourceFile.getNextChar();
+            this.appendAndAdvance(spelling);
         }
-        if (Integer.parseInt(this.currentSpelling.toString()) > (Math.pow(2, 31) - 1)) {
-            this.errorHandler.register(Error.Kind.LEX_ERROR, this.sourceFile.getFilename(),
-                    position, "Integer constant too large");
+        if (Long.parseLong(spelling.toString()) > Integer.MAX_VALUE) {
+            this.registerError(start, "Integer constant too large");
             return Token.Kind.ERROR;
         }
         return Token.Kind.INTCONST;
     }
 
-    /**
-     * Handles creating a string token.
-     *
-     * @return The token kind "STRCONST." If the string is more than 5000 characters,
-     * or if the eor or eol token is found, or if the escape character is not supported
-     * then the token kind will be "ERROR"
-     */
-    private Token.Kind handleString() {
-        int position = this.sourceFile.getCurrentLineNumber();
-        this.currentSpelling.append(this.currentChar);
-        this.currentChar = this.sourceFile.getNextChar();
+    private Token.Kind handleString(StringBuilder spelling) {
+        int start = this.sourceFile.getCurrentLineNumber();
+        this.appendAndAdvance(spelling);
 
         while (this.currentChar != '"') {
-            this.currentSpelling.append(this.currentChar);
             // if escape character, add the next character to the string and continue
             if (this.currentChar == '\\') {
-                this.currentChar = this.sourceFile.getNextChar();
+                this.appendAndAdvance(spelling);
                 // check if escape character is supported
                 if (!escapeCharacters.contains(this.currentChar)) {
-                    this.errorHandler.register(Error.Kind.LEX_ERROR, this.sourceFile.getFilename(),
-                            position, "Unsupported escape character");
+                    this.appendAndAdvance(spelling);
+                    this.registerError(start, "Unsupported escape character");
                     return Token.Kind.ERROR;
                 }
-                this.currentSpelling.append(this.currentChar);
             }
+            this.appendAndAdvance(spelling);
+
             // if eof or eol, string is invalid
             if (this.currentChar == SourceFile.eof || this.currentChar == SourceFile.eol) {
                 this.errorHandler.register(Error.Kind.LEX_ERROR, this.sourceFile.getFilename(),
-                        position, "Unterminated String");
+                        start, "Unterminated String");
                 return Token.Kind.ERROR;
             }
-            this.currentChar = this.sourceFile.getNextChar();
         }
 
         // error if string greater than 5000 characters (not including start and end quotes)
-        if (this.currentSpelling.length() > 5002) {
-            this.errorHandler.register(Error.Kind.LEX_ERROR, this.sourceFile.getFilename(), position,
-                    "String constant too long");
+        if (spelling.length() > 5002) {
+            this.registerError(start, "String constant too long");
             return Token.Kind.ERROR;
         }
-        this.currentSpelling.append(currentChar);
-        this.currentChar = this.sourceFile.getNextChar();
+        this.appendAndAdvance(spelling);
         return Token.Kind.STRCONST;
     }
 
-    /**
-     * Handles creating a punctuation token.
-     *
-     * @return The token kind corresponding to the type of punctuation found.
-     */
-    private Token.Kind handlePunctuation() {
-        this.currentSpelling.append(this.currentChar);
+    private Token.Kind handlePunctuation(StringBuilder spelling) {
         Token.Kind kind;
-        switch (this.currentChar) {
+        switch(this.currentChar) {
             case '.':
                 kind = Token.Kind.DOT;
                 break;
@@ -225,30 +184,24 @@ public class Scanner {
             default:
                 kind = Token.Kind.COLON;
         }
-        this.currentChar = this.sourceFile.getNextChar();
+        this.appendAndAdvance(spelling);
         return kind;
     }
 
-    /**
-     * Handles creating a brace token.
-     *
-     * @return The token kind corresponding to the type of brace found.
-     */
-    private Token.Kind handleBrace() {
-        this.currentSpelling.append(this.currentChar);
+    private Token.Kind handleBrace(StringBuilder spelling) {
         Token.Kind kind;
         switch (this.currentChar) {
             case '(':
-                kind = Token.Kind.RPAREN;
-                break;
-            case ')':
                 kind = Token.Kind.LPAREN;
                 break;
+            case ')':
+                kind = Token.Kind.RPAREN;
+                break;
             case '{':
-                kind = Token.Kind.RCURLY;
+                kind = Token.Kind.LCURLY;
                 break;
             case '}':
-                kind = Token.Kind.LCURLY;
+                kind = Token.Kind.RCURLY;
                 break;
             case '[':
                 kind = Token.Kind.LBRACKET;
@@ -256,191 +209,157 @@ public class Scanner {
             default:
                 kind = Token.Kind.RBRACKET;
         }
-        this.currentChar = this.sourceFile.getNextChar();
+        this.appendAndAdvance(spelling);
         return kind;
     }
 
-    /**
-     * Handles creating an operator token.
-     *
-     * @return The token kind corresponding to the type of operation found. If the
-     * operation character is followed by an unsupported character, the token kind will
-     * be "ERROR"
-     */
-    private Token.Kind handleOperator() {
-        int position = this.sourceFile.getCurrentLineNumber();
-        this.currentSpelling.append(this.currentChar);
-        Token.Kind kind;
+    private Token.Kind handleOperator(StringBuilder spelling) {
+        int start = this.sourceFile.getCurrentLineNumber();
 
+        Token.Kind kind;
         switch (this.currentChar) {
             case '*':
                 kind = Token.Kind.MULDIV;
-                this.currentChar = this.sourceFile.getNextChar();
+                this.appendAndAdvance(spelling);
                 break;
             case '%':
-                kind = Token.Kind.MULDIV;
-                this.currentChar = this.sourceFile.getNextChar();
+                kind =Token.Kind.MULDIV;
+                this.appendAndAdvance(spelling);
                 break;
             case '^':
                 kind = Token.Kind.MULDIV;
-                this.currentChar = this.sourceFile.getNextChar();
+                this.appendAndAdvance(spelling);
                 break;
             case '+':
-                if (this.isFollowedBy('+')) {
+                if (this.isFollowedBy('+', spelling)) {
                     kind = Token.Kind.UNARYINCR;
-                } else {
+                }
+                else {
                     kind = Token.Kind.PLUSMINUS;
                 }
                 break;
             case '-':
-                if (this.isFollowedBy('-')) {
+                if (this.isFollowedBy('-', spelling)) {
                     kind = Token.Kind.UNARYDECR;
-                } else {
+                }
+                else {
                     kind = Token.Kind.PLUSMINUS;
                 }
                 break;
             case '=':
-                if (this.isFollowedBy('=')) {
+                if (this.isFollowedBy('=', spelling)) {
                     kind = Token.Kind.COMPARE;
-                } else {
+                }
+                else {
                     kind = Token.Kind.ASSIGN;
                 }
                 break;
             case '&':
-                if (this.isFollowedBy('&')) {
+                if (this.isFollowedBy('&', spelling)) {
                     kind = Token.Kind.BINARYLOGIC;
-                } else {
-                    this.errorHandler.register(Error.Kind.LEX_ERROR, this.sourceFile.getFilename(),
-                            position, "Unsupported character");
+                }
+                else {
+                    this.registerError(start, "Unsupported character");
                     kind = Token.Kind.ERROR;
                 }
                 break;
             case '|':
-                if (this.isFollowedBy('|')) {
+                if (this.isFollowedBy('|', spelling)) {
                     kind = Token.Kind.BINARYLOGIC;
-                } else {
-                    this.errorHandler.register(Error.Kind.LEX_ERROR, this.sourceFile.getFilename(),
-                            position, "Unsupported character");
+                }
+                else {
+                    this.registerError(start, "Unsupported character");
                     kind = Token.Kind.ERROR;
                 }
                 break;
             case '!':
-                if (isFollowedBy('=')) {
+                if (isFollowedBy('=', spelling)) {
                     kind = Token.Kind.COMPARE;
-                } else {
-                    kind = Token.Kind.UNARYNOT;
+                }
+                else {
+                    kind= Token.Kind.UNARYNOT;
                 }
                 break;
             case '<':
-                if (isFollowedBy('=')) {
+                if (isFollowedBy('=', spelling)) {
                     kind = Token.Kind.COMPARE;
-                } else {
+                }
+                else {
                     kind = Token.Kind.COMPARE;
                 }
                 break;
             case '>':
-                if (isFollowedBy('=')) {
+                if (isFollowedBy('=', spelling)) {
                     kind = Token.Kind.COMPARE;
-                } else {
+                }
+                else {
                     kind = Token.Kind.COMPARE;
                 }
                 break;
-            default:
-                kind = handleForwardSlash();
+            default: kind = handleForwardSlash(spelling);
         }
         return kind;
     }
 
-    /**
-     * Handles creating a token including a forward slash.
-     *
-     * @return The token kind "MULDIV" if single forward slash or "COMMENT" if a
-     * comment.
-     */
-    private Token.Kind handleForwardSlash() {
-        this.currentChar = this.sourceFile.getNextChar();
+    private Token.Kind handleForwardSlash(StringBuilder spelling) {
+        this.appendAndAdvance(spelling);
         if (this.currentChar == '/') {
-            return handleSingleLineComment();
-        } else if (this.currentChar == '*') {
-            return handleMultiLineComment();
-        } else {
+            return handleSingleLineComment(spelling);
+        }
+        else if (this.currentChar == '*') {
+            return handleMultiLineComment(spelling);
+        }
+        else {
             return Token.Kind.MULDIV;
         }
     }
 
-    /**
-     * Handles creating a token for a single-line comment.
-     *
-     * @return The token kind "COMMENT"
-     */
-    private Token.Kind handleSingleLineComment() {
+    private Token.Kind handleSingleLineComment(StringBuilder spelling) {
         while (this.currentChar != SourceFile.eol && this.currentChar != SourceFile.eof) {
-            this.currentSpelling.append(this.currentChar);
-            this.currentChar = this.sourceFile.getNextChar();
+            this.appendAndAdvance(spelling);
         }
         return Token.Kind.COMMENT;
     }
 
-    /**
-     * Handles creating a token for a multi-line comment.
-     *
-     * @return The token kind "COMMENT" or "ERROR if the comment block is unterminated.
-     */
-    private Token.Kind handleMultiLineComment() {
-        int position = this.sourceFile.getCurrentLineNumber();
+    private Token.Kind handleMultiLineComment(StringBuilder spelling) {
+        int start = this.sourceFile.getCurrentLineNumber();
 
         while (this.currentChar != SourceFile.eof) {
-            this.currentSpelling.append(this.currentChar);
-            this.currentChar = this.sourceFile.getNextChar();
+            this.appendAndAdvance(spelling);
             if (this.currentChar == '*') {
-                this.currentSpelling.append(this.currentChar);
-                this.currentChar = this.sourceFile.getNextChar();
+                this.appendAndAdvance(spelling);
                 if (this.currentChar == '/') {
-                    this.currentSpelling.append(this.currentChar);
-                    this.currentChar = this.sourceFile.getNextChar();
+                    this.appendAndAdvance(spelling);
                     return Token.Kind.COMMENT;
                 }
             }
         }
-        this.errorHandler.register(Error.Kind.LEX_ERROR, this.sourceFile.getFilename(),
-                position, "Unterminated block comment");
+        this.registerError(start, "Unterminated block comment");
         return Token.Kind.ERROR;
     }
 
-    /**
-     * Handles checking for an unsupported character.
-     *
-     * @return The token kind "ERROR"
-     */
-    private Token.Kind handleUnsupportedChar() {
+    private Token.Kind handleEOF(StringBuilder spelling) {
+        spelling.append("EOF");
+        return Token.Kind.EOF;
+    }
+
+    private Token.Kind handleUnsupportedChar(StringBuilder spelling) {
         this.errorHandler.register(Error.Kind.LEX_ERROR, sourceFile.getFilename(),
                 sourceFile.getCurrentLineNumber(), "Unsupported character");
-        this.currentSpelling.append(Character.toString(this.currentChar));
+        spelling.append(Character.toString(this.currentChar));
         this.currentChar = this.sourceFile.getNextChar();
         return Token.Kind.ERROR;
     }
 
-    /**
-     * Checks to see if the current character is followed by the character passed in by
-     * the parameter c.
-     *
-     * @param c The character is checked against the current character.
-     * @return true boolean if the current character is followed by the character
-     * passed in by the parameter c. Otherwise, will return false.
-     */
-    private boolean isFollowedBy(char c) {
-        this.currentChar = this.sourceFile.getNextChar();
+    private boolean isFollowedBy(char c, StringBuilder spelling) {
+        this.appendAndAdvance(spelling);
         if (this.currentChar == c) {
-            this.currentSpelling.append(this.currentChar);
-            this.currentChar = this.sourceFile.getNextChar();
+            this.appendAndAdvance(spelling);
             return true;
         }
         return false;
     }
 
-    /**
-     * Will munch whitespace until a non-whitespace character is found.
-     */
     private void goToNonWhitespaceChar() {
         // initialize current char if this is the start of the file
         if (this.currentChar == ' ') {
@@ -451,5 +370,15 @@ public class Scanner {
         while (Character.isWhitespace(this.currentChar)) {
             this.currentChar = this.sourceFile.getNextChar();
         }
+    }
+
+    private void appendAndAdvance(StringBuilder spelling) {
+        spelling.append(this.currentChar);
+        this.currentChar = this.sourceFile.getNextChar();
+    }
+
+    private void registerError(int position, String message) {
+        this.errorHandler.register(Error.Kind.LEX_ERROR, this.sourceFile.getFilename(),
+                position, message);
     }
 }
