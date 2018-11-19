@@ -430,6 +430,7 @@ public class Scanner
     /**
      * Handles checking for an unsupported character.
      *
+     * @param spelling the StringBuilder representing the current spelling
      * @return The token kind "ERROR"
      */
     private Token.Kind handleUnsupportedChar(StringBuilder spelling) {
@@ -440,16 +441,16 @@ public class Scanner
     }
 
     /**
-     * Checks to see if the current character is followed by the character passed in by
-     * the parameter c.
+     * Checks to see if the current character is followed by the given character.
      *
-     * @param c The character is checked against the current character.
-     * @return true boolean if the current character is followed by the character
-     * passed in by the parameter c. Otherwise, will return false.
+     * @param nextChar The character to be checked against the current character.
+     * @param spelling The StringBuilder representing the current spelling
+     * @return true if the current character is followed by the character
+     * passed in by the parameter nextChar. Otherwise, will return false.
      */
-    private boolean isFollowedBy(char c, StringBuilder spelling) {
+    private boolean isFollowedBy(char nextChar, StringBuilder spelling) {
         this.appendAndAdvance(spelling);
-        if (this.currentChar == c) {
+        if (this.currentChar == nextChar) {
             this.appendAndAdvance(spelling);
             return true;
         }
