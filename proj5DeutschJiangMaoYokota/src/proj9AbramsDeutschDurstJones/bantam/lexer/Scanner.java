@@ -31,11 +31,11 @@ public class Scanner
     private char currentChar;
 
     private static Set<Character> punctuation = Stream.of('.', ';', ':', ',').collect(Collectors.toSet());
-    private static Set<Character> escapeCharacters = Stream.of('t', 'b', 'n', 'r', 'f', '\'',
+    private static Set<Character> escapeCharacters = Stream.of('t', 'n', 'f', '\'',
             '"', '\\').collect(Collectors.toSet());
     private static Set<Character> brackets = Stream.of('(', ')', '{', '}', '[', ']').collect(Collectors.toSet());
     private static Set<Character> operators = Stream.of('+', '-','/', '=', '<', '>', '&', '|',
-            '*', '%', '!', '^').collect(Collectors.toSet());
+            '*', '%', '!').collect(Collectors.toSet());
 
     /**
      * Constructor just taking the error handler
@@ -283,10 +283,6 @@ public class Scanner
                 break;
             case '%':
                 kind =Token.Kind.MULDIV;
-                this.appendAndAdvance(spelling);
-                break;
-            case '^':
-                kind = Token.Kind.MULDIV;
                 this.appendAndAdvance(spelling);
                 break;
             case '+':
