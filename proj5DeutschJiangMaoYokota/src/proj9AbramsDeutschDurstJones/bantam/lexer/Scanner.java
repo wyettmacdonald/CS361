@@ -12,6 +12,7 @@ import proj9AbramsDeutschDurstJones.bantam.util.CompilationException;
 import proj9AbramsDeutschDurstJones.bantam.util.Error;
 import proj9AbramsDeutschDurstJones.bantam.util.ErrorHandler;
 import java.io.Reader;
+import java.math.BigInteger;
 import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -30,11 +31,13 @@ public class Scanner
     private ErrorHandler errorHandler;
     private char currentChar;
 
-    private static Set<Character> punctuation = Stream.of('.', ';', ':', ',').collect(Collectors.toSet());
-    private static Set<Character> escapeCharacters = Stream.of('t', 'n', 'f', '\'',
-            '"', '\\').collect(Collectors.toSet());
-    private static Set<Character> brackets = Stream.of('(', ')', '{', '}', '[', ']').collect(Collectors.toSet());
-    private static Set<Character> operators = Stream.of('+', '-','/', '=', '<', '>', '&', '|',
+    private final static Set<Character> punctuation = Stream.of('.', ';',
+            ':', ',').collect(Collectors.toSet());
+    private final static Set<Character> escapeCharacters = Stream.of('t', 'n',
+            'f', '"', '\\').collect(Collectors.toSet());
+    private final static Set<Character> brackets = Stream.of('(', ')', '{',
+            '}', '[', ']').collect(Collectors.toSet());
+    private final static Set<Character> operators = Stream.of('+', '-','/', '=', '<', '>', '&', '|',
             '*', '%', '!').collect(Collectors.toSet());
 
     /**
@@ -147,11 +150,12 @@ public class Scanner
      */
     private Token.Kind handleInteger(StringBuilder spelling) {
         int start = this.sourceFile.getCurrentLineNumber();
-
         while (Character.isDigit(this.currentChar)) {
             this.appendAndAdvance(spelling);
         }
-        if (Long.parseLong(spelling.toString()) > Integer.MAX_VALUE) {
+        // use BigInteger to compare arbitrarily large number from program to max int value
+        BigInteger bigInt = new BigInteger(spelling.toString());
+        if(bigInt.compareTo(BigInteger.valueOf(Integer.MAX_VALUE)) > 0) {
             this.registerError(start, "Integer constant too large");
             return Token.Kind.ERROR;
         }
@@ -210,6 +214,7 @@ public class Scanner
 
     /**
      * Handles creating a punctuation token.
+     * Includes '.', ',', ';', and ':' tokens.
      *
      * @param spelling the StringBuilder representing the current spelling
      * @return The token kind corresponding to the type of punctuation found.
@@ -235,6 +240,7 @@ public class Scanner
 
     /**
      * Handles creating a brace token.
+     * Includes '(', ')', '{', '}', '[' and ']' tokens
      *
      * @param spelling the StringBuilder representing the current spelling
      * @return The token kind corresponding to the type of brace found.
@@ -266,6 +272,8 @@ public class Scanner
 
     /**
      * Handles creating an operator token.
+     * Includes '*', '%', '+', '++', '-', '--', '=', '==', '&&', '||', '!',
+     * '<', and '>' tokens.
      *
      * @param spelling the StringBuilder representing the current spelling
      * @return The token kind corresponding to the type of operation found. If the
@@ -286,7 +294,7 @@ public class Scanner
                 this.appendAndAdvance(spelling);
                 break;
             case '+':
-                if (this.isFollowedBy('+', spelling)) {
+                if (this.getNextCharAndCompare('+', spelling)) {
                     kind = Token.Kind.UNARYINCR;
                 }
                 else {
@@ -294,7 +302,7 @@ public class Scanner
                 }
                 break;
             case '-':
-                if (this.isFollowedBy('-', spelling)) {
+                if (this.getNextCharAndCompare('-', spelling)) {
                     kind = Token.Kind.UNARYDECR;
                 }
                 else {
@@ -302,7 +310,7 @@ public class Scanner
                 }
                 break;
             case '=':
-                if (this.isFollowedBy('=', spelling)) {
+                if (this.getNextCharAndCompare('=', spelling)) {
                     kind = Token.Kind.COMPARE;
                 }
                 else {
@@ -310,7 +318,7 @@ public class Scanner
                 }
                 break;
             case '&':
-                if (this.isFollowedBy('&', spelling)) {
+                if (this.getNextCharAndCompare('&', spelling)) {
                     kind = Token.Kind.BINARYLOGIC;
                 }
                 else {
@@ -319,7 +327,7 @@ public class Scanner
                 }
                 break;
             case '|':
-                if (this.isFollowedBy('|', spelling)) {
+                if (this.getNextCharAndCompare('|', spelling)) {
                     kind = Token.Kind.BINARYLOGIC;
                 }
                 else {
@@ -328,7 +336,7 @@ public class Scanner
                 }
                 break;
             case '!':
-                if (isFollowedBy('=', spelling)) {
+                if (getNextCharAndCompare('=', spelling)) {
                     kind = Token.Kind.COMPARE;
                 }
                 else {
@@ -336,7 +344,7 @@ public class Scanner
                 }
                 break;
             case '<':
-                if (isFollowedBy('=', spelling)) {
+                if (getNextCharAndCompare('=', spelling)) {
                     kind = Token.Kind.COMPARE;
                 }
                 else {
@@ -344,7 +352,7 @@ public class Scanner
                 }
                 break;
             case '>':
-                if (isFollowedBy('=', spelling)) {
+                if (getNextCharAndCompare('=', spelling)) {
                     kind = Token.Kind.COMPARE;
                 }
                 else {
@@ -358,6 +366,7 @@ public class Scanner
 
     /**
      * Handles creating a token including a forward slash.
+     * Includes '/' and comment tokens.
      *
      * @param spelling the StringBuilder representing the current spelling
      * @return The token kind "MULDIV" if single forward slash or "COMMENT" if a
@@ -431,20 +440,19 @@ public class Scanner
      */
     private Token.Kind handleUnsupportedChar(StringBuilder spelling) {
         this.registerError(sourceFile.getCurrentLineNumber(), "Unsupported character");
-        spelling.append(Character.toString(this.currentChar));
-        this.currentChar = this.sourceFile.getNextChar();
+        this.appendAndAdvance(spelling);
         return Token.Kind.ERROR;
     }
 
     /**
-     * Checks to see if the current character is followed by the given character.
+     * Gets the next character and checks to see if it matches the given character.
      *
      * @param nextChar The character to be checked against the current character.
      * @param spelling The StringBuilder representing the current spelling
      * @return true if the current character is followed by the character
      * passed in by the parameter nextChar. Otherwise, will return false.
      */
-    private boolean isFollowedBy(char nextChar, StringBuilder spelling) {
+    private boolean getNextCharAndCompare(char nextChar, StringBuilder spelling) {
         this.appendAndAdvance(spelling);
         if (this.currentChar == nextChar) {
             this.appendAndAdvance(spelling);
@@ -457,12 +465,6 @@ public class Scanner
      * Will munch whitespace until a non-whitespace character is found.
      */
     private void goToNonWhitespaceChar() {
-        // initialize current char if this is the start of the file
-        if (this.currentChar == ' ') {
-            this.currentChar = this.sourceFile.getNextChar();
-        }
-
-        // munch whitespace
         while (Character.isWhitespace(this.currentChar)) {
             this.currentChar = this.sourceFile.getNextChar();
         }

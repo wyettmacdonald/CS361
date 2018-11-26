@@ -224,6 +224,7 @@ public class Controller {
     private void setButtonBinding() {
         BooleanBinding ifTabPaneEmpty = Bindings.isEmpty(tabPane.getTabs());
 
+        this.scanButton.disableProperty().bind(ifTabPaneEmpty);
         this.closeMenuItem.disableProperty().bind(ifTabPaneEmpty);
         this.saveMenuItem.disableProperty().bind(ifTabPaneEmpty);
         this.saveAsMenuItem.disableProperty().bind(ifTabPaneEmpty);
