@@ -75,6 +75,14 @@ public class Scanner
     }
 
     /**
+     * Sets the sourceFile to scan
+     * @param sourceFile the SourceFile object to scan from
+     */
+    public void setSourceFile(SourceFile sourceFile) {
+        this.sourceFile = sourceFile;
+    }
+
+    /**
      * Looks for the next token. Will return the constructed token when any of the
      * conditions that end a token are met. Returns a Token of type eof if the
      * end of the file has been reached.
@@ -447,14 +455,14 @@ public class Scanner
     /**
      * Gets the next character and checks to see if it matches the given character.
      *
-     * @param nextChar The character to be checked against the current character.
+     * @param compareChar The character to be checked against the current character.
      * @param spelling The StringBuilder representing the current spelling
      * @return true if the current character is followed by the character
-     * passed in by the parameter nextChar. Otherwise, will return false.
+     * passed in by the parameter compareChar. Otherwise, will return false.
      */
-    private boolean getNextCharAndCompare(char nextChar, StringBuilder spelling) {
+    private boolean getNextCharAndCompare(char compareChar, StringBuilder spelling) {
         this.appendAndAdvance(spelling);
-        if (this.currentChar == nextChar) {
+        if (this.currentChar == compareChar) {
             this.appendAndAdvance(spelling);
             return true;
         }
