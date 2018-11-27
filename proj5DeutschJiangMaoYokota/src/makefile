@@ -1,6 +1,6 @@
 # Robert Durst
 # 10/23/18
-# CS361 Project 6
+# CS361 Project 10
 
 # makefile begins
 # Ref: http://profesores.elo.utfsm.cl/~agv/elo329/Java/javamakefile.html
@@ -8,7 +8,7 @@
 JFLAGS = -g # compiler flags
 JC = javac # compiler variable
 JVM= java   # specify JVM
-CLASSPATH = "proj9AbramsDeutschDurstJones/resources/*": # maybe not most elegant, or best practices, but ok for now (we get all them jars)
+CLASSPATH = "proj10AbramsDeutschDurstJones/resources/*": # maybe not most elegant, or best practices, but ok for now (we get all them jars)
 SOURCEPATH = ./ # specify where the .class files should be found for file by file compilation
 
 .SUFFIXES: .java .class
@@ -20,29 +20,29 @@ SOURCEPATH = ./ # specify where the .class files should be found for file by fil
 # Realized that some files do not need to be included here inorder to compile
 # TODO: delete extraneous classes here
 CLASSES = \
-					proj9AbramsDeutschDurstJones/StyledJavaCodeArea.java \
-					proj9AbramsDeutschDurstJones/FileMenuController.java \
-					proj9AbramsDeutschDurstJones/Controller.java \
-					proj9AbramsDeutschDurstJones/CodeMenuController.java \
-					proj9AbramsDeutschDurstJones/SettingMenuController.java \
-					proj9AbramsDeutschDurstJones/StructureViewController.java \
-					proj9AbramsDeutschDurstJones/JavaTab.java \
-					proj9AbramsDeutschDurstJones/JavaTabPane.java \
-					proj9AbramsDeutschDurstJones/DirectoryController.java \
-					proj9AbramsDeutschDurstJones/EditMenuController.java \
-					proj9AbramsDeutschDurstJones/ToolBarController.java \
-					proj9AbramsDeutschDurstJones/Main.java \
-					proj9AbramsDeutschDurstJones/bantam/lexer/Scanner.java \
-					proj9AbramsDeutschDurstJones/bantam/lexer/SourceFile.java \
-					proj9AbramsDeutschDurstJones/bantam/lexer/Token.java \
-					proj9AbramsDeutschDurstJones/bantam/tests/TestHelloWorld.java \
-					proj9AbramsDeutschDurstJones/bantam/tests/TestSuite.java \
+					proj10AbramsDeutschDurstJones/StyledJavaCodeArea.java \
+					proj10AbramsDeutschDurstJones/FileMenuController.java \
+					proj10AbramsDeutschDurstJones/Controller.java \
+					proj10AbramsDeutschDurstJones/CodeMenuController.java \
+					proj10AbramsDeutschDurstJones/SettingMenuController.java \
+					proj10AbramsDeutschDurstJones/StructureViewController.java \
+					proj10AbramsDeutschDurstJones/JavaTab.java \
+					proj10AbramsDeutschDurstJones/JavaTabPane.java \
+					proj10AbramsDeutschDurstJones/DirectoryController.java \
+					proj10AbramsDeutschDurstJones/EditMenuController.java \
+					proj10AbramsDeutschDurstJones/ToolBarController.java \
+					proj10AbramsDeutschDurstJones/Main.java \
+					proj10AbramsDeutschDurstJones/bantam/lexer/Scanner.java \
+					proj10AbramsDeutschDurstJones/bantam/lexer/SourceFile.java \
+					proj10AbramsDeutschDurstJones/bantam/lexer/Token.java \
+					proj10AbramsDeutschDurstJones/bantam/tests/TestHelloWorld.java \
+					proj10AbramsDeutschDurstJones/bantam/tests/TestSuite.java \
 
 # Name of our main class with its preceding path location
-MAIN = proj9AbramsDeutschDurstJones.Main
+MAIN = proj10AbramsDeutschDurstJones.Main
 
 # Name of our test class with its preceding path location
-TEST = proj9AbramsDeutschDurstJones.bantam.tests.TestSuite
+TEST = proj10AbramsDeutschDurstJones.bantam.tests.TestSuite
 
 default: classes
 
@@ -59,5 +59,5 @@ test:
 
 # cleans up all the compiled class files
 clean:
-	$(RM) proj9AbramsDeutschDurstJones/*.class proj9AbramsDeutschDurstJones/bantam/lexer/*.class proj9AbramsDeutschDurstJones/bantam/util/*.class proj9AbramsDeutschDurstJones/bantam/tests/*.class
+	$(RM) proj10AbramsDeutschDurstJones/*.class proj10AbramsDeutschDurstJones/bantam/lexer/*.class proj10AbramsDeutschDurstJones/bantam/util/*.class proj10AbramsDeutschDurstJones/bantam/tests/*.class
 
