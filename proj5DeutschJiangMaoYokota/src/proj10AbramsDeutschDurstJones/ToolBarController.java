@@ -10,8 +10,11 @@ package proj10AbramsDeutschDurstJones;
 import javafx.application.Platform;
 import org.fxmisc.richtext.StyleClassedTextArea;
 import javafx.event.Event;
+import proj10AbramsDeutschDurstJones.bantam.ast.*;
 import proj10AbramsDeutschDurstJones.bantam.lexer.Scanner;
 import proj10AbramsDeutschDurstJones.bantam.lexer.Token;
+import proj10AbramsDeutschDurstJones.bantam.parser.Parser;
+import proj10AbramsDeutschDurstJones.bantam.treedrawer.*;
 import proj10AbramsDeutschDurstJones.bantam.util.Error;
 import proj10AbramsDeutschDurstJones.bantam.util.ErrorHandler;
 
@@ -78,7 +81,6 @@ public class ToolBarController {
         int userResponse = fileMenuController.checkSaveBeforeContinue();
         // user select cancel button
         if (userResponse == 2) {
-            event.consume();
             return;
         }
         // user select to save
@@ -92,6 +94,31 @@ public class ToolBarController {
             }
         };
         scanThread.start();
+    }
+
+    /**
+     * Handles the Scan and parse button action.
+     *
+     * @param event Event object
+     * @param file the Selected file
+     */
+    public void handleScanAndParseButtonAction(Event event, File file) {
+        int userResponse = fileMenuController.checkSaveBeforeContinue();
+        // user select cancel button
+        if (userResponse == 2) {
+            return;
+        }
+        // user select to save
+        else if (userResponse == 1) {
+            fileMenuController.handleSaveAction();
+        }
+
+        Thread scanAndParseThread = new Thread() {
+            public void run() {
+                handleScanAndParse(file);
+            }
+        };
+        scanAndParseThread.start();
     }
 
 
@@ -143,5 +170,23 @@ public class ToolBarController {
         Platform.runLater(() -> {
             this.console.appendText(output);
         });
+    }
+
+    /**
+     * Helper method for running the Scanner and displaying results.
+     */
+    private void handleScanAndParse(File file) {
+        ErrorHandler errorHandler = new ErrorHandler();
+        Parser parser = new Parser(errorHandler);
+
+        // parse and display
+        try {
+            Program root = parser.parse(file.getAbsolutePath());
+            Drawer drawer = new Drawer();
+            drawer.draw(file.getName(), root);
+        }
+        catch (Throwable e) {
+            printErrorList(errorHandler.getErrorList());
+        }
     }
 }

@@ -54,8 +54,21 @@
 
 /* style of Scan button */
 #scanButton {
-    /* set button color to dark blue */
+    /* set button color to blue */
     -fx-background-color: #0000c7;
+    /* set button text color to white */
+    -fx-text-fill: white;
+    /* set button border to black */
+    -fx-border-color: black;
+    /* set rounded corners */
+    -fx-border-radius: 5;
+    -fx-background-radius: 5;
+}
+
+/* style of scan and parse button */
+#scanAndParseButton {
+    /* set button color to green  */
+    -fx-background-color: darkgreen;
     /* set button text color to white */
     -fx-text-fill: white;
     /* set button border to black */

@@ -244,8 +244,8 @@ public class FileMenuController {
             this.tabPane.selectTabFromFile(file);
             return;
         }
-        // if the selected file is not a java file, do not open it
-        if (!file.getName().endsWith(".java")) {
+        // if the selected file is not a java or bantam java file, do not open it
+        if (!file.getName().endsWith(".java") && !file.getName().endsWith(".btm")) {
             this.createErrorDialog("Opening File",
                     "Cannot open non-Java files");
             return;

@@ -75,6 +75,11 @@ public class Controller {
     @FXML
     private Button scanButton;
     /**
+     * Compile button defined in Main.fxml
+     */
+    @FXML
+    private Button scanAndParseButton;
+    /**
      * TabPane defined in Main.fxml
      */
     @FXML
@@ -225,6 +230,7 @@ public class Controller {
         BooleanBinding ifTabPaneEmpty = Bindings.isEmpty(tabPane.getTabs());
 
         this.scanButton.disableProperty().bind(ifTabPaneEmpty);
+        this.scanAndParseButton.disableProperty().bind(ifTabPaneEmpty);
         this.closeMenuItem.disableProperty().bind(ifTabPaneEmpty);
         this.saveMenuItem.disableProperty().bind(ifTabPaneEmpty);
         this.saveAsMenuItem.disableProperty().bind(ifTabPaneEmpty);
@@ -317,6 +323,19 @@ public class Controller {
     private void handleScanButtonAction(Event event) {
         Tab selectedTab = this.tabPane.getSelectionModel().getSelectedItem();
         this.toolbarController.handleScanButtonAction(
+                event, this.tabPane.getFileFromTab(selectedTab));
+    }
+
+    /**
+     * Calls the method that handles the Scan and parse button action from the
+     * toolbarController.
+     *
+     * @param event Event object
+     */
+    @FXML
+    private void handleScanAndParseButtonAction(Event event) {
+        Tab selectedTab = this.tabPane.getSelectionModel().getSelectedItem();
+        this.toolbarController.handleScanAndParseButtonAction(
                 event, this.tabPane.getFileFromTab(selectedTab));
     }
 
