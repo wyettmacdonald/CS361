@@ -176,20 +176,31 @@ public class ToolBarController {
      * Helper method for running the Scanner and displaying results.
      */
     private void handleScanAndParse(File file) {
-        ErrorHandler errorHandler = new ErrorHandler();
-        Parser parser = new Parser(errorHandler);
-
-        // parse and display
         try {
-            Program root = parser.parse(file.getAbsolutePath());
-            Drawer drawer = new Drawer();
-            drawer.draw(file.getName(), root);
             Platform.runLater(() -> {
-                this.console.appendText("Scanning and parsing completed successfully\n");
+                this.console.clear();
             });
+
+            ErrorHandler errorHandler = new ErrorHandler();
+            Parser parser = new Parser(errorHandler);
+
+            // parse and display
+            try {
+                Program root = parser.parse(file.getAbsolutePath());
+                Drawer drawer = new Drawer();
+                drawer.draw(file.getName(), root);
+                Platform.runLater(() -> {
+                    this.console.appendText("Scanning and parsing completed successfully\n");
+                });
+            } catch (Throwable e) {
+                printErrorList(errorHandler.getErrorList());
+            }
         }
         catch (Throwable e) {
-            printErrorList(errorHandler.getErrorList());
+            Platform.runLater(() -> {
+                this.fileMenuController.createErrorDialog("Parsing File",
+                        "Please try again with another valid Bantam Java file.");
+            });
         }
     }
 }

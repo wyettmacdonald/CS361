@@ -251,7 +251,6 @@ public class Parser
      */
     private ExprStmt parseExpressionStmt() throws CompilationException {
         int position = currentToken.position;
-
         Expr expr = parseExpression();
         if (currentToken.kind != SEMICOLON) {
             registerError("Missing ;");
@@ -761,8 +760,8 @@ public class Parser
                 Expr varOrDispatch;
                 // get prefix for var or dispatch
                 Expr prefix = null;
-                if (currentToken.spelling.equals("SUPER") ||
-                currentToken.spelling.equals("THIS")) {
+                if (currentToken.spelling.equals("super") ||
+                currentToken.spelling.equals("this")) {
                     prefix = new VarExpr(position, null, currentToken.spelling);
                     advance();
                     if (this.currentToken.kind != DOT) {
@@ -782,10 +781,13 @@ public class Parser
 
                 // parse dispatch expression
                 if (currentToken.kind == LPAREN) {
+                    advance();
                     ExprList exprList = parseArguments();
                     if (currentToken.kind != RPAREN) {
                         registerError("Missing )");
                     }
+                    advance();
+
                     varOrDispatch = new DispatchExpr(position, prefix, name, exprList);
                 }
 
@@ -796,6 +798,7 @@ public class Parser
                         if (currentToken.kind != RBRACKET) {
                             registerError("Missing ]");
                         }
+                        advance();
                     }
                     varOrDispatch = new VarExpr(position, prefix, name);
                 }
@@ -812,7 +815,15 @@ public class Parser
         int position = currentToken.position;
         ExprList exprList = new ExprList(position);
 
+        // if argument list is not empty, get first expression
+        if (currentToken.kind != RPAREN) {
+            Expr expr = parseExpression();
+            exprList.addElement(expr);
+        }
+
+        // get successive expressions
         while (currentToken.kind == COMMA) {
+            advance();
             Expr expr = parseExpression();
             exprList.addElement(expr);
         }
@@ -829,10 +840,20 @@ public class Parser
         int position = currentToken.position;
 
         FormalList formalList = new FormalList(position);
-        while (currentToken.kind == COMMA) {
+
+        // if parameter list is not empty, get first expression
+        if (currentToken.kind != RPAREN) {
             Formal formal = parseFormal();
             formalList.addElement(formal);
         }
+
+        // get successive expressions
+        while (currentToken.kind == COMMA) {
+            advance();
+            Formal formal = parseFormal();
+            formalList.addElement(formal);
+        }
+
         return formalList;
     }
 
@@ -916,6 +937,7 @@ public class Parser
 
     private void advance() {
          currentToken = scanner.scan();
+
          // cycle through comments
          while (currentToken.kind == COMMENT) {
              currentToken = scanner.scan();
