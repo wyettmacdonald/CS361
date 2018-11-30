@@ -1,4 +1,12 @@
 /*
+ * File: bantam.parser.Parser.java
+ * CS361 Project 10
+ * Names: Douglas Abrams, Martin Deutsch, Robert Durst, Matt Jones
+ * Date: 12/07/2018
+ * This file contains the Scanner, which tokenizes the source file
+ */
+
+/*
  * Authors: Haoyu Song and Dale Skrien
  * Date: Spring and Summer, 2018
  *
@@ -20,6 +28,9 @@ import proj10AbramsDeutschDurstJones.bantam.util.Error;
 /**
  * This class constructs an AST from a legal Bantam Java program.  If the
  * program is illegal, then one or more error messages are displayed.
+ *
+ * @author Haoyu Song
+ * @author Dale Skrien
  */
 public class Parser
 {
@@ -329,16 +340,11 @@ public class Parser
         advance();
 
         Expr increment = null;
-        if (currentToken.kind != SEMICOLON) {
-            increment = parseExpression();
-            if (currentToken.kind != SEMICOLON) {
-                registerError("Missing ;");
-            }
-        }
-        advance();
-
         if (currentToken.kind != RPAREN) {
-            registerError("Missing )");
+            increment = parseExpression();
+            if (currentToken.kind != RPAREN) {
+                registerError("Missing )");
+            }
         }
         advance();
 
@@ -511,11 +517,13 @@ public class Parser
         int position = currentToken.position;
 
         Expr left = parseAddExpr();
-        if (currentToken.kind == COMPARE) {
-            String comparisonOp = currentToken.spelling;
+        String spelling = currentToken.spelling;
+        if (currentToken.kind == COMPARE &&
+                (spelling.contains("<") || spelling.contains(">"))
+            || currentToken.kind == INSTANCEOF) {
             advance();
             Expr right = parseAddExpr();
-            switch(comparisonOp) {
+            switch(spelling) {
                 case "<":
                     left = new BinaryCompLtExpr(position, left, right);
                     break;
@@ -530,7 +538,7 @@ public class Parser
                     break;
                 default:
                     if (!(right instanceof VarExpr)) {
-                        registerError("Expected variable name");
+                        registerError("Expected type identifier");
                     }
                     left = new InstanceofExpr(position, left, ((VarExpr) right).getName());
             }
@@ -720,9 +728,11 @@ public class Parser
 
         Expr expr = parsePrimary();
         if (currentToken.spelling.equals("++")) {
+            advance();
             return new UnaryIncrExpr(position, expr, true);
         }
         if (currentToken.spelling.equals("--")) {
+            advance();
             return new UnaryDecrExpr(position, expr, true);
         }
 

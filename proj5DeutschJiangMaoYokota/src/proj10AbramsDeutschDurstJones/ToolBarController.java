@@ -15,6 +15,7 @@ import proj10AbramsDeutschDurstJones.bantam.lexer.Scanner;
 import proj10AbramsDeutschDurstJones.bantam.lexer.Token;
 import proj10AbramsDeutschDurstJones.bantam.parser.Parser;
 import proj10AbramsDeutschDurstJones.bantam.treedrawer.*;
+import proj10AbramsDeutschDurstJones.bantam.util.CompilationException;
 import proj10AbramsDeutschDurstJones.bantam.util.Error;
 import proj10AbramsDeutschDurstJones.bantam.util.ErrorHandler;
 
@@ -192,13 +193,13 @@ public class ToolBarController {
                 Platform.runLater(() -> {
                     this.console.appendText("Scanning and parsing completed successfully\n");
                 });
-            } catch (Throwable e) {
+            } catch (CompilationException e) {
                 printErrorList(errorHandler.getErrorList());
             }
         }
         catch (Throwable e) {
             Platform.runLater(() -> {
-                this.fileMenuController.createErrorDialog("Parsing File",
+                this.fileMenuController.createErrorDialog("Reading File",
                         "Please try again with another valid Bantam Java file.");
             });
         }
