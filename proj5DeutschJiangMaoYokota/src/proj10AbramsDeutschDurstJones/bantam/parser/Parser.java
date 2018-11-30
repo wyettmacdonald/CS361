@@ -12,6 +12,8 @@
 package proj10AbramsDeutschDurstJones.bantam.parser;
 
 import static proj10AbramsDeutschDurstJones.bantam.lexer.Token.Kind.*;
+
+import com.sun.xml.internal.bind.v2.model.core.ID;
 import proj10AbramsDeutschDurstJones.bantam.ast.*;
 import proj10AbramsDeutschDurstJones.bantam.lexer.*;
 import proj10AbramsDeutschDurstJones.bantam.util.*;
@@ -72,7 +74,7 @@ public class Parser
     private Class_ parseClass() throws CompilationException {
         int position = currentToken.position;
 
-        // handle CLASS
+        // handle class
         if (currentToken.kind != CLASS) {
             handleUnexpectedToken("Missing class");
         }
@@ -126,13 +128,13 @@ public class Parser
 
         // handle field
         Expr init = null;
-        if (currentToken.kind == ASSIGN)) {
+        if (currentToken.kind == ASSIGN) {
             currentToken = scanner.scan();
             init = parseExpression();
             currentToken = scanner.scan();
             return new Field(position, type, name, init);
         }
-        if (currentToken.kind != SEMICOLON)) {
+        if (currentToken.kind != SEMICOLON) {
             handleUnexpectedToken("Missing ;");
         }
         currentToken = scanner.scan();
@@ -194,10 +196,12 @@ public class Parser
         if (currentToken.kind != LPAREN) {
             handleUnexpectedToken("Missing (");
         }
+        currentToken = scanner.scan();
         Expr expr = parseExpression();
         if (currentToken.kind != RPAREN) {
             handleUnexpectedToken("Missing )");
         }
+        currentToken = scanner.scan();
 
         Stmt stmt = parseStatement();
 
@@ -241,7 +245,7 @@ public class Parser
         }
         currentToken = scanner.scan();
 
-        return new BreakStmt(position(;)
+        return new BreakStmt(position);
     }
 
 
@@ -272,12 +276,16 @@ public class Parser
             handleUnexpectedToken("Missing var");
         }
         currentToken = scanner.scan();
+
         String name = parseIdentifier();
+
         if (currentToken.kind != ASSIGN) {
             handleUnexpectedToken("Missing =");
         }
         currentToken = scanner.scan();
+
         Expr initExpr = parseExpression();
+
         if (currentToken.kind != SEMICOLON) {
             handleUnexpectedToken("Missing ;");
         }
@@ -331,8 +339,8 @@ public class Parser
                 handleUnexpectedToken("Missing ;");
             }
         }
-
         currentToken = scanner.scan();
+
         if (currentToken.kind != RPAREN) {
             handleUnexpectedToken("Missing )");
         }
@@ -355,7 +363,9 @@ public class Parser
             handleUnexpectedToken("Missing {");
         }
         currentToken = scanner.scan();
+
         StmtList stmtList = new StmtList(position);
+
         while (currentToken.kind != RBRACKET) {
             Stmt aStmt = parseStatement();
             stmtList.addElement(aStmt);
@@ -718,6 +728,80 @@ public class Parser
      * <DispatchExprPrefix> ::= <Primary> . | EMPTY
      */
     private Expr parsePrimary() throws CompilationException {
+        int position = currentToken.position;
+
+        switch(currentToken.kind) {
+            case LPAREN:
+                currentToken = scanner.scan();
+                Expr expr = parseExpression();
+                if (currentToken.kind != RPAREN) {
+                    handleUnexpectedToken("Missing )");
+                }
+                currentToken = scanner.scan();
+                return expr;
+            case INTCONST:
+                return parseIntConst();
+            case BOOLEAN:
+                return parseBoolean();
+            case STRCONST:
+                return parseStringConst();
+            default:
+                if (currentToken.spelling.equals("SUPER") ||
+                currentToken.spelling.equals("THIS")) {
+                    VarExpr ref = new VarExpr(position, null, currentToken.spelling);
+                    currentToken= scanner.scan();
+                    if (currentToken.kind != DOT) {
+                        handleUnexpectedToken("Missing .");
+                    }
+                    String name = parseIdentifier();
+                    if (currentToken.kind == LBRACKET) {
+                        currentToken = scanner.scan();
+                        if (currentToken.kind != RBRACKET) {
+                            handleUnexpectedToken("Missing ]");
+                        }
+                        return new VarExpr(position, ref, name);
+                    }
+                }
+                else if (currentToken.kind != IDENTIFIER) {
+                    Expr primary = parsePrimary();
+                    if (currentToken.kind != DOT) {
+                        handleUnexpectedToken("Missing .");
+                    }
+                    currentToken = scanner.scan();
+                    String name = parseIdentifier();
+                    if (currentToken.kind != LPAREN) {
+                        handleUnexpectedToken("Missing (");
+                    }
+                    currentToken = scanner.scan();
+                    ExprList exprList = parseArguments();
+                    if (currentToken.kind != RPAREN) {
+                        handleUnexpectedToken("Missing )");
+                    }
+                    return new DispatchExpr(position, primary, name, exprList);
+                }
+                else {
+                    String name = parseIdentifier();
+                    if (currentToken.kind == LPAREN) {
+                        currentToken = scanner.scan();
+                        ExprList exprList = parseArguments();
+                        if (currentToken.kind != RPAREN) {
+                            handleUnexpectedToken("Missing )");
+                        }
+                        return new DispatchExpr(position, null, name, exprList);
+                    }
+                    else {
+                        if (currentToken.kind == LBRACKET) {
+                            currentToken = scanner.scan();
+                            Expr exp = parseExpression();
+                            if (currentToken.kind != RBRACKET) {
+                                handleUnexpectedToken("Missing ]");
+                            }
+                            return new VarExpr(position, exp, name);
+                        }
+                    }
+                }
+                return null;
+        }
     }
 
 
@@ -771,7 +855,6 @@ public class Parser
      * <Type> ::= <Identifier> <Brackets>
      * <Brackets> ::= EMPTY | [ ]
      */
-     */
     private String parseType() throws CompilationException {
         String identifier = parseIdentifier();
         currentToken = scanner.scan();
@@ -789,19 +872,39 @@ public class Parser
     //----------------------------------------
     //Terminals
 
-    private String parseOperator() { }
+    private String parseOperator() throws CompilationException {
+         if (currentToken.kind != PLUSMINUS && currentToken.kind != MULDIV) {
+             handleUnexpectedToken("Missing operator");
+         }
+         return currentToken.spelling;
+    }
 
 
-    private String parseIdentifier() { }
+    private String parseIdentifier() {
+         currentToken = scanner.scan();
+         return currentToken.spelling;
+    }
 
 
-    private ConstStringExpr parseStringConst() { }
+    private ConstStringExpr parseStringConst() {
+         int position = currentToken.position;
+         currentToken = scanner.scan();
+         return new ConstStringExpr(position, currentToken.spelling);
+    }
 
 
-    private ConstIntExpr parseIntConst() { }
+    private ConstIntExpr parseIntConst() {
+        int position = currentToken.position;
+        currentToken = scanner.scan();
+        return new ConstIntExpr(position, currentToken.spelling);
+    }
 
 
-    private ConstBooleanExpr parseBoolean() { }
+    private ConstBooleanExpr parseBoolean() {
+         int position = currentToken.position;
+         currentToken = scanner.scan();
+         return new ConstBooleanExpr(position, currentToken.spelling);
+    }
 
 
     private void handleUnexpectedToken(String errorMessage) throws CompilationException {
