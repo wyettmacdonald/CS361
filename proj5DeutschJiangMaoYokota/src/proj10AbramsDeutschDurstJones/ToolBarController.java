@@ -184,6 +184,9 @@ public class ToolBarController {
             Program root = parser.parse(file.getAbsolutePath());
             Drawer drawer = new Drawer();
             drawer.draw(file.getName(), root);
+            Platform.runLater(() -> {
+                this.console.appendText("Scanning and parsing completed successfully\n");
+            });
         }
         catch (Throwable e) {
             printErrorList(errorHandler.getErrorList());

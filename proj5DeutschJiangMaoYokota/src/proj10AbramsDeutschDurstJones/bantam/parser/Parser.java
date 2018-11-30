@@ -95,6 +95,7 @@ public class Parser
             Member aMember = parseMember();
             memberList.addElement(aMember);
         }
+        advance();
 
         return new Class_(position, fileName, name, parent, memberList);
     }
@@ -129,8 +130,6 @@ public class Parser
         if (currentToken.kind == ASSIGN) {
             advance();
             init = parseExpression();
-            advance();
-            return new Field(position, type, name, init);
         }
         if (currentToken.kind != SEMICOLON) {
             registerError("Missing ;");
@@ -274,12 +273,16 @@ public class Parser
             registerError("Missing var");
         }
         advance();
+
         String name = parseIdentifier();
+
         if (currentToken.kind != ASSIGN) {
             registerError("Missing =");
         }
         advance();
+
         Expr initExpr = parseExpression();
+
         if (currentToken.kind != SEMICOLON) {
             registerError("Missing ;");
         }
@@ -360,10 +363,11 @@ public class Parser
 
         StmtList stmtList = new StmtList(position);
 
-        while (currentToken.kind != RBRACKET) {
+        while (currentToken.kind != RCURLY) {
             Stmt aStmt = parseStatement();
             stmtList.addElement(aStmt);
         }
+        advance();
 
         return new BlockStmt(position, stmtList);
     }
@@ -418,9 +422,21 @@ public class Parser
         if (currentToken.kind == ASSIGN) {
             advance();
             Expr right = parseExpression();
+            // get variable being assigned
+            if (!(left instanceof VarExpr)) {
+                registerError("Expected identifier");
+            }
             VarExpr leftVar = (VarExpr) left;
-            VarExpr leftRef = (VarExpr) leftVar.getRef();
-            left = new AssignExpr(position, leftRef.getName(), leftVar.getName(), right);
+            // get reference to variable
+            String leftRef = null;
+            if (leftVar.getRef() != null) {
+                if (!(leftVar.getRef() instanceof VarExpr)) {
+                    registerError("Expected reference identifier");
+                }
+                leftRef = ((VarExpr) leftVar.getRef()).getName();
+            }
+
+            left = new AssignExpr(position, leftRef, leftVar.getName(), right);
         }
 
         return left;
@@ -508,12 +524,15 @@ public class Parser
                     left = new BinaryCompGtExpr(position, left, right);
                     break;
                 case "<=":
-                    left = new BinaryCompGeqExpr(position, left, right);
-                    break;
-                case ">=":
                     left = new BinaryCompLeqExpr(position, left, right);
                     break;
+                case ">=":
+                    left = new BinaryCompGeqExpr(position, left, right);
+                    break;
                 default:
+                    if (!(right instanceof VarExpr)) {
+                        registerError("Expected variable name");
+                    }
                     left = new InstanceofExpr(position, left, ((VarExpr) right).getName());
             }
         }
@@ -708,7 +727,7 @@ public class Parser
             return new UnaryDecrExpr(position, expr, true);
         }
 
-        return null;
+        return expr;
     }
 
 
@@ -837,14 +856,13 @@ public class Parser
      */
     private String parseType() throws CompilationException {
         String identifier = parseIdentifier();
-        advance();
         if (currentToken.kind == LBRACKET){
-            scanner.scan();
+            advance();
             if (currentToken.kind != RBRACKET){
                 registerError("Missing ]");
             }
+            advance();
         }
-        advance();
         return identifier;
     }
 
