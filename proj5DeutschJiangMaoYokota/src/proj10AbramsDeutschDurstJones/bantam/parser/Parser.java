@@ -12,8 +12,6 @@
 package proj10AbramsDeutschDurstJones.bantam.parser;
 
 import static proj10AbramsDeutschDurstJones.bantam.lexer.Token.Kind.*;
-
-import com.sun.xml.internal.bind.v2.model.core.ID;
 import proj10AbramsDeutschDurstJones.bantam.ast.*;
 import proj10AbramsDeutschDurstJones.bantam.lexer.*;
 import proj10AbramsDeutschDurstJones.bantam.util.*;
@@ -74,25 +72,25 @@ public class Parser
     private Class_ parseClass() throws CompilationException {
         int position = currentToken.position;
 
-        // handle class
+        // handle CLASS
         if (currentToken.kind != CLASS) {
-            handleUnexpectedToken("Missing class");
+            registerError("Missing class");
         }
         // handle name
-        currentToken = scanner.scan();
+        advance();
         String name = parseIdentifier();
         // handle extends clause
         String parent = null;
         if (currentToken.kind == EXTENDS) {
-            currentToken = scanner.scan();
+            advance();
             parent = parseIdentifier();
         }
         // handle member list
         MemberList memberList = new MemberList(position);
         if (currentToken.kind != LCURLY) {
-            handleUnexpectedToken("Missing {");
+            registerError("Missing {");
         }
-        currentToken = scanner.scan();
+        advance();
         while (currentToken.kind != RCURLY) {
             Member aMember = parseMember();
             memberList.addElement(aMember);
@@ -116,12 +114,12 @@ public class Parser
 
         // handle method
         if (currentToken.kind == LPAREN) {
-            currentToken = scanner.scan();
+            advance();
             FormalList formalList = parseParameters();
             if (currentToken.kind != RPAREN) {
-                handleUnexpectedToken("Missing )");
+                registerError("Missing )");
             }
-            currentToken = scanner.scan();
+            advance();
             StmtList stmtList = ((BlockStmt) parseBlock()).getStmtList();
             return new Method(position, type, name, formalList, stmtList);
         }
@@ -129,15 +127,15 @@ public class Parser
         // handle field
         Expr init = null;
         if (currentToken.kind == ASSIGN) {
-            currentToken = scanner.scan();
+            advance();
             init = parseExpression();
-            currentToken = scanner.scan();
+            advance();
             return new Field(position, type, name, init);
         }
         if (currentToken.kind != SEMICOLON) {
-            handleUnexpectedToken("Missing ;");
+            registerError("Missing ;");
         }
-        currentToken = scanner.scan();
+        advance();
 
         return new Field(position, type, name, init);
     }
@@ -189,19 +187,19 @@ public class Parser
         int position = currentToken.position;
 
         if (currentToken.kind != WHILE) {
-            handleUnexpectedToken("Missing while");
+            registerError("Missing while");
         }
-        currentToken = scanner.scan();
+        advance();
 
         if (currentToken.kind != LPAREN) {
-            handleUnexpectedToken("Missing (");
+            registerError("Missing (");
         }
-        currentToken = scanner.scan();
+        advance();
         Expr expr = parseExpression();
         if (currentToken.kind != RPAREN) {
-            handleUnexpectedToken("Missing )");
+            registerError("Missing )");
         }
-        currentToken = scanner.scan();
+        advance();
 
         Stmt stmt = parseStatement();
 
@@ -216,15 +214,15 @@ public class Parser
         int position = currentToken.position;
 
         if (currentToken.kind != RETURN) {
-            handleUnexpectedToken("Missing return");
+            registerError("Missing return");
         }
-        currentToken = scanner.scan();
+        advance();
 
         Expr expr = parseExpression();
         if (currentToken.kind != SEMICOLON) {
-            handleUnexpectedToken("Missing ;");
+            registerError("Missing ;");
         }
-        currentToken = scanner.scan();
+        advance();
 
         return new ReturnStmt(position, expr);
     }
@@ -237,13 +235,13 @@ public class Parser
         int position = currentToken.position;
 
         if (currentToken.kind != BREAK) {
-            handleUnexpectedToken("Missing break");
+            registerError("Missing break");
         }
-        currentToken = scanner.scan();
+        advance();
         if (currentToken.kind != SEMICOLON) {
-            handleUnexpectedToken("Missing ;");
+            registerError("Missing ;");
         }
-        currentToken = scanner.scan();
+        advance();
 
         return new BreakStmt(position);
     }
@@ -257,9 +255,9 @@ public class Parser
 
         Expr expr = parseExpression();
         if (currentToken.kind != SEMICOLON) {
-            handleUnexpectedToken("Missing ;");
+            registerError("Missing ;");
         }
-        currentToken = scanner.scan();
+        advance();
 
         return new ExprStmt(position, expr);
     }
@@ -273,23 +271,19 @@ public class Parser
         int position = currentToken.position;
 
         if (currentToken.kind != VAR) {
-            handleUnexpectedToken("Missing var");
+            registerError("Missing var");
         }
-        currentToken = scanner.scan();
-
+        advance();
         String name = parseIdentifier();
-
         if (currentToken.kind != ASSIGN) {
-            handleUnexpectedToken("Missing =");
+            registerError("Missing =");
         }
-        currentToken = scanner.scan();
-
+        advance();
         Expr initExpr = parseExpression();
-
         if (currentToken.kind != SEMICOLON) {
-            handleUnexpectedToken("Missing ;");
+            registerError("Missing ;");
         }
-        currentToken = scanner.scan();
+        advance();
 
         return new DeclStmt(position, name, initExpr);
     }
@@ -305,46 +299,46 @@ public class Parser
         int position = currentToken.position;
 
         if (currentToken.kind != FOR) {
-            handleUnexpectedToken("Missing for");
+            registerError("Missing for");
         }
-        currentToken = scanner.scan();
+        advance();
 
         if (currentToken.kind != LPAREN) {
-            handleUnexpectedToken("Missing (");
+            registerError("Missing (");
         }
-        currentToken = scanner.scan();
+        advance();
 
         Expr start = null;
         if (currentToken.kind != SEMICOLON) {
             start = parseExpression();
             if (currentToken.kind != SEMICOLON) {
-                handleUnexpectedToken("Missing ;");
+                registerError("Missing ;");
             }
         }
-        currentToken = scanner.scan();
+        advance();
 
         Expr terminate = null;
         if (currentToken.kind != SEMICOLON) {
             terminate = parseExpression();
             if (currentToken.kind != SEMICOLON) {
-                handleUnexpectedToken("Missing ;");
+                registerError("Missing ;");
             }
         }
-        currentToken = scanner.scan();
+        advance();
 
         Expr increment = null;
         if (currentToken.kind != SEMICOLON) {
             increment = parseExpression();
             if (currentToken.kind != SEMICOLON) {
-                handleUnexpectedToken("Missing ;");
+                registerError("Missing ;");
             }
         }
-        currentToken = scanner.scan();
+        advance();
 
         if (currentToken.kind != RPAREN) {
-            handleUnexpectedToken("Missing )");
+            registerError("Missing )");
         }
-        currentToken = scanner.scan();
+        advance();
 
         Stmt stmt = parseStatement();
 
@@ -360,9 +354,9 @@ public class Parser
         int position = currentToken.position;
 
         if (currentToken.kind != LCURLY) {
-            handleUnexpectedToken("Missing {");
+            registerError("Missing {");
         }
-        currentToken = scanner.scan();
+        advance();
 
         StmtList stmtList = new StmtList(position);
 
@@ -382,26 +376,26 @@ public class Parser
         int position = currentToken.position;
 
         if (currentToken.kind != IF) {
-            handleUnexpectedToken("Missing if");
+            registerError("Missing if");
         }
-        currentToken = scanner.scan();
+        advance();
 
-        while (currentToken.kind != LPAREN) {
-            handleUnexpectedToken("Missing (");
+        if (currentToken.kind != LPAREN) {
+            registerError("Missing (");
         }
-        currentToken = scanner.scan();
+        advance();
 
         Expr predExpr = parseExpression();
-        while (currentToken.kind != RPAREN) {
-            handleUnexpectedToken("Missing )");
+        if (currentToken.kind != RPAREN) {
+            registerError("Missing )");
         }
-        currentToken = scanner.scan();
+        advance();
 
         Stmt thenStmt = parseStatement();
 
         Stmt elseStmt = null;
         if (currentToken.kind == ELSE) {
-            currentToken = scanner.scan();
+            advance();
             elseStmt = parseStatement();
         }
 
@@ -422,7 +416,7 @@ public class Parser
 
         Expr left = parseOrExpr();
         if (currentToken.kind == ASSIGN) {
-            currentToken = scanner.scan();
+            advance();
             Expr right = parseExpression();
             VarExpr leftVar = (VarExpr) left;
             VarExpr leftRef = (VarExpr) leftVar.getRef();
@@ -442,7 +436,7 @@ public class Parser
 
         Expr left = parseAndExpr();
         while (currentToken.spelling.equals("||")) {
-            currentToken = scanner.scan();
+            advance();
             Expr right = parseAndExpr();
             left = new BinaryLogicOrExpr(position, left, right);
         }
@@ -460,7 +454,7 @@ public class Parser
 
         Expr left = parseEqualityExpr();
         while (currentToken.spelling.equals("&&")) {
-            currentToken = scanner.scan();
+            advance();
             Expr right = parseEqualityExpr();
             left = new BinaryLogicAndExpr(position, left, right);
         }
@@ -480,12 +474,12 @@ public class Parser
         Expr left = parseRelationalExpr();
 
         if (currentToken.spelling.equals("==")) {
-            currentToken = scanner.scan();
+            advance();
             Expr right = parseRelationalExpr();
             left = new BinaryCompEqExpr(position, left, right);
         }
         else if (currentToken.spelling.equals("!=")) {
-            currentToken = scanner.scan();
+            advance();
             Expr right = parseRelationalExpr();
             left = new BinaryCompNeExpr(position, left, right);
         }
@@ -504,7 +498,7 @@ public class Parser
         Expr left = parseAddExpr();
         if (currentToken.kind == COMPARE) {
             String comparisonOp = currentToken.spelling;
-            currentToken = scanner.scan();
+            advance();
             Expr right = parseAddExpr();
             switch(comparisonOp) {
                 case "<":
@@ -535,12 +529,12 @@ public class Parser
     private Expr parseAddExpr() throws CompilationException {
         int position = currentToken.position;
 
-        Expr left = parseNewCastOrUnary();
+        Expr left = parseMultExpr();
 
         while (currentToken.kind == PLUSMINUS) {
             String op = currentToken.spelling;
-            currentToken = scanner.scan();
-            Expr right = parseNewCastOrUnary();
+            advance();
+            Expr right = parseMultExpr();
             switch(op) {
                 case "+":
                     left = new BinaryArithPlusExpr(position, left, right);
@@ -569,7 +563,7 @@ public class Parser
 
         while (currentToken.kind == MULDIV) {
             String op = currentToken.spelling;
-            currentToken = scanner.scan();
+            advance();
             Expr right = parseNewCastOrUnary();
             switch(op) {
                 case "*":
@@ -616,26 +610,26 @@ public class Parser
         int position = currentToken.position;
 
         if (currentToken.kind != NEW) {
-            handleUnexpectedToken("Missing new");
+            registerError("Missing new");
         }
-        currentToken = scanner.scan();
+        advance();
 
         String identifier = parseIdentifier();
 
         if (currentToken.kind == LPAREN) {
-            currentToken = scanner.scan();
+            advance();
             if (currentToken.kind != RPAREN) {
-                handleUnexpectedToken("Missing )");
+                registerError("Missing )");
             }
-            handleUnexpectedToken("Missing (");
+            registerError("Missing (");
         } else if (currentToken.kind != LBRACKET) {
-            currentToken = scanner.scan();
+            advance();
             parseExpression();
             if (currentToken.kind == RBRACKET) {
-                handleUnexpectedToken("Missing ]");
+                registerError("Missing ]");
             }
         } else {
-            handleUnexpectedToken("Missing ( or [");
+            registerError("Missing ( or [");
         }
 
         return new NewExpr(position, identifier);
@@ -649,23 +643,23 @@ public class Parser
         int position = currentToken.position;
 
         if (currentToken.kind != LPAREN) {
-            handleUnexpectedToken("Missing (");
+            registerError("Missing (");
         }
-        currentToken = scanner.scan();
+        advance();
 
         String type = parseType();
 
         if (currentToken.kind != COMMA) {
-            handleUnexpectedToken("Missing ,");
+            registerError("Missing ,");
         }
-        currentToken = scanner.scan();
+        advance();
 
         Expr expr = parseExpression();
 
         if (currentToken.kind != RPAREN) {
-            handleUnexpectedToken("Missing )");
+            registerError("Missing )");
         }
-        currentToken = scanner.scan();
+        advance();
 
         return new CastExpr(position, type, expr);
     }
@@ -686,7 +680,7 @@ public class Parser
         }
 
         String op = currentToken.spelling;
-        currentToken = scanner.scan();
+        advance();
         switch(op) {
             case "-":
                 return new UnaryNegExpr(position, parseUnaryPrefix());
@@ -732,12 +726,11 @@ public class Parser
 
         switch(currentToken.kind) {
             case LPAREN:
-                currentToken = scanner.scan();
+                advance();
                 Expr expr = parseExpression();
                 if (currentToken.kind != RPAREN) {
-                    handleUnexpectedToken("Missing )");
+                    registerError("Missing )");
                 }
-                currentToken = scanner.scan();
                 return expr;
             case INTCONST:
                 return parseIntConst();
@@ -746,61 +739,48 @@ public class Parser
             case STRCONST:
                 return parseStringConst();
             default:
+                Expr varOrDispatch;
+                // get prefix for var or dispatch
+                Expr prefix = null;
                 if (currentToken.spelling.equals("SUPER") ||
                 currentToken.spelling.equals("THIS")) {
-                    VarExpr ref = new VarExpr(position, null, currentToken.spelling);
-                    currentToken= scanner.scan();
-                    if (currentToken.kind != DOT) {
-                        handleUnexpectedToken("Missing .");
+                    prefix = new VarExpr(position, null, currentToken.spelling);
+                    advance();
+                    if (this.currentToken.kind != DOT) {
+                        registerError("Missing .");
                     }
-                    String name = parseIdentifier();
-                    if (currentToken.kind == LBRACKET) {
-                        currentToken = scanner.scan();
-                        if (currentToken.kind != RBRACKET) {
-                            handleUnexpectedToken("Missing ]");
-                        }
-                        return new VarExpr(position, ref, name);
-                    }
+                    advance();
                 }
                 else if (currentToken.kind != IDENTIFIER) {
-                    Expr primary = parsePrimary();
-                    if (currentToken.kind != DOT) {
-                        handleUnexpectedToken("Missing .");
+                    prefix = parsePrimary();
+                    if (this.currentToken.kind != DOT) {
+                        registerError("Missing .");
                     }
-                    currentToken = scanner.scan();
-                    String name = parseIdentifier();
-                    if (currentToken.kind != LPAREN) {
-                        handleUnexpectedToken("Missing (");
-                    }
-                    currentToken = scanner.scan();
+                    advance();
+                }
+
+                String name = parseIdentifier();
+
+                // parse dispatch expression
+                if (currentToken.kind == LPAREN) {
                     ExprList exprList = parseArguments();
                     if (currentToken.kind != RPAREN) {
-                        handleUnexpectedToken("Missing )");
+                        registerError("Missing )");
                     }
-                    return new DispatchExpr(position, primary, name, exprList);
+                    varOrDispatch = new DispatchExpr(position, prefix, name, exprList);
                 }
+
+                // parse var expression
                 else {
-                    String name = parseIdentifier();
-                    if (currentToken.kind == LPAREN) {
-                        currentToken = scanner.scan();
-                        ExprList exprList = parseArguments();
-                        if (currentToken.kind != RPAREN) {
-                            handleUnexpectedToken("Missing )");
-                        }
-                        return new DispatchExpr(position, null, name, exprList);
-                    }
-                    else {
-                        if (currentToken.kind == LBRACKET) {
-                            currentToken = scanner.scan();
-                            Expr exp = parseExpression();
-                            if (currentToken.kind != RBRACKET) {
-                                handleUnexpectedToken("Missing ]");
-                            }
-                            return new VarExpr(position, exp, name);
+                    if (currentToken.kind == LBRACKET) {
+                        parseExpression();
+                        if (currentToken.kind != RBRACKET) {
+                            registerError("Missing ]");
                         }
                     }
+                    varOrDispatch = new VarExpr(position, prefix, name);
                 }
-                return null;
+                return varOrDispatch;
         }
     }
 
@@ -857,14 +837,14 @@ public class Parser
      */
     private String parseType() throws CompilationException {
         String identifier = parseIdentifier();
-        currentToken = scanner.scan();
+        advance();
         if (currentToken.kind == LBRACKET){
             scanner.scan();
             if (currentToken.kind != RBRACKET){
-                handleUnexpectedToken("Missing ]");
+                registerError("Missing ]");
             }
         }
-        currentToken = scanner.scan();
+        advance();
         return identifier;
     }
 
@@ -872,48 +852,55 @@ public class Parser
     //----------------------------------------
     //Terminals
 
-    private String parseOperator() throws CompilationException {
-         if (currentToken.kind != PLUSMINUS && currentToken.kind != MULDIV) {
-             handleUnexpectedToken("Missing operator");
-         }
-         return currentToken.spelling;
+    private String parseOperator() {
+         String spelling = currentToken.spelling;
+         advance();
+         return spelling;
     }
 
 
     private String parseIdentifier() {
-         currentToken = scanner.scan();
-         return currentToken.spelling;
+        String spelling = currentToken.spelling;
+        advance();
+        return spelling;
     }
 
 
     private ConstStringExpr parseStringConst() {
          int position = currentToken.position;
-         currentToken = scanner.scan();
-         return new ConstStringExpr(position, currentToken.spelling);
+         String spelling = currentToken.spelling;
+         advance();
+         return new ConstStringExpr(position, spelling);
     }
 
 
     private ConstIntExpr parseIntConst() {
-        int position = currentToken.position;
-        currentToken = scanner.scan();
-        return new ConstIntExpr(position, currentToken.spelling);
+         int position = currentToken.position;
+         String spelling = currentToken.spelling;
+         advance();
+         return new ConstIntExpr(position, spelling);
     }
 
 
     private ConstBooleanExpr parseBoolean() {
          int position = currentToken.position;
-         currentToken = scanner.scan();
-         return new ConstBooleanExpr(position, currentToken.spelling);
+         String spelling = currentToken.spelling;
+         advance();
+         return new ConstBooleanExpr(position, spelling);
     }
 
 
-    private void handleUnexpectedToken(String errorMessage) throws CompilationException {
-         if (currentToken.kind != COMMENT) {
-             errorHandler.register(Error.Kind.PARSE_ERROR, fileName,
+    private void registerError(String errorMessage) throws CompilationException {
+         errorHandler.register(Error.Kind.PARSE_ERROR, fileName,
                      currentToken.position, errorMessage);
-             throw new CompilationException(errorMessage);
-         }
-         // if token is a comment, move on
+         throw new CompilationException(errorMessage);
+    }
+
+    private void advance() {
          currentToken = scanner.scan();
+         // cycle through comments
+         while (currentToken.kind == COMMENT) {
+             currentToken = scanner.scan();
+         }
     }
 }
