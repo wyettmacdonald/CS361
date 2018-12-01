@@ -953,4 +953,31 @@ public class Parser
              currentToken = scanner.scan();
          }
     }
+
+    /**
+     * Main method scans and parses the given files and prints out
+     * if scanning and parsing were successful, or the errors encountered if not
+     * @param args a list of file names
+     */
+    public static void main(String[] args) {
+        if (args.length == 0) {
+            System.out.println("Please enter files to scan");
+        }
+
+        ErrorHandler errorHandler = new ErrorHandler();
+        Parser parser = new Parser(errorHandler);
+
+        for (int i = 0; i < args.length; i++) {
+            System.out.println(args[i]);
+            try {
+                parser.parse(args[i]);
+                System.out.println("Scanning and parsing successful");
+            }
+            catch (CompilationException e) {
+                for (Error error : errorHandler.getErrorList()) {
+                    System.out.println(error.toString());
+                }
+            }
+        }
+    }
 }
