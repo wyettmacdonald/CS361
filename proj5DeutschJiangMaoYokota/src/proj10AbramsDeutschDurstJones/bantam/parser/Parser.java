@@ -3,7 +3,8 @@
  * CS361 Project 10
  * Names: Douglas Abrams, Martin Deutsch, Robert Durst, Matt Jones
  * Date: 12/07/2018
- * This file contains the Scanner, which tokenizes the source file
+ * This file contains the Parser, which parses the source file
+ * and generates the AST
  */
 
 /*
@@ -647,16 +648,16 @@ public class Parser
             if (currentToken.kind != RPAREN) {
                 registerError("Missing )");
             }
-            registerError("Missing (");
-        } else if (currentToken.kind != LBRACKET) {
+        } else if (currentToken.kind == LBRACKET) {
             advance();
             parseExpression();
-            if (currentToken.kind == RBRACKET) {
+            if (currentToken.kind != RBRACKET) {
                 registerError("Missing ]");
             }
         } else {
             registerError("Missing ( or [");
         }
+        advance();
 
         return new NewExpr(position, identifier);
     }
