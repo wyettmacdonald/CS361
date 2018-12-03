@@ -35,7 +35,9 @@ CLASSES = \
 					proj10AbramsDeutschDurstJones/bantam/lexer/Scanner.java \
 					proj10AbramsDeutschDurstJones/bantam/lexer/SourceFile.java \
 					proj10AbramsDeutschDurstJones/bantam/lexer/Token.java \
-					proj10AbramsDeutschDurstJones/bantam/tests/TestHelloWorld.java \
+					proj10AbramsDeutschDurstJones/bantam/parser/Parser.java \
+					proj10AbramsDeutschDurstJones/bantam/tests/TestScanner.java \
+					proj10AbramsDeutschDurstJones/bantam/tests/TestParser.java \
 					proj10AbramsDeutschDurstJones/bantam/tests/TestSuite.java \
 
 # Name of our main class with its preceding path location

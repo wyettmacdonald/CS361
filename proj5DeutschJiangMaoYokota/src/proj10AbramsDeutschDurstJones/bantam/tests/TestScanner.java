@@ -1,4 +1,4 @@
-package proj9AbramsDeutschDurstJones.bantam.tests;
+package proj10AbramsDeutschDurstJones.bantam.tests;
 
 import static org.junit.Assert.*;
 
@@ -6,13 +6,13 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 
 import java.io.File;
-import proj9AbramsDeutschDurstJones.bantam.lexer.Scanner;
-import proj9AbramsDeutschDurstJones.bantam.lexer.Token;
-import proj9AbramsDeutschDurstJones.bantam.lexer.Token.Kind;
-import proj9AbramsDeutschDurstJones.bantam.util.Error;
-import proj9AbramsDeutschDurstJones.bantam.util.ErrorHandler;
+import proj10AbramsDeutschDurstJones.bantam.lexer.Scanner;
+import proj10AbramsDeutschDurstJones.bantam.lexer.Token;
+import proj10AbramsDeutschDurstJones.bantam.lexer.Token.Kind;
+import proj10AbramsDeutschDurstJones.bantam.util.Error;
+import proj10AbramsDeutschDurstJones.bantam.util.ErrorHandler;
 
-public class TestHelloWorld {
+public class TestScanner {
     static Scanner scanner;
     static ErrorHandler errorHandler;
 
@@ -21,7 +21,7 @@ public class TestHelloWorld {
     static public void startTest() {
         errorHandler = new ErrorHandler();
         String filepath = new File("").getAbsolutePath();
-        filepath = filepath.concat("/proj9AbramsDeutschDurstJones/bantam/tests/test_bantam_files/HelloWorld.java");
+        filepath = filepath.concat("/proj10AbramsDeutschDurstJones/bantam/tests/test_bantam_files/Scanner_Testfile.java");
         scanner = new Scanner(filepath, errorHandler);
     }
 
@@ -97,7 +97,6 @@ public class TestHelloWorld {
         Token token;
         for (Testobj to : expected) {
             token = scanner.scan();
-            System.out.printf("Expected: %s and Received: %s\n", to.spelling, token.spelling);
             assertEquals(to.spelling, token.spelling);
             assertEquals(to.kind, token.kind);
         }
