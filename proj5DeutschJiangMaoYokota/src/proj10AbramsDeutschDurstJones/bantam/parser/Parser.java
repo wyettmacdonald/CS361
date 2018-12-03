@@ -550,7 +550,7 @@ public class Parser
 
 
     /*
-     * <AddExpr>::＝ <MultExpr> <MoreMultExpr>
+     * <AddExpr>::= <MultExpr> <MoreMultExpr>
      * <MoreMultExpr> ::= EMPTY | + <MultExpr> <MoreMultExpr> | - <MultExpr> <MoreMultExpr>
      */
     private Expr parseAddExpr() throws CompilationException {
