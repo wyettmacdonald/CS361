@@ -441,8 +441,7 @@ public class Parser
             String leftRef = null;
             if (leftVar.getRef() != null) {
                 if (!(leftVar.getRef() instanceof VarExpr)) {
-                    registerError("<identifier> expected",
-                            position);
+                    registerError("<identifier> expected", position);
                 }
                 leftRef = ((VarExpr) leftVar.getRef()).getName();
             }
@@ -523,13 +522,13 @@ public class Parser
         int position = currentToken.position;
 
         Expr left = parseAddExpr();
-        String spelling = currentToken.spelling;
         if (currentToken.kind == COMPARE &&
-                (spelling.contains("<") || spelling.contains(">"))
+                (currentToken.spelling.contains("<")
+                        || currentToken.spelling.contains(">"))
             || currentToken.kind == INSTANCEOF) {
-            advance();
+            String op = parseOperator();
             Expr right = parseAddExpr();
-            switch(spelling) {
+            switch(op) {
                 case "<":
                     left = new BinaryCompLtExpr(position, left, right);
                     break;
@@ -546,8 +545,7 @@ public class Parser
                     if (!(right instanceof VarExpr)) {
                         registerError("<identifier> expected", position);
                     }
-                    left = new InstanceofExpr(position, left,
-                            ((VarExpr) right).getName());
+                    left = new InstanceofExpr(position, left, ((VarExpr) right).getName());
             }
         }
 
@@ -565,8 +563,7 @@ public class Parser
         Expr left = parseMultExpr();
 
         while (currentToken.kind == PLUSMINUS) {
-            String op = currentToken.spelling;
-            advance();
+            String op = parseOperator();
             Expr right = parseMultExpr();
             switch(op) {
                 case "+":
@@ -595,8 +592,7 @@ public class Parser
         Expr left = parseNewCastOrUnary();
 
         while (currentToken.kind == MULDIV) {
-            String op = currentToken.spelling;
-            advance();
+            String op = parseOperator();
             Expr right = parseNewCastOrUnary();
             switch(op) {
                 case "*":
@@ -717,8 +713,7 @@ public class Parser
             return parseUnaryPostfix();
         }
 
-        String op = currentToken.spelling;
-        advance();
+        String op = parseOperator();
         switch(op) {
             case "-":
                 return new UnaryNegExpr(position, parseUnaryPrefix());
@@ -739,15 +734,15 @@ public class Parser
         int position = currentToken.position;
 
         Expr expr = parsePrimary();
-        if (currentToken.spelling.equals("++")) {
-            advance();
-            return new UnaryIncrExpr(position, expr, true);
+        if (currentToken.kind == UNARYINCR || currentToken.kind == UNARYDECR) {
+            String op = parseOperator();
+            if (op.equals("++")) {
+                return new UnaryIncrExpr(position, expr, true);
+            }
+            if (op.equals("--")) {
+                return new UnaryDecrExpr(position, expr, true);
+            }
         }
-        if (currentToken.spelling.equals("--")) {
-            advance();
-            return new UnaryDecrExpr(position, expr, true);
-        }
-
         return expr;
     }
 
