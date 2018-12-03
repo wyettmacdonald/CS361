@@ -21,19 +21,15 @@ public class TestParser {
   @BeforeClass
   static public void startTest() {
     errorHandler = new ErrorHandler();
-    String filepath = new File("").getAbsolutePath();
-    filepath = filepath.concat("/proj10AbramsDeutschDurstJones/bantam/tests/test_bantam_files/Parser_HelloWorld_Testfile.java");
-    parser = new Parser(errorHandler);
-    try {
-      root = parser.parse(filepath);
-    } catch (CompilationException e) {
-      System.out.println("ISSUE:");
-      System.out.println(e);
-    }
   }
 
   @Test
-  public void traverseAST() {
+  public void TestHelloWorld() {
+    String filepath = new File("").getAbsolutePath();
+    filepath = filepath.concat("/proj10AbramsDeutschDurstJones/bantam/tests/test_bantam_files/Parser_HelloWorld_Testfile.java");
+    parser = new Parser(errorHandler);
+    root = parser.parse(filepath);
+    
     // get all classes
     // class Parser_HelloWorld_TestFile
     ListNode childNodes = (ListNode)root.getClassList();
@@ -51,22 +47,34 @@ public class TestParser {
     ConstExpr fourExpr = (ConstExpr)field.getInit();
     assertEquals("4", fourExpr.getConstant());
     
-    // void main
+    // void main(int z)
     Method mainFunc = (Method)members.get(1);
-    assertEquals("void", mainFunc.getReturnType());
+    ListNode mainFuncParams = (ListNode)mainFunc.getFormalList();
+    Formal param = (Formal)mainFuncParams.get(0);
+    assertEquals("int", mainFunc.getReturnType());
     assertEquals("main", mainFunc.getName());
+    assertEquals("int", param.getType());
+    assertEquals("z", param.getName());
 
     // get all statements
     ListNode statements = mainFunc.getStmtList();
 
-    // var x = 3
-    DeclStmt threeStmnt = (DeclStmt)statements.get(0);
-    assertEquals("x", threeStmnt.getName());
-    ConstExpr threeExpr = (ConstExpr)threeStmnt.getInit();
-    assertEquals("3", threeExpr.getConstant());
+    // var x = new Walrus()
+    DeclStmt walrusStmnt = (DeclStmt)statements.get(0);
+    assertEquals("x", walrusStmnt.getName());
+    NewExpr newExpr = (NewExpr)walrusStmnt.getInit();
+    assertEquals("Walrus", newExpr.getType());
+
+    // var a = 10 instanceof bob
+    DeclStmt bobStmt = (DeclStmt)statements.get(1);
+    assertEquals("a", bobStmt.getName());
+    InstanceofExpr bob = (InstanceofExpr)bobStmt.getInit();
+    ConstExpr onezero = (ConstExpr)bob.getExpr();
+    assertEquals("bob", bob.getType());
+    assertEquals("10", onezero.getConstant());
 
     // while
-    WhileStmt whilee = (WhileStmt)statements.get(1);
+    WhileStmt whilee = (WhileStmt)statements.get(2);
     BinaryExpr lte = (BinaryExpr)whilee.getPredExpr();
     ExprStmt incxExpr = (ExprStmt)whilee.getBodyStmt();
     AssignExpr incx = (AssignExpr)incxExpr.getExpr();
@@ -86,5 +94,44 @@ public class TestParser {
     assertEquals("x", x.getName());
     assertEquals("+", xPlusY.getOpName());
     assertEquals("y", y.getName());
+
+    // for(i = 0; i < 10; i++) break;
+    ForStmt forr = (ForStmt)statements.get(3);
+    AssignExpr iEq0 = (AssignExpr)forr.getInitExpr();
+    ConstExpr zero = (ConstExpr)iEq0.getExpr();
+    BinaryExpr iLt10 = (BinaryExpr)forr.getPredExpr();
+    VarExpr i2 = (VarExpr)iLt10.getLeftExpr();
+    ConstExpr ten = (ConstExpr)iLt10.getRightExpr();
+    UnaryExpr iPlusPlus = (UnaryExpr)forr.getUpdateExpr();
+    VarExpr i3 = (VarExpr)iPlusPlus.getExpr();
+    BreakStmt breakk = (BreakStmt)forr.getBodyStmt();
+    assertEquals("i", iEq0.getName());
+    assertEquals("0", zero.getConstant());
+    assertEquals("i", i2.getName());
+    assertEquals("<", iLt10.getOpName());
+    assertEquals("10", ten.getConstant());
+    assertEquals("i", i3.getName());
+    assertEquals("++", iPlusPlus.getOpName());
+
+    // if (true || false && true) return 10;
+    IfStmt iff = (IfStmt)statements.get(4);
+    BinaryExpr iffExpr = (BinaryExpr)iff.getPredExpr();
+    ConstExpr iffExprLeft = (ConstExpr)iffExpr.getLeftExpr();
+    BinaryExpr iffExprRight = (BinaryExpr)iffExpr.getRightExpr();
+    ConstExpr iffExprRightLeft = (ConstExpr)iffExprRight.getLeftExpr();
+    ConstExpr iffExprRightRight = (ConstExpr)iffExprRight.getRightExpr();
+    assertEquals("true", iffExprLeft.getConstant());
+    assertEquals("||", iffExpr.getOpName());
+    assertEquals("false", iffExprRightLeft.getConstant());
+    assertEquals("&&", iffExprRight.getOpName());
+    assertEquals("true", iffExprRightRight.getConstant());
+    ReturnStmt ret10 = (ReturnStmt)iff.getThenStmt();
+    ConstExpr retd10 = (ConstExpr)ret10.getExpr();
+    assertEquals("10", retd10.getConstant());
+
+    // else return 9;
+    ReturnStmt ret9 = (ReturnStmt)iff.getElseStmt();
+    ConstExpr retd9 = (ConstExpr)ret9.getExpr();
+    assertEquals("9", retd9.getConstant());
   }
 }
