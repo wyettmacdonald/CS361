@@ -147,7 +147,11 @@ public class ToolBarController {
                 tabPane.createNewTab("Scan Results", scanResults, null);
             });
 
-            printErrorList(errorHandler.getErrorList());
+            List<Error> errorList = errorHandler.getErrorList();
+            printErrorList(errorList);
+            Platform.runLater(() -> {
+                this.console.appendText("Illegal tokens found: " + errorList.size() + "\n");
+            });
 
         } catch (Throwable e) {
             Platform.runLater(() -> {
@@ -163,13 +167,14 @@ public class ToolBarController {
      * @param errorList the list of Error objects to display
      */
     private void printErrorList(List<Error> errorList) {
-        String errors = "";
+        StringBuilder errors = new StringBuilder();
         for (Error e : errorList) {
-            errors += e.toString() + "\n";
+            errors.append(e.toString());
+            errors.append("\n");
         }
-        final String output = errors + "Illegal tokens found: " + errorList.size() + "\n";
+
         Platform.runLater(() -> {
-            this.console.appendText(output);
+            this.console.appendText(errors.toString());
         });
     }
 

@@ -84,30 +84,34 @@ public class Parser
     private Class_ parseClass() throws CompilationException {
         int position = currentToken.position;
 
-        // handle CLASS
         if (currentToken.kind != CLASS) {
-            registerError("Missing class");
+            registerError("class expected", position);
         }
-        // handle name
         advance();
+
         String name = parseIdentifier();
-        // handle extends clause
+
         String parent = null;
         if (currentToken.kind == EXTENDS) {
             advance();
             parent = parseIdentifier();
         }
-        // handle member list
+
         MemberList memberList = new MemberList(position);
         if (currentToken.kind != LCURLY) {
-            registerError("Missing {");
+            registerError("'{' expected", position);
         }
         advance();
         while (currentToken.kind != RCURLY) {
             Member aMember = parseMember();
             memberList.addElement(aMember);
         }
-        advance();
+
+        // don't use advance() here because we can hit EOF
+        currentToken = scanner.scan();
+        while (currentToken.kind == COMMENT) {
+            currentToken = scanner.scan();
+        }
 
         return new Class_(position, fileName, name, parent, memberList);
     }
@@ -130,7 +134,7 @@ public class Parser
             advance();
             FormalList formalList = parseParameters();
             if (currentToken.kind != RPAREN) {
-                registerError("Missing )");
+                registerError("')' expected", position);
             }
             advance();
             StmtList stmtList = ((BlockStmt) parseBlock()).getStmtList();
@@ -144,7 +148,7 @@ public class Parser
             init = parseExpression();
         }
         if (currentToken.kind != SEMICOLON) {
-            registerError("Missing ;");
+            registerError("';' expected", position);
         }
         advance();
 
@@ -198,17 +202,17 @@ public class Parser
         int position = currentToken.position;
 
         if (currentToken.kind != WHILE) {
-            registerError("Missing while");
+            registerError("while expected", position);
         }
         advance();
 
         if (currentToken.kind != LPAREN) {
-            registerError("Missing (");
+            registerError("'(' expected", position);
         }
         advance();
         Expr expr = parseExpression();
         if (currentToken.kind != RPAREN) {
-            registerError("Missing )");
+            registerError("')' expected", position);
         }
         advance();
 
@@ -225,13 +229,13 @@ public class Parser
         int position = currentToken.position;
 
         if (currentToken.kind != RETURN) {
-            registerError("Missing return");
+            registerError("return expected", position);
         }
         advance();
 
         Expr expr = parseExpression();
         if (currentToken.kind != SEMICOLON) {
-            registerError("Missing ;");
+            registerError("';' expected", position);
         }
         advance();
 
@@ -246,11 +250,11 @@ public class Parser
         int position = currentToken.position;
 
         if (currentToken.kind != BREAK) {
-            registerError("Missing break");
+            registerError("break expected", position);
         }
         advance();
         if (currentToken.kind != SEMICOLON) {
-            registerError("Missing ;");
+            registerError("';' expected", position);
         }
         advance();
 
@@ -265,7 +269,7 @@ public class Parser
         int position = currentToken.position;
         Expr expr = parseExpression();
         if (currentToken.kind != SEMICOLON) {
-            registerError("Missing ;");
+            registerError("';' expected", position);
         }
         advance();
 
@@ -281,21 +285,21 @@ public class Parser
         int position = currentToken.position;
 
         if (currentToken.kind != VAR) {
-            registerError("Missing var");
+            registerError("var expected", position);
         }
         advance();
 
         String name = parseIdentifier();
 
         if (currentToken.kind != ASSIGN) {
-            registerError("Missing =");
+            registerError("'=' expected", position);
         }
         advance();
 
         Expr initExpr = parseExpression();
 
         if (currentToken.kind != SEMICOLON) {
-            registerError("Missing ;");
+            registerError("';' expected", position);
         }
         advance();
 
@@ -313,12 +317,12 @@ public class Parser
         int position = currentToken.position;
 
         if (currentToken.kind != FOR) {
-            registerError("Missing for");
+            registerError("for expected", position);
         }
         advance();
 
         if (currentToken.kind != LPAREN) {
-            registerError("Missing (");
+            registerError("'(' expected", position);
         }
         advance();
 
@@ -326,7 +330,7 @@ public class Parser
         if (currentToken.kind != SEMICOLON) {
             start = parseExpression();
             if (currentToken.kind != SEMICOLON) {
-                registerError("Missing ;");
+                registerError("';' expected", position);
             }
         }
         advance();
@@ -335,7 +339,7 @@ public class Parser
         if (currentToken.kind != SEMICOLON) {
             terminate = parseExpression();
             if (currentToken.kind != SEMICOLON) {
-                registerError("Missing ;");
+                registerError("';' expected", position);
             }
         }
         advance();
@@ -344,7 +348,7 @@ public class Parser
         if (currentToken.kind != RPAREN) {
             increment = parseExpression();
             if (currentToken.kind != RPAREN) {
-                registerError("Missing )");
+                registerError("')' expected", position);
             }
         }
         advance();
@@ -363,7 +367,7 @@ public class Parser
         int position = currentToken.position;
 
         if (currentToken.kind != LCURLY) {
-            registerError("Missing {");
+            registerError("'{' expected", position);
         }
         advance();
 
@@ -386,18 +390,18 @@ public class Parser
         int position = currentToken.position;
 
         if (currentToken.kind != IF) {
-            registerError("Missing if");
+            registerError("if expected", position);
         }
         advance();
 
         if (currentToken.kind != LPAREN) {
-            registerError("Missing (");
+            registerError("'(' expected", position);
         }
         advance();
 
         Expr predExpr = parseExpression();
         if (currentToken.kind != RPAREN) {
-            registerError("Missing )");
+            registerError("')' expected", position);
         }
         advance();
 
@@ -430,14 +434,15 @@ public class Parser
             Expr right = parseExpression();
             // get variable being assigned
             if (!(left instanceof VarExpr)) {
-                registerError("Expected identifier");
+                registerError("<identifier> expected", position);
             }
             VarExpr leftVar = (VarExpr) left;
             // get reference to variable
             String leftRef = null;
             if (leftVar.getRef() != null) {
                 if (!(leftVar.getRef() instanceof VarExpr)) {
-                    registerError("Expected reference identifier");
+                    registerError("<identifier> expected",
+                            position);
                 }
                 leftRef = ((VarExpr) leftVar.getRef()).getName();
             }
@@ -539,9 +544,10 @@ public class Parser
                     break;
                 default:
                     if (!(right instanceof VarExpr)) {
-                        registerError("Expected type identifier");
+                        registerError("<identifier> expected", position);
                     }
-                    left = new InstanceofExpr(position, left, ((VarExpr) right).getName());
+                    left = new InstanceofExpr(position, left,
+                            ((VarExpr) right).getName());
             }
         }
 
@@ -637,7 +643,7 @@ public class Parser
         int position = currentToken.position;
 
         if (currentToken.kind != NEW) {
-            registerError("Missing new");
+            registerError("new expected", position);
         }
         advance();
 
@@ -646,16 +652,16 @@ public class Parser
         if (currentToken.kind == LPAREN) {
             advance();
             if (currentToken.kind != RPAREN) {
-                registerError("Missing )");
+                registerError("')' expected", position);
             }
         } else if (currentToken.kind == LBRACKET) {
             advance();
             parseExpression();
             if (currentToken.kind != RBRACKET) {
-                registerError("Missing ]");
+                registerError("']' expected", position);
             }
         } else {
-            registerError("Missing ( or [");
+            registerError("'(' or '[' expected", position);
         }
         advance();
 
@@ -669,22 +675,27 @@ public class Parser
     private Expr parseCast() throws CompilationException {
         int position = currentToken.position;
 
+        if (currentToken.kind != CAST) {
+            registerError("'(' expected", position);
+        }
+        advance();
+
         if (currentToken.kind != LPAREN) {
-            registerError("Missing (");
+            registerError("'(' expected", position);
         }
         advance();
 
         String type = parseType();
 
         if (currentToken.kind != COMMA) {
-            registerError("Missing ,");
+            registerError("',' expected", position);
         }
         advance();
 
         Expr expr = parseExpression();
 
         if (currentToken.kind != RPAREN) {
-            registerError("Missing )");
+            registerError("')' expected", position);
         }
         advance();
 
@@ -758,7 +769,7 @@ public class Parser
                 advance();
                 Expr expr = parseExpression();
                 if (currentToken.kind != RPAREN) {
-                    registerError("Missing )");
+                    registerError("')' expected", position);
                 }
                 return expr;
             case INTCONST:
@@ -776,14 +787,14 @@ public class Parser
                     prefix = new VarExpr(position, null, currentToken.spelling);
                     advance();
                     if (this.currentToken.kind != DOT) {
-                        registerError("Missing .");
+                        registerError("'.' expected", position);
                     }
                     advance();
                 }
                 else if (currentToken.kind != IDENTIFIER) {
                     prefix = parsePrimary();
                     if (this.currentToken.kind != DOT) {
-                        registerError("Missing .");
+                        registerError("'.' expected", position);
                     }
                     advance();
                 }
@@ -795,7 +806,7 @@ public class Parser
                     advance();
                     ExprList exprList = parseArguments();
                     if (currentToken.kind != RPAREN) {
-                        registerError("Missing )");
+                        registerError("')' expected", position);
                     }
                     advance();
 
@@ -807,7 +818,7 @@ public class Parser
                     if (currentToken.kind == LBRACKET) {
                         parseExpression();
                         if (currentToken.kind != RBRACKET) {
-                            registerError("Missing ]");
+                            registerError("']' expected", position);
                         }
                         advance();
                     }
@@ -887,11 +898,13 @@ public class Parser
      * <Brackets> ::= EMPTY | [ ]
      */
     private String parseType() throws CompilationException {
+        int position = currentToken.position;
+
         String identifier = parseIdentifier();
         if (currentToken.kind == LBRACKET){
             advance();
             if (currentToken.kind != RBRACKET){
-                registerError("Missing ]");
+                registerError("']' expected", position);
             }
             advance();
         }
@@ -910,6 +923,10 @@ public class Parser
 
 
     private String parseIdentifier() {
+        int position = currentToken.position;
+        if (currentToken.kind != IDENTIFIER && currentToken.kind != VAR) {
+            registerError("<identifier> expected", position);
+        }
         String spelling = currentToken.spelling;
         advance();
         return spelling;
@@ -940,9 +957,10 @@ public class Parser
     }
 
 
-    private void registerError(String errorMessage) throws CompilationException {
+    private void registerError(String errorMessage, int position)
+            throws CompilationException {
          errorHandler.register(Error.Kind.PARSE_ERROR, fileName,
-                     currentToken.position, errorMessage);
+                     position, errorMessage);
          throw new CompilationException(errorMessage);
     }
 
@@ -952,6 +970,12 @@ public class Parser
          // cycle through comments
          while (currentToken.kind == COMMENT) {
              currentToken = scanner.scan();
+         }
+
+         // if EOF, throw error
+         if (currentToken.kind == EOF) {
+             registerError("Reached end of file while parsing",
+                     currentToken.position);
          }
     }
 
