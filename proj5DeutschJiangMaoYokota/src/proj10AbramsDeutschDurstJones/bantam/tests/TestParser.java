@@ -47,8 +47,23 @@ public class TestParser {
     ConstExpr fourExpr = (ConstExpr)field.getInit();
     assertEquals("4", fourExpr.getConstant());
     
+    // int b = code.elegant(10)
+    Field field2 = (Field)members.get(1);
+    assertEquals("int", field2.getType());
+    assertEquals("b", field2.getName());
+    DispatchExpr dispatchExpr = (DispatchExpr)field2.getInit();
+    assertEquals("elegant", dispatchExpr.getMethodName());
+    ListNode dispatchNodes = (ListNode)dispatchExpr.getActualList();
+    ConstIntExpr something = (ConstIntExpr)dispatchNodes.get(0);
+    assertEquals(10, something.getIntConstant());
+
+    // int[] array = new Array();
+    Field field3 = (Field)members.get(2);
+    assertEquals("int", field3.getType());
+    assertEquals("[]array", field3.getName());
+
     // void main(int z)
-    Method mainFunc = (Method)members.get(2);
+    Method mainFunc = (Method)members.get(3);
     ListNode mainFuncParams = (ListNode)mainFunc.getFormalList();
     Formal param = (Formal)mainFuncParams.get(0);
     assertEquals("int", mainFunc.getReturnType());
