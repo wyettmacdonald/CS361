@@ -775,8 +775,9 @@ public class Parser
                 return parseStringConst();
             default:
                 Expr varOrDispatch;
-                // get prefix for var or dispatch
                 Expr prefix = null;
+                String name = null;
+                // get prefix for var
                 if (currentToken.spelling.equals("super") ||
                 currentToken.spelling.equals("this")) {
                     prefix = new VarExpr(position, null, currentToken.spelling);
@@ -786,15 +787,26 @@ public class Parser
                     }
                     advance();
                 }
-                else if (currentToken.kind != IDENTIFIER) {
+                // get prefix for dispatch
+                else if (currentToken.kind == IDENTIFIER) {
+                    String identifier = parseIdentifier();
+                    if (currentToken.kind == DOT) {
+                        prefix = new VarExpr(position, null, identifier);
+                        advance();
+                        name = parseIdentifier();
+                    }
+                    else {
+                        name = identifier;
+                    }
+                }
+                else {
                     prefix = parsePrimary();
                     if (this.currentToken.kind != DOT) {
                         registerError("'.' expected", position);
                     }
                     advance();
+                    name = parseIdentifier();
                 }
-
-                String name = parseIdentifier();
 
                 // parse dispatch expression
                 if (currentToken.kind == LPAREN) {
