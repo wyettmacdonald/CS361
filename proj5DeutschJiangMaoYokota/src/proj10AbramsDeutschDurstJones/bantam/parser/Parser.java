@@ -787,7 +787,7 @@ public class Parser
                     }
                     advance();
                 }
-                // get prefix for dispatch
+                // get identifier prefix and name for dispatch
                 else if (currentToken.kind == IDENTIFIER) {
                     String identifier = parseIdentifier();
                     if (currentToken.kind == DOT) {
@@ -799,6 +799,7 @@ public class Parser
                         name = identifier;
                     }
                 }
+                // get primary prefix and name for dispatch
                 else {
                     prefix = parsePrimary();
                     if (this.currentToken.kind != DOT) {
@@ -963,7 +964,12 @@ public class Parser
          return new ConstBooleanExpr(position, spelling);
     }
 
-
+    /**
+     * Throw a CompilationException with the given error message and position
+     * @param errorMessage String describing the error
+     * @param position the line number where the error occurs
+     * @throws CompilationException if reaches EOF
+     */
     private void registerError(String errorMessage, int position)
             throws CompilationException {
          errorHandler.register(Error.Kind.PARSE_ERROR, fileName,
@@ -971,7 +977,11 @@ public class Parser
          throw new CompilationException(errorMessage);
     }
 
-    private void advance() {
+    /**
+     * Go to the next significant token
+     * Throw error if reach EOF
+     */
+    private void advance() throws CompilationException {
          currentToken = scanner.scan();
 
          // cycle through comments
