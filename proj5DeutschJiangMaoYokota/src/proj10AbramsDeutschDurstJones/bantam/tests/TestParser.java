@@ -26,7 +26,7 @@ public class TestParser {
   @Test
   public void TestHelloWorld() {
     String filepath = new File("").getAbsolutePath();
-    filepath = filepath.concat("/proj10AbramsDeutschDurstJones/bantam/tests/test_bantam_files/Parser_HelloWorld_Testfile.java");
+    filepath = filepath.concat("/proj10AbramsDeutschDurstJones/bantam/tests/test_bantam_files/Parser_Testfile.java");
     parser = new Parser(errorHandler);
     root = parser.parse(filepath);
     
@@ -47,8 +47,23 @@ public class TestParser {
     ConstExpr fourExpr = (ConstExpr)field.getInit();
     assertEquals("4", fourExpr.getConstant());
     
+    // int b = code.elegant(10)
+    Field field2 = (Field)members.get(1);
+    assertEquals("int", field2.getType());
+    assertEquals("b", field2.getName());
+    DispatchExpr dispatchExpr = (DispatchExpr)field2.getInit();
+    assertEquals("elegant", dispatchExpr.getMethodName());
+    ListNode dispatchNodes = (ListNode)dispatchExpr.getActualList();
+    ConstIntExpr something = (ConstIntExpr)dispatchNodes.get(0);
+    assertEquals(10, something.getIntConstant());
+
+    // int[] array = new Array();
+    Field field3 = (Field)members.get(2);
+    assertEquals("int", field3.getType());
+    assertEquals("[]array", field3.getName());
+
     // void main(int z)
-    Method mainFunc = (Method)members.get(1);
+    Method mainFunc = (Method)members.get(3);
     ListNode mainFuncParams = (ListNode)mainFunc.getFormalList();
     Formal param = (Formal)mainFuncParams.get(0);
     assertEquals("int", mainFunc.getReturnType());
@@ -73,8 +88,16 @@ public class TestParser {
     assertEquals("bob", bob.getType());
     assertEquals("10", onezero.getConstant());
 
+    // var c = (int)(10)
+    DeclStmt castStmt = (DeclStmt)statements.get(2);
+    assertEquals("c", castStmt.getName());
+    CastExpr cast = (CastExpr)castStmt.getInit();
+    assertEquals("int", cast.getType());
+    ConstExpr zeroone = (ConstExpr)cast.getExpr();
+    assertEquals("10", zeroone.getConstant());
+
     // while
-    WhileStmt whilee = (WhileStmt)statements.get(2);
+    WhileStmt whilee = (WhileStmt)statements.get(3);
     BinaryExpr lte = (BinaryExpr)whilee.getPredExpr();
     ExprStmt incxExpr = (ExprStmt)whilee.getBodyStmt();
     AssignExpr incx = (AssignExpr)incxExpr.getExpr();
@@ -96,7 +119,7 @@ public class TestParser {
     assertEquals("y", y.getName());
 
     // for(i = 0; i < 10; i++) break;
-    ForStmt forr = (ForStmt)statements.get(3);
+    ForStmt forr = (ForStmt)statements.get(4);
     AssignExpr iEq0 = (AssignExpr)forr.getInitExpr();
     ConstExpr zero = (ConstExpr)iEq0.getExpr();
     BinaryExpr iLt10 = (BinaryExpr)forr.getPredExpr();
@@ -114,7 +137,7 @@ public class TestParser {
     assertEquals("++", iPlusPlus.getOpName());
 
     // if (true || false && true) return 10;
-    IfStmt iff = (IfStmt)statements.get(4);
+    IfStmt iff = (IfStmt)statements.get(5);
     BinaryExpr iffExpr = (BinaryExpr)iff.getPredExpr();
     ConstExpr iffExprLeft = (ConstExpr)iffExpr.getLeftExpr();
     BinaryExpr iffExprRight = (BinaryExpr)iffExpr.getRightExpr();
