@@ -3,6 +3,7 @@ class Parser_HelloWorld_Testfile {
   int main(int z) {
     var x = new Walrus();
     var a = 10 instanceof bob;
+    var c = cast (int, 10);
 
     while (x <= 5)
       x = x + y;
