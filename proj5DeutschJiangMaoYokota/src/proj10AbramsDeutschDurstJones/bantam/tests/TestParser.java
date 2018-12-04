@@ -48,7 +48,7 @@ public class TestParser {
     assertEquals("4", fourExpr.getConstant());
     
     // void main(int z)
-    Method mainFunc = (Method)members.get(1);
+    Method mainFunc = (Method)members.get(2);
     ListNode mainFuncParams = (ListNode)mainFunc.getFormalList();
     Formal param = (Formal)mainFuncParams.get(0);
     assertEquals("int", mainFunc.getReturnType());

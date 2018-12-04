@@ -1,5 +1,6 @@
 class Parser_HelloWorld_Testfile {
   int y = 4;
+  int b = elegant(10);
   int main(int z) {
     var x = new Walrus();
     var a = 10 instanceof bob;
