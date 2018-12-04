@@ -405,7 +405,7 @@ public class Parser {
 
     //-----------------------------------------
     // Expressions
-    //Here we introduce the precedence to operations
+    // Here we introduce the precedence to operations
 
     /*
      * <Expression> ::= <LogicalOrExpr> <OptionalAssignment>
@@ -588,6 +588,7 @@ public class Parser {
         return left;
     }
 
+
     /*
      * <NewCastOrUnary> ::= < NewExpression> | <CastExpression> | <UnaryPrefix>
      */
@@ -701,6 +702,7 @@ public class Parser {
         }
     }
 
+
     /*
      * <UnaryPostfix> ::= <Primary> <PostfixOp>
      * <PostfixOp> ::= ++ | -- | EMPTY
@@ -791,7 +793,6 @@ public class Parser {
                         registerError("')' expected", position);
                     }
                     advance();
-
                     varOrDispatch = new DispatchExpr(position, prefix, name, exprList);
                 }
 
@@ -950,6 +951,7 @@ public class Parser {
         throw new CompilationException(errorMessage);
     }
 
+
     /**
      * Go to the next significant token
      * Throw error if reach EOF
@@ -968,6 +970,7 @@ public class Parser {
                     currentToken.position);
         }
     }
+
 
     /**
      * Main method scans and parses the given files and prints out
