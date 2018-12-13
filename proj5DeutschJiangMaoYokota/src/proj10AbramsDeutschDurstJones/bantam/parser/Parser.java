@@ -64,7 +64,7 @@ public class Parser {
     /*
      * <Program> ::= <Class> | <Class> <Program>
      */
-    private Program parseProgram() throws CompilationException {
+    private Program parseProgram() {
         int position = currentToken.position;
         ClassList classList = new ClassList(position);
 
@@ -81,7 +81,7 @@ public class Parser {
      * <ExtendsClause> ::= EXTENDS <Identifier> | EMPTY
      * <MemberList> ::= EMPTY | <Member> <MemberList>
      */
-    private Class_ parseClass() throws CompilationException {
+    private Class_ parseClass() {
         int position = currentToken.position;
 
         if (currentToken.kind != CLASS) {
@@ -122,7 +122,7 @@ public class Parser {
      * <Field> ::= <Type> <Identifier> <InitialValue> ;
      * <InitialValue> ::= EMPTY | = <Expression>
      */
-    private Member parseMember() throws CompilationException {
+    private Member parseMember() {
         int position = currentToken.position;
 
         String type = parseType();
@@ -160,7 +160,7 @@ public class Parser {
      *  <Stmt> ::= <WhileStmt> | <ReturnStmt> | <BreakStmt> | <DeclStmt>
      *              | <ExpressionStmt> | <ForStmt> | <BlockStmt> | <IfStmt>
      */
-    private Stmt parseStatement() throws CompilationException {
+    private Stmt parseStatement() {
         Stmt stmt;
 
         switch (currentToken.kind) {
@@ -195,7 +195,7 @@ public class Parser {
     /*
      * <WhileStmt> ::= WHILE ( <Expression> ) <Stmt>
      */
-    private Stmt parseWhile() throws CompilationException {
+    private Stmt parseWhile() {
         int position = currentToken.position;
 
         if (currentToken.kind != WHILE) {
@@ -220,7 +220,7 @@ public class Parser {
     /*
      * <ReturnStmt> ::= RETURN <Expression> ; | RETURN ;
      */
-    private Stmt parseReturn() throws CompilationException {
+    private Stmt parseReturn() {
         int position = currentToken.position;
 
         if (currentToken.kind != RETURN) {
@@ -228,11 +228,15 @@ public class Parser {
         }
         advance();
 
-        Expr expr = parseExpression();
+        Expr expr = null;
         if (currentToken.kind != SEMICOLON) {
-            registerError("';' expected", position);
+            expr = parseExpression();
+            if (currentToken.kind != SEMICOLON) {
+                registerError("';' expected", position);
+            }
         }
         advance();
+
         return new ReturnStmt(position, expr);
     }
 
@@ -240,7 +244,7 @@ public class Parser {
     /*
      * BreakStmt> ::= BREAK ;
      */
-    private Stmt parseBreak() throws CompilationException {
+    private Stmt parseBreak() {
         int position = currentToken.position;
 
         if (currentToken.kind != BREAK) {
@@ -258,7 +262,7 @@ public class Parser {
     /*
      * <ExpressionStmt> ::= <Expression> ;
      */
-    private ExprStmt parseExpressionStmt() throws CompilationException {
+    private ExprStmt parseExpressionStmt() {
         int position = currentToken.position;
         Expr expr = parseExpression();
         if (currentToken.kind != SEMICOLON) {
@@ -273,7 +277,7 @@ public class Parser {
      * <DeclStmt> ::= VAR <Identifier> = <Expression> ;
      * every local variable must be initialized
      */
-    private Stmt parseDeclStmt() throws CompilationException {
+    private Stmt parseDeclStmt() {
         int position = currentToken.position;
 
         if (currentToken.kind != VAR) {
@@ -304,7 +308,7 @@ public class Parser {
      * <Terminate> ::= EMPTY | <Expression>
      * <Increment> ::= EMPTY | <Expression>
      */
-    private Stmt parseFor() throws CompilationException {
+    private Stmt parseFor() {
         int position = currentToken.position;
 
         if (currentToken.kind != FOR) {
@@ -352,7 +356,7 @@ public class Parser {
      * <BlockStmt> ::= { <Body> }
      * <Body> ::= EMPTY | <Stmt> <Body>
      */
-    private Stmt parseBlock() throws CompilationException {
+    private Stmt parseBlock() {
         int position = currentToken.position;
 
         if (currentToken.kind != LCURLY) {
@@ -374,7 +378,7 @@ public class Parser {
     /*
      * <IfStmt> ::= IF ( <Expr> ) <Stmt> | IF ( <Expr> ) <Stmt> ELSE <Stmt>
      */
-    private Stmt parseIf() throws CompilationException {
+    private Stmt parseIf() {
         int position = currentToken.position;
 
         if (currentToken.kind != IF) {
@@ -411,7 +415,7 @@ public class Parser {
      * <Expression> ::= <LogicalOrExpr> <OptionalAssignment>
      * <OptionalAssignment> ::= EMPTY | = <Expression>
      */
-    private Expr parseExpression() throws CompilationException {
+    private Expr parseExpression() {
         int position = currentToken.position;
 
         Expr left = parseOrExpr();
@@ -442,7 +446,7 @@ public class Parser {
      * <LogicalOR> ::= <logicalAND> <LogicalORRest>
      * <LogicalORRest> ::= EMPTY |  || <LogicalAND> <LogicalORRest>
      */
-    private Expr parseOrExpr() throws CompilationException {
+    private Expr parseOrExpr() {
         int position = currentToken.position;
 
         Expr left = parseAndExpr();
@@ -459,7 +463,7 @@ public class Parser {
      * <LogicalAND> ::= <ComparisonExpr> <LogicalANDRest>
      * <LogicalANDRest> ::= EMPTY |  && <ComparisonExpr> <LogicalANDRest>
      */
-    private Expr parseAndExpr() throws CompilationException {
+    private Expr parseAndExpr() {
         int position = currentToken.position;
 
         Expr left = parseEqualityExpr();
@@ -477,7 +481,7 @@ public class Parser {
      *                     <RelationalExpr>
      * <equalOrNotEqual> ::=  == | !=
      */
-    private Expr parseEqualityExpr() throws CompilationException {
+    private Expr parseEqualityExpr() {
         int position = currentToken.position;
 
         Expr left = parseRelationalExpr();
@@ -499,7 +503,7 @@ public class Parser {
      * <RelationalExpr> ::=<AddExpr> | <AddExpr> <ComparisonOp> <AddExpr>
      * <ComparisonOp> ::=  < | > | <= | >= | INSTANCEOF
      */
-    private Expr parseRelationalExpr() throws CompilationException {
+    private Expr parseRelationalExpr() {
         int position = currentToken.position;
 
         Expr left = parseAddExpr();
@@ -537,7 +541,7 @@ public class Parser {
      * <AddExpr>::= <MultExpr> <MoreMultExpr>
      * <MoreMultExpr> ::= EMPTY | + <MultExpr> <MoreMultExpr> | - <MultExpr> <MoreMultExpr>
      */
-    private Expr parseAddExpr() throws CompilationException {
+    private Expr parseAddExpr() {
         int position = currentToken.position;
 
         Expr left = parseMultExpr();
@@ -565,7 +569,7 @@ public class Parser {
      *               % <NewCastOrUnary> <MoreNCU> |
      *               EMPTY
      */
-    private Expr parseMultExpr() throws CompilationException {
+    private Expr parseMultExpr() {
         int position = currentToken.position;
 
         Expr left = parseNewCastOrUnary();
@@ -592,7 +596,7 @@ public class Parser {
     /*
      * <NewCastOrUnary> ::= < NewExpression> | <CastExpression> | <UnaryPrefix>
      */
-    private Expr parseNewCastOrUnary() throws CompilationException {
+    private Expr parseNewCastOrUnary() {
         Expr expr;
 
         switch (currentToken.kind) {
@@ -613,7 +617,7 @@ public class Parser {
     /*
      * <NewExpression> ::= NEW <Identifier> ( ) | NEW <Identifier> [ <Expression> ]
      */
-    private Expr parseNew() throws CompilationException {
+    private Expr parseNew() {
         int position = currentToken.position;
 
         if (currentToken.kind != NEW) {
@@ -645,7 +649,7 @@ public class Parser {
     /*
      * <CastExpression> ::= CAST ( <Type> , <Expression> )
      */
-    private Expr parseCast() throws CompilationException {
+    private Expr parseCast() {
         int position = currentToken.position;
 
         if (currentToken.kind != CAST) {
@@ -679,7 +683,7 @@ public class Parser {
      * <UnaryPrefix> ::= <PrefixOp> <UnaryPrefix> | <UnaryPostfix>
      * <PrefixOp> ::= - | ! | ++ | --
      */
-    private Expr parseUnaryPrefix() throws CompilationException {
+    private Expr parseUnaryPrefix() {
         int position = currentToken.position;
 
         if (!currentToken.spelling.equals("-") &&
@@ -707,7 +711,7 @@ public class Parser {
      * <UnaryPostfix> ::= <Primary> <PostfixOp>
      * <PostfixOp> ::= ++ | -- | EMPTY
      */
-    private Expr parseUnaryPostfix() throws CompilationException {
+    private Expr parseUnaryPostfix() {
         int position = currentToken.position;
 
         Expr expr = parsePrimary();
@@ -733,82 +737,81 @@ public class Parser {
      * <DispatchExpr> ::= <DispatchExprPrefix> <Identifier> ( <Arguments> )
      * <DispatchExprPrefix> ::= <Primary> . | EMPTY
      */
-    private Expr parsePrimary() throws CompilationException {
+    private Expr parsePrimary() {
         int position = currentToken.position;
 
-        switch (currentToken.kind) {
-            case LPAREN:
+        Expr expr = null;
+        do {
+            if (currentToken.kind == DOT) {
                 advance();
-                Expr expr = parseExpression();
-                if (currentToken.kind != RPAREN) {
-                    registerError("')' expected", position);
-                }
-                return expr;
-            case INTCONST:
-                return parseIntConst();
-            case BOOLEAN:
-                return parseBoolean();
-            case STRCONST:
-                return parseStringConst();
-            default:
-                Expr varOrDispatch;
-                Expr prefix = null;
-                String name = null;
-                // get prefix for var
-                if (currentToken.spelling.equals("super") ||
-                        currentToken.spelling.equals("this")) {
-                    prefix = new VarExpr(position, null, currentToken.spelling);
-                    advance();
-                    if (this.currentToken.kind != DOT) {
-                        registerError("'.' expected", position);
-                    }
-                    advance();
-                }
-                // get identifier prefix and name for dispatch
-                else if (currentToken.kind == IDENTIFIER) {
-                    String identifier = parseIdentifier();
-                    if (currentToken.kind == DOT) {
-                        prefix = new VarExpr(position, null, identifier);
-                        advance();
-                        name = parseIdentifier();
-                    } else {
-                        name = identifier;
-                    }
-                }
-                // get primary prefix and name for dispatch
-                else {
-                    prefix = parsePrimary();
-                    if (this.currentToken.kind != DOT) {
-                        registerError("'.' expected", position);
-                    }
-                    advance();
-                    name = parseIdentifier();
-                }
+            }
 
-                // parse dispatch expression
-                if (currentToken.kind == LPAREN) {
+            switch (currentToken.kind) {
+                case LPAREN:
                     advance();
-                    ExprList exprList = parseArguments();
+                    expr = parseExpression();
                     if (currentToken.kind != RPAREN) {
                         registerError("')' expected", position);
                     }
                     advance();
-                    varOrDispatch = new DispatchExpr(position, prefix, name, exprList);
-                }
+                    break;
+                case INTCONST:
+                    expr = parseIntConst();
+                    break;
+                case BOOLEAN:
+                    expr = parseBoolean();
+                    break;
+                case STRCONST:
+                    expr = parseStringConst();
+                    break;
+                default:
+                    if (currentToken.kind != IDENTIFIER) {
+                        registerError("Expected <identifier>", position);
+                    }
 
-                // parse var expression
-                else {
-                    if (currentToken.kind == LBRACKET) {
-                        parseExpression();
-                        if (currentToken.kind != RBRACKET) {
-                            registerError("']' expected", position);
+                    Expr prefix = null;
+                    String name = null;
+                    // get prefix for var
+                    if (currentToken.spelling.equals("super") ||
+                            currentToken.spelling.equals("this")) {
+                        prefix = new VarExpr(position, null, currentToken.spelling);
+                        advance();
+                        if (this.currentToken.kind != DOT) {
+                            registerError("'.' expected", position);
                         }
                         advance();
                     }
-                    varOrDispatch = new VarExpr(position, prefix, name);
-                }
-                return varOrDispatch;
+
+                    name = parseIdentifier();
+
+                    // parse dispatch expression
+                    if (currentToken.kind == LPAREN) {
+                        advance();
+                        ExprList exprList = parseArguments();
+                        if (currentToken.kind != RPAREN) {
+                            registerError("')' expected", position);
+                        }
+                        advance();
+                        expr = new DispatchExpr(position, expr, name, exprList);
+                    }
+
+                    // parse var expression
+                    else {
+                        if (currentToken.kind == LBRACKET) {
+                            advance();
+                            parseExpression();
+                            if (currentToken.kind != RBRACKET) {
+                                registerError("']' expected", position);
+                            }
+                            advance();
+                        }
+                        expr = new VarExpr(position, prefix, name);
+                    }
+            }
         }
+        while (currentToken.kind == DOT);
+
+        return expr;
     }
 
 
@@ -816,7 +819,7 @@ public class Parser {
      * <Arguments> ::= EMPTY | <Expression> <MoreArgs>
      * <MoreArgs>  ::= EMPTY | , <Expression> <MoreArgs>
      */
-    private ExprList parseArguments() throws CompilationException {
+    private ExprList parseArguments() {
         int position = currentToken.position;
         ExprList exprList = new ExprList(position);
 
@@ -840,7 +843,7 @@ public class Parser {
      * <Parameters>  ::= EMPTY | <Formal> <MoreFormals>
      * <MoreFormals> ::= EMPTY | , <Formal> <MoreFormals
      */
-    private FormalList parseParameters() throws CompilationException {
+    private FormalList parseParameters() {
         int position = currentToken.position;
 
         FormalList formalList = new FormalList(position);
@@ -864,7 +867,7 @@ public class Parser {
     /*
      * <Formal> ::= <Type> <Identifier>
      */
-    private Formal parseFormal() throws CompilationException {
+    private Formal parseFormal() {
         int position = currentToken.position;
 
         String type = parseType();
@@ -878,7 +881,7 @@ public class Parser {
      * <Type> ::= <Identifier> <Brackets>
      * <Brackets> ::= EMPTY | [ ]
      */
-    private String parseType() throws CompilationException {
+    private String parseType() {
         int position = currentToken.position;
 
         String identifier = parseIdentifier();
@@ -887,6 +890,7 @@ public class Parser {
             if (currentToken.kind != RBRACKET) {
                 registerError("']' expected", position);
             }
+            identifier += "[]";
             advance();
         }
         return identifier;
@@ -956,7 +960,7 @@ public class Parser {
      * Go to the next significant token
      * Throw error if reach EOF
      */
-    private void advance() throws CompilationException {
+    private void advance() {
         currentToken = scanner.scan();
 
         // cycle through comments
