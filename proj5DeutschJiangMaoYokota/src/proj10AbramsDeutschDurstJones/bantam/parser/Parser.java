@@ -83,25 +83,19 @@ public class Parser {
      */
     private Class_ parseClass() {
         int position = currentToken.position;
-
-        if (currentToken.kind != CLASS) {
-            registerError("class expected", position);
-        }
-        advance();
-
+        checkTokenAndAdvance(position, CLASS, "class");
         String name = parseIdentifier();
 
+        // get parent if exists
         String parent = null;
         if (currentToken.kind == EXTENDS) {
             advance();
             parent = parseIdentifier();
         }
 
+        // get member list
         MemberList memberList = new MemberList(position);
-        if (currentToken.kind != LCURLY) {
-            registerError("'{' expected", position);
-        }
-        advance();
+        checkTokenAndAdvance(position, LCURLY, "{");
         while (currentToken.kind != RCURLY) {
             Member aMember = parseMember();
             memberList.addElement(aMember);
@@ -132,10 +126,7 @@ public class Parser {
         if (currentToken.kind == LPAREN) {
             advance();
             FormalList formalList = parseParameters();
-            if (currentToken.kind != RPAREN) {
-                registerError("')' expected", position);
-            }
-            advance();
+            checkTokenAndAdvance(position, RPAREN, ")");
             StmtList stmtList = ((BlockStmt) parseBlock()).getStmtList();
             return new Method(position, type, name, formalList, stmtList);
         }
@@ -146,10 +137,7 @@ public class Parser {
             advance();
             init = parseExpression();
         }
-        if (currentToken.kind != SEMICOLON) {
-            registerError("';' expected", position);
-        }
-        advance();
+        checkTokenAndAdvance(position, SEMICOLON, ";");
 
         return new Field(position, type, name, init);
     }
@@ -197,21 +185,11 @@ public class Parser {
      */
     private Stmt parseWhile() {
         int position = currentToken.position;
-
-        if (currentToken.kind != WHILE) {
-            registerError("while expected", position);
-        }
         advance();
 
-        if (currentToken.kind != LPAREN) {
-            registerError("'(' expected", position);
-        }
-        advance();
+        checkTokenAndAdvance(position, LPAREN, "(");
         Expr expr = parseExpression();
-        if (currentToken.kind != RPAREN) {
-            registerError("')' expected", position);
-        }
-        advance();
+        checkTokenAndAdvance(position, RPAREN, ")");
         Stmt stmt = parseStatement();
         return new WhileStmt(position, expr, stmt);
     }
@@ -222,39 +200,25 @@ public class Parser {
      */
     private Stmt parseReturn() {
         int position = currentToken.position;
-
-        if (currentToken.kind != RETURN) {
-            registerError("return expected", position);
-        }
         advance();
 
         Expr expr = null;
         if (currentToken.kind != SEMICOLON) {
             expr = parseExpression();
-            if (currentToken.kind != SEMICOLON) {
-                registerError("';' expected", position);
-            }
         }
-        advance();
+        checkTokenAndAdvance(position, SEMICOLON, ";");
 
         return new ReturnStmt(position, expr);
     }
 
 
     /*
-     * BreakStmt> ::= BREAK ;
+     * <BreakStmt> ::= BREAK ;
      */
     private Stmt parseBreak() {
         int position = currentToken.position;
-
-        if (currentToken.kind != BREAK) {
-            registerError("break expected", position);
-        }
         advance();
-        if (currentToken.kind != SEMICOLON) {
-            registerError("';' expected", position);
-        }
-        advance();
+        checkTokenAndAdvance(position, SEMICOLON, ";");
         return new BreakStmt(position);
     }
 
@@ -265,10 +229,7 @@ public class Parser {
     private ExprStmt parseExpressionStmt() {
         int position = currentToken.position;
         Expr expr = parseExpression();
-        if (currentToken.kind != SEMICOLON) {
-            registerError("';' expected", position);
-        }
-        advance();
+        checkTokenAndAdvance(position, SEMICOLON, ";");
         return new ExprStmt(position, expr);
     }
 
@@ -279,25 +240,14 @@ public class Parser {
      */
     private Stmt parseDeclStmt() {
         int position = currentToken.position;
-
-        if (currentToken.kind != VAR) {
-            registerError("var expected", position);
-        }
         advance();
 
         String name = parseIdentifier();
-
-        if (currentToken.kind != ASSIGN) {
-            registerError("'=' expected", position);
-        }
-        advance();
+        checkTokenAndAdvance(position, ASSIGN, "=");
 
         Expr initExpr = parseExpression();
 
-        if (currentToken.kind != SEMICOLON) {
-            registerError("';' expected", position);
-        }
-        advance();
+        checkTokenAndAdvance(position, SEMICOLON, ";");
         return new DeclStmt(position, name, initExpr);
     }
 
@@ -310,43 +260,28 @@ public class Parser {
      */
     private Stmt parseFor() {
         int position = currentToken.position;
-
-        if (currentToken.kind != FOR) {
-            registerError("for expected", position);
-        }
         advance();
 
-        if (currentToken.kind != LPAREN) {
-            registerError("'(' expected", position);
-        }
-        advance();
+        checkTokenAndAdvance(position, LPAREN, "(");
 
         Expr start = null;
         if (currentToken.kind != SEMICOLON) {
             start = parseExpression();
-            if (currentToken.kind != SEMICOLON) {
-                registerError("';' expected", position);
-            }
         }
-        advance();
+        checkTokenAndAdvance(position, SEMICOLON, ";");
 
         Expr terminate = null;
         if (currentToken.kind != SEMICOLON) {
             terminate = parseExpression();
-            if (currentToken.kind != SEMICOLON) {
-                registerError("';' expected", position);
-            }
         }
-        advance();
+        checkTokenAndAdvance(position, SEMICOLON, ";");
 
         Expr increment = null;
         if (currentToken.kind != RPAREN) {
             increment = parseExpression();
-            if (currentToken.kind != RPAREN) {
-                registerError("')' expected", position);
-            }
         }
-        advance();
+        checkTokenAndAdvance(position, RPAREN, ")");
+
         Stmt stmt = parseStatement();
         return new ForStmt(position, start, terminate, increment, stmt);
     }
@@ -358,11 +293,7 @@ public class Parser {
      */
     private Stmt parseBlock() {
         int position = currentToken.position;
-
-        if (currentToken.kind != LCURLY) {
-            registerError("'{' expected", position);
-        }
-        advance();
+        checkTokenAndAdvance(position, LCURLY, "{");
 
         StmtList stmtList = new StmtList(position);
 
@@ -380,22 +311,12 @@ public class Parser {
      */
     private Stmt parseIf() {
         int position = currentToken.position;
-
-        if (currentToken.kind != IF) {
-            registerError("if expected", position);
-        }
         advance();
 
-        if (currentToken.kind != LPAREN) {
-            registerError("'(' expected", position);
-        }
-        advance();
+        checkTokenAndAdvance(position, LPAREN, "(");
 
         Expr predExpr = parseExpression();
-        if (currentToken.kind != RPAREN) {
-            registerError("')' expected", position);
-        }
-        advance();
+        checkTokenAndAdvance(position, RPAREN, ")");
         Stmt thenStmt = parseStatement();
 
         Stmt elseStmt = null;
@@ -422,21 +343,36 @@ public class Parser {
         if (currentToken.kind == ASSIGN) {
             advance();
             Expr right = parseExpression();
-            // get variable being assigned
-            if (!(left instanceof VarExpr)) {
-                registerError("<identifier> expected", position);
-            }
-            VarExpr leftVar = (VarExpr) left;
-            // get reference to variable
+
+            // assign variable
             String leftRef = null;
-            if (leftVar.getRef() != null) {
-                if (!(leftVar.getRef() instanceof VarExpr)) {
-                    registerError("<identifier> expected", position);
+            if (left instanceof VarExpr) {
+                VarExpr leftVar = (VarExpr) left;
+                if (leftVar.getRef() != null) {
+                    if (!(leftVar.getRef() instanceof VarExpr)) {
+                        registerError("<identifier> expected", position);
+                    }
+                    leftRef = ((VarExpr) leftVar.getRef()).getName();
                 }
-                leftRef = ((VarExpr) leftVar.getRef()).getName();
+                left = new AssignExpr(position, leftRef, leftVar.getName(), right);
             }
 
-            left = new AssignExpr(position, leftRef, leftVar.getName(), right);
+            // assign member of an array
+            else if (left instanceof ArrayExpr) {
+                ArrayExpr leftVar = (ArrayExpr) left;
+                if (leftVar.getRef() != null) {
+                    if (!(leftVar.getRef() instanceof VarExpr)) {
+                        registerError("<identifier> expected", position);
+                    }
+                    leftRef = ((VarExpr) leftVar.getRef()).getName();
+                }
+                left = new ArrayAssignExpr(position, leftRef, leftVar.getName(),
+                        leftVar.getIndex(), right);
+            }
+
+            else {
+                registerError("<identifier> expected", position);
+            }
         }
         return left;
     }
@@ -527,10 +463,15 @@ public class Parser {
                     left = new BinaryCompGeqExpr(position, left, right);
                     break;
                 default:
-                    if (!(right instanceof VarExpr)) {
+                    if (right instanceof VarExpr) {
+                        left = new InstanceofExpr(position, left, ((VarExpr) right).getName());
+                    }
+                    else if (right instanceof ArrayExpr) {
+                        left = new InstanceofExpr(position, left, ((ArrayExpr) right).getName());
+                    }
+                    else {
                         registerError("<identifier> expected", position);
                     }
-                    left = new InstanceofExpr(position, left, ((VarExpr) right).getName());
             }
         }
         return left;
@@ -619,30 +560,27 @@ public class Parser {
      */
     private Expr parseNew() {
         int position = currentToken.position;
+        Expr newExpr = null;
 
-        if (currentToken.kind != NEW) {
-            registerError("new expected", position);
-        }
-        advance();
+        checkTokenAndAdvance(position, NEW, "new");
 
         String identifier = parseIdentifier();
 
         if (currentToken.kind == LPAREN) {
             advance();
-            if (currentToken.kind != RPAREN) {
-                registerError("')' expected", position);
-            }
+            checkTokenAndAdvance(position, RPAREN, ")");
+            newExpr = new NewExpr(position, identifier);
         } else if (currentToken.kind == LBRACKET) {
             advance();
-            parseExpression();
-            if (currentToken.kind != RBRACKET) {
-                registerError("']' expected", position);
-            }
+            Expr size = parseExpression();
+            checkTokenAndAdvance(position, RBRACKET, "]");
+            newExpr = new NewArrayExpr(position, identifier, size);
         } else {
             registerError("'(' or '[' expected", position);
+            advance();
         }
-        advance();
-        return new NewExpr(position, identifier);
+
+        return newExpr;
     }
 
 
@@ -652,29 +590,16 @@ public class Parser {
     private Expr parseCast() {
         int position = currentToken.position;
 
-        if (currentToken.kind != CAST) {
-            registerError("'(' expected", position);
-        }
-        advance();
-
-        if (currentToken.kind != LPAREN) {
-            registerError("'(' expected", position);
-        }
-        advance();
+        checkTokenAndAdvance(position, CAST, "cast");
+        checkTokenAndAdvance(position, LPAREN, "(");
 
         String type = parseType();
 
-        if (currentToken.kind != COMMA) {
-            registerError("',' expected", position);
-        }
-        advance();
+        checkTokenAndAdvance(position, COMMA, ",");
 
         Expr expr = parseExpression();
 
-        if (currentToken.kind != RPAREN) {
-            registerError("')' expected", position);
-        }
-        advance();
+        checkTokenAndAdvance(position, RPAREN, ")");
         return new CastExpr(position, type, expr);
     }
 
@@ -750,10 +675,7 @@ public class Parser {
                 case LPAREN:
                     advance();
                     expr = parseExpression();
-                    if (currentToken.kind != RPAREN) {
-                        registerError("')' expected", position);
-                    }
-                    advance();
+                    checkTokenAndAdvance(position, RPAREN, ")");
                     break;
                 case INTCONST:
                     expr = parseIntConst();
@@ -770,7 +692,7 @@ public class Parser {
                     }
 
                     Expr prefix = null;
-                    String name = null;
+                    String name;
                     // get prefix for var
                     if (currentToken.spelling.equals("super") ||
                             currentToken.spelling.equals("this")) {
@@ -788,24 +710,25 @@ public class Parser {
                     if (currentToken.kind == LPAREN) {
                         advance();
                         ExprList exprList = parseArguments();
-                        if (currentToken.kind != RPAREN) {
-                            registerError("')' expected", position);
-                        }
-                        advance();
+                        checkTokenAndAdvance(position, RPAREN, ")");
                         expr = new DispatchExpr(position, expr, name, exprList);
                     }
 
-                    // parse var expression
                     else {
+                        // parse array expression
                         if (currentToken.kind == LBRACKET) {
                             advance();
-                            parseExpression();
+                            Expr index = null;
                             if (currentToken.kind != RBRACKET) {
-                                registerError("']' expected", position);
+                                index = parseExpression();
                             }
-                            advance();
+                            checkTokenAndAdvance(position, RBRACKET, "]");
+                            expr = new ArrayExpr(position, prefix, name, index);
                         }
-                        expr = new VarExpr(position, prefix, name);
+                        // parse var expression
+                        else {
+                            expr = new VarExpr(position, prefix, name);
+                        }
                     }
             }
         }
@@ -887,11 +810,8 @@ public class Parser {
         String identifier = parseIdentifier();
         if (currentToken.kind == LBRACKET) {
             advance();
-            if (currentToken.kind != RBRACKET) {
-                registerError("']' expected", position);
-            }
+            checkTokenAndAdvance(position, RBRACKET, "]");
             identifier += "[]";
-            advance();
         }
         return identifier;
     }
@@ -975,6 +895,18 @@ public class Parser {
         }
     }
 
+    /**
+     * Checks if the current token is of the given kind
+     * If it is not, registers an error
+     * Advances regardless
+     */
+    private void checkTokenAndAdvance(int position, Token.Kind kind, String expected) {
+        if (currentToken.kind != kind) {
+            registerError("'" + expected + "' expected", position);
+        }
+        advance();
+    }
+
 
     /**
      * Main method scans and parses the given files and prints out
@@ -998,6 +930,9 @@ public class Parser {
             } catch (CompilationException e) {
                 for (Error error : errorHandler.getErrorList()) {
                     System.out.println(error.toString());
+                }
+                if (errorHandler.getErrorList().size() == 0) {
+                    System.out.println(e.getMessage());
                 }
             }
         }
