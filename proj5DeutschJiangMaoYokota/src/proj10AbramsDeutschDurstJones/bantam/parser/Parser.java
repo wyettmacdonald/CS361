@@ -1,5 +1,14 @@
 /*
  * File: bantam.parser.Parser.java
+ * CS361 Project 11
+ * Names: Martin Deutsch and Wyett MacDonald
+ * Date: 2/13/2019
+ * This file contains the Parser, which parses the source file
+ * and generates the AST
+ */
+
+/*
+ * File: bantam.parser.Parser.java
  * CS361 Project 10
  * Names: Douglas Abrams, Martin Deutsch, Robert Durst, Matt Jones
  * Date: 12/07/2018
@@ -56,7 +65,7 @@ public class Parser {
     public Program parse(String filename) throws CompilationException {
         this.fileName = filename;
         this.scanner = new Scanner(filename, this.errorHandler);
-        this.currentToken = this.scanner.scan();
+        advance();
         return parseProgram();
     }
 
@@ -371,7 +380,7 @@ public class Parser {
             }
 
             else {
-                registerError("<identifier> expected", position);
+                registerError("<VarExpr> expected", position);
             }
         }
         return left;
@@ -444,8 +453,7 @@ public class Parser {
 
         Expr left = parseAddExpr();
         if (currentToken.kind == COMPARE &&
-                (currentToken.spelling.contains("<")
-                        || currentToken.spelling.contains(">"))
+                (currentToken.spelling.contains("<") || currentToken.spelling.contains(">"))
                 || currentToken.kind == INSTANCEOF) {
             String op = parseOperator();
             Expr right = parseAddExpr();
@@ -467,7 +475,8 @@ public class Parser {
                         left = new InstanceofExpr(position, left, ((VarExpr) right).getName());
                     }
                     else if (right instanceof ArrayExpr) {
-                        left = new InstanceofExpr(position, left, ((ArrayExpr) right).getName());
+                        left = new InstanceofExpr(position, left,
+                                ((ArrayExpr) right).getName() + "[]");
                     }
                     else {
                         registerError("<identifier> expected", position);
@@ -653,14 +662,15 @@ public class Parser {
     }
 
 
-    /*
-     * <Primary> ::= ( <Expression> ) | <IntegerConst> | <BooleanConst> |
-     *                               <StringConst> | <VarExpr> | <DispatchExpr>
-     * <VarExpr> ::= <VarExprPrefix> <Identifier> <VarExprSuffix>
-     * <VarExprPrefix> ::= SUPER . | THIS . | EMPTY
-     * <VarExprSuffix> ::= [ <Expr> ] | EMPTY
-     * <DispatchExpr> ::= <DispatchExprPrefix> <Identifier> ( <Arguments> )
-     * <DispatchExprPrefix> ::= <Primary> . | EMPTY
+    /* <Primary> ::=  <IntegerConst>
+     *              | <BooleanConst>
+     *              | <StringConst> <Suffix>
+     *              | <Identifier> <Suffix>
+     *              | ( <Expression> ) <Suffix>
+     * <Suffix> ::=   . <Identifier> <Suffix>
+     *              | [ <Expression> ] <Suffix>
+     *              | ( <Arguments> ) <Suffix>
+     *              | EMPTY
      */
     private Expr parsePrimary() {
         int position = currentToken.position;

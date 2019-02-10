@@ -70,15 +70,30 @@ public class Controller {
     @FXML
     private VBox vBox;
     /**
-     * Compile button defined in Main.fxml
+     * Scan button defined in Main.fxml
      */
     @FXML
     private Button scanButton;
     /**
-     * Compile button defined in Main.fxml
+     * Scan and parse button defined in Main.fxml
      */
     @FXML
     private Button scanAndParseButton;
+    /**
+     * Check Main button defined in Main.fxml
+     */
+    @FXML
+    private Button checkMainButton;
+    /**
+     * Check string constants button defined in Main.fxml
+     */
+    @FXML
+    private Button checkStringConstantsButton;
+    /**
+     * Check local vars button defined in Main.fxml
+     */
+    @FXML
+    private Button checkLocalVarsButton;
     /**
      * TabPane defined in Main.fxml
      */
@@ -231,6 +246,9 @@ public class Controller {
 
         this.scanButton.disableProperty().bind(ifTabPaneEmpty);
         this.scanAndParseButton.disableProperty().bind(ifTabPaneEmpty);
+        this.checkMainButton.disableProperty().bind(ifTabPaneEmpty);
+        this.checkStringConstantsButton.disableProperty().bind(ifTabPaneEmpty);
+        this.checkLocalVarsButton.disableProperty().bind(ifTabPaneEmpty);
         this.closeMenuItem.disableProperty().bind(ifTabPaneEmpty);
         this.saveMenuItem.disableProperty().bind(ifTabPaneEmpty);
         this.saveAsMenuItem.disableProperty().bind(ifTabPaneEmpty);
@@ -336,6 +354,45 @@ public class Controller {
     private void handleScanAndParseButtonAction(Event event) {
         Tab selectedTab = this.tabPane.getSelectionModel().getSelectedItem();
         this.toolbarController.handleScanAndParseButtonAction(
+                event, this.tabPane.getFileFromTab(selectedTab));
+    }
+
+    /**
+     * Calls the method that handles the Check Main button action from the
+     * toolbarController.
+     *
+     * @param event Event object
+     */
+    @FXML
+    private void handleCheckMainButtonAction(Event event) {
+        Tab selectedTab = this.tabPane.getSelectionModel().getSelectedItem();
+        this.toolbarController.handleCheckMainButtonAction(
+                event, this.tabPane.getFileFromTab(selectedTab));
+    }
+
+    /**
+     * Calls the method that handles the Check string constants button action from the
+     * toolbarController.
+     *
+     * @param event Event object
+     */
+    @FXML
+    private void handleCheckStringConstantsButtonAction(Event event) {
+        Tab selectedTab = this.tabPane.getSelectionModel().getSelectedItem();
+        this.toolbarController.handleCheckStringConstantsButtonAction(
+                event, this.tabPane.getFileFromTab(selectedTab));
+    }
+
+    /**
+     * Calls the method that handles the Check local vars button action from the
+     * toolbarController.
+     *
+     * @param event Event object
+     */
+    @FXML
+    private void handleCheckLocalVarsButtonAction(Event event) {
+        Tab selectedTab = this.tabPane.getSelectionModel().getSelectedItem();
+        this.toolbarController.handleCheckLocalVarsButtonAction(
                 event, this.tabPane.getFileFromTab(selectedTab));
     }
 

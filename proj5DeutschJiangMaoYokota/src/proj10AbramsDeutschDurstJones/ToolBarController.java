@@ -14,6 +14,7 @@ import proj10AbramsDeutschDurstJones.bantam.ast.*;
 import proj10AbramsDeutschDurstJones.bantam.lexer.Scanner;
 import proj10AbramsDeutschDurstJones.bantam.lexer.Token;
 import proj10AbramsDeutschDurstJones.bantam.parser.Parser;
+import proj10AbramsDeutschDurstJones.bantam.semant.*;
 import proj10AbramsDeutschDurstJones.bantam.treedrawer.*;
 import proj10AbramsDeutschDurstJones.bantam.util.CompilationException;
 import proj10AbramsDeutschDurstJones.bantam.util.Error;
@@ -21,6 +22,7 @@ import proj10AbramsDeutschDurstJones.bantam.util.ErrorHandler;
 
 import java.util.List;
 import java.io.*;
+import java.util.Map;
 
 /**
  * ToolbarController handles Toolbar related actions.
@@ -122,6 +124,74 @@ public class ToolBarController {
         scanAndParseThread.start();
     }
 
+    /**
+     * Handles the Check Main button action.
+     *
+     * @param event Event object
+     * @param file the Selected file
+     */
+    public void handleCheckMainButtonAction(Event event, File file) {
+        // TODO - use pre-existing methods
+        ErrorHandler errorHandler = new ErrorHandler();
+        Parser parser = new Parser(errorHandler);
+        MainMainVisitor mainMainVisitor = new MainMainVisitor();
+
+        // parse and display
+        try {
+            this.console.clear();
+            Program root = parser.parse(file.getAbsolutePath());
+            boolean result = mainMainVisitor.hasMain(root);
+            this.console.appendText(result + "\n");
+        } catch (CompilationException e) {
+            printErrorList(errorHandler.getErrorList());
+        }
+    }
+
+    /**
+     * Handles the Check string constants button action.
+     *
+     * @param event Event object
+     * @param file the Selected file
+     */
+    public void handleCheckStringConstantsButtonAction(Event event, File file) {
+        // TODO - use pre-existing methods
+        ErrorHandler errorHandler = new ErrorHandler();
+        Parser parser = new Parser(errorHandler);
+        StringConstantsVisitor stringConstantsVisitor = new StringConstantsVisitor();
+
+        // parse and display
+        try {
+            this.console.clear();
+            Program root = parser.parse(file.getAbsolutePath());
+            Map result = stringConstantsVisitor.getStringConstants(root);
+            this.console.appendText(result.toString() + "\n");
+        } catch (CompilationException e) {
+            printErrorList(errorHandler.getErrorList());
+        }
+    }
+
+    /**
+     * Handles the Check local vars button action.
+     *
+     * @param event Event object
+     * @param file the Selected file
+     */
+    public void handleCheckLocalVarsButtonAction(Event event, File file) {
+        // TODO - use pre-existing methods
+        ErrorHandler errorHandler = new ErrorHandler();
+        Parser parser = new Parser(errorHandler);
+        NumLocalVarsVisitor numLocalVarsVisitor = new NumLocalVarsVisitor();
+
+        // parse and display
+        try {
+            this.console.clear();
+            Program root = parser.parse(file.getAbsolutePath());
+            Map result = numLocalVarsVisitor.getNumLocalVars(root);
+            this.console.appendText(result.toString() + "\n");
+        } catch (CompilationException e) {
+            printErrorList(errorHandler.getErrorList());
+        }
+    }
 
     /**
      * Helper method for running the Scanner and displaying results.
