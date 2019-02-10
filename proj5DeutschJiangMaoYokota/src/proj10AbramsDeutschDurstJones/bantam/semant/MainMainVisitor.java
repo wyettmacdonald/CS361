@@ -19,4 +19,19 @@ import proj10AbramsDeutschDurstJones.bantam.visitor.Visitor;
  * @author Wyett MacDonald
  */
 public class MainMainVisitor extends Visitor {
+
+    private boolean mainMainFound = false;
+
+    /**
+     * Determine if the AST with the given root has a Main class
+     * containing a main method with void return type and no parameters
+     *
+     * @param ast the Program node at the root of the AST
+     * @return true if there is a Main class with void main method
+     * with no parameters, otherwise false
+     */
+    public boolean hasMain(Program ast) {
+        ast.getClassList().accept(this);
+        return mainMainFound;
+    }
 }

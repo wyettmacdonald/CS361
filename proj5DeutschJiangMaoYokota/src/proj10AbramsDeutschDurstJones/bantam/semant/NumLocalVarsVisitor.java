@@ -23,4 +23,18 @@ import java.util.Map;
  * @author Wyett MacDonald
  */
 public class NumLocalVarsVisitor extends Visitor {
+
+    private Map<String, Integer> localVarsMap = new HashMap<>();
+
+    /**
+     * Returns a hashmap containing all the local variables in
+     * each method in the AST with given root
+     *
+     * @param ast the Program node at the root of the AST
+     * @return a hashmap mapping local variables to class.method names
+     */
+    public Map<String,Integer> getNumLocalVars(Program ast) {
+        ast.getClassList().accept(this);
+        return localVarsMap;
+    }
 }

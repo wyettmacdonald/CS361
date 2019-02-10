@@ -22,4 +22,18 @@ import java.util.Map;
  * @author Wyett MacDonald
  */
 public class StringConstantsVisitor extends Visitor {
+
+    private Map<String, String> stringConstantsMap = new HashMap<>();
+
+    /**
+     * Returns a hashmap containing all the string constants in the
+     * AST with given root
+     *
+     * @param ast the Program node at the root of the AST
+     * @return a hashmap mapping string constants to unique names
+     */
+    public Map<String,String> getStringConstants(Program ast) {
+        ast.getClassList().accept(this);
+        return stringConstantsMap;
+    }
 }
