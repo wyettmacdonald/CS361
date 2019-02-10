@@ -73,8 +73,6 @@ public class NumLocalVarsVisitor extends Visitor {
      */
     public Object visit(FormalList node) {
         for (Iterator it = node.iterator(); it.hasNext(); ) {
-//            ((Formal) it.next()).accept(this);
-//            System.out.println(it.next().toString());
             it.next();
             num_vars++;
         }
@@ -89,8 +87,6 @@ public class NumLocalVarsVisitor extends Visitor {
      */
     public Object visit(StmtList node) {
         for (Iterator it = node.iterator(); it.hasNext(); ) {
-//            ((Stmt) it.next()).accept(this);
-//            System.out.println(it.next().toString());
             if (it.next() instanceof DeclStmt) {
                 num_vars++;
             }
