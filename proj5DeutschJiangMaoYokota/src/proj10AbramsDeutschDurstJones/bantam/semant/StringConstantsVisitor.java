@@ -24,6 +24,7 @@ import java.util.Map;
 public class StringConstantsVisitor extends Visitor {
 
     private Map<String, String> stringConstantsMap = new HashMap<>();
+    private int num_consts = 0;
 
     /**
      * Returns a hashmap containing all the string constants in the
@@ -35,5 +36,18 @@ public class StringConstantsVisitor extends Visitor {
     public Map<String,String> getStringConstants(Program ast) {
         ast.getClassList().accept(this);
         return stringConstantsMap;
+    }
+
+    /**
+     * Visit a Constant String Expression node and inputs name and value in to HashMap
+     *
+     * @param node the string constant expression node
+     * @return result of visit
+     */
+    public Object visit(ConstStringExpr node) {
+        String const_name = "StringConst_" + num_consts;
+        stringConstantsMap.put(node.getConstant(), const_name);
+        num_consts++;
+        return null;
     }
 }
