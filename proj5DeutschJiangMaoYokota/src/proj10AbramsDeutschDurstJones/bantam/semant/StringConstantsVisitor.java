@@ -39,6 +39,17 @@ public class StringConstantsVisitor extends Visitor {
     }
 
     /**
+     * Visit a method node but do not visit method parameters
+     *
+     * @param node the method node
+     * @return result of the visit
+     */
+    public Object visit(Method node) {
+        node.getStmtList().accept(this);
+        return null;
+    }
+
+    /**
      * Visit a Constant String Expression node and inputs name and value in to HashMap
      *
      * @param node the string constant expression node

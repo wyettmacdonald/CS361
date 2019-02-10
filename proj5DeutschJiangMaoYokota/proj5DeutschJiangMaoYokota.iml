@@ -9,6 +9,15 @@
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="library" name="richtextfx-fat-0.9.1" level="project" />
-    <orderEntry type="library" name="resources" level="project" />
+    <orderEntry type="module-library">
+      <library>
+        <CLASSES>
+          <root url="file://$MODULE_DIR$/src/proj10AbramsDeutschDurstJones/resources" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+        <jarDirectory url="file://$MODULE_DIR$/src/proj10AbramsDeutschDurstJones/resources" recursive="false" />
+      </library>
+    </orderEntry>
   </component>
 </module>
