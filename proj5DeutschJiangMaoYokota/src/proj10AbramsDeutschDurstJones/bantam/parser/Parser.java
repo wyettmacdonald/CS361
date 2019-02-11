@@ -662,76 +662,89 @@ public class Parser {
     }
 
 
-    /* <Primary> ::=  <IntegerConst>
-     *              | <BooleanConst>
-     *              | <StringConst> <Suffix>
-     *              | <Identifier> <Suffix>
-     *              | ( <Expression> ) <Suffix>
-     * <Suffix> ::=   . <Identifier> <Suffix>
-     *              | [ <Expression> ] <Suffix>
-     *              | ( <Arguments> ) <Suffix>
-     *              | EMPTY
+    /*
+     * <Primary> ::= ( <Expression> ) | <IntegerConst> | <BooleanConst> |
+     *                               <StringConst> | <VarExpr> | <DispatchExpr>
+     * <VarExpr> ::= <VarExprPrefix> <Identifier> <VarExprSuffix>
+     * <VarExprPrefix> ::= SUPER . | THIS . | EMPTY
+     * <VarExprSuffix> ::= [ <Expr> ] | EMPTY
+     * <DispatchExpr> ::= <DispatchExprPrefix> <Identifier> ( <Arguments> )
+     * <DispatchExprPrefix> ::= <Primary> . | EMPTY
      */
     private Expr parsePrimary() {
         int position = currentToken.position;
 
         Expr expr = null;
-        // parse constants without suffixes
-        if (currentToken.kind == INTCONST) {
-            expr = parseIntConst();
-        }
-        else if (currentToken.kind == BOOLEAN) {
-            expr = parseBoolean();
-        }
-        else {
-            // there is possibly a suffix
-            String name = null;
-            if (currentToken.kind == STRCONST) {
-                expr = parseStringConst();
-            }
-            else if (currentToken.kind == LPAREN) {
+        do {
+            if (currentToken.kind == DOT) {
                 advance();
-                expr = parseExpression();
-                checkTokenAndAdvance(position, RPAREN, ")");
             }
-            else {
-                name = parseIdentifier();
-            }
-            // parse suffixes
-            while (currentToken.kind == DOT || currentToken.kind == LBRACKET
-                    || currentToken.kind == LPAREN) {
-                if (currentToken.kind == DOT) {
-                    if (name != null) {
-                        expr = new VarExpr(position, expr, name);
-                    }
+
+            switch (currentToken.kind) {
+                case LPAREN:
                     advance();
-                    name = parseIdentifier();
-                }
-                else if (currentToken.kind == LBRACKET) {
-                    advance();
-                    Expr index = new VarExpr(position, null, null);
-                    if (currentToken.kind != RBRACKET) {
-                        index = parseExpression();
-                    }
-                    checkTokenAndAdvance(position, RBRACKET, "]");
-                    expr = new ArrayExpr(position, expr, name, index);
-                    name = null;
-                }
-                else {
-                    advance();
-                    ExprList exprList = new ExprList(position);
+                    expr = parseExpression();
                     if (currentToken.kind != RPAREN) {
-                        exprList = parseArguments();
+                        registerError("')' expected", position);
                     }
-                    checkTokenAndAdvance(position, RPAREN, ")");
-                    expr = new DispatchExpr(position, expr, name, exprList);
-                    name = null;
-                }
-            }
-            if (name != null) {
-                expr = new VarExpr(position, expr, name);
+                    advance();
+                    break;
+                case INTCONST:
+                    expr = parseIntConst();
+                    break;
+                case BOOLEAN:
+                    expr = parseBoolean();
+                    break;
+                case STRCONST:
+                    expr = parseStringConst();
+                    break;
+                default:
+                    if (currentToken.kind != IDENTIFIER) {
+                        registerError("Expected <identifier>", position);
+                    }
+
+                    Expr prefix = null;
+                    String name = null;
+                    // get prefix for var
+                    if (currentToken.spelling.equals("super") ||
+                            currentToken.spelling.equals("this")) {
+                        prefix = new VarExpr(position, null, currentToken.spelling);
+                        advance();
+                        if (this.currentToken.kind != DOT) {
+                            registerError("'.' expected", position);
+                        }
+                        advance();
+                    }
+
+                    name = parseIdentifier();
+
+                    // parse dispatch expression
+                    if (currentToken.kind == LPAREN) {
+                        advance();
+                        ExprList exprList = parseArguments();
+                        if (currentToken.kind != RPAREN) {
+                            registerError("')' expected", position);
+                        }
+                        advance();
+                        expr = new DispatchExpr(position, expr, name, exprList);
+                    }
+
+                    // parse var expression
+                    else {
+                        if (currentToken.kind == LBRACKET) {
+                            advance();
+                            parseExpression();
+                            if (currentToken.kind != RBRACKET) {
+                                registerError("']' expected", position);
+                            }
+                            advance();
+                        }
+                        expr = new VarExpr(position, prefix, name);
+                    }
             }
         }
+        while (currentToken.kind == DOT);
+
         return expr;
     }
 
