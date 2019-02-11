@@ -76,6 +76,9 @@
     <ToolBar fx:id="toolbar" VBox.vgrow="ALWAYS">
         <Button text="Scan" fx:id="scanButton" onAction ="#handleScanButtonAction"/>
         <Button text="Scan &amp; parse" fx:id="scanAndParseButton" onAction ="#handleScanAndParseButtonAction"/>
+        <Button text="Check Main" fx:id="checkMainButton" onAction ="#handleCheckMainButtonAction"/>
+        <Button text="Check string constants" fx:id="checkStringConstantsButton" onAction ="#handleCheckStringConstantsButtonAction"/>
+        <Button text="Check number local variables" fx:id="checkLocalVarsButton" onAction ="#handleCheckLocalVarsButtonAction"/>
         <Separator orientation="VERTICAL"/>
         <TextField fx:id="findTextEntry" promptText="Find" />
         <Button fx:id="findButton" onAction="#handleFindText" text="Find" />

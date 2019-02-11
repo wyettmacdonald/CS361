@@ -14,13 +14,13 @@ import proj10AbramsDeutschDurstJones.bantam.ast.*;
 import proj10AbramsDeutschDurstJones.bantam.lexer.Scanner;
 import proj10AbramsDeutschDurstJones.bantam.lexer.Token;
 import proj10AbramsDeutschDurstJones.bantam.parser.Parser;
+import proj10AbramsDeutschDurstJones.bantam.semant.*;
 import proj10AbramsDeutschDurstJones.bantam.treedrawer.*;
 import proj10AbramsDeutschDurstJones.bantam.util.CompilationException;
 import proj10AbramsDeutschDurstJones.bantam.util.Error;
 import proj10AbramsDeutschDurstJones.bantam.util.ErrorHandler;
-
-import java.util.List;
 import java.io.*;
+import java.util.*;
 
 /**
  * ToolbarController handles Toolbar related actions.
@@ -73,7 +73,7 @@ public class ToolBarController {
     }
 
     /**
-     * Handles the Scan button action.
+     * Scans the given file and displays the tokens in a new tab
      *
      * @param event Event object
      * @param file the Selected file
@@ -89,19 +89,28 @@ public class ToolBarController {
             fileMenuController.handleSaveAction();
         }
 
+        // run scan in new thread
         Thread scanThread = new Thread() {
             public void run() {
-                handleScan(file);
+                Platform.runLater(() -> {
+                    console.clear();
+                });
+                ErrorHandler errorHandler = new ErrorHandler();
+                Scanner scanner = new Scanner(file.getAbsolutePath(), errorHandler);
+                String tokens = getTokens(scanner, errorHandler);
+                if (tokens != null) {
+                    displayTokens(tokens);
+                }
             }
         };
         scanThread.start();
     }
 
     /**
-     * Handles the Scan and parse button action.
+     * Scans and parses the given file and draws its AST
      *
      * @param event Event object
-     * @param file the Selected file
+     * @param file the selected file
      */
     public void handleScanAndParseButtonAction(Event event, File file) {
         int userResponse = fileMenuController.checkSaveBeforeContinue();
@@ -114,44 +123,124 @@ public class ToolBarController {
             fileMenuController.handleSaveAction();
         }
 
+        // run scan and parse in new thread
         Thread scanAndParseThread = new Thread() {
             public void run() {
-                handleScanAndParse(file);
+                Program root = getParseTree(file);
+
+                if (root != null) {
+                    drawTree(root, file);
+                    Platform.runLater(() -> {
+                        console.appendText("Scanning and parsing completed successfully\n");
+                    });
+                }
             }
         };
         scanAndParseThread.start();
     }
 
+    /**
+     * Scans and parses the given file and checks for a Main.main method
+     *
+     * @param event Event object
+     * @param file the Selected file
+     */
+    public void handleCheckMainButtonAction(Event event, File file) {
+        MainMainVisitor mainMainVisitor = new MainMainVisitor();
+
+        Thread checkMainThread = new Thread() {
+            public void run() {
+                Program root = getParseTree(file);
+                if (root == null) {
+                    return;
+                }
+                boolean result = mainMainVisitor.hasMain(root);
+                Platform.runLater(() -> {
+                    console.appendText("Valid Main.main method exists: " + result + "\n");
+                });
+            }
+        };
+        checkMainThread.start();
+    }
+
+    /**
+     * Scans and parses the given file and shows the string constants in each method
+     *
+     * @param event Event object
+     * @param file the Selected file
+     */
+    public void handleCheckStringConstantsButtonAction(Event event, File file) {
+        StringConstantsVisitor stringConstantsVisitor = new StringConstantsVisitor();
+
+        Thread checkStringConstsThread = new Thread() {
+            public void run() {
+                Program root = getParseTree(file);
+                if (root == null) {
+                    return;
+                }
+                Map<String, String> result = stringConstantsVisitor.getStringConstants(root);
+                String contents = "String constants in program: \n";
+                for (Map.Entry<String, String> entry : result.entrySet()) {
+                    contents += entry.getKey() + ": " + entry.getValue() + "\n";
+                }
+                final String displayString = contents;
+                Platform.runLater(() -> {
+                    console.appendText(displayString);
+                });
+            }
+        };
+        checkStringConstsThread.start();
+    }
+
+    /**
+     * Scans and parses the given file and counts the number of local variables
+     * in each method
+     *
+     * @param event Event object
+     * @param file the Selected file
+     */
+    public void handleCheckLocalVarsButtonAction(Event event, File file) {
+        NumLocalVarsVisitor numLocalVarsVisitor = new NumLocalVarsVisitor();
+
+        Thread checkLocalVarsThread = new Thread() {
+            public void run() {
+                Program root = getParseTree(file);
+                if (root == null) {
+                    return;
+                }
+                Map<String, Integer> result = numLocalVarsVisitor.getNumLocalVars(root);
+                String contents = "Local variables per method:\n";
+                for (Map.Entry<String, Integer> entry : result.entrySet()) {
+                    contents += entry.getKey() + ": " + entry.getValue() + "\n";
+                }
+                final String displayString = contents;
+                Platform.runLater(() -> {
+                    console.appendText(displayString);
+                });
+            }
+        };
+        checkLocalVarsThread.start();
+    }
 
     /**
      * Helper method for running the Scanner and displaying results.
      */
-    private void handleScan(File file) {
+    private String getTokens(Scanner scanner, ErrorHandler errorHandler) {
         try {
-            Platform.runLater(() -> {
-                this.console.clear();
-            });
-
-            ErrorHandler errorHandler = new ErrorHandler();
-            Scanner scanner = new Scanner(file.getAbsolutePath(), errorHandler);
-
             String scannedTokens = "";
             Token token = scanner.scan();
-            while(token.kind != Token.Kind.EOF) {
+            while (token.kind != Token.Kind.EOF) {
                 scannedTokens += token.toString() + "\n";
                 token = scanner.scan();
             }
             scannedTokens += token.toString();
-            final String scanResults = scannedTokens;
-            Platform.runLater(() -> {
-                tabPane.createNewTab("Scan Results", scanResults, null);
-            });
 
             List<Error> errorList = errorHandler.getErrorList();
             printErrorList(errorList);
             Platform.runLater(() -> {
                 this.console.appendText("Illegal tokens found: " + errorList.size() + "\n");
             });
+            return scannedTokens;
 
         } catch (Throwable e) {
             Platform.runLater(() -> {
@@ -159,6 +248,55 @@ public class ToolBarController {
                         "Please try again with another valid Java File.");
             });
         }
+        return null;
+    }
+
+    /**
+     * Helper method for running the Scanner and displaying results.
+     */
+    private Program getParseTree(File file) {
+        try {
+            Platform.runLater(() -> {
+                this.console.clear();
+            });
+
+            ErrorHandler errorHandler = new ErrorHandler();
+            Parser parser = new Parser(errorHandler);
+
+            // parse and display
+            try {
+                return parser.parse(file.getAbsolutePath());
+            } catch (CompilationException e) {
+                printErrorList(errorHandler.getErrorList());
+            }
+        }
+        catch (Throwable e) {
+            Platform.runLater(() -> {
+                this.fileMenuController.createErrorDialog("Reading File",
+                        "Please try again with another valid Bantam Java file.");
+            });
+        }
+        return null;
+    }
+
+    /**
+     * Helper method for displaying a new tab with all the scanned tokens
+     * @param scanResults the String of all the tokens to display
+     */
+    private void displayTokens(String scanResults) {
+        Platform.runLater(() -> {
+            tabPane.createNewTab("Scan Results", scanResults, null);
+        });
+    }
+
+    /**
+     * Helper function for drawing an AST
+     * @param root the Program node at the root of the AST
+     * @param file the file to draw an AST for
+     */
+    private void drawTree(Program root, File file) {
+        Drawer drawer = new Drawer();
+        drawer.draw(file.getName(), root);
     }
 
     /**
@@ -176,37 +314,5 @@ public class ToolBarController {
         Platform.runLater(() -> {
             this.console.appendText(errors.toString());
         });
-    }
-
-    /**
-     * Helper method for running the Scanner and displaying results.
-     */
-    private void handleScanAndParse(File file) {
-        try {
-            Platform.runLater(() -> {
-                this.console.clear();
-            });
-
-            ErrorHandler errorHandler = new ErrorHandler();
-            Parser parser = new Parser(errorHandler);
-
-            // parse and display
-            try {
-                Program root = parser.parse(file.getAbsolutePath());
-                Drawer drawer = new Drawer();
-                drawer.draw(file.getName(), root);
-                Platform.runLater(() -> {
-                    this.console.appendText("Scanning and parsing completed successfully\n");
-                });
-            } catch (CompilationException e) {
-                printErrorList(errorHandler.getErrorList());
-            }
-        }
-        catch (Throwable e) {
-            Platform.runLater(() -> {
-                this.fileMenuController.createErrorDialog("Reading File",
-                        "Please try again with another valid Bantam Java file.");
-            });
-        }
     }
 }

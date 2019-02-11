@@ -1,5 +1,14 @@
 /*
  * File: bantam.parser.Parser.java
+ * CS361 Project 11
+ * Names: Martin Deutsch and Wyett MacDonald
+ * Date: 2/13/2019
+ * This file contains the Parser, which parses the source file
+ * and generates the AST
+ */
+
+/*
+ * File: bantam.parser.Parser.java
  * CS361 Project 10
  * Names: Douglas Abrams, Martin Deutsch, Robert Durst, Matt Jones
  * Date: 12/07/2018
@@ -56,7 +65,7 @@ public class Parser {
     public Program parse(String filename) throws CompilationException {
         this.fileName = filename;
         this.scanner = new Scanner(filename, this.errorHandler);
-        this.currentToken = this.scanner.scan();
+        advance();
         return parseProgram();
     }
 
@@ -371,7 +380,7 @@ public class Parser {
             }
 
             else {
-                registerError("<identifier> expected", position);
+                registerError("<VarExpr> expected", position);
             }
         }
         return left;
@@ -444,8 +453,7 @@ public class Parser {
 
         Expr left = parseAddExpr();
         if (currentToken.kind == COMPARE &&
-                (currentToken.spelling.contains("<")
-                        || currentToken.spelling.contains(">"))
+                (currentToken.spelling.contains("<") || currentToken.spelling.contains(">"))
                 || currentToken.kind == INSTANCEOF) {
             String op = parseOperator();
             Expr right = parseAddExpr();
@@ -467,7 +475,8 @@ public class Parser {
                         left = new InstanceofExpr(position, left, ((VarExpr) right).getName());
                     }
                     else if (right instanceof ArrayExpr) {
-                        left = new InstanceofExpr(position, left, ((ArrayExpr) right).getName());
+                        left = new InstanceofExpr(position, left,
+                                ((ArrayExpr) right).getName() + "[]");
                     }
                     else {
                         registerError("<identifier> expected", position);
@@ -653,87 +662,76 @@ public class Parser {
     }
 
 
-    /*
-     * <Primary> ::= ( <Expression> ) | <IntegerConst> | <BooleanConst> |
-     *                               <StringConst> | <VarExpr> | <DispatchExpr>
-     * <VarExpr> ::= <VarExprPrefix> <Identifier> <VarExprSuffix>
-     * <VarExprPrefix> ::= SUPER . | THIS . | EMPTY
-     * <VarExprSuffix> ::= [ <Expr> ] | EMPTY
-     * <DispatchExpr> ::= <DispatchExprPrefix> <Identifier> ( <Arguments> )
-     * <DispatchExprPrefix> ::= <Primary> . | EMPTY
+    /* <Primary> ::=  <IntegerConst>
+     *              | <BooleanConst>
+     *              | <StringConst> <Suffix>
+     *              | <Identifier> <Suffix>
+     *              | ( <Expression> ) <Suffix>
+     * <Suffix> ::=   . <Identifier> <Suffix>
+     *              | [ <Expression> ] <Suffix>
+     *              | ( <Arguments> ) <Suffix>
+     *              | EMPTY
      */
     private Expr parsePrimary() {
         int position = currentToken.position;
 
         Expr expr = null;
-        do {
-            if (currentToken.kind == DOT) {
-                advance();
+        // parse constants without suffixes
+        if (currentToken.kind == INTCONST) {
+            expr = parseIntConst();
+        }
+        else if (currentToken.kind == BOOLEAN) {
+            expr = parseBoolean();
+        }
+        else {
+            // there is possibly a suffix
+            String name = null;
+            if (currentToken.kind == STRCONST) {
+                expr = parseStringConst();
             }
-
-            switch (currentToken.kind) {
-                case LPAREN:
+            else if (currentToken.kind == LPAREN) {
+                advance();
+                expr = parseExpression();
+                checkTokenAndAdvance(position, RPAREN, ")");
+            }
+            else {
+                name = parseIdentifier();
+            }
+            // parse suffixes
+            while (currentToken.kind == DOT || currentToken.kind == LBRACKET
+                    || currentToken.kind == LPAREN) {
+                if (currentToken.kind == DOT) {
+                    if (name != null) {
+                        expr = new VarExpr(position, expr, name);
+                    }
                     advance();
-                    expr = parseExpression();
-                    checkTokenAndAdvance(position, RPAREN, ")");
-                    break;
-                case INTCONST:
-                    expr = parseIntConst();
-                    break;
-                case BOOLEAN:
-                    expr = parseBoolean();
-                    break;
-                case STRCONST:
-                    expr = parseStringConst();
-                    break;
-                default:
-                    if (currentToken.kind != IDENTIFIER) {
-                        registerError("Expected <identifier>", position);
-                    }
-
-                    Expr prefix = null;
-                    String name;
-                    // get prefix for var
-                    if (currentToken.spelling.equals("super") ||
-                            currentToken.spelling.equals("this")) {
-                        prefix = new VarExpr(position, null, currentToken.spelling);
-                        advance();
-                        if (this.currentToken.kind != DOT) {
-                            registerError("'.' expected", position);
-                        }
-                        advance();
-                    }
-
                     name = parseIdentifier();
-
-                    // parse dispatch expression
-                    if (currentToken.kind == LPAREN) {
-                        advance();
-                        ExprList exprList = parseArguments();
-                        checkTokenAndAdvance(position, RPAREN, ")");
-                        expr = new DispatchExpr(position, expr, name, exprList);
+                }
+                else if (currentToken.kind == LBRACKET) {
+                    advance();
+                    Expr index = new VarExpr(position, null, null);
+                    if (currentToken.kind != RBRACKET) {
+                        index = parseExpression();
                     }
-
-                    else {
-                        // parse array expression
-                        if (currentToken.kind == LBRACKET) {
-                            advance();
-                            Expr index = null;
-                            if (currentToken.kind != RBRACKET) {
-                                index = parseExpression();
-                            }
-                            checkTokenAndAdvance(position, RBRACKET, "]");
-                            expr = new ArrayExpr(position, prefix, name, index);
-                        }
-                        // parse var expression
-                        else {
-                            expr = new VarExpr(position, prefix, name);
-                        }
+                    checkTokenAndAdvance(position, RBRACKET, "]");
+                    expr = new ArrayExpr(position, expr, name, index);
+                    name = null;
+                }
+                else {
+                    advance();
+                    ExprList exprList = new ExprList(position);
+                    if (currentToken.kind != RPAREN) {
+                        exprList = parseArguments();
                     }
+                    checkTokenAndAdvance(position, RPAREN, ")");
+                    expr = new DispatchExpr(position, expr, name, exprList);
+                    name = null;
+                }
+            }
+            if (name != null) {
+                expr = new VarExpr(position, expr, name);
             }
         }
-        while (currentToken.kind == DOT);
-
         return expr;
     }
 
