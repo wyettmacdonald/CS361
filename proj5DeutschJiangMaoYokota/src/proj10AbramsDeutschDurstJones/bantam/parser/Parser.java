@@ -675,7 +675,7 @@ public class Parser {
     private Expr parsePrimary() {
         int position = currentToken.position;
 
-        Expr expr = null;
+        Expr expr;
         // parse constants without suffixes
         if (currentToken.kind == INTCONST) {
             expr = parseIntConst();
@@ -685,7 +685,6 @@ public class Parser {
         }
         else {
             // there is possibly a suffix
-            String name = null;
             if (currentToken.kind == STRCONST) {
                 expr = parseStringConst();
             }
@@ -695,17 +694,16 @@ public class Parser {
                 checkTokenAndAdvance(position, RPAREN, ")");
             }
             else {
-                name = parseIdentifier();
+                String name = parseIdentifier();
+                expr = new VarExpr(position, null, name);
             }
             // parse suffixes
             while (currentToken.kind == DOT || currentToken.kind == LBRACKET
                     || currentToken.kind == LPAREN) {
                 if (currentToken.kind == DOT) {
-                    if (name != null) {
-                        expr = new VarExpr(position, expr, name);
-                    }
                     advance();
-                    name = parseIdentifier();
+                    String name = parseIdentifier();
+                    expr = new VarExpr(position, expr, name);
                 }
                 else if (currentToken.kind == LBRACKET) {
                     advance();
@@ -714,8 +712,15 @@ public class Parser {
                         index = parseExpression();
                     }
                     checkTokenAndAdvance(position, RBRACKET, "]");
-                    expr = new ArrayExpr(position, expr, name, index);
-                    name = null;
+
+                    if (expr instanceof VarExpr) {
+                        VarExpr prefix = (VarExpr) expr;
+                        expr = new ArrayExpr(position, prefix.getRef(),
+                                prefix.getName(), index);
+                    }
+                    else {
+                        expr = new ArrayExpr(position, expr, null, index);
+                    }
                 }
                 else {
                     advance();
@@ -724,12 +729,13 @@ public class Parser {
                         exprList = parseArguments();
                     }
                     checkTokenAndAdvance(position, RPAREN, ")");
-                    expr = new DispatchExpr(position, expr, name, exprList);
-                    name = null;
+                    if (expr instanceof VarExpr) {
+                        VarExpr prefix = (VarExpr) expr;
+                        expr = new DispatchExpr(position, prefix.getRef(),
+                                prefix.getName(), exprList);
+                    }
+                    expr = new DispatchExpr(position, expr, null, exprList);
                 }
-            }
-            if (name != null) {
-                expr = new VarExpr(position, expr, name);
             }
         }
         return expr;
