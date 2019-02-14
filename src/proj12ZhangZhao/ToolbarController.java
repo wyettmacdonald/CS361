@@ -39,6 +39,7 @@ import proj12ZhangZhao.bantam.lexer.Scanner;
 import proj12ZhangZhao.bantam.lexer.Token;
 import proj12ZhangZhao.proj12.SemanticAnalyzer;
 
+import java.util.Hashtable;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -125,17 +126,34 @@ public class ToolbarController {
                             ErrorHandler errorHandler = new ErrorHandler();
                             SemanticAnalyzer semantAnalyzer = new SemanticAnalyzer(errorHandler);
                             ClassTreeNode root = semantAnalyzer.analyze(AST);
-                            Platform.runLater(()->this.console.writeToConsole(
-                                     "The root is " + root.getName() + "\n",
-                                    "Output"));
-                            Iterator<ClassTreeNode> childrenIt = root.getChildrenList();
-                            while(childrenIt.hasNext()){
-                                ClassTreeNode node = childrenIt.next();
-                                Platform.runLater(()->this.console.writeToConsole(
-                                        "One child is " + node.getName() + "\n",
-                                        "Output"));
+                            Hashtable<String, ClassTreeNode> map = semantAnalyzer.getClassMap();
 
-                            }
+                            map.forEach( (nodeName, node) -> {
+
+                                Platform.runLater(()->this.console.writeToConsole(
+                                        "The name is " + nodeName + "\n",
+                                        "Output"));
+                                if(!nodeName.equals("Object")) {
+                                    Platform.runLater(() -> this.console.writeToConsole(
+                                            "Parent is " + node.getParent().getName() + "\n",
+                                            "Output"));
+                                }
+                                if(node.getNumDescendants() > 0) {
+                                    Iterator<ClassTreeNode> childrenIt = node.getChildrenList();
+                                    while (childrenIt.hasNext()) {
+                                        ClassTreeNode child = childrenIt.next();
+                                        Platform.runLater(() -> this.console.writeToConsole(
+                                                "One child of " + nodeName + " is " + child.getName() + "\n",
+                                                "Output"));
+                                    }
+                                }
+                                else{
+                                    Platform.runLater(() -> this.console.writeToConsole(
+                                            "No children" + "\n",
+                                            "Output"));
+                                }
+
+                            });
 
 
 

@@ -6,6 +6,7 @@ class Main extends B{
         y = y + 3;
 	var z = this.foo();
 	z = z * y;
+	z = (z-1)/3;
 	for(i = 0; i < 2; i++){
 	    z = z + i;
 	    y = z + i;

@@ -76,7 +76,7 @@ public class ClassVisitor extends Visitor{
         }
 
         if(parentNode != null) {
-            //System.out.println("The parent is " + parentNode.getName());
+            System.out.println("The parent is " + parentNode.getName());
             treeNode.setParent(parentNode);
             //The number of descendants is auto-calculated by setParent, so no need to adjust
             parentNode.addChild(treeNode);
