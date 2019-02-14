@@ -95,9 +95,7 @@
     <ToolBar>
         <Button fx:id ="scanButton" onAction="#handleScan" text = "Scan"/>
         <Button fx:id ="scanParseButton" onAction = "#handleScanAndParse" text = "Scan and Parse"/>
-        <Button fx:id ="mainButton" onAction = "#handleMainMethodFinder" text = "Check Main"/>
-        <Button fx:id ="stringButton" onAction = "#handleStringFinder" text = "Check string constants"/>
-        <Button fx:id ="localVarButton" onAction="#handleLocalVarFinder" text = "Check Num Local Vars"/>
+        <Button fx:id ="scanParseCheckButton" onAction = "#handleSemanticCheck" text = "Scan, Parse, and Check"/>
     </ToolBar>
     <SplitPane orientation="VERTICAL" focusTraversable = "true"
                dividerPositions="0.7" VBox.vgrow="ALWAYS" >

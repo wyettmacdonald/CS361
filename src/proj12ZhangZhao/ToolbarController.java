@@ -17,6 +17,11 @@
  * Class: CS 461
  * Project 11
  * Date: February 13, 2019
+ *  ---------------------------
+ * Edited By: Tia Zhang and Danqing Zhao
+ * Class: CS 461
+ * Project 12
+ * Date: February 25, 2019
  */
 
 package proj12ZhangZhao;
@@ -26,11 +31,13 @@ import proj12ZhangZhao.bantam.ast.Program;
 import proj12ZhangZhao.bantam.parser.Parser;
 import proj12ZhangZhao.bantam.semant.*;
 import proj12ZhangZhao.bantam.treedrawer.Drawer;
+import proj12ZhangZhao.bantam.util.ClassTreeNode;
 import proj12ZhangZhao.bantam.util.CompilationException;
 import proj12ZhangZhao.bantam.util.ErrorHandler;
 import proj12ZhangZhao.bantam.util.Error;
 import proj12ZhangZhao.bantam.lexer.Scanner;
 import proj12ZhangZhao.bantam.lexer.Token;
+import proj12ZhangZhao.proj12.SemanticAnalyzer;
 
 import java.util.Iterator;
 import java.util.List;
@@ -113,36 +120,31 @@ public class ToolbarController {
                 if(AST != null){
                     switch(method){
 
-                        //main method button clicked
-                        case "mainMethodFinder":
-                            MainMainVisitor mainMainVisitor = new MainMainVisitor();
-                            boolean hasMain = mainMainVisitor.hasMain(AST);
-                            if(hasMain){
+                        //scan, parse, and check button clicked
+                        case "semanticCheck":
+                            ErrorHandler errorHandler = new ErrorHandler();
+                            SemanticAnalyzer semantAnalyzer = new SemanticAnalyzer(errorHandler);
+                            ClassTreeNode root = semantAnalyzer.analyze(AST);
+                            Platform.runLater(()->this.console.writeToConsole(
+                                     "The root is " + root.getName() + "\n",
+                                    "Output"));
+                            Iterator<ClassTreeNode> childrenIt = root.getChildrenList();
+                            while(childrenIt.hasNext()){
+                                ClassTreeNode node = childrenIt.next();
                                 Platform.runLater(()->this.console.writeToConsole(
-                                        "This file has a main method and class\n",
+                                        "One child is " + node.getName() + "\n",
                                         "Output"));
-                            }else{
-                                Platform.runLater(()->this.console.writeToConsole(
-                                        "This file does not have a main method and class\n",
-                                        "Error"));
+
                             }
-                            break;
 
-                        //string finder clicked
-                        case "stringFinder":
-                            StringConstantsVisitor stringConstantsVisitor = new StringConstantsVisitor();
-                            Map<String,String> stringMap = stringConstantsVisitor.getStringConstants(AST);
-                            Platform.runLater(()->this.console.writeToConsole(stringMap.toString()+ "\n",
-                                    "Output"));
-                            break;
 
-                        //localVarFinder clicked
-                        case "localVarFinder":
-                            NumLocalVarsVisitor numLocalVarsVisitor = new NumLocalVarsVisitor();
-                            Map<String,Integer> varMap = numLocalVarsVisitor.getNumLocalVars(AST);
-                            Platform.runLater(()->this.console.writeToConsole(varMap.toString()+"\n",
+
+
+                            Platform.runLater(()->this.console.writeToConsole(
+                                    root.getClassMap().entrySet() + "\n",
                                     "Output"));
-                            break;
+
+                            //Not putting in a break statement because the drawing is useful for checking work
 
                         //scan and parse clicked, build AST image
                         default:

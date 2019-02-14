@@ -104,7 +104,7 @@ public class Parser
      */
     private Class_ parseClass() {
         int position = currentToken.position;
-        String parent="";
+        String parent=null;
         MemberList memberList= new MemberList(position);
         this.checkToken(CLASS,"When parsing class, class expected." );
         String name = parseIdentifier();
