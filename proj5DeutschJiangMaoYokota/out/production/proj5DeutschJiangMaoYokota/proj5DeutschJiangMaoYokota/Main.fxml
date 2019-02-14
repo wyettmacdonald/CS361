@@ -18,9 +18,9 @@
 <?import org.fxmisc.flowless.VirtualizedScrollPane?>
 <?import org.fxmisc.richtext.StyleClassedTextArea?>
 
-<?import proj10AbramsDeutschDurstJones.StyledJavaCodeArea?>
-<?import proj10AbramsDeutschDurstJones.JavaTabPane?>
-<VBox fx:id="VBox" stylesheets="@Main.css" fx:controller="proj10AbramsDeutschDurstJones.Controller" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1">
+<?import proj11DeutschMacDonald.StyledJavaCodeArea?>
+<?import proj11DeutschMacDonald.JavaTabPane?>
+<VBox fx:id="VBox" stylesheets="@Main.css" fx:controller="proj11DeutschMacDonald.Controller" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1">
     <MenuBar VBox.vgrow="NEVER">
         <Menu text="File" fx:id="fileMenu">
             <MenuItem text="About..." fx:id="aboutMenuItem" onAction="#handleAboutAction"/>
