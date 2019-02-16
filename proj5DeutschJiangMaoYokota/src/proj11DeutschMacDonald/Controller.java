@@ -80,20 +80,10 @@ public class Controller {
     @FXML
     private Button scanAndParseButton;
     /**
-     * Check Main button defined in Main.fxml
+     * Scan Parse and Check button defined in Main.fxml
      */
     @FXML
-    private Button checkMainButton;
-    /**
-     * Check string constants button defined in Main.fxml
-     */
-    @FXML
-    private Button checkStringConstantsButton;
-    /**
-     * Check local vars button defined in Main.fxml
-     */
-    @FXML
-    private Button checkLocalVarsButton;
+    private Button scanParseAndCheckButton;
     /**
      * TabPane defined in Main.fxml
      */
@@ -246,9 +236,7 @@ public class Controller {
 
         this.scanButton.disableProperty().bind(ifTabPaneEmpty);
         this.scanAndParseButton.disableProperty().bind(ifTabPaneEmpty);
-        this.checkMainButton.disableProperty().bind(ifTabPaneEmpty);
-        this.checkStringConstantsButton.disableProperty().bind(ifTabPaneEmpty);
-        this.checkLocalVarsButton.disableProperty().bind(ifTabPaneEmpty);
+        this.scanParseAndCheckButton.disableProperty().bind(ifTabPaneEmpty);
         this.closeMenuItem.disableProperty().bind(ifTabPaneEmpty);
         this.saveMenuItem.disableProperty().bind(ifTabPaneEmpty);
         this.saveAsMenuItem.disableProperty().bind(ifTabPaneEmpty);
