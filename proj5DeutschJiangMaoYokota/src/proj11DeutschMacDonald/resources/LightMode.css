@@ -1,0 +1,106 @@
+/*
+ * File: LightMode.css
+ * CS361 Project 9
+ * Names: Douglas Abrams, Martin Deutsch, Robert Durst, Matt Jones
+ * Date: 11/20/2018
+ * Cascading Style Sheet for Main.java, defining the design styles of the GUI elements
+ */
+
+/* Defines looked-up colors for elements stylable from preferences menu */
+.root {
+    keyword-color: purple;
+    paren-color: teal;
+    string-color: blue;
+    integer-color: red;
+}
+
+/* style of Scan button */
+#scanButton {
+	/* set button color to blue */
+    -fx-background-color:#afeeee;
+    /* set button border to black */
+    -fx-border-color: black; 
+    /* set rounded corners */
+    -fx-border-radius: 5;
+    -fx-background-radius: 5;
+}
+
+/* style of scan and parse button */
+#scanAndParseButton {
+    /* set button color to green */
+    -fx-background-color:yellow;
+    /* set button border to black */
+    -fx-border-color: black;
+    /* set rounded corners */
+    -fx-border-radius: 5;
+    -fx-background-radius: 5;
+}
+
+/* style of keywords */
+.keyword {
+    -fx-fill: keyword-color;
+    -fx-font-weight: bold;
+}
+
+/* style of semicolons */
+.semicolon {
+    -fx-font-weight: bold;
+}
+
+/* style of parenthesis */
+.paren {
+    -fx-fill: paren-color;
+    -fx-font-weight: bold;
+}
+
+/* style of brackets */
+.bracket {
+    -fx-fill: teal;
+    -fx-font-weight: bold;
+}
+
+/* style of braces */
+.brace {
+    -fx-fill: teal;
+    -fx-font-weight: bold;
+}
+
+/* style of strings */
+.string {
+    -fx-fill: string-color;
+}
+
+/* style of integers */
+.integer{
+    -fx-fill: integer-color;
+}
+
+/* style of comments */
+.comment {
+	-fx-fill: cadetblue;
+}
+
+/* style of paragraph boxes */
+.paragraph-box:has-caret {
+    -fx-background-color: #f2f9fc;
+}
+
+/* style of output type message in console */
+.output {
+    -fx-fill: blue;
+}
+
+/* style of error type message in console */
+.error { 
+    -fx-fill: red;
+}
+
+/* style of processInfo type message in console */
+.processInfo {
+    -fx-fill: green;
+}
+
+/* style of default type message in console */
+.default {
+    -fx-fill: black;
+}

@@ -1,0 +1,188 @@
+/*
+ * File: DarkMode.css
+ * CS361 Project 9
+ * Names: Douglas Abrams, Martin Deutsch, Robert Durst, Matt Jones
+ * Date: 11/20/2018
+ * Cascading Style Sheet for Main.java, defining the design styles of the GUI elements
+ * When this stylesheet is used, Dark Mode is active
+ */
+
+/* Defines looked-up colors for elements stylable from preferences menu */
+.root {
+    keyword-color: yellow;
+    paren-color: orange;
+    string-color: pink;
+    integer-color: red;
+}
+
+/* style of vBox */
+#vBox {
+    -fx-background-color: #535353;
+    -fx-base: gray;
+}
+
+/* style of menuBar */
+#menuBar {
+    -fx-background-color: #535353;
+}
+
+/* style of focused menu item */
+.menu-item:focused {
+    -fx-background-color: darkgray;
+}
+
+/* style of drop down menu */
+.context-menu {
+    -fx-background-color: gray;
+}
+
+/* style top of tab pane */
+.tab-pane .tab-header-area .tab-header-background {
+    -fx-background-color: #535353;
+}
+
+/* style for tab */
+.tab-pane .tab {
+    -fx-background-color: #404040;
+}
+
+/* style of toolbar */
+#toolbar {
+    -fx-background-color: #535353;
+    -fx-border-color: black;
+}
+
+/* style of Scan button */
+#scanButton {
+    /* set button color to blue */
+    -fx-background-color: #0000c7;
+    /* set button text color to white */
+    -fx-text-fill: white;
+    /* set button border to black */
+    -fx-border-color: black;
+    /* set rounded corners */
+    -fx-border-radius: 5;
+    -fx-background-radius: 5;
+}
+
+/* style of scan and parse button */
+#scanAndParseButton {
+    /* set button color to green  */
+    -fx-background-color: darkgreen;
+    /* set button text color to white */
+    -fx-text-fill: white;
+    /* set button border to black */
+    -fx-border-color: black;
+    /* set rounded corners */
+    -fx-border-radius: 5;
+    -fx-background-radius: 5;
+}
+
+/* style of search bar */
+#searchBar {
+    -fx-background-color: lightgray;
+}
+
+/* style of directory tree pane */
+#directoryTree {
+    -fx-base: gray;
+}
+
+/* style of directory tree cells */
+.tree-cell {
+    -fx-background-color: #535353;
+}
+
+/* style of directory tree cells highlighting */
+.tree-cell:focused {
+    -fx-background-color: darkblue;
+}
+
+/* style of all code areas */
+.code-area {
+    -fx-background-color: #404040;
+}
+
+/* style line numbers */
+.lineno {
+    -fx-background-color: #535353;
+}
+
+/* style all text */
+.text {
+    -fx-fill: white;
+}
+
+/* style of console */
+#console {
+    -fx-background-color: #404040;
+}
+
+/* style of keywords */
+.keyword {
+    -fx-fill: keyword-color;
+    -fx-font-weight: bold;
+}
+
+/* style of semicolons */
+.semicolon {
+    -fx-font-weight: bold;
+}
+
+/* style of parenthesis */
+.paren {
+    -fx-fill: paren-color;
+    -fx-font-weight: bold;
+}
+
+/* style of brackets */
+.bracket {
+    -fx-fill: orange;
+    -fx-font-weight: bold;
+}
+
+/* style of braces */
+.brace {
+    -fx-fill: orange;
+    -fx-font-weight: bold;
+}
+
+/* style of strings */
+.string {
+    -fx-fill: string-color;
+}
+
+/* style of integers */
+.integer {
+    -fx-fill: integer-color;
+}
+
+/* style of comments */
+.comment {
+    -fx-fill: gray;
+}
+
+/* style of paragraph boxes */
+.paragraph-box:has-caret {
+    -fx-background-color: #5f5e5e;
+}
+
+/* style of output type message in console */
+.output {
+    -fx-fill: lightblue;
+}
+
+/* style of error type message in console */
+.error {
+    -fx-fill: darkred;
+}
+
+/* style of processInfo type message in console */
+.processInfo {
+    -fx-fill: teal;
+}
+
+/* style of default type message in console */
+.default {
+    -fx-fill: white;
+}

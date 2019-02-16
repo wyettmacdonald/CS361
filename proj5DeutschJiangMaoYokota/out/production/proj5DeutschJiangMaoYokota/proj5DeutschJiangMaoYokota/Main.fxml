@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--File: Main.fxml-->
+<!--F18 CS361 Project 5-->
+<!--Names: Liwei Jiang, Martin Deutsch, Tatsuya Yokota, Melody Mao-->
+<!--JXML file, laying out GUI elements of Main.java-->
+<!--Date: 10/12/2018-->
+
+<!--imported packages-->
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Menu?>
+<?import javafx.scene.control.MenuBar?>
+<?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.control.Separator?>
+<?import javafx.scene.control.SeparatorMenuItem?>
+<?import javafx.scene.control.ToolBar?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.control.Tab?>
+<?import org.fxmisc.flowless.VirtualizedScrollPane?>
+<?import org.fxmisc.richtext.StyleClassedTextArea?>
+
+<?import proj11DeutschMacDonald.StyledJavaCodeArea?>
+<?import proj11DeutschMacDonald.JavaTabPane?>
+<VBox fx:id="VBox" stylesheets="@Main.css" fx:controller="proj11DeutschMacDonald.Controller" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1">
+    <MenuBar VBox.vgrow="NEVER">
+        <Menu text="File" fx:id="fileMenu">
+            <MenuItem text="About..." fx:id="aboutMenuItem" onAction="#handleAboutAction"/>
+            <SeparatorMenuItem />
+            <MenuItem text="New" fx:id="newMenuItem" onAction="#handleNewAction" accelerator="Shortcut+N"/>
+            <MenuItem text="Open..." fx:id="openMenuItem" onAction="#handleOpenAction" accelerator="Shortcut+O"/>
+            <MenuItem text="Close" fx:id="closeMenuItem" onAction="#handleCloseAction" accelerator="Shortcut+W"/>
+            <MenuItem text="Save" fx:id="saveMenuItem" onAction="#handleSaveAction" accelerator="Shortcut+S"/>
+            <MenuItem text="Save as..." fx:id="saveAsMenuItem" onAction="#handleSaveAsAction" accelerator="Shortcut+Shift+S"/>
+            <SeparatorMenuItem />
+            <MenuItem text="Exit" fx:id="exitMenuItem" onAction="#handleExitAction" accelerator="Shortcut+Shift+W"/>
+        </Menu>
+        <Menu text="Edit" fx:id="editMenu">
+            <MenuItem text="Undo" fx:id="undoMenuItem" onAction="#handleUndoAction" accelerator="Shortcut+Z"/>
+            <MenuItem text="Redo" fx:id="redoMenuItem" onAction="#handleRedoAction" accelerator="Shortcut+Y"/>
+            <MenuItem text="Cut" fx:id="cutMenuItem" onAction="#handleCutAction" accelerator="Shortcut+X"/>
+            <MenuItem text="Copy" fx:id="copyMenuItem" onAction="#handleCopyAction" accelerator="Shortcut+C"/>
+            <MenuItem text="Paste" fx:id="pasteMenuItem" onAction="#handlePasteAction" accelerator="Shortcut+V"/>
+            <MenuItem text="Select all" fx:id="selectMenuItem" onAction="#handleSelectAllAction" accelerator="Shortcut+A"/>
+        </Menu>
+    </MenuBar>
+    <ToolBar VBox.vgrow="ALWAYS">
+        <Button text="Compile" fx:id="compileButton" onAction ="#handleCompileButtonAction"/>
+        <Button text="Compile &amp; Run" fx:id="compileRunButton" onAction="#handleCompileRunButtonAction"/>
+        <Button text="Stop" fx:id="stopButton" onAction="#handleStopButtonAction"/>
+    </ToolBar>
+    <JavaTabPane fx:id="tabPane" VBox.vgrow="ALWAYS">
+        <tabs>
+            <Tab text="untitled" fx:id="untitledTab" onCloseRequest="#handleCloseAction">
+                <content>
+                    <VirtualizedScrollPane fx:id = "scrollPane">
+                        <content>
+                            <StyledJavaCodeArea fx:id="defaultCodeArea" stylesheets = "@Main.css" wrapText="true"/>
+                        </content>
+                    </VirtualizedScrollPane>
+                </content>
+            </Tab>
+        </tabs>
+    </JavaTabPane>
+    <Separator/>
+    <VirtualizedScrollPane>
+        <content>
+            <StyleClassedTextArea fx:id="console"/>
+        </content>
+    </VirtualizedScrollPane>
+</VBox>
