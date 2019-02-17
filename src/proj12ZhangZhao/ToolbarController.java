@@ -127,8 +127,8 @@ public class ToolbarController {
                             SemanticAnalyzer semantAnalyzer = new SemanticAnalyzer(errorHandler);
                             ClassTreeNode root = semantAnalyzer.analyze(AST);
                             Hashtable<String, ClassTreeNode> map = semantAnalyzer.getClassMap();
-
-                            map.forEach( (nodeName, node) -> {
+                            //Useful debugging code, but it crashes if there's a cycle
+                            /*map.forEach( (nodeName, node) -> {
 
                                 Platform.runLater(()->this.console.writeToConsole(
                                         "The name is " + nodeName + "\n",
@@ -153,7 +153,7 @@ public class ToolbarController {
                                             "Output"));
                                 }
 
-                            });
+                            });*/
 
 
 
@@ -162,7 +162,24 @@ public class ToolbarController {
                                     root.getClassMap().entrySet() + "\n",
                                     "Output"));
 
-                            //Not putting in a break statement because the drawing is useful for checking work
+
+                            Platform.runLater(()-> {
+                                ToolbarController.this.console.writeToConsole("Semantic Analysis Failed\n","Error");
+                                ToolbarController.this.console.writeToConsole("There were: " +
+                                        errorHandler.getErrorList().size() + " semantic errors in " +
+                                        ToolbarController.this.codeTabPane.getFileName() + "\n", "Output");
+
+                                if (errorHandler.errorsFound()) {
+                                    List<Error> errorList = errorHandler.getErrorList();
+                                    Iterator<Error> errorIterator = errorList.iterator();
+                                    ToolbarController.this.console.writeToConsole("\n", "Error");
+                                    while (errorIterator.hasNext()) {
+                                        ToolbarController.this.console.writeToConsole(errorIterator.next().toString() +
+                                                "\n", "Error");
+                                    }
+                                }
+                            });
+                            break;
 
                         //scan and parse clicked, build AST image
                         default:
