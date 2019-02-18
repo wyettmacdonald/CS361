@@ -1,0 +1,30 @@
+class Main{ 
+    int b = 2;
+    boolean a = true;
+    
+    void bar(int y, int z) {
+    	var m = "mah";
+    }
+    int foo(){
+	foo(d).fooo(x);
+	return 6;
+    }
+}
+
+class B extends A{ //Should log Parent does not exist error
+	int[] a;
+	void B(){
+		
+	}
+
+	void main() {
+		
+    	}
+}
+
+class D extends C{
+}
+
+class C extends D{ //Should log a graph cycle
+
+}
