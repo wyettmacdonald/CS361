@@ -671,6 +671,12 @@ public class Parser
                 Expr expr = this.parseExpression();
                 this.checkToken(RPAREN, "When parsing (Expr), \")\" expected");
                 tempExpr = expr;
+                if(currentToken.kind == LBRACKET){
+                    updateCurrentToken();
+                    Expr varExprSuffix = this.parseExpression();
+                    this.checkToken(RBRACKET, "When parsing varExpr, \"]\" expected");
+                    tempExpr= new ArrayExpr(position, tempExpr, null, varExprSuffix);
+                }
                 break;
             case INTCONST: // <IntegerConst>
                 tempExpr = this.parseIntConst();
@@ -682,20 +688,20 @@ public class Parser
                 tempExpr = this.parseStringConst();
                 break;
             case IDENTIFIER://Var Expr & DispatchExpr w/o prefix
-                tempExpr = this.parsePrefix(null);
+                tempExpr = this.parseSuffix(null);
                 break;
         }
 
         //--------------------------------------------End of cases------------------------------------------------------
         while(currentToken.kind == DOT ){
             updateCurrentToken();
-            tempExpr = this.parsePrefix(tempExpr);
+            tempExpr = this.parseSuffix(tempExpr);
         }
         return tempExpr;
 
     }
 
-    private Expr parsePrefix(Expr prefix){
+    private Expr parseSuffix(Expr suffix){
         String identifier = parseIdentifier();
         Expr tempExpr;
 
@@ -704,16 +710,16 @@ public class Parser
             updateCurrentToken();
             Expr varExprSuffix = this.parseExpression();
             this.checkToken(RBRACKET, "When parsing varExpr, \"]\" expected");
-            tempExpr= new ArrayExpr(this.currentToken.position, prefix, identifier, varExprSuffix);
+            tempExpr= new ArrayExpr(this.currentToken.position, suffix, identifier, varExprSuffix);
         }
         else if(this.currentToken.kind==LPAREN) {
             updateCurrentToken();
             ExprList argument = parseArguments();
             this.checkToken(RPAREN, "When parsing varExpr, \")\" expected");
-            tempExpr = new DispatchExpr(this.currentToken.position, prefix, identifier, argument);
+            tempExpr = new DispatchExpr(this.currentToken.position, suffix, identifier, argument);
         }
         else{
-            tempExpr = new VarExpr( this.currentToken.position, prefix, identifier);
+            tempExpr = new VarExpr( this.currentToken.position, suffix, identifier);
         }
 
         return tempExpr;

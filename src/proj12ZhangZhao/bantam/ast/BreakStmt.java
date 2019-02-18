@@ -52,7 +52,7 @@ public class BreakStmt extends Stmt {
      *
      * @param v bantam.visitor object
      * @return result of visiting this node
-     * @see proj11KeithHardyZhangZhao.bantam.visitor.Visitor
+     * @see proj12ZhangZhao.bantam.visitor.Visitor
      */
     public Object accept(Visitor v) {
         return v.visit(this);
