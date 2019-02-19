@@ -1,4 +1,4 @@
-class Main{ 
+class Main extends MainMainTest{ 
     int b = 2;
     boolean a = true;
     
@@ -10,6 +10,12 @@ class Main{
 	return 6;
     }
 }
+
+class MainMainTest{
+    void main(){
+    }
+}
+
 
 class B extends A{ //Should log Parent does not exist error
 	int[] a;

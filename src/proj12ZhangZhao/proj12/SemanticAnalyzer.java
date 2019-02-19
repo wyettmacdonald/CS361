@@ -31,6 +31,7 @@ package proj12ZhangZhao.proj12;
 import com.sun.source.tree.ClassTree;
 import proj12ZhangZhao.bantam.ast.*;
 import proj12ZhangZhao.bantam.semant.ClassVisitor;
+import proj12ZhangZhao.bantam.semant.SymbolTableBuildingVisitor;
 import proj12ZhangZhao.bantam.util.*;
 
 import java.util.*;
@@ -121,6 +122,8 @@ public class SemanticAnalyzer
         // add code here...
         ClassVisitor classVisitor = new ClassVisitor(classMap, errorHandler);
         classVisitor.makeTree(program);
+        SymbolTableBuildingVisitor symTabVisitor = new SymbolTableBuildingVisitor(classMap, errorHandler);
+        symTabVisitor.makeTables();
 
         // uncomment the following statement
         return root;

@@ -39,7 +39,6 @@ public class ClassVisitor extends Visitor{
 
         classMap.forEach( (nodeName, node) -> {
             setParentAndChild(node);
-            node.getMethodSymbolTable();
         });
 
         ArrayList<ClassTreeNode> cycleNodes = new ArrayList<ClassTreeNode>();
@@ -51,30 +50,8 @@ public class ClassVisitor extends Visitor{
         //This won't remove the cycle (because I can't unset cycled nodes as each other's children), but that doesn't matter
         ClassTreeNode object = classMap.get("Object");
         cycleNodes.forEach(node ->{
-            //System.out.println("Cycle node " + node.getName());
             node.setParent(object);
         });
-
-
-
-        //Hardcoded lookup cause there doesn't seem to be a way to get the symbol table to print everything inside
-//        System.out.println(classMap.get("Main").getMethodSymbolTable().lookup("bar"));
-//        System.out.println(classMap.get("Main").getMethodSymbolTable().lookup("foo"));
-//
-//        System.out.println(classMap.get("B").getMethodSymbolTable().lookup("B"));
-//        System.out.println(classMap.get("B").getMethodSymbolTable().lookup("main"));
-
-        //Params
-        System.out.println(classMap.get("Main").getVarSymbolTable().lookup("b"));
-        System.out.println(classMap.get("Main").getVarSymbolTable().lookup("a"));
-        System.out.println(classMap.get("B").getVarSymbolTable().lookup("a"));
-
-        //Params
-        System.out.println(classMap.get("Main").getVarSymbolTable().lookup("y"));
-        System.out.println(classMap.get("Main").getVarSymbolTable().lookup("z"));
-
-        //Local vars
-        System.out.println(classMap.get("Main").getVarSymbolTable().lookup("m"));
 
     }
 
@@ -82,41 +59,8 @@ public class ClassVisitor extends Visitor{
     public Object visit(Class_ node){
         ClassTreeNode treeNode = new ClassTreeNode(node, false, true, classMap);
         classMap.put(node.getName(), treeNode);
-        treeNode.getMethodSymbolTable().enterScope();
-        treeNode.getVarSymbolTable().enterScope();
         currentClass = node.getName();
         super.visit(node);
-        return null;
-    }
-
-    public Object visit(Field node){
-        ClassTreeNode treeNode = classMap.get(currentClass);
-        treeNode.getVarSymbolTable().add(node.getName(), node.getType());
-        System.out.println("Field found: " + node.getName() + " added to " + currentClass);
-        return null;
-    }
-
-    public Object visit(Method node){
-        ClassTreeNode treeNode = classMap.get(currentClass);
-        treeNode.getMethodSymbolTable().add(node.getName(), node);
-        System.out.println("Adding method " + node.getName() + " to " + currentClass);
-
-        treeNode.getVarSymbolTable().enterScope();
-        super.visit(node);
-        return null;
-    }
-
-    public Object visit(Formal node){
-        ClassTreeNode treeNode = classMap.get(currentClass);
-        treeNode.getVarSymbolTable().add(node.getName(), node.getType());
-        System.out.println("Param found: " + node.getName() + " added to " + currentClass);
-        return null;
-    }
-
-    public Object visit(DeclStmt node){
-        ClassTreeNode treeNode = classMap.get(currentClass);
-        treeNode.getVarSymbolTable().add(node.getName(), null); //DeclStmt have null type at the start - does the type checker set it?
-        System.out.println("Local var found: " + node.getName() + " added to " + currentClass);
         return null;
     }
 
@@ -134,11 +78,12 @@ public class ClassVisitor extends Visitor{
         }
         else{
             parentNode = classMap.get("Object");
-
         }
 
         if(parentNode != null) {
             treeNode.setParent(parentNode);
+            treeNode.getVarSymbolTable().setParent(parentNode.getVarSymbolTable());
+            treeNode.getMethodSymbolTable().setParent(parentNode.getMethodSymbolTable());
             //The number of descendants is auto-calculated by setParent, so no need to adjust
             //setParent also triggers addChild() automatically
         }
@@ -146,6 +91,10 @@ public class ClassVisitor extends Visitor{
             System.out.println("No parent");
             errorHandler.register(Error.Kind.SEMANT_ERROR, astNode.getFilename(), astNode.getLineNum(),
                     "Parent class of " + treeNode.getName() +  " does not exist");
+
+            //Setting Object as a parent as a default
+            parentNode = classMap.get("Object");
+            treeNode.setParent(parentNode);
         }
     }
 
