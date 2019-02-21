@@ -26,15 +26,18 @@
    This file was modified by Dale Skrien, February, 2019.
 */
 
-package proj12MacDonaldDouglas;
+package proj12MacDonaldDouglas.bantam.semant;
 
 import proj12MacDonaldDouglas.bantam.ast.*;
 import proj12MacDonaldDouglas.bantam.util.*;
+import proj12MacDonaldDouglas.bantam.visitor.Visitor;
 
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Hashtable;
 import java.util.Set;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * The <tt>SemanticAnalyzer</tt> class performs semantic analysis.
@@ -84,6 +87,8 @@ public class SemanticAnalyzer
      */
     private final int MAX_NUM_FIELDS = 1500;
 
+    private Map<String, Boolean> theClassesMap = new HashMap<>();
+
     /**
      * SemanticAnalyzer constructor
      *
@@ -117,13 +122,23 @@ public class SemanticAnalyzer
         addBuiltins();
 
         // remove the following statement
-        throw new RuntimeException("Semantic analyzer unimplemented");
+//        throw new RuntimeException("Semantic analyzer unimplemented");
 
         // add code here...
+        // add user defined classes
+        addUserDefined();
 
+        // implement step 3 - build the environment
+
+        // check for Main class and main method
+        MainMainVisitor mainVisitor = new MainMainVisitor();
+        boolean mainResult = mainVisitor.hasMain(program);
+        if (!mainResult) {
+            System.out.println("Error with Main.main");
+        }
 
         // uncomment the following statement
-        // return root;
+        return root;
     }
 
     /**
@@ -196,8 +211,17 @@ public class SemanticAnalyzer
         ?*/false, classMap));
     }
 
-
+    /**
+     * Add user-defined classes to the classMap.
+     * Not fully implemented - need to figure out extendable
+     */
     private void addUserDefined() {
 
+        ClassesVisitor classesVisitor = new ClassesVisitor();
+        Map<Class_, Boolean> theClasses = classesVisitor.getAllClasses(this.program);
+        for (Map.Entry<Class_, Boolean> entry : theClasses.entrySet()) {
+            classMap.put(entry.getKey().toString(), new ClassTreeNode(entry.getKey(), false,
+                    entry.getValue(), classMap));
+        }
     }
 }

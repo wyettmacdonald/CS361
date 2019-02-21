@@ -3,16 +3,47 @@ package proj12MacDonaldDouglas.bantam.semant;
 import proj12MacDonaldDouglas.bantam.ast.Expr;
 import proj12MacDonaldDouglas.bantam.ast.Field;
 import proj12MacDonaldDouglas.bantam.ast.Method;
+import proj12MacDonaldDouglas.bantam.ast.*;
 import proj12MacDonaldDouglas.bantam.util.ClassTreeNode;
 import proj12MacDonaldDouglas.bantam.util.Error;
 import proj12MacDonaldDouglas.bantam.util.ErrorHandler;
 import proj12MacDonaldDouglas.bantam.util.SymbolTable;
 
-public class TypeCheckerVisitor extends proj12MacDonaldDouglas.bantam.visitor.Visitor
-{
+public class TypeCheckerVisitor extends proj12MacDonaldDouglas.bantam.visitor.Visitor {
+
     private ClassTreeNode currentClass;
     private SymbolTable currentSymbolTable;
     private ErrorHandler errorHandler;
+
+    /**
+     * Check if type is of a class type
+     *
+     * @param classType
+     * @return true if the type is a class type, false if not
+     */
+    public boolean checkDefinedClass(String classType) {
+        return currentClass.getClassMap().containsKey(classType);
+    }
+
+    /**
+     * Check if type is within the class table or int or boolean
+     *
+     * @param nameType
+     * @return true if the type is defined, false if not
+     */
+    public boolean checkDefined(String nameType) {
+        return (currentClass.getClassMap().containsKey(nameType) || nameType.equals("int") ||
+                nameType.equals("boolean"));
+    }
+
+    public boolean checkSubClass(String node1, String node2) {
+        String nodeName = node1;
+        while (!currentClass.getClassMap().get(nodeName).getParent().getName().equals(node2)) {
+            nodeName = currentClass.getClassMap().get(nodeName).getParent().getName();
+            if()
+        }
+        currentClass.getClassMap().get(node1).getParent();
+    }
 
     /**
      * Visit a field node
@@ -25,7 +56,7 @@ public class TypeCheckerVisitor extends proj12MacDonaldDouglas.bantam.visitor.Vi
         // SemanticAnalyzer so the only thing to check is the compatibility of the init
         // expr's type with the field's type.
         // if (...node's type is not a defined type...) {
-        if (node.getType() != reservedIdentifiers)
+        if ((!checkDefined(node.getType()))) {
             errorHandler.register(Error.Kind.SEMANT_ERROR,
                     currentClass.getASTNode().getFilename(), node.getLineNum(),
                     "The declared type " + node.getType() + " of the field "
@@ -34,7 +65,8 @@ public class TypeCheckerVisitor extends proj12MacDonaldDouglas.bantam.visitor.Vi
         Expr initExpr = node.getInit();
         if (initExpr != null) {
             initExpr.accept(this);
-            if(...the initExpr's type is not a subtype of the node's type...) {
+            if(initExpr.getExprType() != node.getType()) {
+//                if(...the initExpr's type is not a subtype of the node's type...) {
                 errorHandler.register(Error.Kind.SEMANT_ERROR,
                         currentClass.getASTNode().getFilename(), node.getLineNum(),
                         "The type of the initializer is " + initExpr.getExprType()
@@ -55,7 +87,8 @@ public class TypeCheckerVisitor extends proj12MacDonaldDouglas.bantam.visitor.Vi
      * @return null
      */
     public Object visit(Method node) {
-        if (...the node's return type is not a defined type and not "void"...) {
+        if (!checkDefined(node.getReturnType()) && !node.getReturnType().equals("void")) {
+//        if (...the node's return type is not a defined type and not "void"...) {
             errorHandler.register(Error.Kind.SEMANT_ERROR,
                     currentClass.getASTNode().getFilename(), node.getLineNum(),
                     "The return type " + node.getReturnType() + " of the method "
@@ -77,7 +110,8 @@ public class TypeCheckerVisitor extends proj12MacDonaldDouglas.bantam.visitor.Vi
      * @return null
      */
     public Object visit(Formal node) {
-        if (...the node's type is not a defined type...) {
+//        if (...the node's type is not a defined type...) {
+        if (!checkDefined(node.getType())) {
             errorHandler.register(Error.Kind.SEMANT_ERROR,
                     currentClass.getASTNode().getFilename(), node.getLineNum(),
                     "The declared type " + node.getType() + " of the formal" +
@@ -96,7 +130,7 @@ public class TypeCheckerVisitor extends proj12MacDonaldDouglas.bantam.visitor.Vi
      */
     public Object visit(WhileStmt node) {
         node.getPredExpr().accept(this);
-        if(...the predExpr's type is not "boolean"...) {
+        if(!node.getPredExpr().getExprType().equals("boolean")) {
             errorHandler.register(Error.Kind.SEMANT_ERROR,
                     currentClass.getASTNode().getFilename(), node.getLineNum(),
                     "The type of the predicate is " + node.getPredExpr().getExprType()
@@ -128,7 +162,8 @@ public class TypeCheckerVisitor extends proj12MacDonaldDouglas.bantam.visitor.Vi
      * @return null
      */
     public Object visit(NewExpr node) {
-        if(...the node's type is not a defined class type...) {
+        if(!checkDefinedClass(node.getType())) {
+//        if(...the node's type is not a defined class type...) {
             errorHandler.register(Error.Kind.SEMANT_ERROR,
                     currentClass.getASTNode().getFilename(), node.getLineNum(),
                     "The type " + node.getType() + " does not exist.");
