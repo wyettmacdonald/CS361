@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--File: Main.fxml-->
+<!--CS361 Project 9-->
+<!--Names: Douglas Abrams, Martin Deutsch, Robert Durst, Matt Jones-->
+<!--FXML file, laying out GUI elements of Main.java-->
+<!--Date: 11/20/2018-->
+
+<!--imported packages-->
+<?import org.fxmisc.flowless.VirtualizedScrollPane?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import proj12MacDonaldDouglas.JavaTabPane?>
+<?import org.fxmisc.richtext.StyleClassedTextArea?>
+
+<VBox fx:id="vBox"
+      fx:controller="proj12MacDonaldDouglas.Controller"
+      xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1">
+      <MenuBar fx:id="menuBar" VBox.vgrow="NEVER">
+        <Menu text="File" fx:id="fileMenu">
+            <MenuItem text="About..." fx:id="aboutMenuItem" onAction="#handleAboutAction" accelerator="Shortcut+Shift+A"/>
+            <SeparatorMenuItem />
+            <MenuItem text="New" fx:id="newMenuItem" onAction="#handleNewAction" accelerator="Shortcut+N"/>
+            <MenuItem text="Open..." fx:id="openMenuItem" onAction="#handleOpenAction" accelerator="Shortcut+O"/>
+            <MenuItem text="Close" fx:id="closeMenuItem" onAction="#handleCloseAction" accelerator="Shortcut+W"/>
+            <MenuItem text="Save" fx:id="saveMenuItem" onAction="#handleSaveAction" accelerator="Shortcut+S"/>
+            <MenuItem text="Save as..." fx:id="saveAsMenuItem" onAction="#handleSaveAsAction" accelerator="Shortcut+Shift+S"/>
+            <SeparatorMenuItem />
+            <MenuItem text="Exit" fx:id="exitMenuItem" onAction="#handleExitAction" accelerator="Shortcut+Shift+W"/>
+        </Menu>
+        <Menu text="Edit" fx:id="editMenu">
+            <MenuItem text="Undo" fx:id="undoMenuItem" onAction="#handleUndoAction" accelerator="Shortcut+Z"/>
+            <MenuItem text="Redo" fx:id="redoMenuItem" onAction="#handleRedoAction" accelerator="Shortcut+Y"/>
+            <MenuItem text="Cut" fx:id="cutMenuItem" onAction="#handleCutAction" accelerator="Shortcut+X"/>
+            <MenuItem text="Copy" fx:id="copyMenuItem" onAction="#handleCopyAction" accelerator="Shortcut+C"/>
+            <MenuItem text="Paste" fx:id="pasteMenuItem" onAction="#handlePasteAction" accelerator="Shortcut+V"/>
+            <MenuItem text="Select all" fx:id="selectMenuItem" onAction="#handleSelectAllAction" accelerator="Shortcut+A"/>
+            <MenuItem text="Indent Text" fx:id="indentTextMenuItem"
+                      onAction="#handleIndentAction" accelerator="Shortcut+]"/>
+            <MenuItem text="Unindent Text" fx:id="unindentTextMenuItem"
+                      onAction="#handleUnindentAction" accelerator="Shortcut+["/>
+            <MenuItem text="Go to Find" fx:id="goToFindMenuItem"
+                      onAction="#handleGoToFind" accelerator="Shortcut+F"/>
+            <MenuItem text="Go to Replace" fx:id="goToReplaceMenuItem"
+                      onAction="#handleGoToReplace" accelerator="Shortcut+R"/>
+        </Menu>
+        <Menu text="Code" fx:id="codeMenu">
+            <MenuItem text="Toggle Comments" fx:id="commentMenuItem" onAction="#handleToggleCommentAction" accelerator="Shortcut+/"/>
+            <MenuItem text="Move Line Up" fx:id="moveUpMenuItem" onAction="#handleMoveUpAction" accelerator="Shortcut+Shift+UP"/>
+            <MenuItem text="Move Line Down" fx:id="moveDownMenuItem" onAction="#handleMoveDownAction" accelerator="Shortcut+Shift+DOWN"/>
+            <MenuItem text="Duplicate Line" fx:id="duplicateLine" onAction="#handleDuplicateLineAction" accelerator="Shortcut+D" />
+        </Menu>
+        <Menu text="Preferences" fx:id="prefMenu">
+            <Menu fx:id="colorPreferenceMenu" text="Color Preference">
+                <MenuItem text="Keyword" fx:id="keywordsPreItem"
+                          onAction="#handleKeywordColorAction"/>
+                <MenuItem text="Parentheses" fx:id="parenPreItem"
+                          onAction="#handleParenColorAction"/>
+                <MenuItem text="String" fx:id="strPreItem"
+                          onAction="#handleStrColorAction"/>
+                <MenuItem text="Integer" fx:id="intPreItem"
+                          onAction="#handleIntColorAction"/>
+            </Menu>
+            <Menu text="Mode">
+                <fx:define>
+                    <ToggleGroup fx:id="darkModeToggle"/>
+                </fx:define>
+                <RadioMenuItem text="Light" onAction="#handleLightModeMenuAction"
+                               toggleGroup="$darkModeToggle"
+                               selected="true"/>
+                <RadioMenuItem text="Dark" fx:id="darkModeMenuItem"
+                               onAction="#handleDarkModeMenuAction"
+                               toggleGroup="$darkModeToggle"/>
+            </Menu>
+        </Menu>
+    </MenuBar>
+    <ToolBar fx:id="toolbar" VBox.vgrow="ALWAYS">
+        <Button text="Scan" fx:id="scanButton" onAction ="#handleScanButtonAction"/>
+        <Button text="Scan &amp; parse" fx:id="scanAndParseButton" onAction ="#handleScanAndParseButtonAction"/>
+        <Button text="Scan, Parse &amp; Check" fx:id="scanParseAndCheckButton" onAction="#handleScanParseAndCheckButtonAction"/>
+        <Separator orientation="VERTICAL"/>
+        <TextField fx:id="findTextEntry" promptText="Find" />
+        <Button fx:id="findButton" onAction="#handleFindText" text="Find" />
+        <Button fx:id="findPrevBtn" onAction="#handleHighlightPrevMatch" text="Previous" />
+        <Button fx:id="findNextBtn" onAction="#handleHighlightNextMatch" text="Next"/>
+        <TextField fx:id="replaceTextEntry" promptText="Replace" />
+        <Button fx:id="replaceButton" onAction="#handleReplaceText" text="Replace" />
+    </ToolBar>
+    <SplitPane dividerPositions="0.2" maxHeight="Infinity"
+               maxWidth="Infinity"
+               VBox.vgrow="ALWAYS">
+        <SplitPane dividerPositions="0.5" orientation="VERTICAL">
+            <TitledPane text="Directory Tree">
+                <TreeView fx:id="directoryTree" />
+            </TitledPane>
+            <TitledPane text="File Structure">
+                <TreeView fx:id="fileTree" editable="true" SplitPane.resizableWithParent="false"
+                          onMouseClicked="#handleFileTreeItemClicked"/>
+            </TitledPane>
+        </SplitPane>
+        <SplitPane dividerPositions="0.8" orientation="VERTICAL">
+            <JavaTabPane fx:id="tabPane"/>
+            <VirtualizedScrollPane>
+                <content>
+                    <StyleClassedTextArea fx:id="console"/>
+                </content>
+            </VirtualizedScrollPane>
+        </SplitPane>
+    </SplitPane>
+</VBox>
