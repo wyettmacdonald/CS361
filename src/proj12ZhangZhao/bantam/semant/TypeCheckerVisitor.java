@@ -13,16 +13,15 @@ import proj12ZhangZhao.bantam.ast.*;
 import proj12ZhangZhao.bantam.util.Error;
 import proj12ZhangZhao.bantam.visitor.Visitor;
 
-/*
 
-public class TypeCheckerVisitor extends Visitor
-{
+
+public class TypeCheckerVisitor extends Visitor {
     private ClassTreeNode currentClass;
     private SymbolTable currentSymbolTable;
     private ErrorHandler errorHandler;
 
-    */
-/**
+
+    /**
      * Visit a field node
      *
      * @param node the field node
@@ -58,11 +57,11 @@ public class TypeCheckerVisitor extends Visitor
 
     */
 /**
-     * Visit a method node
-     *
-     * @param node the Method node to visit
-     * @return null
-     *//*
+ * Visit a method node
+ *
+ * @param node the Method node to visit
+ * @return null
+ *//*
 
     public Object visit(Method node) {
         if (...the node's return type is not a defined type and not "void"...) {
@@ -82,11 +81,11 @@ public class TypeCheckerVisitor extends Visitor
 
     */
 /**
-     * Visit a formal parameter node
-     *
-     * @param node the Formal node
-     * @return null
-     *//*
+ * Visit a formal parameter node
+ *
+ * @param node the Formal node
+ * @return null
+ *//*
 
     public Object visit(Formal node) {
         if (...the node's type is not a defined type...) {
@@ -102,11 +101,11 @@ public class TypeCheckerVisitor extends Visitor
 
     */
 /**
-     * Visit a while statement node
-     *
-     * @param node the while statement node
-     * @return null
-     *//*
+ * Visit a while statement node
+ *
+ * @param node the while statement node
+ * @return null
+ *//*
 
     public Object visit(WhileStmt node) {
         node.getPredExpr().accept(this);
@@ -124,11 +123,11 @@ public class TypeCheckerVisitor extends Visitor
 
     */
 /**
-     * Visit a block statement node
-     *
-     * @param node the block statement node
-     * @return null
-     *//*
+ * Visit a block statement node
+ *
+ * @param node the block statement node
+ * @return null
+ *//*
 
     public Object visit(BlockStmt node) {
         currentSymbolTable.enterScope();
@@ -139,11 +138,11 @@ public class TypeCheckerVisitor extends Visitor
 
     */
 /**
-     * Visit a new expression node
-     *
-     * @param node the new expression node
-     * @return null
-     *//*
+ * Visit a new expression node
+ *
+ * @param node the new expression node
+ * @return null
+ *//*
 
     public Object visit(NewExpr node) {
         if(...the node's type is not a defined class type...) {
@@ -160,11 +159,11 @@ public class TypeCheckerVisitor extends Visitor
 
     */
 /**
-     * Visit a binary comparison equals expression node
-     *
-     * @param node the binary comparison equals expression node
-     * @return null
-     *//*
+ * Visit a binary comparison equals expression node
+ *
+ * @param node the binary comparison equals expression node
+ * @return null
+ *//*
 
     public Object visit(BinaryCompEqExpr node) {
         node.getLeftExpr().accept(this);
@@ -182,11 +181,11 @@ public class TypeCheckerVisitor extends Visitor
 
     */
 /**
-     * Visit a unary NOT expression node
-     *
-     * @param node the unary NOT expression node
-     * @return null
-     *//*
+ * Visit a unary NOT expression node
+ *
+ * @param node the unary NOT expression node
+ * @return null
+ *//*
 
     public Object visit(UnaryNotExpr node) {
         node.getExpr().accept(this);
@@ -203,11 +202,11 @@ public class TypeCheckerVisitor extends Visitor
 
     */
 /**
-     * Visit an int constant expression node
-     *
-     * @param node the int constant expression node
-     * @return null
-     *//*
+ * Visit an int constant expression node
+ *
+ * @param node the int constant expression node
+ * @return null
+ *//*
 
     public Object visit(ConstIntExpr node) {
         node.setExprType("int");
@@ -216,11 +215,11 @@ public class TypeCheckerVisitor extends Visitor
 
     */
 /**
-     * Visit a boolean constant expression node
-     *
-     * @param node the boolean constant expression node
-     * @return null
-     *//*
+ * Visit a boolean constant expression node
+ *
+ * @param node the boolean constant expression node
+ * @return null
+ *//*
 
     public Object visit(ConstBooleanExpr node) {
         node.setExprType("boolean");
@@ -229,11 +228,11 @@ public class TypeCheckerVisitor extends Visitor
 
     */
 /**
-     * Visit a string constant expression node
-     *
-     * @param node the string constant expression node
-     * @return null
-     *//*
+ * Visit a string constant expression node
+ *
+ * @param node the string constant expression node
+ * @return null
+ *//*
 
     public Object visit(ConstStringExpr node) {
         node.setExprType("String");
@@ -241,4 +240,147 @@ public class TypeCheckerVisitor extends Visitor
     }
 
 }
+
+
+
+
+
+
+}
+
+
+
+
 */
+    /**
+     * Visit a ReturnStmt expression node
+     *
+     * @param node the ReturnStmt expression node
+     * @return null
+     */
+
+    public Object visit(NewArrayExpr node) {
+        node.accept(this); //Do I only need to visit size?
+        String sizeType = node.getSize().getExprType();
+        if(!"int".equals(sizeType)){
+            errorHandler.register(Error.Kind.SEMANT_ERROR,
+                    currentClass.getASTNode().getFilename(), node.getLineNum(),
+                    "The size expression for an array must be an integer," +
+                            " not " + sizeType + ".");
+        }
+        String type = node.getType();
+
+        if(!"int".equals(sizeType)){
+            errorHandler.register(Error.Kind.SEMANT_ERROR,
+                    currentClass.getASTNode().getFilename(), node.getLineNum(),
+                    "The size expression for an array must be an integer," +
+                            " not " + sizeType + ".");
+        }
+
+        return null;
+    }
+
+
+
+    /**
+     * Visit a ReturnStmt expression node
+     *
+     * @param node the ReturnStmt expression node
+     * @return null
+     */
+
+    public Object visit(ReturnStmt node) {
+        node.getExpr().accept(this);
+        currentClass.getMethodSymbolTable();
+        return null;
+    }
+
+
+
+
+
+
+
+    /**
+     * Visit a unary DECR expression node
+     *
+     * @param node the unary DECR expression node
+     * @return null
+     */
+
+    public Object visit(UnaryDecrExpr node) {
+        node.getExpr().accept(this);
+        String type = node.getExpr().getExprType();
+        if(!type.equals("int")) {
+            errorHandler.register(Error.Kind.SEMANT_ERROR,
+                    currentClass.getASTNode().getFilename(), node.getLineNum(),
+                    "The decrement (--) operator applies only to integer expressions," +
+                            " not " + type + " expressions.");
+        }
+        node.setExprType("int");
+        return null;
+    }
+
+
+    /**
+     * Visit a unary INCR expression node
+     *
+     * @param node the unary INCR expression node
+     * @return null
+     */
+
+    public Object visit(UnaryIncrExpr node) {
+        node.getExpr().accept(this);
+        String type = node.getExpr().getExprType();
+        if(!type.equals("int")) {
+            errorHandler.register(Error.Kind.SEMANT_ERROR,
+                    currentClass.getASTNode().getFilename(), node.getLineNum(),
+                    "The increment (++) operator applies only to integer expressions," +
+                            " not " + type + " expressions.");
+        }
+        node.setExprType("int");
+        return null;
+    }
+
+
+    /**
+     * Visit a unary NEG expression node
+     *
+     * @param node the unary NEG expression node
+     * @return null
+     */
+
+    public Object visit(UnaryNegExpr node) {
+        node.getExpr().accept(this);
+        String type = node.getExpr().getExprType();
+        if(!type.equals("int")) {
+            errorHandler.register(Error.Kind.SEMANT_ERROR,
+                    currentClass.getASTNode().getFilename(), node.getLineNum(),
+                    "The negative (-) operator applies only to integer expressions," +
+                            " not " + type + " expressions.");
+        }
+        node.setExprType("int");
+        return null;
+    }
+
+
+
+
+
+
+
+
+
+    /**
+     * Visit a string constant expression node
+     *
+     * @param node the string constant expression node
+     * @return null
+     */
+
+    public Object visit(VarExpr node) {
+        node.setExprType(node.getRef().getExprType());
+        node.accept(this);
+        return null;
+    }
+}
