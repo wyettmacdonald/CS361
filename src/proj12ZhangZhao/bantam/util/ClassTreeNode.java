@@ -214,6 +214,23 @@ public class ClassTreeNode {
         }
     }
 
+
+    /**
+     * Remove an immediate subclass to this class
+     *
+     * @param child the class tree node of the immediate subclass
+     */
+    public void removeChild(ClassTreeNode child) {
+        if (child == null) {
+            throw new RuntimeException("Internal error: null child in ClassTreeNode.removeChild");
+        }
+
+        children.remove(child);
+        numDescendants--;
+    }
+
+
+
     /**
      * Get an iterator of class tree nodes representing the immediate subclasses of this class
      *

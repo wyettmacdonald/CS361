@@ -13,6 +13,7 @@ class Main extends MainMainTest{
 
 class MainMainTest{
     void main(){
+	var array = String[];
     }
 }
 
@@ -34,3 +35,22 @@ class D extends C{
 class C extends D{ //Should log a graph cycle
 
 }
+
+
+
+
+class G extends I{
+
+}
+
+class H extends G{
+
+}
+
+class I extends H{
+
+}
+
+
+
+

@@ -46,12 +46,24 @@ public class ClassVisitor extends Visitor{
             checkCycles(node, cycleNodes);
         });
 
-        //Since nodes in a cycle don't have Object as a parent, change parent to Object to connect them to the tree
-        //This won't remove the cycle (because I can't unset cycled nodes as each other's children), but that doesn't matter
+
+
+        //Since nodes in a cycle don't have Object as a parent, change parent to Object
+        // to connect them to the tree and remove them as children of each other
         ClassTreeNode object = classMap.get("Object");
         cycleNodes.forEach(node ->{
+            System.out.println("Removing cycle in " + node.getName());
+            ClassTreeNode oldParent = node.getParent();
             node.setParent(object);
+            oldParent.removeChild(node);
         });
+
+
+
+        classMap.forEach( (nodeName, node) -> {
+            checkCycles(node, cycleNodes);
+        });
+
 
     }
 
@@ -117,7 +129,7 @@ public class ClassVisitor extends Visitor{
                         "There is a cycle with class " + node.getName() +
                                 ". Please check its inheritance structure. For now, it'll be changed to have Object as a parent");
                 cycleNodes.add(node);
-                //System.out.println("Detected cycle");
+                System.out.println("Detected cycle in " + node.getName());
             }
             else{
                 path.push(node);

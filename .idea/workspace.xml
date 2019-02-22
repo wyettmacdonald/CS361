@@ -1,12 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="cdb932d9-7e58-4d94-93a9-e7b232ef17da" name="Default" comment="Rearranged structure">
-      <change afterPath="$PROJECT_DIR$/src/proj12ZhangZhao/bantam/semant/SymbolTableBuildingVisitor.java" afterDir="false" />
+    <list default="true" id="cdb932d9-7e58-4d94-93a9-e7b232ef17da" name="Default" comment="Fixed symbol table bug and split table building from inheritance tree building.">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/proj12ZhangZhao/proj12ZhangZhao/bantam/parser/Parser.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/proj12ZhangZhao/proj12ZhangZhao/bantam/parser/Parser.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/proj12ZhangZhao/bantam/semant/ClassVisitor.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/proj12ZhangZhao/bantam/semant/ClassVisitor.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/proj12ZhangZhao/proj12/SemanticAnalyzer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/proj12ZhangZhao/proj12/SemanticAnalyzer.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/proj12ZhangZhao/bantam/semant/TypeCheckerVisitor.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/proj12ZhangZhao/bantam/semant/TypeCheckerVisitor.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/proj12ZhangZhao/bantam/util/ClassTreeNode.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/proj12ZhangZhao/bantam/util/ClassTreeNode.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/proj12ZhangZhao/test/CheckerTestZhangZhao.btm" beforeDir="false" afterPath="$PROJECT_DIR$/src/proj12ZhangZhao/test/CheckerTestZhangZhao.btm" afterDir="false" />
     </list>
     <ignored path="JavaFxApplication.iws" />
@@ -99,21 +98,22 @@
       <usages-collector id="statistics.lifecycle.project">
         <counts>
           <entry key="project.open.time.11" value="1" />
+          <entry key="project.open.time.19" value="1" />
           <entry key="project.open.time.20" value="1" />
           <entry key="project.open.time.44" value="1" />
-          <entry key="project.opened" value="3" />
+          <entry key="project.opened" value="4" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.extensions.open">
         <counts>
           <entry key="btm" value="1" />
           <entry key="fxml" value="1" />
-          <entry key="java" value="35" />
+          <entry key="java" value="46" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.open">
         <counts>
-          <entry key="JAVA" value="35" />
+          <entry key="JAVA" value="46" />
           <entry key="PLAIN_TEXT" value="1" />
           <entry key="XML" value="1" />
         </counts>
@@ -121,14 +121,14 @@
       <usages-collector id="statistics.file.extensions.edit">
         <counts>
           <entry key="fxml" value="60" />
-          <entry key="java" value="9058" />
-          <entry key="txt" value="568" />
+          <entry key="java" value="9887" />
+          <entry key="txt" value="677" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.edit">
         <counts>
-          <entry key="JAVA" value="9058" />
-          <entry key="PLAIN_TEXT" value="568" />
+          <entry key="JAVA" value="9887" />
+          <entry key="PLAIN_TEXT" value="677" />
           <entry key="XML" value="60" />
         </counts>
       </usages-collector>
@@ -140,22 +140,10 @@
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/proj12ZhangZhao/proj12/SemanticAnalyzer.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="370">
-              <caret line="125" column="33" lean-forward="true" selection-start-line="125" selection-start-column="33" selection-end-line="125" selection-end-column="33" />
-              <folding>
-                <element signature="imports" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/proj12ZhangZhao/bantam/util/ClassTreeNode.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="455">
-              <caret line="44" column="28" lean-forward="true" selection-start-line="44" selection-start-column="28" selection-end-line="44" selection-end-column="28" />
+            <state relative-caret-position="34">
+              <caret line="120" column="7" lean-forward="true" selection-start-line="120" selection-start-column="7" selection-end-line="120" selection-end-column="7" />
               <folding>
                 <element signature="e#0#8423#0" expanded="true" />
                 <element signature="imports" expanded="true" />
@@ -165,46 +153,24 @@
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/proj12ZhangZhao/ToolbarController.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="17">
-              <caret line="149" column="37" selection-start-line="149" selection-start-column="37" selection-end-line="149" selection-end-column="37" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/proj12ZhangZhao/bantam/util/SymbolTable.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="163">
-              <caret line="149" selection-start-line="149" selection-end-line="149" />
-              <folding>
-                <element signature="e#0#15342#0" expanded="true" />
-                <element signature="imports" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/proj12ZhangZhao/bantam/semant/ClassVisitor.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1284">
-              <caret line="95" column="48" lean-forward="true" selection-start-line="95" selection-start-column="48" selection-end-line="95" selection-end-column="48" />
+            <state relative-caret-position="285">
+              <caret line="59" lean-forward="true" selection-start-line="59" selection-end-line="59" />
               <folding>
                 <element signature="imports" expanded="true" />
+                <element signature="e#1062#1077#0" expanded="true" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/proj12ZhangZhao/bantam/semant/SymbolTableBuildingVisitor.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="455">
-              <caret line="123" lean-forward="true" selection-start-line="123" selection-end-line="123" />
+            <state relative-caret-position="405">
+              <caret line="67" column="71" lean-forward="true" selection-start-line="67" selection-start-column="71" selection-end-line="67" selection-end-column="71" />
               <folding>
-                <element signature="e#0#4142#0" expanded="true" />
                 <element signature="imports" expanded="true" />
               </folding>
             </state>
@@ -214,8 +180,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/proj12ZhangZhao/bantam/parser/Parser.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="4250">
-              <caret line="272" column="44" selection-start-line="272" selection-start-column="44" selection-end-line="272" selection-end-column="44" />
+            <state relative-caret-position="85">
+              <caret line="368" column="39" lean-forward="true" selection-start-line="368" selection-start-column="39" selection-end-line="368" selection-end-column="39" />
             </state>
           </provider>
         </entry>
@@ -223,11 +189,56 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/proj12ZhangZhao/bantam/semant/TypeCheckerVisitor.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="757">
-              <caret line="154" column="14" lean-forward="true" selection-start-line="154" selection-start-column="14" selection-end-line="154" selection-end-column="14" />
+            <state relative-caret-position="136">
+              <caret line="262" column="43" lean-forward="true" selection-start-line="262" selection-start-column="43" selection-end-line="262" selection-end-column="43" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/src/proj12ZhangZhao/bantam/ast/NewArrayExpr.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="357">
+              <caret line="45" column="7" lean-forward="true" selection-start-line="45" selection-start-column="7" selection-end-line="45" selection-end-column="7" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/proj12ZhangZhao/bantam/ast/ReturnStmt.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="159">
+              <caret line="52" column="23" lean-forward="true" selection-start-line="52" selection-start-column="23" selection-end-line="52" selection-end-column="23" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/proj12ZhangZhao/bantam/ast/UnaryIncrExpr.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state>
+              <caret lean-forward="true" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/proj12ZhangZhao/bantam/ast/UnaryNegExpr.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="170">
+              <caret line="40" column="13" selection-start-line="40" selection-start-column="13" selection-end-line="40" selection-end-column="13" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/proj12ZhangZhao/bantam/ast/VarExpr.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="-4">
+              <caret line="40" column="12" lean-forward="true" selection-start-line="40" selection-start-column="12" selection-end-line="40" selection-end-column="12" />
             </state>
           </provider>
         </entry>
@@ -257,6 +268,10 @@
       <find>setPare</find>
       <find>parent</find>
       <find>errorHandler</find>
+      <find>Binary</find>
+      <find>Unary</find>
+      <find>varEx</find>
+      <find>currentS</find>
     </findStrings>
   </component>
   <component name="FindManager">
@@ -310,17 +325,17 @@
         <option value="$PROJECT_DIR$/src/proj12ZhangZhao/filesForProj12/TypeCheckerVisitor.java" />
         <option value="$PROJECT_DIR$/src/proj12ZhangZhao/proj12/ClassTreeNode.java" />
         <option value="$PROJECT_DIR$/src/proj12ZhangZhao/proj12/SymbolTable.java" />
-        <option value="$PROJECT_DIR$/src/proj12ZhangZhao/bantam/semant/TypeCheckerVisitor.java" />
         <option value="$PROJECT_DIR$/src/proj12ZhangZhao/resources/Main.fxml" />
-        <option value="$PROJECT_DIR$/src/proj12ZhangZhao/bantam/util/ClassTreeNode.java" />
         <option value="$PROJECT_DIR$/src/proj12ZhangZhao/bantam/semant/ClassCheckerVisitor.java" />
         <option value="$PROJECT_DIR$/src/proj12ZhangZhao/MasterController.java" />
         <option value="$PROJECT_DIR$/src/proj12ZhangZhao/bantam/parser/Parser.java" />
         <option value="$PROJECT_DIR$/src/proj12ZhangZhao/ToolbarController.java" />
         <option value="$PROJECT_DIR$/src/proj12ZhangZhao/bantam/ast/DeclStmt.java" />
-        <option value="$PROJECT_DIR$/src/proj12ZhangZhao/bantam/semant/ClassVisitor.java" />
         <option value="$PROJECT_DIR$/src/proj12ZhangZhao/proj12/SemanticAnalyzer.java" />
         <option value="$PROJECT_DIR$/src/proj12ZhangZhao/bantam/semant/SymbolTableBuildingVisitor.java" />
+        <option value="$PROJECT_DIR$/src/proj12ZhangZhao/bantam/util/ClassTreeNode.java" />
+        <option value="$PROJECT_DIR$/src/proj12ZhangZhao/bantam/semant/ClassVisitor.java" />
+        <option value="$PROJECT_DIR$/src/proj12ZhangZhao/bantam/semant/TypeCheckerVisitor.java" />
       </list>
     </option>
   </component>
@@ -340,7 +355,6 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -372,20 +386,22 @@
               <item name="src" type="462c0819:PsiDirectoryNode" />
               <item name="proj12ZhangZhao" type="462c0819:PsiDirectoryNode" />
               <item name="bantam" type="462c0819:PsiDirectoryNode" />
-              <item name="semant" type="462c0819:PsiDirectoryNode" />
+              <item name="ast" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="proj12" type="b2602c69:ProjectViewProjectNode" />
               <item name="proj12" type="462c0819:PsiDirectoryNode" />
               <item name="src" type="462c0819:PsiDirectoryNode" />
               <item name="proj12ZhangZhao" type="462c0819:PsiDirectoryNode" />
-              <item name="test" type="462c0819:PsiDirectoryNode" />
+              <item name="bantam" type="462c0819:PsiDirectoryNode" />
+              <item name="semant" type="462c0819:PsiDirectoryNode" />
             </path>
           </expand>
           <select />
         </subPane>
       </pane>
       <pane id="PackagesPane" />
+      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -397,7 +413,7 @@
     <property name="MemberChooser.sorted" value="false" />
     <property name="OverrideImplement.combined" value="false" />
     <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1550604943326" />
+    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1550851670493" />
     <property name="dynamic.classpath" value="false" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$/src/proj12ZhangZhao/include/richtextfx-fat-0.9.1.jar!/" />
     <property name="project.structure.last.edited" value="Project" />
@@ -527,7 +543,14 @@
       <option name="project" value="LOCAL" />
       <updated>1550524979007</updated>
     </task>
-    <option name="localTasksCounter" value="5" />
+    <task id="LOCAL-00005" summary="Fixed symbol table bug and split table building from inheritance tree building.">
+      <created>1550610031269</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1550610031270</updated>
+    </task>
+    <option name="localTasksCounter" value="6" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
@@ -546,7 +569,7 @@
     <frame x="-6" y="-6" width="1381" height="885" extended-state="6" />
     <editor active="true" />
     <layout>
-      <window_info active="true" content_ui="combo" id="Project" order="0" sideWeight="0.6703755" visible="true" weight="0.26001513" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" sideWeight="0.6703755" visible="true" weight="0.2637944" />
       <window_info id="Structure" order="1" weight="0.25" />
       <window_info id="Favorites" order="2" />
       <window_info id="Designer" order="3" />
@@ -630,86 +653,18 @@
     <MESSAGE value="Fixed issues with the testing" />
     <MESSAGE value="Cycle testing and most of the symbol table code. There's still an issue with DeclStmts in the symbol table." />
     <MESSAGE value="Rearranged structure" />
-    <option name="LAST_COMMIT_MESSAGE" value="Rearranged structure" />
+    <MESSAGE value="Fixed symbol table bug and split table building from inheritance tree building." />
+    <option name="LAST_COMMIT_MESSAGE" value="Fixed symbol table bug and split table building from inheritance tree building." />
   </component>
   <component name="antWorkspaceConfiguration">
     <option name="IS_AUTOSCROLL_TO_SOURCE" value="false" />
     <option name="FILTER_TARGETS" value="false" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/src/proj12ZhangZhao/bantam/lexer/SourceFile.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-1475">
-          <caret line="18" column="22" selection-start-line="18" selection-start-column="22" selection-end-line="18" selection-end-column="22" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/proj12ZhangZhao/bantam/lexer/Token.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-1350">
-          <caret line="15" column="24" selection-start-line="15" selection-start-column="24" selection-end-line="15" selection-end-column="24" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/proj12ZhangZhao/bantam/semant/MainMainVisitor.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-1100">
-          <caret line="11" column="22" selection-start-line="11" selection-start-column="22" selection-end-line="11" selection-end-column="22" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/proj12ZhangZhao/bantam/treedrawer/DrawerFrame.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="50">
-          <caret line="14" column="23" selection-start-line="14" selection-start-column="23" selection-end-line="14" selection-end-column="23" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/proj12ZhangZhao/bantam/treedrawer/DrawerPanel.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="100">
-          <caret line="16" selection-start-line="16" selection-end-line="16" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/proj12ZhangZhao/bantam/treedrawer/DrawingTree.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="50">
-          <caret line="14" column="23" selection-start-line="14" selection-start-column="23" selection-end-line="14" selection-end-column="23" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/proj12ZhangZhao/bantam/treedrawer/Polyline.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="100">
-          <caret line="16" column="6" selection-start-line="16" selection-start-column="6" selection-end-line="16" selection-end-column="6" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/proj12ZhangZhao/bantam/treedrawer/Polygon.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="100">
-          <caret line="16" column="6" selection-start-line="16" selection-start-column="6" selection-end-line="16" selection-end-column="6" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/proj12ZhangZhao/CodeAreaContextMenu.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="375">
-          <caret line="25" column="13" selection-start-line="25" selection-start-column="13" selection-end-line="25" selection-end-column="13" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/proj12ZhangZhao/bantam/semant/NumLocalVarsVisitor.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="250">
           <caret line="16" column="13" selection-start-line="16" selection-start-column="13" selection-end-line="16" selection-end-column="13" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -717,9 +672,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="300">
           <caret line="17" column="13" selection-start-line="17" selection-start-column="13" selection-end-line="17" selection-end-column="13" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -758,9 +710,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="425">
           <caret line="42" column="23" selection-start-line="42" selection-start-column="23" selection-end-line="42" selection-end-column="23" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -775,9 +724,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="68">
           <caret line="8" column="13" selection-start-line="8" selection-start-column="13" selection-end-line="8" selection-end-column="13" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -815,9 +761,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="17">
           <caret line="34" column="13" selection-start-line="34" selection-start-column="13" selection-end-line="34" selection-end-column="13" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -825,10 +768,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state>
           <caret selection-end-line="6" selection-end-column="3" />
-          <folding>
-            <element signature="e#0#2642#0" expanded="true" />
-            <element signature="imports" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -899,13 +838,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/proj12ZhangZhao/bantam/ast/Expr.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="34">
-          <caret line="34" lean-forward="true" selection-start-line="34" selection-end-line="34" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/proj12ZhangZhao/bantam/ast/ConstBooleanExpr.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="455">
@@ -934,52 +866,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/proj12ZhangZhao/bantam/parser/Parser.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="4250">
-          <caret line="272" column="44" selection-start-line="272" selection-start-column="44" selection-end-line="272" selection-end-column="44" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/proj12ZhangZhao/ToolbarController.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="17">
-          <caret line="149" column="37" selection-start-line="149" selection-start-column="37" selection-end-line="149" selection-end-column="37" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/proj12ZhangZhao/bantam/semant/TypeCheckerVisitor.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="757">
-          <caret line="154" column="14" lean-forward="true" selection-start-line="154" selection-start-column="14" selection-end-line="154" selection-end-column="14" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/proj12ZhangZhao/bantam/util/SymbolTable.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="163">
-          <caret line="149" selection-start-line="149" selection-end-line="149" />
-          <folding>
-            <element signature="e#0#15342#0" expanded="true" />
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/proj12ZhangZhao/bantam/util/ClassTreeNode.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="455">
-          <caret line="44" column="28" lean-forward="true" selection-start-line="44" selection-start-column="28" selection-end-line="44" selection-end-column="28" />
-          <folding>
-            <element signature="e#0#8423#0" expanded="true" />
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/proj12ZhangZhao/bantam/ast/Program.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="34">
@@ -1001,21 +887,47 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/proj12ZhangZhao/bantam/semant/ClassVisitor.java">
+    <entry file="file://$PROJECT_DIR$/src/proj12ZhangZhao/proj12/SemanticAnalyzer.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1284">
-          <caret line="95" column="48" lean-forward="true" selection-start-line="95" selection-start-column="48" selection-end-line="95" selection-end-column="48" />
+        <state relative-caret-position="1547">
+          <caret line="125" column="33" selection-start-line="125" selection-start-column="33" selection-end-line="125" selection-end-column="33" />
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/proj12ZhangZhao/proj12/SemanticAnalyzer.java">
+    <entry file="file://$PROJECT_DIR$/src/proj12ZhangZhao/ToolbarController.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="370">
-          <caret line="125" column="33" lean-forward="true" selection-start-line="125" selection-start-column="33" selection-end-line="125" selection-end-column="33" />
+        <state relative-caret-position="1836">
+          <caret line="149" column="37" selection-start-line="149" selection-start-column="37" selection-end-line="149" selection-end-column="37" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/proj12ZhangZhao/bantam/ast/BinaryArithMinusExpr.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="670">
+          <caret line="90" column="1" lean-forward="true" selection-start-line="90" selection-start-column="1" selection-end-line="90" selection-end-column="1" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/proj12ZhangZhao/bantam/util/SymbolTable.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="163">
+          <caret line="149" selection-start-line="149" selection-end-line="149" />
           <folding>
+            <element signature="e#0#15342#0" expanded="true" />
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/proj12ZhangZhao/bantam/util/ClassTreeNode.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="34">
+          <caret line="120" column="7" lean-forward="true" selection-start-line="120" selection-start-column="7" selection-end-line="120" selection-end-column="7" />
+          <folding>
+            <element signature="e#0#8423#0" expanded="true" />
             <element signature="imports" expanded="true" />
           </folding>
         </state>
@@ -1023,12 +935,102 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/proj12ZhangZhao/bantam/semant/SymbolTableBuildingVisitor.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="455">
-          <caret line="123" lean-forward="true" selection-start-line="123" selection-end-line="123" />
+        <state relative-caret-position="405">
+          <caret line="67" column="71" lean-forward="true" selection-start-line="67" selection-start-column="71" selection-end-line="67" selection-end-column="71" />
           <folding>
-            <element signature="e#0#4142#0" expanded="true" />
             <element signature="imports" expanded="true" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/proj12ZhangZhao/bantam/ast/VarExpr.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-4">
+          <caret line="40" column="12" lean-forward="true" selection-start-line="40" selection-start-column="12" selection-end-line="40" selection-end-column="12" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/proj12ZhangZhao/bantam/ast/Expr.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="150">
+          <caret line="34" lean-forward="true" selection-start-line="34" selection-end-line="34" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/proj12ZhangZhao/bantam/ast/UnaryNotExpr.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="748">
+          <caret line="77" lean-forward="true" selection-start-line="77" selection-end-line="77" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/proj12ZhangZhao/bantam/ast/UnaryNegExpr.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="170">
+          <caret line="40" column="13" selection-start-line="40" selection-start-column="13" selection-end-line="40" selection-end-column="13" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/proj12ZhangZhao/bantam/ast/UnaryIncrExpr.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state>
+          <caret lean-forward="true" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/proj12ZhangZhao/bantam/ast/StmtList.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="98">
+          <caret line="37" column="13" selection-start-line="37" selection-start-column="13" selection-end-line="37" selection-end-column="13" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/proj12ZhangZhao/bantam/ast/Stmt.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="120">
+          <caret line="48" column="22" selection-start-line="48" selection-start-column="22" selection-end-line="48" selection-end-column="22" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/proj12ZhangZhao/bantam/semant/ClassVisitor.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="285">
+          <caret line="59" lean-forward="true" selection-start-line="59" selection-end-line="59" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="e#1062#1077#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/proj12ZhangZhao/bantam/ast/ReturnStmt.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="159">
+          <caret line="52" column="23" lean-forward="true" selection-start-line="52" selection-start-column="23" selection-end-line="52" selection-end-column="23" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/proj12ZhangZhao/bantam/parser/Parser.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="85">
+          <caret line="368" column="39" lean-forward="true" selection-start-line="368" selection-start-column="39" selection-end-line="368" selection-end-column="39" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/proj12ZhangZhao/bantam/semant/TypeCheckerVisitor.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="136">
+          <caret line="262" column="43" lean-forward="true" selection-start-line="262" selection-start-column="43" selection-end-line="262" selection-end-column="43" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/proj12ZhangZhao/bantam/ast/NewArrayExpr.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="357">
+          <caret line="45" column="7" lean-forward="true" selection-start-line="45" selection-start-column="7" selection-end-line="45" selection-end-column="7" />
         </state>
       </provider>
     </entry>
