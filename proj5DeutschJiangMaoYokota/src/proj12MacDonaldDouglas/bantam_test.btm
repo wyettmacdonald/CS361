@@ -1,0 +1,28 @@
+class Main {
+
+	var new_string = "new string";
+	var str_test = "Test";
+	var test = foo();
+
+	int test (int test1 = false, int test2) {
+
+		var test3 = 0;
+		var test4 = 0;
+
+		test3 = 1;
+
+		var test5 = 0;
+
+		var str_test2 = "Test2";
+	}
+
+	int test6 (int test7) {
+
+		var test8 = 0;
+		var str_test3 = "Test3";
+	}
+
+	void main() {
+
+	}
+}

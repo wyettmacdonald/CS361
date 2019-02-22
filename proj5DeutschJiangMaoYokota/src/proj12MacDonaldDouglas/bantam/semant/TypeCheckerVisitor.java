@@ -9,6 +9,8 @@ import proj12MacDonaldDouglas.bantam.util.Error;
 import proj12MacDonaldDouglas.bantam.util.ErrorHandler;
 import proj12MacDonaldDouglas.bantam.util.SymbolTable;
 
+import java.util.Iterator;
+
 public class TypeCheckerVisitor extends proj12MacDonaldDouglas.bantam.visitor.Visitor {
 
     private ClassTreeNode currentClass;
@@ -38,11 +40,13 @@ public class TypeCheckerVisitor extends proj12MacDonaldDouglas.bantam.visitor.Vi
 
     public boolean checkSubClass(String node1, String node2) {
         String nodeName = node1;
-        while (!currentClass.getClassMap().get(nodeName).getParent().getName().equals(node2)) {
+        while (!currentClass.getClassMap().get(nodeName).getParent().getName().equals("Object")) {
             nodeName = currentClass.getClassMap().get(nodeName).getParent().getName();
-            if()
+            if(nodeName.equals(node2)) {
+                return true;
+            }
         }
-        currentClass.getClassMap().get(node1).getParent();
+        return false;
     }
 
     /**
@@ -65,7 +69,7 @@ public class TypeCheckerVisitor extends proj12MacDonaldDouglas.bantam.visitor.Vi
         Expr initExpr = node.getInit();
         if (initExpr != null) {
             initExpr.accept(this);
-            if(initExpr.getExprType() != node.getType()) {
+            if(!checkSubClass(initExpr.getExprType(), node.getType())) {
 //                if(...the initExpr's type is not a subtype of the node's type...) {
                 errorHandler.register(Error.Kind.SEMANT_ERROR,
                         currentClass.getASTNode().getFilename(), node.getLineNum(),
@@ -175,6 +179,184 @@ public class TypeCheckerVisitor extends proj12MacDonaldDouglas.bantam.visitor.Vi
         return null;
     }
 
+    public Object visit(DeclStmt node) {
+        if ((!checkDefinedClass(node.getType()))) {
+            errorHandler.register(Error.Kind.SEMANT_ERROR,
+                    currentClass.getASTNode().getFilename(), node.getLineNum(),
+                    "The declared type " + node.getType() + " of the DeclStmt "
+                            + node.getName() + " is undefined.");
+        }
+        Expr initExpr = node.getInit();
+        if (initExpr != null) {
+            initExpr.accept(this);
+            if(!checkSubClass(initExpr.getExprType(), node.getType())) {
+//                if(...the initExpr's type is not a subtype of the node's type...) {
+                errorHandler.register(Error.Kind.SEMANT_ERROR,
+                        currentClass.getASTNode().getFilename(), node.getLineNum(),
+                        "The type of the initializer is " + initExpr.getExprType()
+                                + " which is not compatible with the " + node.getName() +
+                                " DeclStmt's type " + node.getType());
+            }
+        }
+        //Note: if there is no initExpr, then leave it to the Code Generator to
+        //      initialize it to the default value since it is irrelevant to the
+        //      SemanticAnalyzer.
+        return null;
+    }
+
+    // finish this, what types can be here
+    /**
+     * Visit a binary arithmetic divide expression node
+     *
+     * @param node the binary arithmetic divide expression node
+     * @return null
+     */
+    public Object visit(BinaryArithDivideExpr node) {
+        node.getLeftExpr().accept(this);
+        node.getRightExpr().accept(this);
+        String type1 = node.getLeftExpr().getExprType();
+        String type2 = node.getRightExpr().getExprType();
+        if(!type1.equals("int") || !type2.equals("int")) {
+            errorHandler.register(Error.Kind.SEMANT_ERROR,
+                    currentClass.getASTNode().getFilename(), node.getLineNum(),
+                    "One of the two values being divided is not an int.");
+        }
+        node.setExprType("int");
+        return null;
+    }
+
+    /**
+     * Visit a binary arithmetic minus expression node
+     *
+     * @param node the binary arithmetic minus expression node
+     * @return null
+     */
+    public Object visit(BinaryArithMinusExpr node) {
+        node.getLeftExpr().accept(this);
+        node.getRightExpr().accept(this);
+        String type1 = node.getLeftExpr().getExprType();
+        String type2 = node.getRightExpr().getExprType();
+        if(!type1.equals("int") || !type2.equals("int")) {
+            errorHandler.register(Error.Kind.SEMANT_ERROR,
+                    currentClass.getASTNode().getFilename(), node.getLineNum(),
+                    "One of the two values being subtracted is not an int.");
+        }
+        node.setExprType("int");
+        return null;
+    }
+
+    public Object visit(BinaryArithModulusExpr node) {
+        node.getLeftExpr().accept(this);
+        node.getRightExpr().accept(this);
+        String type1 = node.getLeftExpr().getExprType();
+        String type2 = node.getRightExpr().getExprType();
+        if(!type1.equals("int") || !type2.equals("int")) {
+            errorHandler.register(Error.Kind.SEMANT_ERROR,
+                    currentClass.getASTNode().getFilename(), node.getLineNum(),
+                    "One of the two values in the modulus is not an int.");
+        }
+        node.setExprType("int");
+        return null;
+    }
+
+    public Object visit(BinaryArithPlusExpr node) {
+        node.getLeftExpr().accept(this);
+        node.getRightExpr().accept(this);
+        String type1 = node.getLeftExpr().getExprType();
+        String type2 = node.getRightExpr().getExprType();
+        if(!type1.equals("int") || !type2.equals("int")) {
+            errorHandler.register(Error.Kind.SEMANT_ERROR,
+                    currentClass.getASTNode().getFilename(), node.getLineNum(),
+                    "One of the two values being added is not an int.");
+        }
+        node.setExprType("int");
+        return null;
+    }
+
+    public Object visit(BinaryArithTimesExpr node) {
+        node.getLeftExpr().accept(this);
+        node.getRightExpr().accept(this);
+        String type1 = node.getLeftExpr().getExprType();
+        String type2 = node.getRightExpr().getExprType();
+        if(!type1.equals("int") || !type2.equals("int")) {
+            errorHandler.register(Error.Kind.SEMANT_ERROR,
+                    currentClass.getASTNode().getFilename(), node.getLineNum(),
+                    "One of the two values being multiplied is not an int.");
+        }
+        node.setExprType("int");
+        return null;
+    }
+
+    public Object visit(BinaryCompGeqExpr node) {
+        node.getLeftExpr().accept(this);
+        node.getRightExpr().accept(this);
+        String type1 = node.getLeftExpr().getExprType();
+        String type2 = node.getRightExpr().getExprType();
+        if(!type1.equals("int") || !type2.equals("int")) {
+            errorHandler.register(Error.Kind.SEMANT_ERROR,
+                    currentClass.getASTNode().getFilename(), node.getLineNum(),
+                    "One of the two values being compared Geq is not an int.");
+        }
+        node.setExprType("int");
+        return null;
+    }
+
+    public Object visit(BinaryCompGtExpr node) {
+        node.getLeftExpr().accept(this);
+        node.getRightExpr().accept(this);
+        String type1 = node.getLeftExpr().getExprType();
+        String type2 = node.getRightExpr().getExprType();
+        if(!type1.equals("int") || !type2.equals("int")) {
+            errorHandler.register(Error.Kind.SEMANT_ERROR,
+                    currentClass.getASTNode().getFilename(), node.getLineNum(),
+                    "One of the two values being compared Gt is not an int.");
+        }
+        node.setExprType("int");
+        return null;
+    }
+
+    public Object visit(BinaryCompLeqExpr node) {
+        node.getLeftExpr().accept(this);
+        node.getRightExpr().accept(this);
+        String type1 = node.getLeftExpr().getExprType();
+        String type2 = node.getRightExpr().getExprType();
+        if(!type1.equals("int") || !type2.equals("int")) {
+            errorHandler.register(Error.Kind.SEMANT_ERROR,
+                    currentClass.getASTNode().getFilename(), node.getLineNum(),
+                    "One of the two values being compared Leq is not an int.");
+        }
+        node.setExprType("int");
+        return null;
+    }
+
+    public Object visit(BinaryCompLtExpr node) {
+        node.getLeftExpr().accept(this);
+        node.getRightExpr().accept(this);
+        String type1 = node.getLeftExpr().getExprType();
+        String type2 = node.getRightExpr().getExprType();
+        if(!type1.equals("int") || !type2.equals("int")) {
+            errorHandler.register(Error.Kind.SEMANT_ERROR,
+                    currentClass.getASTNode().getFilename(), node.getLineNum(),
+                    "One of the two values being compared Lt is not an int.");
+        }
+        node.setExprType("int");
+        return null;
+    }
+
+    public Object visit(BinaryCompNeExpr node) {
+        node.getLeftExpr().accept(this);
+        node.getRightExpr().accept(this);
+        String type1 = node.getLeftExpr().getExprType();
+        String type2 = node.getRightExpr().getExprType();
+        if(!checkSubClass(type1, type2) && !checkSubClass(type2, type1)) {
+            errorHandler.register(Error.Kind.SEMANT_ERROR,
+                    currentClass.getASTNode().getFilename(), node.getLineNum(),
+                    "The two values being compared for non-equality are not compatible types.");
+        }
+        node.setExprType("boolean");
+        return null;
+    }
+
     /**
      * Visit a binary comparison equals expression node
      *
@@ -186,12 +368,146 @@ public class TypeCheckerVisitor extends proj12MacDonaldDouglas.bantam.visitor.Vi
         node.getRightExpr().accept(this);
         String type1 = node.getLeftExpr().getExprType();
         String type2 = node.getRightExpr().getExprType();
-        if(...if neither type1 nor type2 is a subtype of the other...) {
+        if(!checkSubClass(type1, type2) && !checkSubClass(type2, type1)) {
             errorHandler.register(Error.Kind.SEMANT_ERROR,
                 currentClass.getASTNode().getFilename(), node.getLineNum(),
                 "The two values being compared for equality are not compatible types.");
         }
         node.setExprType("boolean");
+        return null;
+    }
+
+    public Object visit(BinaryLogicAndExpr node) {
+        node.getLeftExpr().accept(this);
+        node.getRightExpr().accept(this);
+        String type1 = node.getLeftExpr().getExprType();
+        String type2 = node.getRightExpr().getExprType();
+        if(!type1.equals("boolean") || !type2.equals("boolean")) {
+            errorHandler.register(Error.Kind.SEMANT_ERROR,
+                    currentClass.getASTNode().getFilename(), node.getLineNum(),
+                    "One of the expressions in the AND expression is not a boolean.");
+        }
+        node.setExprType("boolean");
+        return null;
+    }
+
+    public Object visit(BinaryLogicOrExpr node) {
+        node.getLeftExpr().accept(this);
+        node.getRightExpr().accept(this);
+        String type1 = node.getLeftExpr().getExprType();
+        String type2 = node.getRightExpr().getExprType();
+        if(!type1.equals("boolean") || !type2.equals("boolean")) {
+            errorHandler.register(Error.Kind.SEMANT_ERROR,
+                    currentClass.getASTNode().getFilename(), node.getLineNum(),
+                    "One of the expressions in the OR expression is not a boolean.");
+        }
+        node.setExprType("boolean");
+        return null;
+    }
+
+    public Object visit(CastExpr node) {
+        if(!checkDefined(node.getType())) {
+            errorHandler.register(Error.Kind.SEMANT_ERROR,
+                    currentClass.getASTNode().getFilename(), node.getLineNum(),
+                    "Casting to an undefined type.");
+        }
+        return null;
+    }
+
+    // need to implement Dispatch
+    public Object visit(DispatchExpr node) {
+        if(node.getRefExpr() != null)
+            node.getRefExpr().accept(this);
+        node.getActualList().accept(this);
+        return null;
+    }
+
+    // need to implement ExprList
+    public Object visit(ExprList node) {
+        for (Iterator it = node.iterator(); it.hasNext(); )
+            ((Expr) it.next()).accept(this);
+        return null;
+    }
+
+    public Object visit(ExprStmt node) {
+        node.getExpr().accept(this);
+        return null;
+    }
+
+    public Object visit(FormalList node) {
+        for (Iterator it = node.iterator(); it.hasNext(); )
+            ((Formal) it.next()).accept(this);
+        return null;
+    }
+
+    public Object visit(ForStmt node) {
+        Expr node1 = node.getInitExpr();
+        if(node1 != null) {
+            node1.accept(this);
+            if(!node1.getExprType().equals("int")) {
+                errorHandler.register(Error.Kind.SEMANT_ERROR,
+                        currentClass.getASTNode().getFilename(), node.getLineNum(),
+                        "Expression type of UpdateExpr is " + node1.getExprType() +
+                                ", not int.");
+            }
+        }
+        Expr node2 = node.getPredExpr();
+        if(node2 != null) {
+            node2.accept(this);
+            if(!node2.getExprType().equals("boolean")) {
+                errorHandler.register(Error.Kind.SEMANT_ERROR,
+                        currentClass.getASTNode().getFilename(), node.getLineNum(),
+                        "Expression type of UpdateExpr is " + node2.getExprType() +
+                                ", not boolean.");
+            }
+        }
+        Expr node3 = node.getUpdateExpr();
+        if(node3 != null) {
+            node3.accept(this);
+            if(!node3.getExprType().equals("int")) {
+                errorHandler.register(Error.Kind.SEMANT_ERROR,
+                        currentClass.getASTNode().getFilename(), node.getLineNum(),
+                        "Expression type of UpdateExpr is " + node3.getExprType() +
+                        ", not int.");
+            }
+        }
+        node1.setExprType("int");
+        node2.setExprType("boolean");
+        node3.setExprType("int");
+        node.getBodyStmt().accept(this);
+        return null;
+    }
+
+    public Object visit(IfStmt node) {
+        node.getPredExpr().accept(this);
+        String type1 = node.getPredExpr().getExprType();
+        if(!type1.equals("boolean")) {
+            errorHandler.register(Error.Kind.SEMANT_ERROR,
+                    currentClass.getASTNode().getFilename(), node.getLineNum(),
+                    "IfStmt is of type " + type1 + ", not boolean.");
+        }
+        node.getThenStmt().accept(this);
+        if(node.getElseStmt() != null) {
+            node.getElseStmt().accept(this);
+        }
+        node.getPredExpr().setExprType("boolean");
+        return null;
+    }
+
+    public Object visit(InstanceofExpr node) {
+        node.getExpr().accept(this);
+        String type1 = node.getExprType();
+        String type2 = node.getType();
+        if(!checkDefinedClass(type2) || !checkSubClass(type1, type2)) {
+            errorHandler.register(Error.Kind.SEMANT_ERROR,
+                    currentClass.getASTNode().getFilename(), node.getLineNum(),
+                    "Type is not defined type or Expr type is not subclass of type.");
+                    // need to make method for super types - can be a super type
+        }
+        return null;
+    }
+
+    public Object visit(MemberList node) {
         return null;
     }
 
@@ -246,5 +562,7 @@ public class TypeCheckerVisitor extends proj12MacDonaldDouglas.bantam.visitor.Vi
         node.setExprType("String");
         return null;
     }
+
+
 
 }
