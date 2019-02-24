@@ -8,18 +8,26 @@
 
 package proj12ZhangZhao.bantam.semant;
 
+import com.sun.source.tree.ClassTree;
 import proj12ZhangZhao.bantam.util.*;
 import proj12ZhangZhao.bantam.ast.*;
 import proj12ZhangZhao.bantam.util.Error;
 import proj12ZhangZhao.bantam.visitor.Visitor;
+import proj12ZhangZhao.proj12.SemanticAnalyzer;
 
+import java.util.Hashtable;
 
 
 public class TypeCheckerVisitor extends Visitor {
     private ClassTreeNode currentClass;
     private SymbolTable currentSymbolTable;
     private ErrorHandler errorHandler;
+    private String currentMethod;
 
+
+    public TypeCheckerVisitor(Hashtable<String, ClassTreeNode> map){
+        //classMap = map;
+    }
 
     /**
      * Visit a field node
@@ -252,33 +260,194 @@ public class TypeCheckerVisitor extends Visitor {
 
 
 */
+
+
+
+
+
+
     /**
-     * Visit a ReturnStmt expression node
+     * Visit a ConstIntExpr expression node
      *
-     * @param node the ReturnStmt expression node
+     * @param node the ConstIntExpr expression node
+     * @return null
+     */
+
+    public Object visit(ConstIntExpr node) {
+        node.setExprType("int");
+        return null;
+    }
+
+
+    /**
+     * Visit a ConstIntExpr expression node
+     *
+     * @param node the ConstIntExpr expression node
+     * @return null
+     */
+
+    public Object visit(ConstStringExpr node) {
+        node.setExprType("String");
+        return null;
+    }
+
+
+
+
+
+
+
+
+    /**
+     * Visit a DeclStmt expression node
+     *
+     * @param node the DeclStmt expression node
+     * @return null
+     */
+
+    public Object visit(DeclStmt node) {
+        node.accept(this);
+        String id = node.getName();
+        Object existingDef = currentSymbolTable.lookup(id);
+        if ((existingDef != null) && (currentSymbolTable.lookup(id, 0) == null)) {
+            //If it's in the table and it's not a field
+            errorHandler.register(Error.Kind.SEMANT_ERROR,
+                    currentClass.getASTNode().getFilename(), node.getLineNum(),
+                    "This variable name has already been defined in this scope");
+        }
+        if (SemanticAnalyzer.reservedIdentifiers.contains(id)){
+            errorHandler.register(Error.Kind.SEMANT_ERROR,
+                    currentClass.getASTNode().getFilename(), node.getLineNum(),
+                     id + " is a reserved word in Bantam Java and can't be used as an identifier");
+        }
+
+        Expr initExpr = node.getInit();
+        if (initExpr == null) {
+            errorHandler.register(Error.Kind.SEMANT_ERROR,
+                    currentClass.getASTNode().getFilename(), node.getLineNum(),
+                    "The variable has not been initialized");
+        } else {
+            String varType = initExpr.getExprType();
+            ClassTreeNode varClassNode = checkTypeExistence(varType, node.getLineNum());
+            if(varClassNode != null){
+              currentSymbolTable.add(id, varType);//TODO FIGURE OUT IF NON EXISTENT TYPE SHOULD STILL BE SET IN SYMBOL TABLE
+            }
+        }
+        return null;
+
+    }
+
+
+
+
+
+
+    /**
+     * Visit a DispatchExpr expression node
+     *
+     * @param node the DispatchExpr expression node
+     * @return null
+     */
+
+    public Object visit(DispatchExpr node) {
+        node.accept(this);
+        Expr objectExpr = node.getRefExpr(); //TODO CHECK IF EXPRESSION BEING NULL IS LEGAL
+        if (objectExpr == null) {
+            errorHandler.register(Error.Kind.SEMANT_ERROR,
+                    currentClass.getASTNode().getFilename(), node.getLineNum(),
+                    "The object whose method you are trying to call is null");
+        }
+        else {
+            String objectName = objectExpr.getExprType(); //TODO CHECK WHAT TYPE RETURNS - NODE TYPE OR OBJECT TYPE
+            ClassTreeNode objectNode = checkTypeExistence(objectName, node.getLineNum());
+            if(objectNode != null) {
+                String methodName = node.getMethodName();
+                Method method = (Method) objectNode.getMethodSymbolTable().lookup(methodName);
+                if (method == null) {
+                    errorHandler.register(Error.Kind.SEMANT_ERROR,
+                            currentClass.getASTNode().getFilename(), node.getLineNum(),
+                            "The method " + methodName + " does not exist in the class");
+                    //TODO figure out what to set the type of the DispatchNode to if the method doesn't exist
+                }
+                else {
+                    node.setExprType(method.getReturnType());
+                }
+            }
+
+        }
+
+        return null;
+    }
+
+
+
+
+
+    /*
+    *
+     */
+    private ClassTreeNode checkTypeExistence(String objectName, int lineNum) {
+        Hashtable<String, ClassTreeNode> classMap = currentClass.getClassMap();
+        ClassTreeNode objectNode = classMap.get(objectName);
+        if (objectNode == null) {
+            String objectAsArray = objectName.substring(0, objectName.length() - 2);
+            objectNode = classMap.get(objectAsArray);
+            if (objectNode == null) {
+                errorHandler.register(Error.Kind.SEMANT_ERROR,
+                        currentClass.getASTNode().getFilename(), lineNum,
+                        "The class " + objectName + " does not exist in this file");
+            }
+            else{ //If it's an array, use Object //TODO CHECK THAT IT'S ONLY NEEDED FOR DISPATCH
+                objectNode = classMap.get("Object");
+            }
+        }
+        return objectNode;
+    }
+
+
+
+
+    /**
+     * Visit a NewArrayExpr expression node
+     *
+     * @param node the NewArrayExpr expression node
      * @return null
      */
 
     public Object visit(NewArrayExpr node) {
         node.accept(this); //Do I only need to visit size?
-        String sizeType = node.getSize().getExprType();
-        if(!"int".equals(sizeType)){
+        Expr size = node.getSize();
+        if(size == null){ //TODO FIND OUT IF THIS IS EVEN POSSIBLE
             errorHandler.register(Error.Kind.SEMANT_ERROR,
                     currentClass.getASTNode().getFilename(), node.getLineNum(),
-                    "The size expression for an array must be an integer," +
-                            " not " + sizeType + ".");
+                    "Array requires a size when initialized");
+        }
+        else {
+            String sizeType = size.getExprType();
+            if (!"int".equals(sizeType)) {
+                errorHandler.register(Error.Kind.SEMANT_ERROR,
+                        currentClass.getASTNode().getFilename(), node.getLineNum(),
+                        "The size expression for an array must be an integer," +
+                                " not " + sizeType);
+            }
         }
         String type = node.getType();
-
-        if(!"int".equals(sizeType)){
+        type = type.substring(0, type.length()-2); //Cut off the brackets []
+        Hashtable<String, ClassTreeNode> classMap = currentClass.getClassMap();
+        ClassTreeNode arrayType = classMap.get(type);
+        if(arrayType == null){
             errorHandler.register(Error.Kind.SEMANT_ERROR,
                     currentClass.getASTNode().getFilename(), node.getLineNum(),
-                    "The size expression for an array must be an integer," +
-                            " not " + sizeType + ".");
+                    "The declared type of the array cannot be found.");
         }
+
+        node.setExprType(type); //Even if the type doesn't exist, let's pretend so I can get on with analysis
 
         return null;
     }
+
+
+
 
 
 
@@ -290,10 +459,29 @@ public class TypeCheckerVisitor extends Visitor {
      */
 
     public Object visit(ReturnStmt node) {
-        node.getExpr().accept(this);
-        currentClass.getMethodSymbolTable();
+        node.getExpr().accept(this); //Todo check that this is the only thing Return has
+        String type = node.getExpr().getExprType();
+        if(type != null) {
+            checkTypeExistence(type, node.getLineNum());
+        }
+        else{
+            type = "void";
+        }
+
+        Method method = (Method) currentClass.getMethodSymbolTable().lookup(currentMethod);
+        String returnType = method.getReturnType();
+        if(returnType == null){
+            type = "void";
+        }
+        if(!returnType.equals(type)){
+            errorHandler.register(Error.Kind.SEMANT_ERROR,
+                    currentClass.getASTNode().getFilename(), node.getLineNum(),
+                    "The returned type of the method " + currentMethod + " does not equal the declared return type");
+        }
+
         return null;
     }
+
 
 
 
@@ -310,12 +498,20 @@ public class TypeCheckerVisitor extends Visitor {
 
     public Object visit(UnaryDecrExpr node) {
         node.getExpr().accept(this);
-        String type = node.getExpr().getExprType();
-        if(!type.equals("int")) {
+        Expr expr = node.getExpr();
+        if(expr == null){
             errorHandler.register(Error.Kind.SEMANT_ERROR,
                     currentClass.getASTNode().getFilename(), node.getLineNum(),
-                    "The decrement (--) operator applies only to integer expressions," +
-                            " not " + type + " expressions.");
+                    "The decrement (--) operator is missing its expression.");
+        }
+        else {
+            String type = expr.getExprType();
+            if (!type.equals("int")) {
+                errorHandler.register(Error.Kind.SEMANT_ERROR,
+                        currentClass.getASTNode().getFilename(), node.getLineNum(),
+                        "The decrement (--) operator applies only to integer expressions," +
+                                " not " + type + " expressions.");
+            }
         }
         node.setExprType("int");
         return null;
@@ -331,12 +527,20 @@ public class TypeCheckerVisitor extends Visitor {
 
     public Object visit(UnaryIncrExpr node) {
         node.getExpr().accept(this);
-        String type = node.getExpr().getExprType();
-        if(!type.equals("int")) {
+        Expr expr = node.getExpr();
+        if(expr == null){
             errorHandler.register(Error.Kind.SEMANT_ERROR,
                     currentClass.getASTNode().getFilename(), node.getLineNum(),
-                    "The increment (++) operator applies only to integer expressions," +
-                            " not " + type + " expressions.");
+                    "The increment (++) operator is missing its expression.");
+        }
+        else {
+            String type = expr.getExprType();
+            if (!type.equals("int")) {
+                errorHandler.register(Error.Kind.SEMANT_ERROR,
+                        currentClass.getASTNode().getFilename(), node.getLineNum(),
+                        "The increment (++) operator applies only to integer expressions," +
+                                " not " + type + " expressions.");
+            }
         }
         node.setExprType("int");
         return null;
@@ -352,22 +556,24 @@ public class TypeCheckerVisitor extends Visitor {
 
     public Object visit(UnaryNegExpr node) {
         node.getExpr().accept(this);
-        String type = node.getExpr().getExprType();
-        if(!type.equals("int")) {
+        Expr expr = node.getExpr(); //In case the expression returns null
+        if(expr == null){
             errorHandler.register(Error.Kind.SEMANT_ERROR,
                     currentClass.getASTNode().getFilename(), node.getLineNum(),
-                    "The negative (-) operator applies only to integer expressions," +
-                            " not " + type + " expressions.");
+                    "The negative (-) operator is missing its expression.");
         }
-        node.setExprType("int");
+        else {
+            String type = expr.getExprType();
+            if (!type.equals("int")) {
+                errorHandler.register(Error.Kind.SEMANT_ERROR,
+                        currentClass.getASTNode().getFilename(), node.getLineNum(),
+                        "The negative (-) operator applies only to integer expressions," +
+                                " not " + type + " expressions.");
+            }
+        }
+        node.setExprType("int"); //Type needs to be set to int even if expression is missing
         return null;
     }
-
-
-
-
-
-
 
 
 
@@ -379,8 +585,21 @@ public class TypeCheckerVisitor extends Visitor {
      */
 
     public Object visit(VarExpr node) {
-        node.setExprType(node.getRef().getExprType());
         node.accept(this);
+        String varName = node.getName();
+        //TODO double check on the usage of this and super
+        String type = (String) currentSymbolTable.lookup(varName, currentSymbolTable.getCurrScopeLevel());
+        if( (type == null)&& (!"super".equals(varName) && (!"this".equals(varName))) ){
+            errorHandler.register(Error.Kind.SEMANT_ERROR,
+                    currentClass.getASTNode().getFilename(), node.getLineNum(),
+                    "The variable " + varName + " does not exist in this scope");
+
+        }
+        else {
+            node.setExprType(type); //TODO how to handle it if the variable hasn't been defined - there is no type!
+            // Leave it null? Put in the string "null" or non-existent?
+        }
         return null;
     }
+
 }
