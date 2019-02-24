@@ -29,15 +29,12 @@
 package proj12MacDonaldDouglas.bantam.semant;
 
 import proj12MacDonaldDouglas.bantam.ast.*;
+import proj12MacDonaldDouglas.bantam.lexer.Token;
 import proj12MacDonaldDouglas.bantam.util.*;
+import proj12MacDonaldDouglas.bantam.util.Error;
 import proj12MacDonaldDouglas.bantam.visitor.Visitor;
 
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.Hashtable;
-import java.util.Set;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 /**
  * The <tt>SemanticAnalyzer</tt> class performs semantic analysis.
@@ -82,12 +79,15 @@ public class SemanticAnalyzer
     private ErrorHandler errorHandler;
 
     /**
+     * type checking
+     */
+    private TypeCheckerVisitor typeCheckerVisitor;
+
+    /**
      * Maximum number of inherited and non-inherited fields that can be defined for any
      * one class
      */
     private final int MAX_NUM_FIELDS = 1500;
-
-    private Map<String, Boolean> theClassesMap = new HashMap<>();
 
     /**
      * SemanticAnalyzer constructor
@@ -134,7 +134,11 @@ public class SemanticAnalyzer
         MainMainVisitor mainVisitor = new MainMainVisitor();
         boolean mainResult = mainVisitor.hasMain(program);
         if (!mainResult) {
-            System.out.println("Error with Main.main");
+            errorHandler.register(Error.Kind.SEMANT_ERROR, "No Main.main");
+        }
+
+        for (Map.Entry<String, ClassTreeNode> entry : classMap.entrySet()) {
+            return null;
         }
 
         // uncomment the following statement
@@ -217,11 +221,7 @@ public class SemanticAnalyzer
      */
     private void addUserDefined() {
 
-        ClassesVisitor classesVisitor = new ClassesVisitor();
-        Map<Class_, Boolean> theClasses = classesVisitor.getAllClasses(this.program);
-        for (Map.Entry<Class_, Boolean> entry : theClasses.entrySet()) {
-            classMap.put(entry.getKey().toString(), new ClassTreeNode(entry.getKey(), false,
-                    entry.getValue(), classMap));
-        }
+        ClassesVisitor classesVisitor = new ClassesVisitor(classMap);
+        classMap = classesVisitor.getAllClasses(this.program);
     }
 }

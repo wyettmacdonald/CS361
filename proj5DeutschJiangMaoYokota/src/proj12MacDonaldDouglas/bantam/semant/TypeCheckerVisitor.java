@@ -17,13 +17,17 @@ public class TypeCheckerVisitor extends proj12MacDonaldDouglas.bantam.visitor.Vi
     private SymbolTable currentSymbolTable;
     private ErrorHandler errorHandler;
 
+    public TypeCheckerVisitor(ClassTreeNode node) {
+        this.currentClass = node;
+    }
+
     /**
      * Check if type is of a class type
      *
      * @param classType
      * @return true if the type is a class type, false if not
      */
-    public boolean checkDefinedClass(String classType) {
+    private boolean checkDefinedClass(String classType) {
         return currentClass.getClassMap().containsKey(classType);
     }
 
@@ -33,20 +37,18 @@ public class TypeCheckerVisitor extends proj12MacDonaldDouglas.bantam.visitor.Vi
      * @param nameType
      * @return true if the type is defined, false if not
      */
-    public boolean checkDefined(String nameType) {
+    private boolean checkDefined(String nameType) {
         return (currentClass.getClassMap().containsKey(nameType) || nameType.equals("int") ||
-                nameType.equals("boolean"));
+                nameType.equals("boolean") || nameType.equals("String"));
     }
 
-    public boolean checkSubClass(String node1, String node2) {
-        String nodeName = node1;
-        while (!currentClass.getClassMap().get(nodeName).getParent().getName().equals("Object")) {
-            nodeName = currentClass.getClassMap().get(nodeName).getParent().getName();
-            if(nodeName.equals(node2)) {
-                return true;
-            }
+    private boolean checkSubClass(String node1, String node2) {
+        if(currentClass.getClassMap().get(node1).getParent().getName().equals("Object")) {
+            return node1.equals(node2);
         }
-        return false;
+        else {
+            return currentClass.getClassMap().get(node1).getParent().getName().equals(node2);
+        }
     }
 
     /**
@@ -418,7 +420,15 @@ public class TypeCheckerVisitor extends proj12MacDonaldDouglas.bantam.visitor.Vi
     public Object visit(DispatchExpr node) {
         if(node.getRefExpr() != null)
             node.getRefExpr().accept(this);
+        if(currentClass.getMethodSymbolTable().lookup(node.getMethodName()) != null) {
+            errorHandler.register(Error.Kind.SEMANT_ERROR,
+                    currentClass.getASTNode().getFilename(), node.getLineNum(),
+                    "Dispatch Expr error");
+        }
         node.getActualList().accept(this);
+
+
+        node.setExprType(node.getRefExpr().getExprType());
         return null;
     }
 
@@ -450,16 +460,15 @@ public class TypeCheckerVisitor extends proj12MacDonaldDouglas.bantam.visitor.Vi
                         "Expression type of UpdateExpr is " + node1.getExprType() +
                                 ", not int.");
             }
+            node1.setExprType("int");
         }
         Expr node2 = node.getPredExpr();
-        if(node2 != null) {
-            node2.accept(this);
-            if(!node2.getExprType().equals("boolean")) {
-                errorHandler.register(Error.Kind.SEMANT_ERROR,
-                        currentClass.getASTNode().getFilename(), node.getLineNum(),
-                        "Expression type of UpdateExpr is " + node2.getExprType() +
-                                ", not boolean.");
-            }
+        node2.accept(this);
+        if(!node2.getExprType().equals("boolean")) {
+            errorHandler.register(Error.Kind.SEMANT_ERROR,
+                    currentClass.getASTNode().getFilename(), node.getLineNum(),
+                    "Expression type of UpdateExpr is " + node2.getExprType() +
+                            ", not boolean.");
         }
         Expr node3 = node.getUpdateExpr();
         if(node3 != null) {
@@ -470,27 +479,29 @@ public class TypeCheckerVisitor extends proj12MacDonaldDouglas.bantam.visitor.Vi
                         "Expression type of UpdateExpr is " + node3.getExprType() +
                         ", not int.");
             }
+            node3.setExprType("int");
         }
-        node1.setExprType("int");
         node2.setExprType("boolean");
-        node3.setExprType("int");
+        currentSymbolTable.enterScope();
         node.getBodyStmt().accept(this);
+        currentSymbolTable.exitScope();
         return null;
     }
 
     public Object visit(IfStmt node) {
         node.getPredExpr().accept(this);
-        String type1 = node.getPredExpr().getExprType();
-        if(!type1.equals("boolean")) {
+        if(!node.getPredExpr().getExprType().equals("boolean")) {
             errorHandler.register(Error.Kind.SEMANT_ERROR,
                     currentClass.getASTNode().getFilename(), node.getLineNum(),
-                    "IfStmt is of type " + type1 + ", not boolean.");
+                    "IfStmt is of type " + node.getPredExpr().getExprType() + ", not boolean.");
         }
+        node.getPredExpr().setExprType("boolean");
+        currentSymbolTable.enterScope();
         node.getThenStmt().accept(this);
         if(node.getElseStmt() != null) {
             node.getElseStmt().accept(this);
         }
-        node.getPredExpr().setExprType("boolean");
+        currentSymbolTable.exitScope();
         return null;
     }
 

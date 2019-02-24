@@ -166,19 +166,26 @@ public class ToolBarController {
             fileMenuController.handleSaveAction();
         }
         // run scan and parse in new thread
-        Thread scanAndParseThread = new Thread() {
+        Thread scanParseAndCheckThread = new Thread() {
             public void run() {
                 Program root = getParseTree(file);
 
                 if (root != null) {
+
                     drawTree(root, file);
+                    ErrorHandler errorHandler = new ErrorHandler();
+                    SemanticAnalyzer semanticAnalyzer = new SemanticAnalyzer(errorHandler);
+                    semanticAnalyzer.analyze(root);
+                    List<Error> errorList = semanticAnalyzer.getErrorHandler().getErrorList();
+                    printErrorList(errorList);
                     Platform.runLater(() -> {
-                        console.appendText("Scanning and parsing completed successfully\n");
+                        console.appendText("Scanning, parsing and checking completed successfully\n");
+                        console.appendText("Semantic errors found: " + errorList.size() + "\n");
                     });
                 }
             }
         };
-        scanAndParseThread.start();
+        scanParseAndCheckThread.start();
     }
 
     /**
