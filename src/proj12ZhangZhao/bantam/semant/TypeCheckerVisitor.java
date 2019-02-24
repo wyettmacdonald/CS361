@@ -358,7 +358,7 @@ public class TypeCheckerVisitor extends Visitor {
                     "The object whose method you are trying to call is null");
         }
         else {
-            String objectName = objectExpr.getExprType(); //TODO CHECK WHAT TYPE RETURNS - NODE TYPE OR OBJECT TYPE
+            String objectName = objectExpr.getExprType();
             ClassTreeNode objectNode = checkTypeExistence(objectName, node.getLineNum());
             if(objectNode != null) {
                 String methodName = node.getMethodName();
@@ -383,9 +383,13 @@ public class TypeCheckerVisitor extends Visitor {
 
 
 
-    /*
-    *
-     */
+    /**
+    * Checks if the given type exists (is declared in the file or is a built-in class)
+    * @param objectName is a String indicating the name of the type it's checking for
+    * @param lineNum is the line number containing the statement which has a type to be checked
+    * @return the ClassTreeNode of the type if the class exists. Otherwise, return null
+    * For arrays, since they do not have a class tree node, Object node's is returned
+    */
     private ClassTreeNode checkTypeExistence(String objectName, int lineNum) {
         Hashtable<String, ClassTreeNode> classMap = currentClass.getClassMap();
         ClassTreeNode objectNode = classMap.get(objectName);
@@ -397,7 +401,8 @@ public class TypeCheckerVisitor extends Visitor {
                         currentClass.getASTNode().getFilename(), lineNum,
                         "The class " + objectName + " does not exist in this file");
             }
-            else{ //If it's an array, use Object //TODO CHECK THAT IT'S ONLY NEEDED FOR DISPATCH
+            else{ //If it's an array, use Object (because Dispatch needs to check Object methods for arrays)
+                // TODO CHECK DISPATCH IS THE ONLY ONE THIS MATTERS FOR
                 objectNode = classMap.get("Object");
             }
         }
@@ -417,7 +422,7 @@ public class TypeCheckerVisitor extends Visitor {
     public Object visit(NewArrayExpr node) {
         node.accept(this); //Do I only need to visit size?
         Expr size = node.getSize();
-        if(size == null){ //TODO FIND OUT IF THIS IS EVEN POSSIBLE
+        if(size == null){ //I think this should be possible, if you put in a variable that has a value of null, for instance
             errorHandler.register(Error.Kind.SEMANT_ERROR,
                     currentClass.getASTNode().getFilename(), node.getLineNum(),
                     "Array requires a size when initialized");
@@ -459,7 +464,7 @@ public class TypeCheckerVisitor extends Visitor {
      */
 
     public Object visit(ReturnStmt node) {
-        node.getExpr().accept(this); //Todo check that this is the only thing Return has
+        node.getExpr().accept(this);
         String type = node.getExpr().getExprType();
         if(type != null) {
             checkTypeExistence(type, node.getLineNum());
