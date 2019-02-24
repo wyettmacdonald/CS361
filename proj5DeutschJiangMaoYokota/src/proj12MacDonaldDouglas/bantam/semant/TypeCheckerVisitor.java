@@ -51,6 +51,11 @@ public class TypeCheckerVisitor extends proj12MacDonaldDouglas.bantam.visitor.Vi
         }
     }
 
+    public Object visit(Program node) {
+        node.getClassList().accept(this);
+        return null;
+    }
+
     /**
      * Visit a field node
      *
@@ -509,7 +514,7 @@ public class TypeCheckerVisitor extends proj12MacDonaldDouglas.bantam.visitor.Vi
         node.getExpr().accept(this);
         String type1 = node.getExprType();
         String type2 = node.getType();
-        if(!checkDefinedClass(type2) || !checkSubClass(type1, type2)) {
+        if(!checkDefined(type2) || !checkSubClass(type1, type2)) {
             errorHandler.register(Error.Kind.SEMANT_ERROR,
                     currentClass.getASTNode().getFilename(), node.getLineNum(),
                     "Type is not defined type or Expr type is not subclass of type.");
@@ -523,7 +528,7 @@ public class TypeCheckerVisitor extends proj12MacDonaldDouglas.bantam.visitor.Vi
     }
 
     /**
-     * Visit a unary NOT expression node
+     * Visit a unary NOT expression nodep
      *
      * @param node the unary NOT expression node
      * @return null

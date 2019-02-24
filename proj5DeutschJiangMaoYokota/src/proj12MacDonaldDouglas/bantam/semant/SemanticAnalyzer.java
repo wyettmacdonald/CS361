@@ -124,11 +124,11 @@ public class SemanticAnalyzer
         // remove the following statement
 //        throw new RuntimeException("Semantic analyzer unimplemented");
 
-        // add code here...
         // add user defined classes
         addUserDefined();
 
         // implement step 3 - build the environment
+        buildClassEnvironment();
 
         // check for Main class and main method
         MainMainVisitor mainVisitor = new MainMainVisitor();
@@ -221,7 +221,204 @@ public class SemanticAnalyzer
      */
     private void addUserDefined() {
 
-        ClassesVisitor classesVisitor = new ClassesVisitor(classMap);
-        classMap = classesVisitor.getAllClasses(this.program);
+        ClassesVisitorBuilder classesVisitor = new ClassesVisitorBuilder();
+        classesVisitor.start();
+    }
+
+    /**
+     * ClassesVisitorBuilder searches the tree for all classes
+     *
+     * @author Wyett MacDonald
+     * @author Kyle Douglas
+     */
+    private class ClassesVisitorBuilder extends Visitor {
+
+//        private Hashtable<String, ClassTreeNode> classMap;
+//        private String currentClass;
+
+        public void start() {
+            program.accept(this);
+        }
+
+        /**
+         * Visit a class node
+         *
+         * @param node the class node
+         * @return result of the visit
+         */
+        public Object visit(Class_ node) {
+
+            ClassTreeNode classTreeNode = new ClassTreeNode(node, false, true, classMap);
+
+            // num of descendants
+            int numOfDescendants = classMap.get("Object").getNumDescendants();
+
+            // parent
+            System.out.println(node.getParent());
+            if(node.getParent() == null) {
+                classTreeNode.setParent(classMap.get("Object"));
+            }
+            else {
+                classTreeNode.setParent(classMap.get(node.getParent()));
+            }
+
+            // inheritance cycle
+            if (numOfDescendants == classMap.get("Object").getNumDescendants()) {
+                classTreeNode.getParent().setParent(classMap.get("Object"));
+                classTreeNode.setParent(classMap.get("Object"));
+                //error handler for cycle
+                // TODO: Handle cycle for Class Hierarchy
+
+            }
+
+            classMap.put(node.getName(), classTreeNode);
+            return null;
+        }
+    }
+
+    private void buildClassEnvironment() {
+        BuildEnvironment buildEnvironment = new BuildEnvironment();
+        buildEnvironment.start();
+    }
+
+    private class BuildEnvironment extends Visitor {
+
+        private ClassTreeNode currentClass;
+
+        public void start() {
+            currentClass = null;
+            program.accept(this);
+        }
+
+        @Override
+        public Object visit(Class_ node) {
+
+            currentClass = classMap.get(node.getName());
+            currentClass.getMethodSymbolTable().enterScope();
+            currentClass.getVarSymbolTable().enterScope();
+            // enter scope of both
+
+            node.getMemberList().accept(this);
+
+            //exit scope
+            currentClass.getMethodSymbolTable().exitScope();
+            currentClass.getVarSymbolTable().exitScope();
+
+            return null;
+        }
+
+        @Override
+        public Object visit(Field node) {
+
+            if(reservedIdentifiers.contains(node.getName())) {
+                // register error
+                errorHandler.register(Error.Kind.SEMANT_ERROR,
+                        currentClass.getASTNode().getFilename(), node.getLineNum(),
+                        "Field has a Reserved Identifer name, " + node.getName());
+            }
+
+            if(currentClass.getVarSymbolTable().peek(node.getName()) != null) {
+                // return error that field has already been declared
+                errorHandler.register(Error.Kind.SEMANT_ERROR,
+                        currentClass.getASTNode().getFilename(), node.getLineNum(),
+                        "Field " + node.getName() + " has already been declared.");
+            }
+            else {
+                currentClass.getVarSymbolTable().add(node.getName(), node.getType());
+                System.out.println(currentClass.getName() + ": Var Symbol");
+                currentClass.getVarSymbolTable().dump();
+            }
+            return null;
+        }
+
+        @Override
+        public Object visit(Method node) {
+            // if reserved identifiers
+            if(reservedIdentifiers.contains(node.getName())) {
+                // register error
+                errorHandler.register(Error.Kind.SEMANT_ERROR,
+                        currentClass.getASTNode().getFilename(), node.getLineNum(),
+                        "Method has a Reserved Identifier name, " + node.getName());
+            }
+
+            if(currentClass.getVarSymbolTable().peek(node.getName()) != null) {
+                // return error that method has already been declared
+                errorHandler.register(Error.Kind.SEMANT_ERROR,
+                        currentClass.getASTNode().getFilename(), node.getLineNum(),
+                        "Method " + node.getName() + " has already been declared.");
+            }
+
+            else {
+                currentClass.getMethodSymbolTable().add(node.getName(), node);
+                System.out.println(currentClass.getName() + ": Method Table");
+                currentClass.getMethodSymbolTable().dump();
+                currentClass.getVarSymbolTable().enterScope();
+                super.visit(node);
+                currentClass.getVarSymbolTable().exitScope();
+            }
+            return null;
+        }
+
+        @Override
+        public Object visit(Formal node) {
+            if(reservedIdentifiers.contains(node.getName())) {
+                // register error
+                errorHandler.register(Error.Kind.SEMANT_ERROR,
+                        currentClass.getASTNode().getFilename(), node.getLineNum(),
+                        "Formal has a Reserved Identifer name, " + node.getName());
+            }
+
+            if(currentClass.getVarSymbolTable().peek(node.getName()) != null) {
+                // return error that field has already been declared
+                errorHandler.register(Error.Kind.SEMANT_ERROR,
+                        currentClass.getASTNode().getFilename(), node.getLineNum(),
+                        "Formal " + node.getName() + " has already been declared.");
+            }
+            else {
+                currentClass.getVarSymbolTable().add(node.getName(), node.getType());
+                currentClass.getVarSymbolTable().dump();
+            }
+            return null;
+        }
+
+        @Override
+        public Object visit(DeclStmt node) {
+            if(reservedIdentifiers.contains(node.getName())) {
+                // register error
+                errorHandler.register(Error.Kind.SEMANT_ERROR,
+                        currentClass.getASTNode().getFilename(), node.getLineNum(),
+                        "Formal has a Reserved Identifier name, " + node.getName());
+            }
+
+            if(currentClass.getVarSymbolTable().peek(node.getName()) != null) {
+                // return error that field has already been declared
+                errorHandler.register(Error.Kind.SEMANT_ERROR,
+                        currentClass.getASTNode().getFilename(), node.getLineNum(),
+                        "Formal " + node.getName() + " has already been declared.");
+            }
+            else {
+                // TODO: type is null for some reason
+                // type here is null for some reason
+                currentClass.getVarSymbolTable().add(node.getName(), node.getType());
+                super.visit(node);
+            }
+            return null;
+        }
+
+        @Override
+        public Object visit(ForStmt node) {
+            currentClass.getVarSymbolTable().enterScope();
+            super.visit(node);
+            currentClass.getVarSymbolTable().exitScope();
+            return null;
+        }
+
+        @Override
+        public Object visit(WhileStmt node) {
+            currentClass.getVarSymbolTable().enterScope();
+            super.visit(node);
+            currentClass.getVarSymbolTable().exitScope();
+            return null;
+        }
     }
 }
