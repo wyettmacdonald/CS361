@@ -1,5 +1,3 @@
-
-
 /*
  * Name: ClassVisitor.java
  * Authors: Tia Zhang and Danqing Zhao
@@ -24,16 +22,31 @@ import java.util.Iterator;
 import java.util.Stack;
 
 
+
+/*
+Visitor that visits classes to construct the inheritance tree
+*/
 public class ClassVisitor extends Visitor{
     Hashtable<String, ClassTreeNode> classMap;
     ErrorHandler errorHandler;
     String currentClass;
 
+
+    /**
+    * Constructor for the ClassVisitor.
+    * @param map is the class map that it'll be adding class nodes to
+    * @param handler is the error handler that'll be logging any errors along the way
+    */
     public ClassVisitor(Hashtable<String, ClassTreeNode> map, ErrorHandler handler){
         classMap = map;
         errorHandler = handler;
     }
 
+
+    /**
+    * Builds the class inheritance tree
+    * @param ast is the Program node containing the classes from which to build the tree
+    */
     public void makeTree(Program ast){
         ast.accept(this);
 
@@ -52,22 +65,18 @@ public class ClassVisitor extends Visitor{
         // to connect them to the tree and remove them as children of each other
         ClassTreeNode object = classMap.get("Object");
         cycleNodes.forEach(node ->{
-            System.out.println("Removing cycle in " + node.getName());
+            //System.out.println("Removing cycle in " + node.getName());
             ClassTreeNode oldParent = node.getParent();
             node.setParent(object);
             oldParent.removeChild(node);
         });
 
-
-
-        classMap.forEach( (nodeName, node) -> {
-            checkCycles(node, cycleNodes);
-        });
-
-
     }
 
-
+    /**
+    * Visits Class_ nodes
+    * @param node is the Class_ node to be visited
+    */
     public Object visit(Class_ node){
         ClassTreeNode treeNode = new ClassTreeNode(node, false, true, classMap);
         classMap.put(node.getName(), treeNode);
@@ -77,8 +86,12 @@ public class ClassVisitor extends Visitor{
     }
 
 
-
-    public void setParentAndChild(ClassTreeNode treeNode){
+    /**
+    * Connects a class tree node to its parent and its parent to it
+    * If the declared parent doesn't exist, Object is used as the parent
+    * @param treeNode is the class tree node to be connected
+    */
+    private void setParentAndChild(ClassTreeNode treeNode){
         if(treeNode.getName()== "Object") {
             return;
         }
@@ -100,7 +113,6 @@ public class ClassVisitor extends Visitor{
             //setParent also triggers addChild() automatically
         }
         else{
-            System.out.println("No parent");
             errorHandler.register(Error.Kind.SEMANT_ERROR, astNode.getFilename(), astNode.getLineNum(),
                     "Parent class of " + treeNode.getName() +  " does not exist");
 
@@ -112,14 +124,24 @@ public class ClassVisitor extends Visitor{
 
 
 
-
-    private ArrayList<ClassTreeNode> checkCycles(ClassTreeNode root, ArrayList<ClassTreeNode> cycleNodes){
+    /**
+    * Looks for cycles in a node's inheritance structure
+    * @param node is the ClassTreeNode which should be checked for cycles
+    * @param cycleNodes is the ArrayList in which to store any nodes in a cycle
+    */
+    private ArrayList<ClassTreeNode> checkCycles(ClassTreeNode node, ArrayList<ClassTreeNode> cycleNodes){
         Stack stack = new Stack();
         ArrayList<ClassTreeNode> visited = new ArrayList<ClassTreeNode>();
-        dfs(root, stack, visited, cycleNodes);
+        dfs(node, stack, visited, cycleNodes);
         return cycleNodes;
     }
 
+    /**
+    * Helper method for checkCycles which runs a depth first search on a node to find cycles.
+    * @param node is the node on which to run depth-first search
+    * @param visited is an empty list which will store which nodes have already been fully visited
+    * @param cycleNodes is a list which will have all the nodes found in a cycle added to it
+    */
     private void dfs(ClassTreeNode node, Stack path, ArrayList<ClassTreeNode> visited, ArrayList<ClassTreeNode> cycleNodes){
         if(!visited.contains(node)){
             //System.out.println("Checking " + node.getName());
@@ -129,7 +151,7 @@ public class ClassVisitor extends Visitor{
                         "There is a cycle with class " + node.getName() +
                                 ". Please check its inheritance structure. For now, it'll be changed to have Object as a parent");
                 cycleNodes.add(node);
-                System.out.println("Detected cycle in " + node.getName());
+                //System.out.println("Detected cycle in " + node.getName());
             }
             else{
                 path.push(node);

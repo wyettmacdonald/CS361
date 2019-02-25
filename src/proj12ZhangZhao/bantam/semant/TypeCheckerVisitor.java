@@ -24,6 +24,12 @@ import proj12ZhangZhao.proj12.SemanticAnalyzer;
 import java.util.Hashtable;
 
 
+
+/*
+Visitor that looks sets the types of expressions and checks to make sure all the types in the program
+are valid
+*/
+
 public class TypeCheckerVisitor extends Visitor {
     private ClassTreeNode currentClass;
     private SymbolTable currentSymbolTable;
@@ -31,10 +37,26 @@ public class TypeCheckerVisitor extends Visitor {
     private String currentMethod;
 
 
-
-    public void checkTypes (Class_ node){
-        node.accept(this);
+    /*
+    * Constructor for the Type Checker Visitor.
+    * @param eh is the ErrorHandler that'll log any errors encountered in the course of type checking
+    */
+    public TypeCheckerVisitor(ErrorHandler eh){
+        errorHandler = eh;
     }
+
+
+
+
+    /*
+    *
+    */
+    public void checkTypes (ClassTreeNode classNode){
+        currentClass = classNode;
+        currentSymbolTable = classNode.getVarSymbolTable();
+        classNode.getASTNode().accept(this);
+    }
+
 
     /**
      * @param type1 a string
@@ -68,18 +90,29 @@ public class TypeCheckerVisitor extends Visitor {
      */
     private ClassTreeNode checkTypeExistence(String objectName, int lineNum) {
         Hashtable<String, ClassTreeNode> classMap = currentClass.getClassMap();
+        System.out.println("Object name " + objectName);
         ClassTreeNode objectNode = classMap.get(objectName);
         if (objectNode == null) {
-            String objectAsArray = objectName.substring(0, objectName.length() - 2);
-            objectNode = classMap.get(objectAsArray);
-            if (objectNode == null) {
+            //Check to see if it's an array
+            if(objectName.length() > 3) {
+                String objectAsArray = objectName.substring(0, objectName.length() - 3);
+                objectNode = classMap.get(objectAsArray);
+
+                if (objectNode == null) {
+                    errorHandler.register(Error.Kind.SEMANT_ERROR,
+                            currentClass.getASTNode().getFilename(), lineNum,
+                            "The class " + objectName + " does not exist in this file");
+                } else { //If it's an array, use Object (because Dispatch needs to check Object methods for arrays)
+                    // TODO CHECK DISPATCH IS THE ONLY ONE THIS MATTERS FOR
+                    objectNode = classMap.get("Object");
+                }
+            }
+            else{ //If it's shorter than size 3, it can't be an array anyways, it already failed
                 errorHandler.register(Error.Kind.SEMANT_ERROR,
                         currentClass.getASTNode().getFilename(), lineNum,
                         "The class " + objectName + " does not exist in this file");
-            } else { //If it's an array, use Object (because Dispatch needs to check Object methods for arrays)
-                // TODO CHECK DISPATCH IS THE ONLY ONE THIS MATTERS FOR
-                objectNode = classMap.get("Object");
             }
+
         }
         return objectNode;
     }
@@ -102,14 +135,18 @@ public class TypeCheckerVisitor extends Visitor {
 
         if (initExpr != null) {
             initExpr.accept(this);
-
-            if (!isSubClass(initExpr.getExprType(), type)) {
-                //...the initExpr's type is not a subtype of the node's type...
-                errorHandler.register(Error.Kind.SEMANT_ERROR,
-                        currentClass.getASTNode().getFilename(), node.getLineNum(),
-                        "The type of the initializer is " + initExpr.getExprType()
-                                + " which is not compatible with the " + node.getName() +
-                                " field's type " + node.getType());
+            String exprType = initExpr.getExprType();
+            ClassTreeNode exprTypeNode = checkTypeExistence(exprType, node.getLineNum());
+            ClassTreeNode varTypeNode = checkTypeExistence(type, node.getLineNum());
+            if(exprTypeNode != null && varTypeNode != null){
+                if (!isSubClass(initExpr.getExprType(), type)) {
+                    //...the initExpr's type is not a subtype of the node's type...
+                    errorHandler.register(Error.Kind.SEMANT_ERROR,
+                            currentClass.getASTNode().getFilename(), node.getLineNum(),
+                            "The type of the initializer is " + initExpr.getExprType()
+                                    + " which is not compatible with the " + node.getName() +
+                                    " field's type " + node.getType());
+                }
             }
         }
         //Note: if there is no initExpr, then leave it to the Code Generator to
@@ -158,21 +195,114 @@ public class TypeCheckerVisitor extends Visitor {
         return null;
     }
 
+
+    private boolean checkIDExistence(String id, String ref, int lineNum){
+        if(ref != null) {
+            if(ref.equals("this")){
+                if (currentSymbolTable.lookup(id, 0) == null) {
+                    errorHandler.register(Error.Kind.SEMANT_ERROR,
+                            currentClass.getASTNode().getFilename(), lineNum,
+                            "The field " + id + " does not exist");
+                    return false;
+                }
+                else if (ref.equals("super")){
+                    if (currentClass.getParent().getVarSymbolTable().lookup(id, 0) == null){ //It has to be a field
+                        errorHandler.register(Error.Kind.SEMANT_ERROR,
+                                currentClass.getASTNode().getFilename(), lineNum,
+                                "The parent class does not have the field " + id);
+                        return false;
+                    }
+                }
+            }
+        }
+        else{
+            if (currentSymbolTable.lookup(id, currentSymbolTable.getCurrScopeLevel() - 1) == null) {
+                errorHandler.register(Error.Kind.SEMANT_ERROR,
+                        currentClass.getASTNode().getFilename(), lineNum,
+                        "The variable " + id + " does not exist");
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+
     /**
-     *
+     * Visits the ArrayAssignExpr node
+     * @param node the ArrayAssignExpr node
+     * @return null
+     */
+    public Object visit(ArrayAssignExpr node){
+        //TODO did we already check to make sure the ref expression is super or this only?
+
+        Expr index = node.getIndex();
+        index.accept(this);
+        if(!index.getExprType().equals("int")){
+            errorHandler.register(Error.Kind.SEMANT_ERROR,
+                    currentClass.getASTNode().getFilename(), node.getLineNum(),
+                    "Size expression in array expression is not valid");
+        }
+
+        String id = node.getName();
+        String ref = node.getRefName();
+
+        checkIDExistence(id, ref, node.getLineNum());
+
+        checkTypeExistence(node.getExprType(), node.getLineNum());
+        node.setExprType(node.getExprType());
+
+        return null;
+    }
+
+
+    /**
+     * Visits the ArrayExpr node
+     * @param node the ArrayExpr node
+     * @return null
+     */
+    public Object visit(ArrayExpr node){
+        if(node.getRef() != null){
+            node.getRef().accept(this);
+        }
+        Expr index = node.getIndex();
+        index.accept(this);
+        if(!index.getExprType().equals("int")){
+            errorHandler.register(Error.Kind.SEMANT_ERROR,
+                    currentClass.getASTNode().getFilename(), node.getLineNum(),
+                    "Size expression in array expression is not valid");
+        }
+        String id = node.getName();
+        //If the name is this or super, since they're reserved, it'll be null
+        if(currentSymbolTable.lookup(id, currentSymbolTable.getCurrScopeLevel()-1) != null) {
+            errorHandler.register(Error.Kind.SEMANT_ERROR,
+                    currentClass.getASTNode().getFilename(), node.getLineNum(),
+                    "The array " + id + "does not exist");
+        }
+
+        checkTypeExistence(node.getExprType(), node.getLineNum());
+        node.setExprType(node.getExprType());
+        return null;
+    }
+
+    /**
+     * Visits the assignment expression node
      * @param node the assignment expression node
-     * @return
+     * @return null
      */
     public Object visit(AssignExpr node) {
         node.getExpr().accept(this);
         String type1 = node.getName();
         String type2 = node.getExpr().getExprType();
-        checkTypeExistence(type1, node.getLineNum());
-        checkTypeExistence(type2, node.getLineNum());
-        if (!isSubClass(type1, type2)) {
-            errorHandler.register(Error.Kind.SEMANT_ERROR,
-                    currentClass.getASTNode().getFilename(), node.getLineNum(),
-                    "cannot assign type " + type2 + " to "+ type1);
+        System.out.println("Type 2 " + type2 + " type one " + type1);
+        ClassTreeNode type1Class = checkTypeExistence(type1, node.getLineNum());
+        ClassTreeNode type2Class = checkTypeExistence(type2, node.getLineNum());
+        if( (type1Class != null) && (type2Class != null)) {
+            if (!isSubClass(type1, type2)) {
+                errorHandler.register(Error.Kind.SEMANT_ERROR,
+                        currentClass.getASTNode().getFilename(), node.getLineNum(),
+                        "cannot assign type " + type2 + " to " + type1);
+            }
         }
         node.setExprType("boolean");
         return null;
@@ -331,7 +461,7 @@ public class TypeCheckerVisitor extends Visitor {
             //...if neither type1 nor type2 is a subtype of the other...
             errorHandler.register(Error.Kind.SEMANT_ERROR,
                     currentClass.getASTNode().getFilename(), node.getLineNum(),
-                    "can only time between integers");
+                    "Can only multiply between integers");
         }
         node.setExprType("int");
         return null;
@@ -371,12 +501,15 @@ public class TypeCheckerVisitor extends Visitor {
         node.getRightExpr().accept(this);
         String type1 = node.getLeftExpr().getExprType();
         String type2 = node.getRightExpr().getExprType();
-
-        if (!(isSubClass(type1, type2) || isSubClass(type2, type1))) {
-            //...if neither type1 nor type2 is a subtype of the other...
-            errorHandler.register(Error.Kind.SEMANT_ERROR,
-                    currentClass.getASTNode().getFilename(), node.getLineNum(),
-                    "The two values being compared are not integers.");
+        ClassTreeNode type1Class = checkTypeExistence(type1, node.getLineNum());
+        ClassTreeNode type2Class = checkTypeExistence(type2, node.getLineNum());
+        if( (type1Class != null) && (type2Class != null)) {
+            if (!(isSubClass(type1, type2) || isSubClass(type2, type1))) {
+                //...if neither type1 nor type2 is a subtype of the other...
+                errorHandler.register(Error.Kind.SEMANT_ERROR,
+                        currentClass.getASTNode().getFilename(), node.getLineNum(),
+                        "The two values being compared are not integers.");
+            }
         }
         node.setExprType("boolean");
         return null;
@@ -416,11 +549,15 @@ public class TypeCheckerVisitor extends Visitor {
         String type1 = node.getLeftExpr().getExprType();
         String type2 = node.getRightExpr().getExprType();
 
-        if (!(isSubClass(type1, type2) || isSubClass(type2, type1))) {
-            //...if neither type1 nor type2 is a subtype of the other...
-            errorHandler.register(Error.Kind.SEMANT_ERROR,
-                    currentClass.getASTNode().getFilename(), node.getLineNum(),
-                    "The two values being compared for equality are not compatible types.");
+        ClassTreeNode type1Class = checkTypeExistence(type1, node.getLineNum());
+        ClassTreeNode type2Class = checkTypeExistence(type2, node.getLineNum());
+        if( (type1Class != null) && (type2Class != null)) {
+            if (!(isSubClass(type1, type2) || isSubClass(type2, type1))) {
+                //...if neither type1 nor type2 is a subtype of the other...
+                errorHandler.register(Error.Kind.SEMANT_ERROR,
+                        currentClass.getASTNode().getFilename(), node.getLineNum(),
+                        "The two values being compared for equality are not compatible types.");
+            }
         }
         node.setExprType("boolean");
         return null;
@@ -438,11 +575,15 @@ public class TypeCheckerVisitor extends Visitor {
         String type1 = node.getLeftExpr().getExprType();
         String type2 = node.getRightExpr().getExprType();
 
-        if (!(isSubClass(type1, type2) || isSubClass(type2, type1))) {
-            //...if neither type1 nor type2 is a subtype of the other...
-            errorHandler.register(Error.Kind.SEMANT_ERROR,
-                    currentClass.getASTNode().getFilename(), node.getLineNum(),
-                    "The two values being compared for equality are not compatible types.");
+        ClassTreeNode type1Class = checkTypeExistence(type1, node.getLineNum());
+        ClassTreeNode type2Class = checkTypeExistence(type2, node.getLineNum());
+        if( (type1Class != null) && (type2Class != null)) {
+            if (!(isSubClass(type1, type2) || isSubClass(type2, type1))) {
+                //...if neither type1 nor type2 is a subtype of the other...
+                errorHandler.register(Error.Kind.SEMANT_ERROR,
+                        currentClass.getASTNode().getFilename(), node.getLineNum(),
+                        "The two values being compared for equality are not compatible types.");
+            }
         }
         node.setExprType("boolean");
         return null;
@@ -580,18 +721,15 @@ public class TypeCheckerVisitor extends Visitor {
                     id + " is a reserved word in Bantam Java and can't be used as an identifier");
         }
 
-        Expr initExpr = node.getInit();
-        if (initExpr == null) {
-            errorHandler.register(Error.Kind.SEMANT_ERROR,
-                    currentClass.getASTNode().getFilename(), node.getLineNum(),
-                    "The variable has not been initialized");
-        } else {
-            String varType = initExpr.getExprType();
-            ClassTreeNode varClassNode = checkTypeExistence(varType, node.getLineNum());
-            if(varClassNode != null){
-                currentSymbolTable.add(id, varType);//TODO FIGURE OUT IF NON EXISTENT TYPE SHOULD STILL BE SET IN SYMBOL TABLE
-            }
+
+       //I don't think I need to check for = null yet, null isn't an expression and banned as an identifier
+        //It would throw an error as undefined identifier if used elsewhere
+        String varType = node.getInit().getExprType();
+        ClassTreeNode varClassNode = checkTypeExistence(varType, node.getLineNum());
+        if(varClassNode != null){
+            currentSymbolTable.add(id, varType);//TODO FIGURE OUT IF NON EXISTENT TYPE SHOULD STILL BE SET IN SYMBOL TABLE
         }
+
         return null;
 
     }
@@ -609,39 +747,41 @@ public class TypeCheckerVisitor extends Visitor {
      */
 
     public Object visit(DispatchExpr node) {
-        node.accept(this);
-        Expr objectExpr = node.getRefExpr(); //TODO CHECK IF EXPRESSION BEING NULL IS LEGAL
-        if (objectExpr == null) {
-            errorHandler.register(Error.Kind.SEMANT_ERROR,
-                    currentClass.getASTNode().getFilename(), node.getLineNum(),
-                    "The object whose method you are trying to call is null");
+        System.out.println(node.getRefExpr() + " " + node.getMethodName());
+        //I think the reference expression could be null if you're running a method from your own class
+        Expr ref = node.getRefExpr();
+        String objectName;
+        if(ref!= null) {
+            node.getRefExpr().accept(this);
+            objectName = node.getRefExpr().getExprType();
         }
-        else {
-            String objectName = objectExpr.getExprType();
-            ClassTreeNode objectNode = checkTypeExistence(objectName, node.getLineNum());
-            if(objectNode != null) {
-                String methodName = node.getMethodName();
-                Method method = (Method) objectNode.getMethodSymbolTable().lookup(methodName);
-                if (method == null) {
-                    errorHandler.register(Error.Kind.SEMANT_ERROR,
-                            currentClass.getASTNode().getFilename(), node.getLineNum(),
-                            "The method " + methodName + " does not exist in the class");
-                    //TODO figure out what to set the type of the DispatchNode to if the method doesn't exist
-                }
-                else {
-                    node.setExprType(method.getReturnType());
-                }
-            }
+        else{
+            objectName = currentClass.getName();
+        }
+        node.getActualList().accept(this);
 
+
+        ClassTreeNode objectNode = checkTypeExistence(objectName, node.getLineNum());
+        if(objectNode != null) {
+            String methodName = node.getMethodName();
+            Method method = (Method) objectNode.getMethodSymbolTable().lookup(methodName);
+            if (method == null) {
+                errorHandler.register(Error.Kind.SEMANT_ERROR,
+                        currentClass.getASTNode().getFilename(), node.getLineNum(),
+                        "The method " + methodName + " does not exist in the class");
+                //TODO figure out what to set the type of the DispatchNode to if the method doesn't exist
+            }
+            else {
+                String type = method.getReturnType();
+                if(type == null){ //Void return
+                    type = "null";
+                }
+                node.setExprType(type);
+            }
         }
 
         return null;
     }
-
-
-
-
-
 
 
     /**
@@ -665,38 +805,30 @@ public class TypeCheckerVisitor extends Visitor {
             }
 
         }
+
+        node.getPredExpr().accept(this);
         Expr midExpr = node.getPredExpr();
-        if(midExpr == null){
+        if(midExpr.getExprType() != "boolean"){
             errorHandler.register(Error.Kind.SEMANT_ERROR,
                     currentClass.getASTNode().getFilename(), node.getLineNum(),
-                    "Error: for loop is missing a predicate expression (how long the loop should last)");
-
-        }
-        else{
-            node.getPredExpr().accept(this);
-            if(midExpr.getExprType() != "boolean"){
-                errorHandler.register(Error.Kind.SEMANT_ERROR,
-                        currentClass.getASTNode().getFilename(), node.getLineNum(),
-                        "Error: for loop's predicate must be a boolean");
-            }
-
-        }
-
-        Expr updateExpr = node.getUpdateExpr();
-        if(updateExpr != null){
-            node.getUpdateExpr().accept(this);
-            String type = initExpr.getExprType();
-            if(!"int".equals(type)){
-                errorHandler.register(Error.Kind.SEMANT_ERROR,
-                        currentClass.getASTNode().getFilename(), node.getLineNum(),
-                        "Error: for loop's updating expression needs to be of type int");
-
-
-            }
-
+                    "Error: for loop's predicate must be a boolean");
         }
 
 
+
+        node.getUpdateExpr().accept(this);
+        String type = node.getUpdateExpr().getExprType();
+        if(!"int".equals(type)){
+            errorHandler.register(Error.Kind.SEMANT_ERROR,
+                    currentClass.getASTNode().getFilename(), node.getLineNum(),
+                    "Error: for loop's updating expression needs to be of type int");
+
+
+
+
+        }
+
+        //Set up new scope
         currentSymbolTable.enterScope();
         node.getBodyStmt().accept(this);
         currentSymbolTable.exitScope();
@@ -715,19 +847,12 @@ public class TypeCheckerVisitor extends Visitor {
 
     public Object visit(IfStmt node) {
         Expr condition = node.getPredExpr();
-        if(condition == null){
+
+        condition.accept(this);
+        if (condition.getExprType() != "boolean") {
             errorHandler.register(Error.Kind.SEMANT_ERROR,
                     currentClass.getASTNode().getFilename(), node.getLineNum(),
-                    "Error: if statement is missing a condition");
-
-        }
-        else {
-            condition.accept(this);
-            if (condition.getExprType() != "boolean") {
-                errorHandler.register(Error.Kind.SEMANT_ERROR,
-                        currentClass.getASTNode().getFilename(), node.getLineNum(),
-                        "Error: if statement's condition must be a boolean");
-            }
+                    "Error: if statement's condition must be a boolean");
         }
         currentSymbolTable.enterScope();
         node.getThenStmt().accept(this);
@@ -762,24 +887,17 @@ public class TypeCheckerVisitor extends Visitor {
      */
 
     public Object visit(NewArrayExpr node) {
-        Expr size = node.getSize();
-        if(size == null){ //I think this should be possible, if you put in a variable that has a value of null, for instance
+        node.getSize().accept(this);
+        String sizeType = node.getSize().getExprType();
+        if (!"int".equals(sizeType)) {
             errorHandler.register(Error.Kind.SEMANT_ERROR,
                     currentClass.getASTNode().getFilename(), node.getLineNum(),
-                    "Array requires a size when initialized");
+                    "The size expression for an array must be an integer," +
+                            " not " + sizeType);
         }
-        else {
-            node.getSize().accept(this);
-            String sizeType = size.getExprType();
-            if (!"int".equals(sizeType)) {
-                errorHandler.register(Error.Kind.SEMANT_ERROR,
-                        currentClass.getASTNode().getFilename(), node.getLineNum(),
-                        "The size expression for an array must be an integer," +
-                                " not " + sizeType);
-            }
-        }
+
         String type = node.getType();
-        type = type.substring(0, type.length()-2); //Cut off the brackets []
+        type = type.substring(0, type.length()-3); //Cut off the brackets []
         Hashtable<String, ClassTreeNode> classMap = currentClass.getClassMap();
         ClassTreeNode arrayType = classMap.get(type);
         if(arrayType == null){
@@ -844,22 +962,16 @@ public class TypeCheckerVisitor extends Visitor {
      */
 
     public Object visit(UnaryDecrExpr node) {
-        Expr expr = node.getExpr();
-        if(expr == null){
+
+        node.getExpr().accept(this);
+        String type = node.getExpr().getExprType();
+        if (!type.equals("int")) {
             errorHandler.register(Error.Kind.SEMANT_ERROR,
                     currentClass.getASTNode().getFilename(), node.getLineNum(),
-                    "The decrement (--) operator is missing its expression.");
+                    "The decrement (--) operator applies only to integer expressions," +
+                            " not " + type + " expressions.");
         }
-        else {
-            node.getExpr().accept(this);
-            String type = expr.getExprType();
-            if (!type.equals("int")) {
-                errorHandler.register(Error.Kind.SEMANT_ERROR,
-                        currentClass.getASTNode().getFilename(), node.getLineNum(),
-                        "The decrement (--) operator applies only to integer expressions," +
-                                " not " + type + " expressions.");
-            }
-        }
+
         node.setExprType("int");
         return null;
     }
@@ -873,22 +985,16 @@ public class TypeCheckerVisitor extends Visitor {
      */
 
     public Object visit(UnaryIncrExpr node) {
-        Expr expr = node.getExpr();
-        if(expr == null){
-            errorHandler.register(Error.Kind.SEMANT_ERROR,
-                    currentClass.getASTNode().getFilename(), node.getLineNum(),
-                    "The increment (++) operator is missing its expression.");
-        }
-        else {
-            node.getExpr().accept(this);
-            String type = expr.getExprType();
+
+        node.getExpr().accept(this);
+        String type = node.getExpr().getExprType();
             if (!type.equals("int")) {
                 errorHandler.register(Error.Kind.SEMANT_ERROR,
                         currentClass.getASTNode().getFilename(), node.getLineNum(),
                         "The increment (++) operator applies only to integer expressions," +
                                 " not " + type + " expressions.");
             }
-        }
+
         node.setExprType("int");
         return null;
     }
@@ -902,22 +1008,15 @@ public class TypeCheckerVisitor extends Visitor {
      */
 
     public Object visit(UnaryNegExpr node) {
-        Expr expr = node.getExpr(); //In case the expression returns null
-        if(expr == null){
-            errorHandler.register(Error.Kind.SEMANT_ERROR,
-                    currentClass.getASTNode().getFilename(), node.getLineNum(),
-                    "The negative (-) operator is missing its expression.");
-        }
-        else {
-            node.getExpr().accept(this);
-            String type = expr.getExprType();
+        node.getExpr().accept(this);
+        String type = node.getExpr().getExprType();
             if (!type.equals("int")) {
                 errorHandler.register(Error.Kind.SEMANT_ERROR,
                         currentClass.getASTNode().getFilename(), node.getLineNum(),
                         "The negative (-) operator applies only to integer expressions," +
                                 " not " + type + " expressions.");
             }
-        }
+
         node.setExprType("int"); //Type needs to be set to int even if expression is missing
         return null;
     }
@@ -932,10 +1031,13 @@ public class TypeCheckerVisitor extends Visitor {
      */
 
     public Object visit(VarExpr node) {
-        node.accept(this);
+        Expr ref = node.getRef();
+        if (ref != null){
+            ref.accept(this);
+        }
         String varName = node.getName();
-        //TODO double check on the usage of this and super
-        String type = (String) currentSymbolTable.lookup(varName, currentSymbolTable.getCurrScopeLevel());
+        //TODO if the expression = this or super, how can you tell so you can make sure to check those symbol tables?
+        String type = (String) currentSymbolTable.lookup(varName, currentSymbolTable.getCurrScopeLevel()-1);
         if( (type == null)&& (!"super".equals(varName) && (!"this".equals(varName))) ){
             errorHandler.register(Error.Kind.SEMANT_ERROR,
                     currentClass.getASTNode().getFilename(), node.getLineNum(),
@@ -944,7 +1046,7 @@ public class TypeCheckerVisitor extends Visitor {
         }
         else {
             node.setExprType(type); //TODO how to handle it if the variable hasn't been defined - there is no type!
-            // Leave it null? Put in the string "null" or non-existent?
+
         }
         return null;
     }

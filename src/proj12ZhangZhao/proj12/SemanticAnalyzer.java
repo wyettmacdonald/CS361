@@ -125,8 +125,9 @@ public class SemanticAnalyzer
         symTabVisitor.makeTables();
 
         classMap.forEach( (className, classNode) -> {
-            TypeCheckerVisitor typeCheckerVisitor = new TypeCheckerVisitor();
-            typeCheckerVisitor.checkTypes(classNode.getASTNode());
+            TypeCheckerVisitor typeCheckerVisitor = new TypeCheckerVisitor(errorHandler);
+            typeCheckerVisitor.checkTypes(classNode);
+            System.out.println("Done with " + className);
             }
         );
 

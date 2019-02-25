@@ -12,21 +12,26 @@ package proj12ZhangZhao.bantam.semant;
 import proj12ZhangZhao.bantam.ast.*;
 import proj12ZhangZhao.bantam.util.ErrorHandler;
 import proj12ZhangZhao.bantam.util.Error;
-import proj12ZhangZhao.bantam.util.SymbolTable;
 import proj12ZhangZhao.bantam.visitor.Visitor;
 import proj12ZhangZhao.bantam.util.ClassTreeNode;
 
-import java.util.ArrayList;
 import java.util.Hashtable;
-import java.util.Iterator;
-import java.util.Stack;
 
+
+/*
+A Visitor that builds the method symbol table and part of the var symbol table for class tree nodes
+*/
 
 public class SymbolTableBuildingVisitor extends Visitor{
     Hashtable<String, ClassTreeNode> classMap;
     ErrorHandler errorHandler;
     String currentClass;
 
+    /*
+    * Constructor for SymbolTableBuildingVisitor
+    * @param map is the class map from which to get the class nodes which need symbol tables
+    * @param handler is the error handler which will log any errors found along the way
+    */
     public SymbolTableBuildingVisitor(Hashtable<String, ClassTreeNode> map, ErrorHandler handler){
         classMap = map;
         errorHandler = handler;
@@ -38,32 +43,11 @@ public class SymbolTableBuildingVisitor extends Visitor{
             node.getASTNode().accept(this);
             setParentAndChild(node);
         });
-        //Hardcoded lookup cause there doesn't seem to be a way to get the symbol table to print everything inside
-        System.out.println(classMap.get("Main").getMethodSymbolTable().lookup("bar"));
-//        System.out.println(classMap.get("Main").getMethodSymbolTable().lookup("foo"));
-//
-//        System.out.println(classMap.get("B").getMethodSymbolTable().lookup("B"));
-//        System.out.println(classMap.get("B").getMethodSymbolTable().lookup("main"));
 
-        //System.out.println("Is there a main method? " + classMap.get("Main").getMethodSymbolTable().lookup("main"));
-
-        //Params
-        System.out.println(classMap.get("Main").getVarSymbolTable().lookup("b"));
-        System.out.println(classMap.get("Main").getVarSymbolTable().lookup("a"));
-        System.out.println(classMap.get("B").getVarSymbolTable().lookup("a"));
-
-        //Params
-        System.out.println(classMap.get("Main").getVarSymbolTable().lookup("y"));
-        System.out.println(classMap.get("Main").getVarSymbolTable().lookup("z"));
-
-        //Local vars are the job of the TypeCheckerVisitor
-
-        System.out.print("Is there a main method? ");
-        //System.out.println(classMap.get("Main").getMethodSymbolTable().getSize());
         boolean mainMainExists = (classMap.get("Main").getMethodSymbolTable().lookup("main") != null);
         System.out.println(mainMainExists);
         if(!mainMainExists){
-            //TODO WHAT LINE NUM SHOULD NO MAIN CLASS HAVE
+            //Using 0 as the line number cause that doesn't really have a specific line num
             errorHandler.register(Error.Kind.SEMANT_ERROR, classMap.get(currentClass).getASTNode().getFilename(), 0,
                     "There is no Main class with a main method in this file");
 
