@@ -53,7 +53,7 @@ public class SymbolTableBuildingVisitor extends Visitor{
         else{
             //System.out.println("Scope size " + classMap.get("Main").getMethodSymbolTable().getSize());
             boolean mainMainExists = (classMap.get("Main").getMethodSymbolTable().lookup("main") != null);
-            System.out.println(mainMainExists);
+            //System.out.println(mainMainExists);
             if(!mainMainExists){
                 //Using 0 as the line number cause that doesn't really have a specific line num
                 errorHandler.register(Error.Kind.SEMANT_ERROR, classMap.get(currentClass).getASTNode().getFilename(), 0,
