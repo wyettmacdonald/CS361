@@ -8,11 +8,17 @@
 
 package proj12ZhangZhao.bantam.semant;
 
-import com.sun.source.tree.ClassTree;
 import proj12ZhangZhao.bantam.util.*;
 import proj12ZhangZhao.bantam.ast.*;
 import proj12ZhangZhao.bantam.util.Error;
 import proj12ZhangZhao.bantam.visitor.Visitor;
+
+import java.util.HashMap;
+import java.util.Hashtable;
+import java.util.Iterator;
+
+
+import com.sun.source.tree.ClassTree;
 import proj12ZhangZhao.proj12.SemanticAnalyzer;
 
 import java.util.Hashtable;
@@ -24,37 +30,84 @@ public class TypeCheckerVisitor extends Visitor {
     private ErrorHandler errorHandler;
     private String currentMethod;
 
+    /**
+     * @param type1 a string
+     * @param type2 a string
+     * @return boolean (if type2 is a subclass of type1)
+     */
+    private boolean isSubClass(String type1, String type2){
+        if(type1.equals(type2)){
+            return true;
+        }
+        Hashtable<String, ClassTreeNode> classMap = this.currentClass.getClassMap();
+        ClassTreeNode classTree = classMap.get(type2);
 
-    public TypeCheckerVisitor(Hashtable<String, ClassTreeNode> map){
-        //classMap = map;
+        while(classTree.getParent()!=null){
+            if(classTree.getParent().getName().equals(type1)){
+                return true;
+            }
+            classTree = classTree.getParent();
+        }
+
+        return false;
     }
 
+    /**
+     * Checks if the given type exists (is declared in the file or is a built-in class)
+     * @param objectName is a String indicating the name of the type it's checking for
+     * @param lineNum is the line number containing the statement which has a type to be checked
+     * @return the ClassTreeNode of the type if the class exists. Otherwise, return null
+     * For arrays, since they do not have a class tree node, Object node's is returned
+     */
+    private ClassTreeNode checkTypeExistence(String objectName, int lineNum) {
+        Hashtable<String, ClassTreeNode> classMap = currentClass.getClassMap();
+        ClassTreeNode objectNode = classMap.get(objectName);
+        if (objectNode == null) {
+            String objectAsArray = objectName.substring(0, objectName.length() - 2);
+            objectNode = classMap.get(objectAsArray);
+            if (objectNode == null) {
+                errorHandler.register(Error.Kind.SEMANT_ERROR,
+                        currentClass.getASTNode().getFilename(), lineNum,
+                        "The class " + objectName + " does not exist in this file");
+            }
+            else{ //If it's an array, use Object (because Dispatch needs to check Object methods for arrays)
+                // TODO CHECK DISPATCH IS THE ONLY ONE THIS MATTERS FOR
+                objectNode = classMap.get("Object");
+            }
+        }
+        return objectNode;
+    }
     /**
      * Visit a field node
      *
      * @param node the field node
      * @return null
-     *//*
+     */
 
     public Object visit(Field node) {
         // The fields should have already been added to the symbol table by the
         // SemanticAnalyzer so the only thing to check is the compatibility of the init
         // expr's type with the field's type.
-        if (...node's type is not a defined type...) {
+        String type = node.getType();
+        Hashtable<String, ClassTreeNode> classMap = this.currentClass.getClassMap();
+        if (!classMap.contains(type)) {
             errorHandler.register(Error.Kind.SEMANT_ERROR,
                     currentClass.getASTNode().getFilename(), node.getLineNum(),
                     "The declared type " + node.getType() + " of the field "
                             + node.getName() + " is undefined.");
         }
         Expr initExpr = node.getInit();
+
         if (initExpr != null) {
             initExpr.accept(this);
-            if(...the initExpr's type is not a subtype of the node's type...) {
+
+            if (!isSubClass(initExpr.getExprType(), type)) {
+                //...the initExpr's type is not a subtype of the node's type...
                 errorHandler.register(Error.Kind.SEMANT_ERROR,
                         currentClass.getASTNode().getFilename(), node.getLineNum(),
                         "The type of the initializer is " + initExpr.getExprType()
-                         + " which is not compatible with the " + node.getName() +
-                         " field's type " + node.getType());
+                                + " which is not compatible with the " + node.getName() +
+                                " field's type " + node.getType());
             }
         }
         //Note: if there is no initExpr, then leave it to the Code Generator to
@@ -63,16 +116,19 @@ public class TypeCheckerVisitor extends Visitor {
         return null;
     }
 
-    */
+
 /**
  * Visit a method node
  *
  * @param node the Method node to visit
  * @return null
- *//*
+ */
 
     public Object visit(Method node) {
-        if (...the node's return type is not a defined type and not "void"...) {
+        String type = node.getReturnType();
+        Hashtable<String, ClassTreeNode> classMap = this.currentClass.getClassMap();
+        if (!classMap.contains(type)) {
+            //...the node's return type is not a defined type and not "void"...
             errorHandler.register(Error.Kind.SEMANT_ERROR,
                     currentClass.getASTNode().getFilename(), node.getLineNum(),
                     "The return type " + node.getReturnType() + " of the method "
@@ -87,16 +143,19 @@ public class TypeCheckerVisitor extends Visitor {
         return null;
     }
 
-    */
+
 /**
  * Visit a formal parameter node
  *
  * @param node the Formal node
  * @return null
- *//*
+ */
 
     public Object visit(Formal node) {
-        if (...the node's type is not a defined type...) {
+        String type = node.getType();
+        Hashtable<String, ClassTreeNode> classMap = this.currentClass.getClassMap();
+        if (!classMap.contains(type) && !type.equals("void")) {
+            //...the node's type is not a defined type...
             errorHandler.register(Error.Kind.SEMANT_ERROR,
                     currentClass.getASTNode().getFilename(), node.getLineNum(),
                     "The declared type " + node.getType() + " of the formal" +
@@ -107,17 +166,18 @@ public class TypeCheckerVisitor extends Visitor {
         return null;
     }
 
-    */
+
 /**
  * Visit a while statement node
  *
  * @param node the while statement node
  * @return null
- *//*
+ */
 
     public Object visit(WhileStmt node) {
         node.getPredExpr().accept(this);
-        if(...the predExpr's type is not "boolean"...) {
+        if(!node.getPredExpr().getExprType().equals("boolean")) {
+            //...the predExpr's type is not "boolean"...
             errorHandler.register(Error.Kind.SEMANT_ERROR,
                     currentClass.getASTNode().getFilename(), node.getLineNum(),
                     "The type of the predicate is " + node.getPredExpr().getExprType()
@@ -129,13 +189,13 @@ public class TypeCheckerVisitor extends Visitor {
         return null;
     }
 
-    */
+
 /**
  * Visit a block statement node
  *
  * @param node the block statement node
  * @return null
- *//*
+ */
 
     public Object visit(BlockStmt node) {
         currentSymbolTable.enterScope();
@@ -144,16 +204,19 @@ public class TypeCheckerVisitor extends Visitor {
         return null;
     }
 
-    */
+
 /**
  * Visit a new expression node
  *
  * @param node the new expression node
  * @return null
- *//*
+ */
 
     public Object visit(NewExpr node) {
-        if(...the node's type is not a defined class type...) {
+        String type = node.getType();
+        Hashtable<String, ClassTreeNode> classMap = this.currentClass.getClassMap();
+        if(!classMap.contains(type)) {
+            //...the node's type is not a defined class type...
             errorHandler.register(Error.Kind.SEMANT_ERROR,
                     currentClass.getASTNode().getFilename(), node.getLineNum(),
                     "The type " + node.getType() + " does not exist.");
@@ -165,35 +228,226 @@ public class TypeCheckerVisitor extends Visitor {
         return null;
     }
 
-    */
-/**
- * Visit a binary comparison equals expression node
- *
- * @param node the binary comparison equals expression node
- * @return null
- *//*
+    /**
+     * visit a binary arithmetic divide expression node
+     * @param node the binary arithmetic divide expression node
+     * @return
+     */
 
-    public Object visit(BinaryCompEqExpr node) {
+    public Object visit(BinaryArithDivideExpr node){
         node.getLeftExpr().accept(this);
         node.getRightExpr().accept(this);
         String type1 = node.getLeftExpr().getExprType();
         String type2 = node.getRightExpr().getExprType();
-        if(...if neither type1 nor type2 is a subtype of the other...) {
+        if(!type1.equals("int")||!type2.equals("int")) {
+            //...if neither type1 nor type2 is a subtype of the other...
+            errorHandler.register(Error.Kind.SEMANT_ERROR,
+                    currentClass.getASTNode().getFilename(), node.getLineNum(),
+                    "can only divide between integers");
+        }
+        node.setExprType("int");
+        return null;
+    }
+
+    /**
+     * visit a binary arithmetic minus expression node
+     * @param node the binary arithmetic minus expression node
+     * @return
+     */
+    public Object visit(BinaryArithMinusExpr node){
+        node.getLeftExpr().accept(this);
+        node.getRightExpr().accept(this);
+        String type1 = node.getLeftExpr().getExprType();
+        String type2 = node.getRightExpr().getExprType();
+        if(!type1.equals("int")||!type2.equals("int")) {
+            //...if neither type1 nor type2 is a subtype of the other...
+            errorHandler.register(Error.Kind.SEMANT_ERROR,
+                    currentClass.getASTNode().getFilename(), node.getLineNum(),
+                    "can only minus between integers");
+        }
+        node.setExprType("int");
+        return null;
+    }
+
+    /**
+     * visit a binary arithmetic modulus expression node
+     * @param node the binary arithmetic modulus expression node
+     * @return
+     */
+    public Object visit(BinaryArithModulusExpr node){
+        node.getLeftExpr().accept(this);
+        node.getRightExpr().accept(this);
+        String type1 = node.getLeftExpr().getExprType();
+        String type2 = node.getRightExpr().getExprType();
+        if(!type1.equals("int")||!type2.equals("int")) {
+            //...if neither type1 nor type2 is a subtype of the other...
+            errorHandler.register(Error.Kind.SEMANT_ERROR,
+                    currentClass.getASTNode().getFilename(), node.getLineNum(),
+                    "can only modulus between integers");
+        }
+        node.setExprType("int");
+        return null;
+    }
+
+    /**
+     * visit a binary arithmetic plus expression node
+     * @param node the binary arithmetic plus expression node
+     * @return
+     */
+    public Object visit(BinaryArithPlusExpr node){
+        node.getLeftExpr().accept(this);
+        node.getRightExpr().accept(this);
+        String type1 = node.getLeftExpr().getExprType();
+        String type2 = node.getRightExpr().getExprType();
+        if(!type1.equals("int")||!type2.equals("int")) {
+            //...if neither type1 nor type2 is a subtype of the other...
+            errorHandler.register(Error.Kind.SEMANT_ERROR,
+                    currentClass.getASTNode().getFilename(), node.getLineNum(),
+                    "can only add between integers");
+        }
+        node.setExprType("int");
+        return null;
+    }
+
+
+    /**
+     * visit a binary arithmetic times expression node
+     * @param node the binary arithmetic times expression node
+     * @return
+     */
+    public Object visit(BinaryArithTimesExpr node){
+        node.getLeftExpr().accept(this);
+        node.getRightExpr().accept(this);
+        String type1 = node.getLeftExpr().getExprType();
+        String type2 = node.getRightExpr().getExprType();
+        if(!type1.equals("int")||!type2.equals("int")) {
+            //...if neither type1 nor type2 is a subtype of the other...
+            errorHandler.register(Error.Kind.SEMANT_ERROR,
+                    currentClass.getASTNode().getFilename(), node.getLineNum(),
+                    "can only time between integers");
+        }
+        node.setExprType("int");
+        return null;
+    }
+
+    /**
+     * Visit a binary comparison equals expression node
+     *
+     * @param node the binary comparison equals expression node
+     * @return null
+     */
+
+    public Object visit(BinaryCompGeqExpr node) {
+        node.getLeftExpr().accept(this);
+        node.getRightExpr().accept(this);
+        String type1 = node.getLeftExpr().getExprType();
+        String type2 = node.getRightExpr().getExprType();
+
+        if(!type1.equals("int")||!type2.equals("int")) {
+            //...if neither type1 nor type2 is a subtype of the other...
             errorHandler.register(Error.Kind.SEMANT_ERROR,
                 currentClass.getASTNode().getFilename(), node.getLineNum(),
-                "The two values being compared for equality are not compatible types.");
+                "The two values being compared are not integers.");
         }
         node.setExprType("boolean");
         return null;
     }
 
-    */
-/**
- * Visit a unary NOT expression node
- *
- * @param node the unary NOT expression node
- * @return null
- *//*
+    /**
+     * Visit a binary comparison greater than expression node
+     *
+     * @param node the binary comparison greater than expression node
+     * @return null
+     */
+    public Object visit(BinaryCompGtExpr node) {
+        node.getLeftExpr().accept(this);
+        node.getRightExpr().accept(this);
+        String type1 = node.getLeftExpr().getExprType();
+        String type2 = node.getRightExpr().getExprType();
+
+        if(!(isSubClass(type1, type2)||isSubClass(type2, type1))) {
+            //...if neither type1 nor type2 is a subtype of the other...
+            errorHandler.register(Error.Kind.SEMANT_ERROR,
+                    currentClass.getASTNode().getFilename(), node.getLineNum(),
+                    "The two values being compared are not integers.");
+        }
+        node.setExprType("boolean");
+        return null;
+    }
+
+    /**
+     * Visit a binary comparison less than expression node
+     *
+     * @param node the binary comparison less than expression node
+     * @return null
+     */
+    public Object visit(BinaryCompLtExpr node) {
+        node.getLeftExpr().accept(this);
+        node.getRightExpr().accept(this);
+        String type1 = node.getLeftExpr().getExprType();
+        String type2 = node.getRightExpr().getExprType();
+
+        if(!type1.equals("int")||!type2.equals("int")) {
+            //...if neither type1 nor type2 is a subtype of the other...
+            errorHandler.register(Error.Kind.SEMANT_ERROR,
+                    currentClass.getASTNode().getFilename(), node.getLineNum(),
+                    "The two values being compared are not integers");
+        }
+        node.setExprType("boolean");
+        return null;
+    }
+
+    /**
+     * Visit a binary comparison equal to expression node
+     *
+     * @param node the binary comparison equal to expression node
+     * @return null
+     */
+    public Object visit(BinaryCompEqExpr node) {
+        node.getLeftExpr().accept(this);
+        node.getRightExpr().accept(this);
+        String type1 = node.getLeftExpr().getExprType();
+        String type2 = node.getRightExpr().getExprType();
+
+        if(!(isSubClass(type1, type2)||isSubClass(type2, type1))) {
+            //...if neither type1 nor type2 is a subtype of the other...
+            errorHandler.register(Error.Kind.SEMANT_ERROR,
+                    currentClass.getASTNode().getFilename(), node.getLineNum(),
+                    "The two values being compared for equality are not compatible types.");
+        }
+        node.setExprType("boolean");
+        return null;
+    }
+
+    /**
+     * Visit a binary comparison not equal expression node
+     *
+     * @param node the binary comparison not equal expression node
+     * @return null
+     */
+    public Object visit(BinaryCompNeExpr node) {
+        node.getLeftExpr().accept(this);
+        node.getRightExpr().accept(this);
+        String type1 = node.getLeftExpr().getExprType();
+        String type2 = node.getRightExpr().getExprType();
+
+        if(!(isSubClass(type1, type2)||isSubClass(type2, type1))) {
+            //...if neither type1 nor type2 is a subtype of the other...
+            errorHandler.register(Error.Kind.SEMANT_ERROR,
+                    currentClass.getASTNode().getFilename(), node.getLineNum(),
+                    "The two values being compared for equality are not compatible types.");
+        }
+        node.setExprType("boolean");
+        return null;
+    }
+
+
+    /**
+     * Visit a unary NOT expression node
+     *
+     * @param node the unary NOT expression node
+     * @return null
+     */
 
     public Object visit(UnaryNotExpr node) {
         node.getExpr().accept(this);
@@ -208,81 +462,36 @@ public class TypeCheckerVisitor extends Visitor {
         return null;
     }
 
-    */
-/**
- * Visit an int constant expression node
- *
- * @param node the int constant expression node
- * @return null
- *//*
+    /**
+     * Visit an int constant expression node
+     *
+     * @param node the int constant expression node
+     * @return null
+     */
 
     public Object visit(ConstIntExpr node) {
         node.setExprType("int");
         return null;
     }
 
-    */
-/**
- * Visit a boolean constant expression node
- *
- * @param node the boolean constant expression node
- * @return null
- *//*
+
+    /**
+     * Visit a boolean constant expression node
+     *
+     * @param node the boolean constant expression node
+     * @return null
+     */
 
     public Object visit(ConstBooleanExpr node) {
         node.setExprType("boolean");
         return null;
     }
 
-    */
-/**
- * Visit a string constant expression node
- *
- * @param node the string constant expression node
- * @return null
- *//*
-
-    public Object visit(ConstStringExpr node) {
-        node.setExprType("String");
-        return null;
-    }
-
-}
-
-
-
-
-
-
-}
-
-
-
-
-*/
-
-
-
-
-
 
     /**
-     * Visit a ConstIntExpr expression node
+     * Visit a string constant expression node
      *
-     * @param node the ConstIntExpr expression node
-     * @return null
-     */
-
-    public Object visit(ConstIntExpr node) {
-        node.setExprType("int");
-        return null;
-    }
-
-
-    /**
-     * Visit a ConstIntExpr expression node
-     *
-     * @param node the ConstIntExpr expression node
+     * @param node the string constant expression node
      * @return null
      */
 
@@ -290,6 +499,7 @@ public class TypeCheckerVisitor extends Visitor {
         node.setExprType("String");
         return null;
     }
+
 
 
 
@@ -318,7 +528,7 @@ public class TypeCheckerVisitor extends Visitor {
         if (SemanticAnalyzer.reservedIdentifiers.contains(id)){
             errorHandler.register(Error.Kind.SEMANT_ERROR,
                     currentClass.getASTNode().getFilename(), node.getLineNum(),
-                     id + " is a reserved word in Bantam Java and can't be used as an identifier");
+                    id + " is a reserved word in Bantam Java and can't be used as an identifier");
         }
 
         Expr initExpr = node.getInit();
@@ -330,85 +540,12 @@ public class TypeCheckerVisitor extends Visitor {
             String varType = initExpr.getExprType();
             ClassTreeNode varClassNode = checkTypeExistence(varType, node.getLineNum());
             if(varClassNode != null){
-              currentSymbolTable.add(id, varType);//TODO FIGURE OUT IF NON EXISTENT TYPE SHOULD STILL BE SET IN SYMBOL TABLE
+                currentSymbolTable.add(id, varType);//TODO FIGURE OUT IF NON EXISTENT TYPE SHOULD STILL BE SET IN SYMBOL TABLE
             }
         }
         return null;
 
     }
-
-
-
-
-
-
-    /**
-     * Visit a DispatchExpr expression node
-     *
-     * @param node the DispatchExpr expression node
-     * @return null
-     */
-
-    public Object visit(DispatchExpr node) {
-        node.accept(this);
-        Expr objectExpr = node.getRefExpr(); //TODO CHECK IF EXPRESSION BEING NULL IS LEGAL
-        if (objectExpr == null) {
-            errorHandler.register(Error.Kind.SEMANT_ERROR,
-                    currentClass.getASTNode().getFilename(), node.getLineNum(),
-                    "The object whose method you are trying to call is null");
-        }
-        else {
-            String objectName = objectExpr.getExprType();
-            ClassTreeNode objectNode = checkTypeExistence(objectName, node.getLineNum());
-            if(objectNode != null) {
-                String methodName = node.getMethodName();
-                Method method = (Method) objectNode.getMethodSymbolTable().lookup(methodName);
-                if (method == null) {
-                    errorHandler.register(Error.Kind.SEMANT_ERROR,
-                            currentClass.getASTNode().getFilename(), node.getLineNum(),
-                            "The method " + methodName + " does not exist in the class");
-                    //TODO figure out what to set the type of the DispatchNode to if the method doesn't exist
-                }
-                else {
-                    node.setExprType(method.getReturnType());
-                }
-            }
-
-        }
-
-        return null;
-    }
-
-
-
-
-
-    /**
-    * Checks if the given type exists (is declared in the file or is a built-in class)
-    * @param objectName is a String indicating the name of the type it's checking for
-    * @param lineNum is the line number containing the statement which has a type to be checked
-    * @return the ClassTreeNode of the type if the class exists. Otherwise, return null
-    * For arrays, since they do not have a class tree node, Object node's is returned
-    */
-    private ClassTreeNode checkTypeExistence(String objectName, int lineNum) {
-        Hashtable<String, ClassTreeNode> classMap = currentClass.getClassMap();
-        ClassTreeNode objectNode = classMap.get(objectName);
-        if (objectNode == null) {
-            String objectAsArray = objectName.substring(0, objectName.length() - 2);
-            objectNode = classMap.get(objectAsArray);
-            if (objectNode == null) {
-                errorHandler.register(Error.Kind.SEMANT_ERROR,
-                        currentClass.getASTNode().getFilename(), lineNum,
-                        "The class " + objectName + " does not exist in this file");
-            }
-            else{ //If it's an array, use Object (because Dispatch needs to check Object methods for arrays)
-                // TODO CHECK DISPATCH IS THE ONLY ONE THIS MATTERS FOR
-                objectNode = classMap.get("Object");
-            }
-        }
-        return objectNode;
-    }
-
 
 
 
@@ -454,8 +591,6 @@ public class TypeCheckerVisitor extends Visitor {
 
 
 
-
-
     /**
      * Visit a ReturnStmt expression node
      *
@@ -478,7 +613,7 @@ public class TypeCheckerVisitor extends Visitor {
         if(returnType == null){
             type = "void";
         }
-        if(!returnType.equals(type)){
+        if(returnType!=null && !returnType.equals(type)){
             errorHandler.register(Error.Kind.SEMANT_ERROR,
                     currentClass.getASTNode().getFilename(), node.getLineNum(),
                     "The returned type of the method " + currentMethod + " does not equal the declared return type");
@@ -522,7 +657,6 @@ public class TypeCheckerVisitor extends Visitor {
         return null;
     }
 
-
     /**
      * Visit a unary INCR expression node
      *
@@ -550,7 +684,6 @@ public class TypeCheckerVisitor extends Visitor {
         node.setExprType("int");
         return null;
     }
-
 
     /**
      * Visit a unary NEG expression node
@@ -582,6 +715,11 @@ public class TypeCheckerVisitor extends Visitor {
 
 
 
+
+
+
+
+
     /**
      * Visit a string constant expression node
      *
@@ -608,3 +746,4 @@ public class TypeCheckerVisitor extends Visitor {
     }
 
 }
+
