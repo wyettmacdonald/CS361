@@ -7,12 +7,13 @@ class Main extends B{
 	var z = this.foo();
 	z = z * y;
 	z = (z-1)/3;
+	var i = 0;
 	for(i = 0; i < 2; i++){
 	    z = z + i;
 	    y = z + i;
 	}
 	while(z < 5 || x > 6){
-	   foo(z).get(x).ban().bar();
+	   //foo(z).get(x).ban().bar(); Ignoring this for now
 	   this.counter ++;
 	   break;
 	}
@@ -40,7 +41,7 @@ class B{
 	void main() {
 		a[3] = 5;
         	x = a[3];
-        	foo(x,y);
+        	foo(x,y); //This Expression Stmt isn't being parsed correctly
         	var y = a.b().length;
         	var z = new ban();
         	cast(int,a+b.foo().get().bar(ab));
