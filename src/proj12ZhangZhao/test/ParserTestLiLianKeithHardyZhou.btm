@@ -3,6 +3,7 @@ class Main extends B{
     boolean a = true;
     
     void bar(int y, int z) {
+	(new int[4])[3];
         y = y + 3;
 	var z = this.foo();
 	z = z * y;
