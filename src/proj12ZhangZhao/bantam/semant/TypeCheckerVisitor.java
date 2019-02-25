@@ -284,6 +284,23 @@ public class TypeCheckerVisitor extends Visitor {
         node.setExprType(node.getExprType());
         return null;
     }
+    /**
+     *
+     * @param node the cast expression node
+     * @return
+     */
+    public Object visit(CastExpr node){
+        String target = node.getType();
+        String exprType = node.getExpr().getExprType();
+        checkTypeExistence(target, node.getLineNum());
+        checkTypeExistence(exprType, node.getLineNum());
+        if(!isSubClass(target, exprType) && !isSubClass(exprType, target)){
+            errorHandler.register(Error.Kind.SEMANT_ERROR,
+                    currentClass.getASTNode().getFilename(), node.getLineNum(),
+                    "Cast from " + exprType + " to " + target +" is not allowed");
+        }
+        return null;
+    }
 
     /**
      * Visits the assignment expression node
