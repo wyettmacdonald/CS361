@@ -3,6 +3,7 @@
     <extensionMap>
       <mapping ext="klib" type="ARCHIVE" />
       <mapping pattern="bantam_test.btm" type="PLAIN_TEXT" />
+      <mapping ext="btm" type="PLAIN_TEXT" />
     </extensionMap>
   </component>
 </application>
