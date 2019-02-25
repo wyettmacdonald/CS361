@@ -44,13 +44,22 @@ public class SymbolTableBuildingVisitor extends Visitor{
             setParentAndChild(node);
         });
 
-        boolean mainMainExists = (classMap.get("Main").getMethodSymbolTable().lookup("main") != null);
-        System.out.println(mainMainExists);
-        if(!mainMainExists){
-            //Using 0 as the line number cause that doesn't really have a specific line num
-            errorHandler.register(Error.Kind.SEMANT_ERROR, classMap.get(currentClass).getASTNode().getFilename(), 0,
-                    "There is no Main class with a main method in this file");
 
+        ClassTreeNode mainClassNode = classMap.get("Main");
+        if(mainClassNode == null){
+            errorHandler.register(Error.Kind.SEMANT_ERROR, classMap.get(currentClass).getASTNode().getFilename(), 0,
+                    "There is no Main class in this file");
+        }
+        else{
+            //System.out.println("Scope size " + classMap.get("Main").getMethodSymbolTable().getSize());
+            boolean mainMainExists = (classMap.get("Main").getMethodSymbolTable().lookup("main") != null);
+            System.out.println(mainMainExists);
+            if(!mainMainExists){
+                //Using 0 as the line number cause that doesn't really have a specific line num
+                errorHandler.register(Error.Kind.SEMANT_ERROR, classMap.get(currentClass).getASTNode().getFilename(), 0,
+                        "There is no Main class with a main method in this file");
+
+            }
         }
 
     }
@@ -64,6 +73,8 @@ public class SymbolTableBuildingVisitor extends Visitor{
         treeNode.getVarSymbolTable().enterScope();
 
         super.visit(node);
+        //treeNode.getMethodSymbolTable().exitScope();
+        treeNode.getVarSymbolTable().exitScope();
         return null;
     }
 
