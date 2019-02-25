@@ -288,27 +288,43 @@ public class Parser
 
 
     /*
-	 * <ForStmt> ::= FOR ( <Start> ; <Terminate> ; <Increment> ) <STMT>
+     * <ForStmt> ::= FOR ( <Start> ; <Terminate> ; <Increment> ) <STMT>
      * <Start>     ::= EMPTY | <Expression>
      * <Terminate> ::= EMPTY | <Expression>
      * <Increment> ::= EMPTY | <Expression>
      */
-	private Stmt parseFor() {
+    private Stmt parseFor() {
         int position = this.currentToken.position;
         updateCurrentToken();
 
         this.checkToken(LPAREN, "When parsing For, \"(\" expected");
-        Expr startExpr = this.parseExpression();
+        Expr initExpr;
+        if (this.currentToken.spelling.equals(";")){
+            initExpr = null;
+        } else {
+            initExpr = this.parseExpression();
+        }
 
         this.checkToken(SEMICOLON,"When parsing For, \";\" expected");
-        Expr predExpr = this.parseExpression();
+        Expr predExpr;
+        if (this.currentToken.spelling.equals(";")){
+            predExpr = null;
+        } else{
+            predExpr = this.parseExpression();
+        }
 
         this.checkToken(SEMICOLON, "When parsing For, \";\" expected");
-        Expr incExpr = this.parseExpression();
+        Expr updateExpr;
+        if (this.currentToken.spelling.equals(")")){
+            updateExpr = null;
+        } else {
+            updateExpr = this.parseExpression();
+        }
 
         this.checkToken(RPAREN,"When parsing For, \")\" expected");
-        return new ForStmt(position, startExpr, predExpr, incExpr, this.parseStatement());
+        return new ForStmt(position, initExpr, predExpr, updateExpr, this.parseStatement());
     }
+
 
 
     /*
@@ -589,7 +605,8 @@ public class Parser
             updateCurrentToken();
             Expr expr = this.parseExpression();
             this.checkToken(RBRACKET,"When parsing New, \"]\" expected");
-            return new NewArrayExpr(this.currentToken.position,id,expr);
+            //System.out.println("Array type " + id);
+            return new NewArrayExpr(this.currentToken.position,id + "[]",expr);
         }else{
             this.registerError("When parsing New, \"(\" or \"[\" expected",
                     "Unexpected Token");
