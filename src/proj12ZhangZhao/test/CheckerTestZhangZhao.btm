@@ -21,10 +21,10 @@ class MainMainTest{
 class B extends A{ //Should log Parent does not exist error
 	int[] a;
 	void B(){
-	var b = int[];	//Should log missing size expression
+	var b = int[10];	//Should log missing size expression
 	-;
 	//a =; //CRASHES 
-	var a;
+	//var a;
 	}
 
 	void main() {
@@ -53,6 +53,5 @@ class H extends G{
 class I extends H{
 
 }
-
 
 

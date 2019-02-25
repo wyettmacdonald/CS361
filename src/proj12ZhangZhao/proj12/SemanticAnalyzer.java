@@ -30,9 +30,12 @@ package proj12ZhangZhao.proj12;
 
 import com.sun.source.tree.ClassTree;
 import proj12ZhangZhao.bantam.ast.*;
+import proj12ZhangZhao.bantam.parser.Parser;
 import proj12ZhangZhao.bantam.semant.ClassVisitor;
 import proj12ZhangZhao.bantam.semant.SymbolTableBuildingVisitor;
+import proj12ZhangZhao.bantam.semant.TypeCheckerVisitor;
 import proj12ZhangZhao.bantam.util.*;
+import proj12ZhangZhao.bantam.util.Error;
 
 import java.util.*;
 
@@ -116,14 +119,16 @@ public class SemanticAnalyzer
         // step 1:  add built-in classes to classMap
         addBuiltins();
 
-        // remove the following statement
-        //throw new RuntimeException("Semantic analyzer unimplemented");
-
-        // add code here...
         ClassVisitor classVisitor = new ClassVisitor(classMap, errorHandler);
         classVisitor.makeTree(program);
         SymbolTableBuildingVisitor symTabVisitor = new SymbolTableBuildingVisitor(classMap, errorHandler);
         symTabVisitor.makeTables();
+
+        classMap.forEach( (className, classNode) -> {
+            TypeCheckerVisitor typeCheckerVisitor = new TypeCheckerVisitor();
+            typeCheckerVisitor.checkTypes(classNode.getASTNode());
+            }
+        );
 
         // uncomment the following statement
         return root;
@@ -204,5 +209,44 @@ public class SemanticAnalyzer
         // create class tree node for Sys, add it to the mapping
         classMap.put("Sys", new ClassTreeNode(astNode, /*built-in?*/true, /*extendable
         ?*/false, classMap));
+    }
+
+
+
+    /*
+    * Main method that takes in filenames from the command line and then runs parsing and semantic analysis on them
+    */
+    public static void main(String args[]){
+        ErrorHandler errorHandler = new ErrorHandler();
+        Parser parser = new Parser(errorHandler);
+        SemanticAnalyzer semAnalyzer = new SemanticAnalyzer(errorHandler);
+        for(int i = 0; i < args.length; i ++){
+            try {
+                Program ast = parser.parse(args[i]);
+                System.out.println("Parsing Successful.");
+                semAnalyzer.analyze(ast);
+                if(errorHandler.errorsFound()){
+                    System.out.println(args[i] + ": Semantic Analysis Failed");
+                    List<Error> errorList= errorHandler.getErrorList();
+                    for(Error error:errorList ){
+                        System.out.println(error.toString() + "\n");
+                    }
+                }
+            }
+            catch(CompilationException e){
+                if(errorHandler.errorsFound()){
+                    System.out.println(args[i] + ": Parsing Failed");
+                    List<Error> errorList= errorHandler.getErrorList();
+                    for(Error error:errorList ){
+                        System.out.println(error.toString() + "\n");
+                    }
+                }
+                else{
+                    System.out.println("Invalid filename: "+ args[i]);
+                }
+            }
+
+        }
+
     }
 }
