@@ -158,10 +158,6 @@ public class ToolbarController {
 
 
 
-                            Platform.runLater(()->this.console.writeToConsole(
-                                    root.getClassMap().entrySet() + "\n",
-                                    "Output"));
-
 
                             Platform.runLater(()-> {
                                 ToolbarController.this.console.writeToConsole("Semantic Analysis Failed\n","Error");

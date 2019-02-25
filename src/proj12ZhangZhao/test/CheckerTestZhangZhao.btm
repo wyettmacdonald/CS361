@@ -33,7 +33,8 @@ class Main extends MainMainTest{//non-existing parent, no main class with main m
 		}
 		var ap = new Apple();
 		var f = new Fruit();
-		
+		var appleid = ap.apple;
+		appleid = ap.id;
 		if(ap==f){
 			f = ap; //should pass
 		}

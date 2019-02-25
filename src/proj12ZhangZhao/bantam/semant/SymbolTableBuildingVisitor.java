@@ -17,6 +17,7 @@ import proj12ZhangZhao.bantam.util.ClassTreeNode;
 import proj12ZhangZhao.proj12.SemanticAnalyzer;
 
 import java.util.Hashtable;
+import java.util.List;
 
 
 /*
@@ -38,6 +39,11 @@ public class SymbolTableBuildingVisitor extends Visitor{
         errorHandler = handler;
     }
 
+
+    /*
+    * Makes method symbol tables and begins the var symbol tables f
+    * or all classes in the class map given at initialization
+    */
     public void makeTables(){
 
         classMap.forEach( (nodeName, node) -> {
@@ -63,9 +69,13 @@ public class SymbolTableBuildingVisitor extends Visitor{
             }
         }
 
+
     }
 
-
+    /*
+    * Visits Class_ nodes
+    * @param node is the Class_ node to be visited
+    */
     public Object visit(Class_ node){
         currentClass = node.getName();
         ClassTreeNode treeNode = classMap.get(currentClass);
@@ -79,23 +89,32 @@ public class SymbolTableBuildingVisitor extends Visitor{
         return null;
     }
 
+    /*
+     * Visits Field nodes
+     * @param node is the Field node to be visited
+     */
     public Object visit(Field node){
         ClassTreeNode treeNode = classMap.get(currentClass);
         String fieldName  = node.getName();
         if(SemanticAnalyzer.reservedIdentifiers.contains(fieldName)){
-            errorHandler.register(Error.Kind.SEMANT_ERROR, classMap.get(currentClass).getASTNode().getFilename(), 0,
-                    "Reserved word " + fieldName + "cannot be used as an identifier");
+            errorHandler.register(Error.Kind.SEMANT_ERROR, classMap.get(currentClass).getASTNode().getFilename(),
+                    node.getLineNum(),
+                    "Reserved word " + fieldName + " cannot be used as an identifier");
 
         }
         treeNode.getVarSymbolTable().add(node.getName(), node.getType());
-        System.out.println("Field found: " + node.getName() + " added to " + currentClass);
+        //System.out.println("Field found: " + node.getName() + " added to " + currentClass);
         return null;
     }
 
+    /*
+     * Visits Method nodes
+     * @param node is the Method node to be visited
+     */
     public Object visit(Method node){
         ClassTreeNode treeNode = classMap.get(currentClass);
         treeNode.getMethodSymbolTable().add(node.getName(), node);
-        System.out.println("Adding method " + node.getName() + " to " + currentClass);
+        //System.out.println("Adding method " + node.getName() + " to " + currentClass);
         treeNode.getVarSymbolTable().enterScope();
         super.visit(node);
         return null;
@@ -105,12 +124,13 @@ public class SymbolTableBuildingVisitor extends Visitor{
         ClassTreeNode treeNode = classMap.get(currentClass);
         String paramName  = node.getName();
         if(SemanticAnalyzer.reservedIdentifiers.contains(paramName)){
-            errorHandler.register(Error.Kind.SEMANT_ERROR, classMap.get(currentClass).getASTNode().getFilename(), 0,
-                    "Reserved word " + paramName + "cannot be used as an identifier");
+            errorHandler.register(Error.Kind.SEMANT_ERROR, classMap.get(currentClass).getASTNode().getFilename(),
+                    node.getLineNum(),
+                    "Reserved word " + paramName + " cannot be used as an identifier");
 
         }
         treeNode.getVarSymbolTable().add(node.getName(), node.getType());
-        System.out.println("Param found: " + node.getName() + " added to " + currentClass);
+        //System.out.println("Param found: " + node.getName() + " added to " + currentClass);
         return null;
     }
 

@@ -127,7 +127,7 @@ public class SemanticAnalyzer
         classMap.forEach( (className, classNode) -> {
             TypeCheckerVisitor typeCheckerVisitor = new TypeCheckerVisitor(errorHandler);
             typeCheckerVisitor.checkTypes(classNode);
-            System.out.println("Done with " + className);
+            //System.out.println("Done with " + className);
             }
         );
 
@@ -232,6 +232,9 @@ public class SemanticAnalyzer
                     for(Error error:errorList ){
                         System.out.println(error.toString() + "\n");
                     }
+                }
+                else{
+                    System.out.println("Semantic analysis succeeded");
                 }
             }
             catch(CompilationException e){

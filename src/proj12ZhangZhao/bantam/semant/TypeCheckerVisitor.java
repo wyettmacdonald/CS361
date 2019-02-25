@@ -129,8 +129,12 @@ public class TypeCheckerVisitor extends Visitor {
 
 
 
+
     /*
-     *
+     * Checks to see if an identifier exists in the current scope
+     * @param id is the identifier
+     * @param ref is the reference variable for the identifier, if any
+     * @param lineNum is the line number that the identifier is on
      */
     private String checkIDExistence(String id, String ref, int lineNum){
         String idType = null;
@@ -150,7 +154,26 @@ public class TypeCheckerVisitor extends Visitor {
 
                 }
             }
-            //TODO add a check for if the ref is another variable
+            else{ //Fairly certain you can't chain this.super or anything like that
+                String refType = (String) currentSymbolTable.lookup(ref);
+                if(refType!= null){
+                    //Check the fields of the reference's type
+                    //I believe that I don't enter invalid types into the symbol table, so the result should always exist
+                    ClassTreeNode refNode = currentClass.getClassMap().get(refType);
+                    idType = (String) refNode.getVarSymbolTable().lookup(id, 0);
+                    if ( idType == null) {
+                        errorHandler.register(Error.Kind.SEMANT_ERROR,
+                                currentClass.getASTNode().getFilename(), lineNum,
+                                "The reference " + ref + " does not have a field called " + id);
+                    }
+                }
+                else{
+                    errorHandler.register(Error.Kind.SEMANT_ERROR,
+                            currentClass.getASTNode().getFilename(), lineNum,
+                            "The reference doesn't exist");
+                }
+
+            }
         }
         else{ //Check the local scope and the fields
             idType = (String) currentSymbolTable.lookup(id);
@@ -163,7 +186,6 @@ public class TypeCheckerVisitor extends Visitor {
 
         return idType;
     }
-
 
     /**
      * Visit a field node
@@ -238,7 +260,7 @@ public class TypeCheckerVisitor extends Visitor {
         String type = node.getType();
         checkTypeExistence(type, node.getLineNum());
         // add it to the current scope
-        // I already added it in the symbol table builder visitor TODO VERIFY THIS WORKS
+        // I already added it in the symbol table builder visitor
         //currentSymbolTable.add(node.getName(), node.getType());
         return null;
     }
@@ -250,7 +272,6 @@ public class TypeCheckerVisitor extends Visitor {
      * @return null
      */
     public Object visit(ArrayAssignExpr node){
-        //TODO did we already check to make sure the ref expression is super or this only?
 
         Expr index = node.getIndex();
         index.accept(this);
@@ -407,7 +428,7 @@ public class TypeCheckerVisitor extends Visitor {
         String type1 = node.getLeftExpr().getExprType();
         String type2 = node.getRightExpr().getExprType();
 
-        if (!type1.equals("int") || !type2.equals("int")) {
+        if (!"int".equals(type1) || !"int".equals(type2)) {
             //...if neither type1 nor type2 is a subtype of the other...
             errorHandler.register(Error.Kind.SEMANT_ERROR,
                     currentClass.getASTNode().getFilename(), node.getLineNum(),
@@ -428,7 +449,7 @@ public class TypeCheckerVisitor extends Visitor {
         node.getRightExpr().accept(this);
         String type1 = node.getLeftExpr().getExprType();
         String type2 = node.getRightExpr().getExprType();
-        if (!type1.equals("int") || !type2.equals("int")) {
+        if (!"int".equals(type1) || !"int".equals(type2)) {
             //...if neither type1 nor type2 is a subtype of the other...
             errorHandler.register(Error.Kind.SEMANT_ERROR,
                     currentClass.getASTNode().getFilename(), node.getLineNum(),
@@ -449,7 +470,7 @@ public class TypeCheckerVisitor extends Visitor {
         node.getRightExpr().accept(this);
         String type1 = node.getLeftExpr().getExprType();
         String type2 = node.getRightExpr().getExprType();
-        if (!type1.equals("int") || !type2.equals("int")) {
+        if (!"int".equals(type1) || !"int".equals(type2)) {
             //...if neither type1 nor type2 is a subtype of the other...
             errorHandler.register(Error.Kind.SEMANT_ERROR,
                     currentClass.getASTNode().getFilename(), node.getLineNum(),
@@ -470,7 +491,7 @@ public class TypeCheckerVisitor extends Visitor {
         node.getRightExpr().accept(this);
         String type1 = node.getLeftExpr().getExprType();
         String type2 = node.getRightExpr().getExprType();
-        if (!type1.equals("int") || !type2.equals("int")) {
+        if (!"int".equals(type1) || !"int".equals(type2)) {
             //...if neither type1 nor type2 is a subtype of the other...
             errorHandler.register(Error.Kind.SEMANT_ERROR,
                     currentClass.getASTNode().getFilename(), node.getLineNum(),
@@ -495,7 +516,7 @@ public class TypeCheckerVisitor extends Visitor {
 
         //System.out.println("Type 1 "  + type1 + " type2 " + type2);
 
-        if (!type1.equals("int") || !type2.equals("int")) {
+        if (!"int".equals(type1) || !"int".equals(type2)) {
             //...if neither type1 nor type2 is a subtype of the other...
             errorHandler.register(Error.Kind.SEMANT_ERROR,
                     currentClass.getASTNode().getFilename(), node.getLineNum(),
@@ -518,7 +539,7 @@ public class TypeCheckerVisitor extends Visitor {
         String type1 = node.getLeftExpr().getExprType();
         String type2 = node.getRightExpr().getExprType();
 
-        if (!type1.equals("int") || !type2.equals("int")) {
+        if (!"int".equals(type1) || !"int".equals(type2)) {
             //...if neither type1 nor type2 is a subtype of the other...
             errorHandler.register(Error.Kind.SEMANT_ERROR,
                     currentClass.getASTNode().getFilename(), node.getLineNum(),
@@ -565,7 +586,7 @@ public class TypeCheckerVisitor extends Visitor {
         String type1 = node.getLeftExpr().getExprType();
         String type2 = node.getRightExpr().getExprType();
 
-        if (!type1.equals("int") || !type2.equals("int")) {
+        if (!"int".equals(type1) || !"int".equals(type2)) {
             //...if neither type1 nor type2 is a subtype of the other...
             errorHandler.register(Error.Kind.SEMANT_ERROR,
                     currentClass.getASTNode().getFilename(), node.getLineNum(),
@@ -639,7 +660,7 @@ public class TypeCheckerVisitor extends Visitor {
         String type1 = node.getLeftExpr().getExprType();
         String type2 = node.getRightExpr().getExprType();
 
-        if (!type1.equals("boolean") || !type2.equals("boolean")) {
+        if (!"boolean".equals(type1) || !"boolean".equals(type2)) {
             //...if neither type1 nor type2 is a subtype of the other...
             errorHandler.register(Error.Kind.SEMANT_ERROR,
                     currentClass.getASTNode().getFilename(), node.getLineNum(),
@@ -661,7 +682,7 @@ public class TypeCheckerVisitor extends Visitor {
         String type1 = node.getLeftExpr().getExprType();
         String type2 = node.getRightExpr().getExprType();
 
-        if (!type1.equals("boolean") || !type2.equals("boolean")) {
+        if (!"boolean".equals(type1) || !"boolean".equals(type2)) {
             //...if neither type1 nor type2 is a subtype of the other...
             errorHandler.register(Error.Kind.SEMANT_ERROR,
                     currentClass.getASTNode().getFilename(), node.getLineNum(),
@@ -681,7 +702,7 @@ public class TypeCheckerVisitor extends Visitor {
     public Object visit(UnaryNotExpr node) {
         node.getExpr().accept(this);
         String type = node.getExpr().getExprType();
-        if (!type.equals("boolean")) {
+        if (!"boolean".equals(type)) {
             errorHandler.register(Error.Kind.SEMANT_ERROR,
                     currentClass.getASTNode().getFilename(), node.getLineNum(),
                     "The not (!) operator applies only to boolean expressions," +
@@ -747,6 +768,7 @@ public class TypeCheckerVisitor extends Visitor {
         node.getInit().accept(this);
         String id = node.getName();
         Object existingDef = currentSymbolTable.lookup(id);
+        //System.out.println("Field search for id " + id  + currentSymbolTable.lookup(id, 0) );
         if ((existingDef != null) && (currentSymbolTable.lookup(id, 0) == null)) {
             //If it's in the table and it's not a field
             errorHandler.register(Error.Kind.SEMANT_ERROR,
@@ -765,7 +787,8 @@ public class TypeCheckerVisitor extends Visitor {
         String varType = node.getInit().getExprType();
         ClassTreeNode varClassNode = checkTypeExistence(varType, node.getLineNum());
         if(varClassNode != null){
-            currentSymbolTable.add(id, varType);//TODO FIGURE OUT IF NON EXISTENT TYPE SHOULD STILL BE SET IN SYMBOL TABLE
+            //Non-existent types won't be set in the table
+            currentSymbolTable.add(id, varType);
         }
         return null;
 
@@ -821,7 +844,6 @@ public class TypeCheckerVisitor extends Visitor {
                 errorHandler.register(Error.Kind.SEMANT_ERROR,
                         currentClass.getASTNode().getFilename(), node.getLineNum(),
                         "The method " + methodName + " does not exist in the class");
-                //TODO figure out what to set the type of the DispatchNode to if the method doesn't exist
             }
             else {
                 String type = method.getReturnType();
@@ -1024,7 +1046,7 @@ public class TypeCheckerVisitor extends Visitor {
 
         node.getExpr().accept(this);
         String type = node.getExpr().getExprType();
-        if (!type.equals("int")) {
+        if (!"int".equals(type)) {
             errorHandler.register(Error.Kind.SEMANT_ERROR,
                     currentClass.getASTNode().getFilename(), node.getLineNum(),
                     "The decrement (--) operator applies only to integer expressions," +
@@ -1047,7 +1069,7 @@ public class TypeCheckerVisitor extends Visitor {
 
         node.getExpr().accept(this);
         String type = node.getExpr().getExprType();
-            if (!type.equals("int")) {
+            if (!"int".equals(type)) {
                 errorHandler.register(Error.Kind.SEMANT_ERROR,
                         currentClass.getASTNode().getFilename(), node.getLineNum(),
                         "The increment (++) operator applies only to integer expressions," +
@@ -1069,7 +1091,7 @@ public class TypeCheckerVisitor extends Visitor {
     public Object visit(UnaryNegExpr node) {
         node.getExpr().accept(this);
         String type = node.getExpr().getExprType();
-            if (!type.equals("int")) {
+            if (!"int".equals(type)) {
                 errorHandler.register(Error.Kind.SEMANT_ERROR,
                         currentClass.getASTNode().getFilename(), node.getLineNum(),
                         "The negative (-) operator applies only to integer expressions," +
@@ -1090,25 +1112,45 @@ public class TypeCheckerVisitor extends Visitor {
      */
 
     public Object visit(VarExpr node) {
-        Expr ref = node.getRef();
-        if (ref != null){
-            ref.accept(this);
+        VarExpr ref =  (VarExpr)node.getRef();
+        String refType;
+        ClassTreeNode refNode;
+        if(ref!=null&&!"this".equals(ref.getName())){
+            refType = (String)this.currentSymbolTable.lookup(ref.getName());
+            if(refType == null){
+                errorHandler.register(Error.Kind.SEMANT_ERROR,
+                        currentClass.getASTNode().getFilename(), node.getLineNum(),
+                        "Object "+ref.getName()+" is not defined");
+                refType = this.currentClass.getName();
+            }
+            Hashtable<String, ClassTreeNode> classMap = this.currentClass.getClassMap();
+            refNode = classMap.get(refType);
+
+        }
+        else{
+            refNode = this.currentClass;
         }
         String varName = node.getName();
-        //TODO Figure out where to test for array.length
-        //TODO if the expression = this or super, how can you tell so you can make sure to only check those symbol tables?
-        String type = (String) currentSymbolTable.lookup(varName);
 
-        if( (type == null)&& (!"super".equals(varName) && (!"this".equals(varName))) ){
+        try {
+            String type = (String) refNode.getVarSymbolTable().lookup(varName);
+            if( (type == null)&& (!"super".equals(varName) && (!"this".equals(varName))) ){
+                errorHandler.register(Error.Kind.SEMANT_ERROR,
+                        currentClass.getASTNode().getFilename(), node.getLineNum(),
+                        "The variable " + varName + " does not exist in this scope");
+                node.setExprType("void"); //Setting a dummy type to avoid getting errors
+            }
+            else {
+                node.setExprType(type);
+
+            }
+        }catch(RuntimeException e){
             errorHandler.register(Error.Kind.SEMANT_ERROR,
                     currentClass.getASTNode().getFilename(), node.getLineNum(),
                     "The variable " + varName + " does not exist in this scope");
-            node.setExprType("void"); //Setting a dummy type to avoid getting errors
+            node.setExprType("void");
         }
-        else {
-            node.setExprType(type);
 
-        }
         return null;
     }
 
