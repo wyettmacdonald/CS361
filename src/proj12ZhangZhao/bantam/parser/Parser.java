@@ -367,39 +367,43 @@ public class Parser
      */
 	private Expr parseExpression(){
         int position = this.currentToken.position;
-        Expr left = this.parseOrExpr();
-
-        if (this.currentToken.kind == ASSIGN){
-            if (left instanceof VarExpr){
-                String refName = null;
-                if(((VarExpr) left).getRef() != null) {
-                    refName = ((VarExpr) ((VarExpr) left).getRef()).getName();
-                }
-                String name = ((VarExpr) left).getName();
-                updateCurrentToken();
-
-                return new AssignExpr(position,refName,name,this.parseExpression());
-            }
-            else if(left instanceof ArrayExpr){
-                String refName = null;
-                if(((ArrayExpr) left).getRef() != null) {
-                    refName = ((ArrayExpr) ((ArrayExpr) left).getRef()).getName();
-                }
-                String name = ((ArrayExpr) left).getName();
-                Expr index = ((ArrayExpr) left).getIndex();
-                updateCurrentToken();
-                return new ArrayAssignExpr(position,refName,name,index, this.parseExpression());
-            }
-            else{
-                this.registerError("When parsing Expr, Variable name Expected",
-                        "Error in parsing expression");
-            }
-
+        if(this.currentToken.spelling.equals(";")){
+            this.registerError("Empty expression on the left of assignment",
+                    "Error in Parsing Expression");
+            return null;
         }
-        else{
-            return left;
+        else {
+            Expr left = this.parseOrExpr();
+
+            if (this.currentToken.kind == ASSIGN) {
+                if (left instanceof VarExpr) {
+                    String refName = null;
+                    if (((VarExpr) left).getRef() != null) {
+                        refName = ((VarExpr) ((VarExpr) left).getRef()).getName();
+                    }
+                    String name = ((VarExpr) left).getName();
+                    updateCurrentToken();
+
+                    return new AssignExpr(position, refName, name, this.parseExpression());
+                } else if (left instanceof ArrayExpr) {
+                    String refName = null;
+                    if (((ArrayExpr) left).getRef() != null) {
+                        refName = ((ArrayExpr) ((ArrayExpr) left).getRef()).getName();
+                    }
+                    String name = ((ArrayExpr) left).getName();
+                    Expr index = ((ArrayExpr) left).getIndex();
+                    updateCurrentToken();
+                    return new ArrayAssignExpr(position, refName, name, index, this.parseExpression());
+                } else {
+                    this.registerError("When parsing Expr, Variable name Expected",
+                            "Error in parsing expression");
+                    return null;
+                }
+
+            } else {
+                return left;
+            }
         }
-        return null;
     }
 
 
