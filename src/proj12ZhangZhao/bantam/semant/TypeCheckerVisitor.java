@@ -906,7 +906,11 @@ public class TypeCheckerVisitor extends Visitor {
         }
         currentSymbolTable.enterScope();
         node.getThenStmt().accept(this);
-        node.getElseStmt().accept(this);
+        Stmt elseStmt = node.getElseStmt();
+        if(elseStmt != null){
+            node.getElseStmt().accept(this);
+        }
+
         currentSymbolTable.exitScope();
         return null;
     }

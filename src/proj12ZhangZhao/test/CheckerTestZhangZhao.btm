@@ -1,48 +1,45 @@
-class Main extends MainMainTest{ 
-    int b = 2;
-    boolean a = true;
-    
-    void bar(int y, int z) {
-    	var m = "mah";
-    }
-    int foo(){
-	foo(d).fooo(x);
-	return 6;
-    }
-}
+class Main extends MainMainTest{//none-existing parent 
+	String arc = 1; //wrong field declaration type
+	void foo(){
+		this.arc++; //unary type error
+		var s = "good"; 
+		this.arc = "hi"; 
+		var a = 3;
+		a[s] = 5; //array index not an integer
+		a = this.arc/10; //undefined variable, wrong binary division type
+		var b = 10*this.arc; //wrong binary multiply type
+		var c = this.arc + s; //wrong binary add type
+		var boolean = this.arc||s; //wrong binary logical or type
+		var and = this.arc&&a; //wrong binary logical and type
+		//var c = (String)111; //wrong cast type
+		if(arc){ //wrong if statement condition type
+			return s>=this.arc; //wrong return type, wrong comparision type
+		}
+		if(s>this.arc){
+			voo();
+		}
+		if(s==this.arc){
+			voo();
+		}
+		if(s<=this.arc){
+			voo();
+		}
+		while(c=1){ //while loop condition not boolean
+			voo();
+		}
 
-class MainMainTest{
-    void main(){
-	var array = String[];
-    }
-}
+		for(i = "hi"; i< 10; i++){//initialization is not an integer
 
+		}
+		for(i = 0; i = i+1;i++){//condition is not boolean
 
-class B extends A{ //Should log Parent does not exist error
-	int[] a;
-	void B(){
-	var b = int[10];	//Should log missing size expression
-	-;
-	//a =; //CRASHES 
-	//var a;
+		}
 	}
-
-	void main() {
-		
-    	}
+	test voo(){
+		this.foooo(); //none existing method name
+	}
 }
-
-/
-class D extends C{
-}
-
-class C extends D{ //Should log a graph cycle
-
-}
-
-
-
-
+//cycle inheritence
 class G extends I{
 
 }
@@ -54,4 +51,3 @@ class H extends G{
 class I extends H{
 
 }
-
