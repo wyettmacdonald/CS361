@@ -172,15 +172,15 @@ public class ToolBarController {
 
                 if (root != null) {
 
-                    drawTree(root, file);
+//                    drawTree(root, file);
                     ErrorHandler errorHandler = new ErrorHandler();
                     SemanticAnalyzer semanticAnalyzer = new SemanticAnalyzer(errorHandler);
                     semanticAnalyzer.analyze(root);
-                    List<Error> errorList = semanticAnalyzer.getErrorHandler().getErrorList();
+                    List<Error> errorList = errorHandler.getErrorList();
                     printErrorList(errorList);
                     Platform.runLater(() -> {
-                        console.appendText("Scanning, parsing and checking completed successfully\n");
                         console.appendText("Semantic errors found: " + errorList.size() + "\n");
+                        console.appendText("Scanning, parsing and checking completed successfully\n");
                     });
                 }
             }

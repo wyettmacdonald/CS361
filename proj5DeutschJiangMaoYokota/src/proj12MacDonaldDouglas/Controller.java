@@ -359,45 +359,6 @@ public class Controller {
     }
 
     /**
-     * Calls the method that handles the Check Main button action from the
-     * toolbarController.
-     *
-     * @param event Event object
-     */
-    @FXML
-    private void handleCheckMainButtonAction(Event event) {
-        Tab selectedTab = this.tabPane.getSelectionModel().getSelectedItem();
-        this.toolbarController.handleCheckMainButtonAction(
-                event, this.tabPane.getFileFromTab(selectedTab));
-    }
-
-    /**
-     * Calls the method that handles the Check string constants button action from the
-     * toolbarController.
-     *
-     * @param event Event object
-     */
-    @FXML
-    private void handleCheckStringConstantsButtonAction(Event event) {
-        Tab selectedTab = this.tabPane.getSelectionModel().getSelectedItem();
-        this.toolbarController.handleCheckStringConstantsButtonAction(
-                event, this.tabPane.getFileFromTab(selectedTab));
-    }
-
-    /**
-     * Calls the method that handles the Check local vars button action from the
-     * toolbarController.
-     *
-     * @param event Event object
-     */
-    @FXML
-    private void handleCheckLocalVarsButtonAction(Event event) {
-        Tab selectedTab = this.tabPane.getSelectionModel().getSelectedItem();
-        this.toolbarController.handleCheckLocalVarsButtonAction(
-                event, this.tabPane.getFileFromTab(selectedTab));
-    }
-
-    /**
      * Calls the method that handles About menu item action from the
      * fileMenuController.
      */

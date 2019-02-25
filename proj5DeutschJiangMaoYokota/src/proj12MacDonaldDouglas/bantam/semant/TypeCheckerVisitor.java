@@ -17,8 +17,17 @@ public class TypeCheckerVisitor extends proj12MacDonaldDouglas.bantam.visitor.Vi
     private SymbolTable currentSymbolTable;
     private ErrorHandler errorHandler;
 
-    public TypeCheckerVisitor(ClassTreeNode node) {
+    /**
+     * TypeCheckerVisitor constructor
+     *
+     * @param node ClassTreeNode
+     * @param errorHandler ErrorHandler from SemanticAnalyzer
+     */
+    public TypeCheckerVisitor(ClassTreeNode node, ErrorHandler errorHandler) {
         this.currentClass = node;
+        this.errorHandler = errorHandler;
+        node.getASTNode().accept(this);
+
     }
 
     /**
@@ -42,17 +51,84 @@ public class TypeCheckerVisitor extends proj12MacDonaldDouglas.bantam.visitor.Vi
                 nameType.equals("boolean") || nameType.equals("String"));
     }
 
+    /**
+     * Check if type is of a class type
+     *
+     * @param node1 type of node1
+     * @param node2 type of node2
+     * @return true if type is defined, false if not
+     */
     private boolean checkSubClass(String node1, String node2) {
-        if(currentClass.getClassMap().get(node1).getParent().getName().equals("Object")) {
-            return node1.equals(node2);
+        if(node1 == node2) {
+            return true;
         }
-        else {
-            return currentClass.getClassMap().get(node1).getParent().getName().equals(node2);
+        String nodeName = currentClass.getParent().getName();
+        while (!nodeName.equals("Object")) {
+            if(nodeName.equals(node2)) {
+                return true;
+            }
+            nodeName = currentClass.getParent().getName();
         }
+        return false;
     }
 
-    public Object visit(Program node) {
-        node.getClassList().accept(this);
+    /**
+     * Check if node is in the VariableSymbolTable
+     * UNUSED
+     *
+     * @param node
+     * @return null
+     */
+    private Object checkInVarST(String node) {
+        currentClass.getVarSymbolTable().enterScope();
+        if(currentClass.getVarSymbolTable().lookup(node) != null) {
+            return currentClass.getVarSymbolTable().lookup(node);
+        }
+        return null;
+    }
+
+    /**
+     * Check if node is in the Method Symbol table
+     * UNUSED
+     *
+     * @param node
+     * @return null
+     */
+    private Object checkInMethodST(String node) {
+        currentClass.getMethodSymbolTable().enterScope();
+        if(currentClass.getMethodSymbolTable().lookup(node) != null) {
+            currentClass.getMethodSymbolTable().exitScope();
+            return currentClass.getMethodSymbolTable().lookup(node);
+        }
+        currentClass.getMethodSymbolTable().exitScope();
+        return null;
+    }
+
+    /**
+     * Visits a Class node
+     * Enters and Exits scope
+     *
+     * @param node the class node
+     * @return
+     */
+    public Object visit(Class_ node) {
+        currentClass.getVarSymbolTable().enterScope();
+        currentClass.getMethodSymbolTable().enterScope();
+        node.getMemberList().accept(this);
+        currentClass.getMethodSymbolTable().exitScope();
+        currentClass.getVarSymbolTable().exitScope();
+        return null;
+    }
+
+    /**
+     * Visit a list node of members
+     *
+     * @param node the member list node
+     * @return result of the visit
+     */
+    public Object visit(MemberList node) {
+        for (ASTNode child : node)
+            child.accept(this);
         return null;
     }
 
@@ -62,12 +138,14 @@ public class TypeCheckerVisitor extends proj12MacDonaldDouglas.bantam.visitor.Vi
      * @param node the field node
      * @return null
      */
+    @Override
     public Object visit(Field node) {
         // The fields should have already been added to the symbol table by the
         // SemanticAnalyzer so the only thing to check is the compatibility of the init
         // expr's type with the field's type.
-        // if (...node's type is not a defined type...) {
-        if ((!checkDefined(node.getType()))) {
+        this.currentSymbolTable = currentClass.getVarSymbolTable();
+        Object objType = currentClass.getVarSymbolTable().peek(node.getName());
+        if (objType == null) {
             errorHandler.register(Error.Kind.SEMANT_ERROR,
                     currentClass.getASTNode().getFilename(), node.getLineNum(),
                     "The declared type " + node.getType() + " of the field "
@@ -77,7 +155,6 @@ public class TypeCheckerVisitor extends proj12MacDonaldDouglas.bantam.visitor.Vi
         if (initExpr != null) {
             initExpr.accept(this);
             if(!checkSubClass(initExpr.getExprType(), node.getType())) {
-//                if(...the initExpr's type is not a subtype of the node's type...) {
                 errorHandler.register(Error.Kind.SEMANT_ERROR,
                         currentClass.getASTNode().getFilename(), node.getLineNum(),
                         "The type of the initializer is " + initExpr.getExprType()
@@ -97,6 +174,7 @@ public class TypeCheckerVisitor extends proj12MacDonaldDouglas.bantam.visitor.Vi
      * @param node the Method node to visit
      * @return null
      */
+    @Override
     public Object visit(Method node) {
         if (!checkDefined(node.getReturnType()) && !node.getReturnType().equals("void")) {
 //        if (...the node's return type is not a defined type and not "void"...) {
@@ -105,8 +183,8 @@ public class TypeCheckerVisitor extends proj12MacDonaldDouglas.bantam.visitor.Vi
                     "The return type " + node.getReturnType() + " of the method "
                             + node.getName() + " is undefined.");
         }
-
         //create a new scope for the method body
+        currentSymbolTable = currentClass.getVarSymbolTable();
         currentSymbolTable.enterScope();
         node.getFormalList().accept(this);
         node.getStmtList().accept(this);
@@ -120,8 +198,8 @@ public class TypeCheckerVisitor extends proj12MacDonaldDouglas.bantam.visitor.Vi
      * @param node the Formal node
      * @return null
      */
+    @Override
     public Object visit(Formal node) {
-//        if (...the node's type is not a defined type...) {
         if (!checkDefined(node.getType())) {
             errorHandler.register(Error.Kind.SEMANT_ERROR,
                     currentClass.getASTNode().getFilename(), node.getLineNum(),
@@ -129,7 +207,7 @@ public class TypeCheckerVisitor extends proj12MacDonaldDouglas.bantam.visitor.Vi
                             " parameter " + node.getName() + " is undefined.");
         }
         // add it to the current scope
-        currentSymbolTable.add(node.getName(), node.getType());
+//        currentSymbolTable.add(node.getName(), node.getType());
         return null;
     }
 
@@ -139,6 +217,7 @@ public class TypeCheckerVisitor extends proj12MacDonaldDouglas.bantam.visitor.Vi
      * @param node the while statement node
      * @return null
      */
+    @Override
     public Object visit(WhileStmt node) {
         node.getPredExpr().accept(this);
         if(!node.getPredExpr().getExprType().equals("boolean")) {
@@ -159,6 +238,7 @@ public class TypeCheckerVisitor extends proj12MacDonaldDouglas.bantam.visitor.Vi
      * @param node the block statement node
      * @return null
      */
+    @Override
     public Object visit(BlockStmt node) {
         currentSymbolTable.enterScope();
         node.getStmtList().accept(this);
@@ -168,10 +248,12 @@ public class TypeCheckerVisitor extends proj12MacDonaldDouglas.bantam.visitor.Vi
 
     /**
      * Visit a new expression node
+     * Check if node type is defined
      *
      * @param node the new expression node
      * @return null
      */
+    @Override
     public Object visit(NewExpr node) {
         if(!checkDefinedClass(node.getType())) {
 //        if(...the node's type is not a defined class type...) {
@@ -186,6 +268,15 @@ public class TypeCheckerVisitor extends proj12MacDonaldDouglas.bantam.visitor.Vi
         return null;
     }
 
+    /**
+     * Visit a DeclStmt node
+     * Check if node type is defined
+     * Check if initExpr is a subtype of node type
+     *
+     * @param node the declaration statement node
+     * @return null
+     */
+    @Override
     public Object visit(DeclStmt node) {
         if ((!checkDefinedClass(node.getType()))) {
             errorHandler.register(Error.Kind.SEMANT_ERROR,
@@ -197,13 +288,13 @@ public class TypeCheckerVisitor extends proj12MacDonaldDouglas.bantam.visitor.Vi
         if (initExpr != null) {
             initExpr.accept(this);
             if(!checkSubClass(initExpr.getExprType(), node.getType())) {
-//                if(...the initExpr's type is not a subtype of the node's type...) {
                 errorHandler.register(Error.Kind.SEMANT_ERROR,
                         currentClass.getASTNode().getFilename(), node.getLineNum(),
                         "The type of the initializer is " + initExpr.getExprType()
                                 + " which is not compatible with the " + node.getName() +
                                 " DeclStmt's type " + node.getType());
             }
+            node.getInit().setExprType("Object");
         }
         //Note: if there is no initExpr, then leave it to the Code Generator to
         //      initialize it to the default value since it is irrelevant to the
@@ -211,13 +302,14 @@ public class TypeCheckerVisitor extends proj12MacDonaldDouglas.bantam.visitor.Vi
         return null;
     }
 
-    // finish this, what types can be here
     /**
      * Visit a binary arithmetic divide expression node
+     * Check if both expressions are of type int
      *
      * @param node the binary arithmetic divide expression node
      * @return null
      */
+    @Override
     public Object visit(BinaryArithDivideExpr node) {
         node.getLeftExpr().accept(this);
         node.getRightExpr().accept(this);
@@ -234,10 +326,12 @@ public class TypeCheckerVisitor extends proj12MacDonaldDouglas.bantam.visitor.Vi
 
     /**
      * Visit a binary arithmetic minus expression node
+     * Check if both expressions are of type int
      *
      * @param node the binary arithmetic minus expression node
      * @return null
      */
+    @Override
     public Object visit(BinaryArithMinusExpr node) {
         node.getLeftExpr().accept(this);
         node.getRightExpr().accept(this);
@@ -252,6 +346,14 @@ public class TypeCheckerVisitor extends proj12MacDonaldDouglas.bantam.visitor.Vi
         return null;
     }
 
+    /**
+     * Visit a BinaryArithModulusExpr node
+     * Check if both expressions are of type int
+     *
+     * @param node the binary arithmetic modulus expression node
+     * @return null
+     */
+    @Override
     public Object visit(BinaryArithModulusExpr node) {
         node.getLeftExpr().accept(this);
         node.getRightExpr().accept(this);
@@ -266,6 +368,14 @@ public class TypeCheckerVisitor extends proj12MacDonaldDouglas.bantam.visitor.Vi
         return null;
     }
 
+    /**
+     * Visit a BinaryArithPlusExpr node
+     * Check if both expressions are of type int
+     *
+     * @param node the binary arithmetic plus expression node
+     * @return null
+     */
+    @Override
     public Object visit(BinaryArithPlusExpr node) {
         node.getLeftExpr().accept(this);
         node.getRightExpr().accept(this);
@@ -280,6 +390,14 @@ public class TypeCheckerVisitor extends proj12MacDonaldDouglas.bantam.visitor.Vi
         return null;
     }
 
+    /**
+     * Visit a BinaryArithTimesExpr node
+     * Check if both expressions are of type int
+     *
+     * @param node the binary arithmetic times expression node
+     * @return null
+     */
+    @Override
     public Object visit(BinaryArithTimesExpr node) {
         node.getLeftExpr().accept(this);
         node.getRightExpr().accept(this);
@@ -294,6 +412,14 @@ public class TypeCheckerVisitor extends proj12MacDonaldDouglas.bantam.visitor.Vi
         return null;
     }
 
+    /**
+     * Visit a BinaryCompGeqExpr node
+     * Check if both expressions are of type int
+     *
+     * @param node the binary comparison greater to or equal to expression node
+     * @return null
+     */
+    @Override
     public Object visit(BinaryCompGeqExpr node) {
         node.getLeftExpr().accept(this);
         node.getRightExpr().accept(this);
@@ -308,6 +434,14 @@ public class TypeCheckerVisitor extends proj12MacDonaldDouglas.bantam.visitor.Vi
         return null;
     }
 
+    /**
+     * Visit a BinaryCompGtExpr node
+     * check if both expressions are of type int
+     *
+     * @param node the binary comparison greater than expression node
+     * @return null
+     */
+    @Override
     public Object visit(BinaryCompGtExpr node) {
         node.getLeftExpr().accept(this);
         node.getRightExpr().accept(this);
@@ -322,6 +456,14 @@ public class TypeCheckerVisitor extends proj12MacDonaldDouglas.bantam.visitor.Vi
         return null;
     }
 
+    /**
+     * Visit a BinaryCompLeqExpr node
+     * Check if both expressions are of type int
+     *
+     * @param node the binary comparison less than or equal to expression node
+     * @return null
+     */
+    @Override
     public Object visit(BinaryCompLeqExpr node) {
         node.getLeftExpr().accept(this);
         node.getRightExpr().accept(this);
@@ -336,6 +478,14 @@ public class TypeCheckerVisitor extends proj12MacDonaldDouglas.bantam.visitor.Vi
         return null;
     }
 
+    /**
+     * Visit BinaryCompLtExpr node
+     * Check if both expressions are of type int
+     *
+     * @param node the binary comparison less than expression node
+     * @return null
+     */
+    @Override
     public Object visit(BinaryCompLtExpr node) {
         node.getLeftExpr().accept(this);
         node.getRightExpr().accept(this);
@@ -350,6 +500,14 @@ public class TypeCheckerVisitor extends proj12MacDonaldDouglas.bantam.visitor.Vi
         return null;
     }
 
+    /**
+     * Visit BinaryCompNeExpr node
+     * Check if expressions are subtypes of eachother
+     *
+     * @param node the binary comparison not equals expression node
+     * @return null
+     */
+    @Override
     public Object visit(BinaryCompNeExpr node) {
         node.getLeftExpr().accept(this);
         node.getRightExpr().accept(this);
@@ -366,10 +524,12 @@ public class TypeCheckerVisitor extends proj12MacDonaldDouglas.bantam.visitor.Vi
 
     /**
      * Visit a binary comparison equals expression node
+     * Check if expressions are subtypes of eachother
      *
      * @param node the binary comparison equals expression node
      * @return null
      */
+    @Override
     public Object visit(BinaryCompEqExpr node) {
         node.getLeftExpr().accept(this);
         node.getRightExpr().accept(this);
@@ -384,6 +544,14 @@ public class TypeCheckerVisitor extends proj12MacDonaldDouglas.bantam.visitor.Vi
         return null;
     }
 
+    /**
+     * Visit BinaryLogicAndExpr node
+     * Check that both expressions are of type boolean
+     *
+     * @param node the binary logical AND expression node
+     * @return null
+     */
+    @Override
     public Object visit(BinaryLogicAndExpr node) {
         node.getLeftExpr().accept(this);
         node.getRightExpr().accept(this);
@@ -398,6 +566,14 @@ public class TypeCheckerVisitor extends proj12MacDonaldDouglas.bantam.visitor.Vi
         return null;
     }
 
+    /**
+     * Visit BinaryLogicOrExpr node
+     * Check that both expressions are of type boolean
+     *
+     * @param node the binary logical OR expression node
+     * @return null
+     */
+    @Override
     public Object visit(BinaryLogicOrExpr node) {
         node.getLeftExpr().accept(this);
         node.getRightExpr().accept(this);
@@ -412,6 +588,14 @@ public class TypeCheckerVisitor extends proj12MacDonaldDouglas.bantam.visitor.Vi
         return null;
     }
 
+    /**
+     * Visit CastExpr node
+     * Check that node is a defined type
+     *
+     * @param node the cast expression node
+     * @return null
+     */
+    @Override
     public Object visit(CastExpr node) {
         if(!checkDefined(node.getType())) {
             errorHandler.register(Error.Kind.SEMANT_ERROR,
@@ -421,40 +605,61 @@ public class TypeCheckerVisitor extends proj12MacDonaldDouglas.bantam.visitor.Vi
         return null;
     }
 
-    // need to implement Dispatch
+    // TODO: need to implement Dispatch
     public Object visit(DispatchExpr node) {
-        if(node.getRefExpr() != null)
+        if(node.getRefExpr() != null) {
             node.getRefExpr().accept(this);
-        if(currentClass.getMethodSymbolTable().lookup(node.getMethodName()) != null) {
-            errorHandler.register(Error.Kind.SEMANT_ERROR,
-                    currentClass.getASTNode().getFilename(), node.getLineNum(),
-                    "Dispatch Expr error");
+            if (currentClass.getMethodSymbolTable().lookup(node.getMethodName()) != null) {
+                errorHandler.register(Error.Kind.SEMANT_ERROR,
+                        currentClass.getASTNode().getFilename(), node.getLineNum(),
+                        "Dispatch Expr error");
+            }
+            node.setExprType(node.getRefExpr().getExprType());
         }
         node.getActualList().accept(this);
-
-
-        node.setExprType(node.getRefExpr().getExprType());
         return null;
     }
 
-    // need to implement ExprList
+    // TODO: need to implement ExprList
     public Object visit(ExprList node) {
         for (Iterator it = node.iterator(); it.hasNext(); )
             ((Expr) it.next()).accept(this);
         return null;
     }
 
+    /**
+     * Visit ExprStmt node
+     *
+     * @param node the expression statement node
+     * @return null
+     */
     public Object visit(ExprStmt node) {
         node.getExpr().accept(this);
         return null;
     }
 
+    /**
+     * Visit FormalList node
+     *
+     * @param node the formal list node
+     * @return null
+     */
     public Object visit(FormalList node) {
         for (Iterator it = node.iterator(); it.hasNext(); )
             ((Formal) it.next()).accept(this);
         return null;
     }
 
+    /**
+     * Visit ForStmt node
+     * Check that initExpr is of type int
+     * Check that predExpr is of type boolean
+     * Check that updateExpr is of type int
+     *
+     * @param node the for statement node
+     * @return null
+     */
+    @Override
     public Object visit(ForStmt node) {
         Expr node1 = node.getInitExpr();
         if(node1 != null) {
@@ -493,6 +698,14 @@ public class TypeCheckerVisitor extends proj12MacDonaldDouglas.bantam.visitor.Vi
         return null;
     }
 
+    /**
+     * Visit an IfStmt node
+     * Check that predExpr is of type boolean
+     *
+     * @param node the if statement node
+     * @return null
+     */
+    @Override
     public Object visit(IfStmt node) {
         node.getPredExpr().accept(this);
         if(!node.getPredExpr().getExprType().equals("boolean")) {
@@ -510,6 +723,15 @@ public class TypeCheckerVisitor extends proj12MacDonaldDouglas.bantam.visitor.Vi
         return null;
     }
 
+    /**
+     * Visit an InstanceofExpr node
+     * Check that the node type is defined
+     * Check that ExprType is a subclass of nodeType
+     *
+     * @param node the instanceof expression node
+     * @return null
+     */
+    @Override
     public Object visit(InstanceofExpr node) {
         node.getExpr().accept(this);
         String type1 = node.getExprType();
@@ -523,16 +745,161 @@ public class TypeCheckerVisitor extends proj12MacDonaldDouglas.bantam.visitor.Vi
         return null;
     }
 
-    public Object visit(MemberList node) {
+    /**
+     * Visit a NewArrayExpr node
+     * Check that node type is defined
+     *
+     * @param node the new array expression node
+     * @return null
+     */
+    @Override
+    public Object visit(NewArrayExpr node) {
+        node.getSize().accept(this);
+        if(!checkDefined(node.getType())) {
+            errorHandler.register(Error.Kind.SEMANT_ERROR,
+                    currentClass.getASTNode().getFilename(), node.getLineNum(),
+                    "Array of type " + node.getType() + " is not of a " +
+                            "defined type.");
+            node.setExprType("Object");
+        }
+        // set expr type?
         return null;
     }
 
     /**
-     * Visit a unary NOT expression nodep
+     * Visit an AssignExpr node
+     * Check if name reference is equal to this or super
+     *
+     * @param node the assignment expression node
+     * @return null
+     */
+    @Override
+    public Object visit(AssignExpr node) {
+        node.getExpr().accept(this);
+        if((node.getRefName() != "this" && node.getRefName() != "super") ||
+            node.getRefName() != null) {
+            errorHandler.register(Error.Kind.SEMANT_ERROR,
+                    currentClass.getASTNode().getFilename(), node.getLineNum(),
+                    "Type " + node.getRefName() + " is not allowed for " +
+                            "AssignExpr");
+        }
+//        node.getExpr().accept(this);
+        return null;
+    }
+
+    /**
+     * Visit a ReturnStmt node
+     * Check that return type is a defined type
+     *
+     * @param node the return statement node
+     * @return null
+     */
+    @Override
+    public Object visit(ReturnStmt node) {
+        if (node.getExpr() != null) {
+            node.getExpr().accept(this);
+
+            String type = node.getExpr().getExprType();
+            if (type != null && !checkDefined(type)) {
+//            node.getExpr().accept(this);
+//            if(!checkDefined(node.getExpr().getExprType())) {
+                if (!currentClass.getMethodSymbolTable().peek(node.getExpr().getExprType(),
+                        currentSymbolTable.getCurrScopeLevel()).toString().equals(node.getExpr().getExprType())) {
+                    errorHandler.register(Error.Kind.SEMANT_ERROR,
+                            currentClass.getASTNode().getFilename(), node.getLineNum(),
+                            "Return type of " + node.getExpr().getExprType() + " is not of a " +
+                                    "defined type.");
+                    node.getExpr().setExprType("Object");
+                }
+            }
+        }
+//        node.getExpr().accept(this);
+        return null;
+    }
+
+    /**
+     * Visit a StmtList node
+     *
+     * @param node the statement list node
+     * @return null
+     */
+    public Object visit(StmtList node) {
+        for (Iterator it = node.iterator(); it.hasNext(); ) {
+            ((Stmt) it.next()).accept(this);
+        }
+        return null;
+    }
+
+    /**
+     * Visit a UnaryDecrExpr node
+     * Check that it is of type int
+     *
+     * @param node the unary decrement expression node
+     * @return null
+     */
+    @Override
+    public Object visit(UnaryDecrExpr node) {
+        node.getExpr().accept(this);
+        String type = node.getExpr().getExprType();
+        if(!type.equals("int")) {
+            errorHandler.register(Error.Kind.SEMANT_ERROR,
+                    currentClass.getASTNode().getFilename(), node.getLineNum(),
+                    "The not -- operator applies only to int expressions," +
+                            " not " + type + " expressions.");
+        }
+        node.setExprType("int");
+        return null;
+    }
+
+    /**
+     * Visit a UnaryIncrExpr node
+     * Check that it is of type int
+     *
+     * @param node the unary increment expression node
+     * @return null
+     */
+    @Override
+    public Object visit(UnaryIncrExpr node) {
+        node.getExpr().accept(this);
+        String type = node.getExpr().getExprType();
+        if(!type.equals("int")) {
+            errorHandler.register(Error.Kind.SEMANT_ERROR,
+                    currentClass.getASTNode().getFilename(), node.getLineNum(),
+                    "The not ++ operator applies only to int expressions," +
+                            " not " + type + " expressions.");
+        }
+        node.setExprType("int");
+        return null;
+    }
+
+    /**
+     * Visit a UnaryNegExpr node
+     * Check that it is of type int
+     *
+     * @param node the unary negation expression node
+     * @return null
+     */
+    @Override
+    public Object visit(UnaryNegExpr node) {
+        node.getExpr().accept(this);
+        String type = node.getExpr().getExprType();
+        if(!type.equals("int")) {
+            errorHandler.register(Error.Kind.SEMANT_ERROR,
+                    currentClass.getASTNode().getFilename(), node.getLineNum(),
+                    "The not - operator applies only to int expressions," +
+                            " not " + type + " expressions.");
+        }
+        node.setExprType("int");
+        return null;
+    }
+
+    /**
+     * Visit a unary NOT expression node
      *
      * @param node the unary NOT expression node
      * @return null
      */
+    @Override
     public Object visit(UnaryNotExpr node) {
         node.getExpr().accept(this);
         String type = node.getExpr().getExprType();
@@ -547,11 +914,25 @@ public class TypeCheckerVisitor extends proj12MacDonaldDouglas.bantam.visitor.Vi
     }
 
     /**
+     * Visit a VarExpr node
+     *
+     * @param node the variable expression node
+     * @return null
+     */
+    public Object visit(VarExpr node) {
+        if (node.getRef() != null) {
+            node.getRef().accept(this);
+        }
+        return null;
+    }
+
+    /**
      * Visit an int constant expression node
      *
      * @param node the int constant expression node
      * @return null
      */
+    @Override
     public Object visit(ConstIntExpr node) {
         node.setExprType("int");
         return null;
@@ -563,6 +944,7 @@ public class TypeCheckerVisitor extends proj12MacDonaldDouglas.bantam.visitor.Vi
      * @param node the boolean constant expression node
      * @return null
      */
+    @Override
     public Object visit(ConstBooleanExpr node) {
         node.setExprType("boolean");
         return null;
@@ -574,8 +956,20 @@ public class TypeCheckerVisitor extends proj12MacDonaldDouglas.bantam.visitor.Vi
      * @param node the string constant expression node
      * @return null
      */
+    @Override
     public Object visit(ConstStringExpr node) {
         node.setExprType("String");
+        return null;
+    }
+
+    /**
+     * Visit a break statment node
+     *
+     * @param node the break statement node
+     * @return null
+     */
+    public Object visit(BreakStmt node) {
+        node.accept(this);
         return null;
     }
 

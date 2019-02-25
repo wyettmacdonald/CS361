@@ -102,7 +102,7 @@ public class AssignExpr extends Expr {
      *
      * @param v bantam.visitor object
      * @return result of visiting this node
-     * @see bantam.visitor.Visitor
+     * @see proj12MacDonaldDouglas.bantam.visitor.Visitor
      */
     public Object accept(Visitor v) {
         return v.visit(this);

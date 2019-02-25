@@ -1,0 +1,43 @@
+class Main {
+// no Main class
+
+	var new_string = "new string";
+	var str_test = "Test";
+	var test = foo();
+	var int_test = 5;
+	var int_test2 = 6;
+	var bad_test = new_string;
+
+	int test() {
+
+		var test3 = 0;
+		var test4 = 0;
+
+		return 0;
+	}
+
+	int test6(int test7) {
+		return 0;
+	}
+
+// binary compare divide/minus/modulus/plus/times/geq/gt/leq/lt/ne/eq expression
+	int test8(int test9) {
+	    test9 = 5;
+//		boolean test10 = true;
+		return 0;
+	}
+	
+
+	void main() {
+
+	}
+}
+
+class A {
+
+    int field_test = 5;
+
+	int foo() {
+		return 0;
+	}
+}

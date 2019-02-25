@@ -29,7 +29,7 @@
 package proj12MacDonaldDouglas.bantam.semant;
 
 import proj12MacDonaldDouglas.bantam.ast.*;
-import proj12MacDonaldDouglas.bantam.lexer.Token;
+import proj12MacDonaldDouglas.bantam.parser.Parser;
 import proj12MacDonaldDouglas.bantam.util.*;
 import proj12MacDonaldDouglas.bantam.util.Error;
 import proj12MacDonaldDouglas.bantam.visitor.Visitor;
@@ -137,11 +137,11 @@ public class SemanticAnalyzer
             errorHandler.register(Error.Kind.SEMANT_ERROR, "No Main.main");
         }
 
-        for (Map.Entry<String, ClassTreeNode> entry : classMap.entrySet()) {
-            return null;
+        Set<String> keys = classMap.keySet();
+        for(String theName : keys) {
+            typeCheckerVisitor = new TypeCheckerVisitor(classMap.get(theName), errorHandler);
         }
 
-        // uncomment the following statement
         return root;
     }
 
@@ -254,7 +254,6 @@ public class SemanticAnalyzer
             int numOfDescendants = classMap.get("Object").getNumDescendants();
 
             // parent
-            System.out.println(node.getParent());
             if(node.getParent() == null) {
                 classTreeNode.setParent(classMap.get("Object"));
             }
@@ -276,20 +275,51 @@ public class SemanticAnalyzer
         }
     }
 
+    /**
+     * Build class environment by creating instance
+     */
     private void buildClassEnvironment() {
         BuildEnvironment buildEnvironment = new BuildEnvironment();
         buildEnvironment.start();
     }
 
+    /**
+     * This class BuildEnvironment builds the SymbolTables for
+     * each ClassTreeNode by using the Visitor pattern
+     */
     private class BuildEnvironment extends Visitor {
 
+        // current ClassTreeNode class
         private ClassTreeNode currentClass;
 
+        /**
+         * Starts by accepting the program node
+         */
         public void start() {
             currentClass = null;
             program.accept(this);
         }
 
+        /**
+         * Visit a list node of members
+         *
+         * @param node the member list node
+         * @return result of the visit
+         */
+        @Override
+        public Object visit(MemberList node) {
+            for (ASTNode child : node)
+                child.accept(this);
+            return null;
+        }
+
+        /**
+         * Visits a Class_ node
+         * Enters scope for VarSymbolTable and MethodSymbolTable
+         *
+         * @param node the class node
+         * @return null
+         */
         @Override
         public Object visit(Class_ node) {
 
@@ -307,6 +337,15 @@ public class SemanticAnalyzer
             return null;
         }
 
+        /**
+         * Visits a field node
+         * Checks that the field is not a reservedIdentifier
+         * Checks that field has not already been declared
+         * Adds to currentClass VarSymbolTable
+         *
+         * @param node the field node
+         * @return null
+         */
         @Override
         public Object visit(Field node) {
 
@@ -324,13 +363,22 @@ public class SemanticAnalyzer
                         "Field " + node.getName() + " has already been declared.");
             }
             else {
-                currentClass.getVarSymbolTable().add(node.getName(), node.getType());
-                System.out.println(currentClass.getName() + ": Var Symbol");
-                currentClass.getVarSymbolTable().dump();
+                node.getInit().accept(this);
+                if (node.getInit().getExprType() != null) {
+
+                    currentClass.getVarSymbolTable().add(node.getName(), node.getInit().getExprType());
+                }
             }
             return null;
         }
 
+        /**
+         * Visits a Method node
+         * Eventually adds to the MethodSymbolTable
+         *
+         * @param node the method node
+         * @return null
+         */
         @Override
         public Object visit(Method node) {
             // if reserved identifiers
@@ -350,8 +398,6 @@ public class SemanticAnalyzer
 
             else {
                 currentClass.getMethodSymbolTable().add(node.getName(), node);
-                System.out.println(currentClass.getName() + ": Method Table");
-                currentClass.getMethodSymbolTable().dump();
                 currentClass.getVarSymbolTable().enterScope();
                 super.visit(node);
                 currentClass.getVarSymbolTable().exitScope();
@@ -359,6 +405,13 @@ public class SemanticAnalyzer
             return null;
         }
 
+        /**
+         * Visit a Formal node
+         * Adds node to the VarSymbol table
+         *
+         * @param node the formal node
+         * @return null
+         */
         @Override
         public Object visit(Formal node) {
             if(reservedIdentifiers.contains(node.getName())) {
@@ -376,13 +429,21 @@ public class SemanticAnalyzer
             }
             else {
                 currentClass.getVarSymbolTable().add(node.getName(), node.getType());
-                currentClass.getVarSymbolTable().dump();
             }
             return null;
         }
 
+        /**
+         * Visits a DeclStmt node
+         *
+         * @param node the declaration statement node
+         * @return null
+         */
         @Override
         public Object visit(DeclStmt node) {
+            node.getInit().accept(this);
+            node.setType(node.getInit().getExprType());
+            String type = node.getType();
             if(reservedIdentifiers.contains(node.getName())) {
                 // register error
                 errorHandler.register(Error.Kind.SEMANT_ERROR,
@@ -405,6 +466,13 @@ public class SemanticAnalyzer
             return null;
         }
 
+        /**
+         * Visits a ForStmt node
+         * Enters and Exits scope
+         *
+         * @param node the for statement node
+         * @return null
+         */
         @Override
         public Object visit(ForStmt node) {
             currentClass.getVarSymbolTable().enterScope();
@@ -413,12 +481,89 @@ public class SemanticAnalyzer
             return null;
         }
 
+        /**
+         * Visits a WhileStmt node
+         * Enters and exits scope
+         *
+         * @param node the while statement node
+         * @return null
+         */
         @Override
         public Object visit(WhileStmt node) {
             currentClass.getVarSymbolTable().enterScope();
             super.visit(node);
             currentClass.getVarSymbolTable().exitScope();
             return null;
+        }
+
+        /**
+         * Visits a ConstIntExpr node
+         *
+         * @param node the int constant expression node
+         * @return
+         */
+        @Override
+        public Object visit(ConstIntExpr node) {
+            node.setExprType("int");
+            return null;
+        }
+
+        /**
+         * Visits a ConstBooleanExpr node
+         * Sets ExprType to boolean
+         *
+         * @param node the boolean constant expression node
+         * @return
+         */
+        @Override
+        public Object visit(ConstBooleanExpr node) {
+            node.setExprType("boolean");
+            return null;
+        }
+
+        /**
+         * Visits a ConstStringExpr node
+         * Sets ExprType to String
+         *
+         * @param node the string constant expression node
+         * @return
+         */
+        @Override
+        public Object visit(ConstStringExpr node) {
+            node.setExprType("String");
+            return null;
+        }
+    }
+
+    /**
+     * Main method for testing SemanticAnalyzer
+     *
+     * @param args
+     */
+    public static void main(String[] args) {
+        if (args.length == 0) {
+            System.out.println("Please enter files to scan");
+        }
+
+        ErrorHandler errorHandler = new ErrorHandler();
+        SemanticAnalyzer semanticAnalyzer = new SemanticAnalyzer(errorHandler);
+        Parser parser = new Parser(errorHandler);
+
+        for (int i = 0; i < args.length; i++) {
+            System.out.println(args[i]);
+            try {
+                Program program = parser.parse(args[i]);
+                semanticAnalyzer.analyze(program);
+
+                for (Error error : errorHandler.getErrorList()) {
+                    System.out.println("ERROR " + error.getMessage() + ": " + error.getLineNum());
+                }
+                System.out.println("Scanning, parsing and checking successful");
+            } catch (CompilationException e) {
+                if (errorHandler.getErrorList().size() == 0) {
+                    System.out.println(e.getMessage());
+                }
+            }
         }
     }
 }
