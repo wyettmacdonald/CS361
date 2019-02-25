@@ -158,6 +158,25 @@ public class TypeCheckerVisitor extends Visitor {
         return null;
     }
 
+    /**
+     *
+     * @param node the assignment expression node
+     * @return
+     */
+    public Object visit(AssignExpr node) {
+        node.getExpr().accept(this);
+        String type1 = node.getName();
+        String type2 = node.getExpr().getExprType();
+        checkTypeExistence(type1, node.getLineNum());
+        checkTypeExistence(type2, node.getLineNum());
+        if (!isSubClass(type1, type2)) {
+            errorHandler.register(Error.Kind.SEMANT_ERROR,
+                    currentClass.getASTNode().getFilename(), node.getLineNum(),
+                    "cannot assign type " + type2 + " to "+ type1);
+        }
+        node.setExprType("boolean");
+        return null;
+    }
 
     /**
      * Visit a while statement node
