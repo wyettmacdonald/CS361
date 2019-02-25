@@ -14,6 +14,7 @@ import proj12ZhangZhao.bantam.util.ErrorHandler;
 import proj12ZhangZhao.bantam.util.Error;
 import proj12ZhangZhao.bantam.visitor.Visitor;
 import proj12ZhangZhao.bantam.util.ClassTreeNode;
+import proj12ZhangZhao.proj12.SemanticAnalyzer;
 
 import java.util.Hashtable;
 
@@ -80,6 +81,12 @@ public class SymbolTableBuildingVisitor extends Visitor{
 
     public Object visit(Field node){
         ClassTreeNode treeNode = classMap.get(currentClass);
+        String fieldName  = node.getName();
+        if(SemanticAnalyzer.reservedIdentifiers.contains(fieldName)){
+            errorHandler.register(Error.Kind.SEMANT_ERROR, classMap.get(currentClass).getASTNode().getFilename(), 0,
+                    "Reserved word " + fieldName + "cannot be used as an identifier");
+
+        }
         treeNode.getVarSymbolTable().add(node.getName(), node.getType());
         System.out.println("Field found: " + node.getName() + " added to " + currentClass);
         return null;
@@ -96,6 +103,12 @@ public class SymbolTableBuildingVisitor extends Visitor{
 
     public Object visit(Formal node){
         ClassTreeNode treeNode = classMap.get(currentClass);
+        String paramName  = node.getName();
+        if(SemanticAnalyzer.reservedIdentifiers.contains(paramName)){
+            errorHandler.register(Error.Kind.SEMANT_ERROR, classMap.get(currentClass).getASTNode().getFilename(), 0,
+                    "Reserved word " + paramName + "cannot be used as an identifier");
+
+        }
         treeNode.getVarSymbolTable().add(node.getName(), node.getType());
         System.out.println("Param found: " + node.getName() + " added to " + currentClass);
         return null;

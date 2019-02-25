@@ -50,7 +50,7 @@ class Main extends MainMainTest{//non-existing parent, no main class with main m
 		while(c=1){ //while loop condition not boolean
 			voo().voo().foo(); //method chaining
 		}
-		var i;
+		var i = 0;
 		for(i = "hi"; i< 10; i++){//initialization is not an integer
 
 		}

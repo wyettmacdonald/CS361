@@ -296,7 +296,7 @@ public class TypeCheckerVisitor extends Visitor {
         }
         String id = node.getName();
         //If the name is this or super, since they're reserved, it'll be null
-        if(checkIDExistence(null, id, node.getLineNum()) != null) {
+        if(checkIDExistence( id, null, node.getLineNum()) != null) {
             errorHandler.register(Error.Kind.SEMANT_ERROR,
                     currentClass.getASTNode().getFilename(), node.getLineNum(),
                     "The array " + id + " does not exist");
@@ -324,7 +324,7 @@ public class TypeCheckerVisitor extends Visitor {
     public Object visit(AssignExpr node) {
         node.getExpr().accept(this);
 
-        String type1 = checkIDExistence(node.getRefName(), node.getName(), node.getLineNum());
+        String type1 = checkIDExistence(node.getName(),node.getRefName(),  node.getLineNum());
         String type2 = node.getExpr().getExprType();
         //System.out.println("Type 2 " + type2 + " type one " + type1);
         if(type1 != null) {
