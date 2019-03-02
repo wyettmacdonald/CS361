@@ -149,6 +149,11 @@ public class Controller {
      */
     @FXML
     private TextField replaceTextEntry;
+    /**
+     * Find uses button
+     */
+    @FXML
+    private Button findUsesButton;
 
     /**
      * Passes in relevant items to ToolbarController.
@@ -242,6 +247,7 @@ public class Controller {
         this.saveAsMenuItem.disableProperty().bind(ifTabPaneEmpty);
         this.editMenu.disableProperty().bind(ifTabPaneEmpty);
         this.codeMenu.disableProperty().bind(ifTabPaneEmpty);
+        this.findUsesButton.disableProperty().bind(ifTabPaneEmpty);
     }
 
     /**
@@ -269,6 +275,7 @@ public class Controller {
         this.setupSettingMenuController();
         this.setupStructureViewController();
         this.setupFindReplaceController();
+//        this.setupFindUsesController();
 
         this.setButtonBinding();
     }
@@ -355,6 +362,19 @@ public class Controller {
     private void handleScanParseAndCheckButtonAction(Event event) {
         Tab selectedTab = this.tabPane.getSelectionModel().getSelectedItem();
         this.toolbarController.handleScanParseAndCheckButtonAction(
+                event, this.tabPane.getFileFromTab(selectedTab));
+    }
+
+    /**
+     * Calls the method that handles the Find Uses button action from
+     * the toolBarController
+     *
+     * @param event Event object
+     */
+    @FXML
+    public void handleFindUsesButtonAction(Event event) {
+        Tab selectedTab = this.tabPane.getSelectionModel().getSelectedItem();
+        this.toolbarController.handleFindUsesButtonAction(
                 event, this.tabPane.getFileFromTab(selectedTab));
     }
 

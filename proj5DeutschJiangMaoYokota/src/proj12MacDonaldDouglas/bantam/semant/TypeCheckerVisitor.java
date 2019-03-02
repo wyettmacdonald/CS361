@@ -11,6 +11,13 @@ import proj12MacDonaldDouglas.bantam.util.SymbolTable;
 
 import java.util.Iterator;
 
+/**
+ * TypeCheckerVisitor goes through AST looking for Semantic issues
+ * containing a main method
+ *
+ * @author Wyett MacDonald
+ * @author Kyle Douglas
+ */
 public class TypeCheckerVisitor extends proj12MacDonaldDouglas.bantam.visitor.Visitor {
 
     private ClassTreeNode currentClass;
@@ -37,11 +44,12 @@ public class TypeCheckerVisitor extends proj12MacDonaldDouglas.bantam.visitor.Vi
      * @return true if the type is a class type, false if not
      */
     private boolean checkDefinedClass(String classType) {
+
         return currentClass.getClassMap().containsKey(classType);
     }
 
     /**
-     * Check if type is within the class table or int or boolean
+     * Check if type is within the class table or int or boolean or String
      *
      * @param nameType
      * @return true if the type is defined, false if not
@@ -49,6 +57,17 @@ public class TypeCheckerVisitor extends proj12MacDonaldDouglas.bantam.visitor.Vi
     private boolean checkDefined(String nameType) {
         return (currentClass.getClassMap().containsKey(nameType) || nameType.equals("int") ||
                 nameType.equals("boolean") || nameType.equals("String"));
+    }
+
+    /**
+     * Check if type is within the class table or int or boolean or String or var
+     *
+     * @param nameType
+     * @return true if the type is defined, false if not
+     */
+    private boolean checkDefinedField(String nameType) {
+        return (currentClass.getClassMap().containsKey(nameType) || nameType.equals("int") ||
+                nameType.equals("boolean") || nameType.equals("String") || nameType.equals("var"));
     }
 
     /**
@@ -145,7 +164,7 @@ public class TypeCheckerVisitor extends proj12MacDonaldDouglas.bantam.visitor.Vi
         // expr's type with the field's type.
         this.currentSymbolTable = currentClass.getVarSymbolTable();
         Object objType = currentClass.getVarSymbolTable().peek(node.getName());
-        if (objType == null) {
+        if (!checkDefinedField(node.getType())) {
             errorHandler.register(Error.Kind.SEMANT_ERROR,
                     currentClass.getASTNode().getFilename(), node.getLineNum(),
                     "The declared type " + node.getType() + " of the field "
@@ -278,7 +297,7 @@ public class TypeCheckerVisitor extends proj12MacDonaldDouglas.bantam.visitor.Vi
      */
     @Override
     public Object visit(DeclStmt node) {
-        if ((!checkDefinedClass(node.getType()))) {
+        if ((!checkDefinedField(node.getType()))) {
             errorHandler.register(Error.Kind.SEMANT_ERROR,
                     currentClass.getASTNode().getFilename(), node.getLineNum(),
                     "The declared type " + node.getType() + " of the DeclStmt "
@@ -315,7 +334,7 @@ public class TypeCheckerVisitor extends proj12MacDonaldDouglas.bantam.visitor.Vi
         node.getRightExpr().accept(this);
         String type1 = node.getLeftExpr().getExprType();
         String type2 = node.getRightExpr().getExprType();
-        if(!type1.equals("int") || !type2.equals("int")) {
+        if(type1 != "int" || type2 != "int") {
             errorHandler.register(Error.Kind.SEMANT_ERROR,
                     currentClass.getASTNode().getFilename(), node.getLineNum(),
                     "One of the two values being divided is not an int.");
@@ -337,7 +356,7 @@ public class TypeCheckerVisitor extends proj12MacDonaldDouglas.bantam.visitor.Vi
         node.getRightExpr().accept(this);
         String type1 = node.getLeftExpr().getExprType();
         String type2 = node.getRightExpr().getExprType();
-        if(!type1.equals("int") || !type2.equals("int")) {
+        if(type1 != "int" || type2 != "int") {
             errorHandler.register(Error.Kind.SEMANT_ERROR,
                     currentClass.getASTNode().getFilename(), node.getLineNum(),
                     "One of the two values being subtracted is not an int.");
@@ -359,7 +378,7 @@ public class TypeCheckerVisitor extends proj12MacDonaldDouglas.bantam.visitor.Vi
         node.getRightExpr().accept(this);
         String type1 = node.getLeftExpr().getExprType();
         String type2 = node.getRightExpr().getExprType();
-        if(!type1.equals("int") || !type2.equals("int")) {
+        if(type1 != "int" || type2 != "int") {
             errorHandler.register(Error.Kind.SEMANT_ERROR,
                     currentClass.getASTNode().getFilename(), node.getLineNum(),
                     "One of the two values in the modulus is not an int.");
@@ -381,7 +400,7 @@ public class TypeCheckerVisitor extends proj12MacDonaldDouglas.bantam.visitor.Vi
         node.getRightExpr().accept(this);
         String type1 = node.getLeftExpr().getExprType();
         String type2 = node.getRightExpr().getExprType();
-        if(!type1.equals("int") || !type2.equals("int")) {
+        if(type1 != "int" || type2 != "int") {
             errorHandler.register(Error.Kind.SEMANT_ERROR,
                     currentClass.getASTNode().getFilename(), node.getLineNum(),
                     "One of the two values being added is not an int.");
@@ -403,7 +422,7 @@ public class TypeCheckerVisitor extends proj12MacDonaldDouglas.bantam.visitor.Vi
         node.getRightExpr().accept(this);
         String type1 = node.getLeftExpr().getExprType();
         String type2 = node.getRightExpr().getExprType();
-        if(!type1.equals("int") || !type2.equals("int")) {
+        if(type1 != "int" || type2 != "int") {
             errorHandler.register(Error.Kind.SEMANT_ERROR,
                     currentClass.getASTNode().getFilename(), node.getLineNum(),
                     "One of the two values being multiplied is not an int.");
@@ -425,7 +444,7 @@ public class TypeCheckerVisitor extends proj12MacDonaldDouglas.bantam.visitor.Vi
         node.getRightExpr().accept(this);
         String type1 = node.getLeftExpr().getExprType();
         String type2 = node.getRightExpr().getExprType();
-        if(!type1.equals("int") || !type2.equals("int")) {
+        if(type1 != "int" || type2 != "int") {
             errorHandler.register(Error.Kind.SEMANT_ERROR,
                     currentClass.getASTNode().getFilename(), node.getLineNum(),
                     "One of the two values being compared Geq is not an int.");
@@ -447,7 +466,7 @@ public class TypeCheckerVisitor extends proj12MacDonaldDouglas.bantam.visitor.Vi
         node.getRightExpr().accept(this);
         String type1 = node.getLeftExpr().getExprType();
         String type2 = node.getRightExpr().getExprType();
-        if(!type1.equals("int") || !type2.equals("int")) {
+        if(type1 != "int" || type2 != "int") {
             errorHandler.register(Error.Kind.SEMANT_ERROR,
                     currentClass.getASTNode().getFilename(), node.getLineNum(),
                     "One of the two values being compared Gt is not an int.");
@@ -469,7 +488,7 @@ public class TypeCheckerVisitor extends proj12MacDonaldDouglas.bantam.visitor.Vi
         node.getRightExpr().accept(this);
         String type1 = node.getLeftExpr().getExprType();
         String type2 = node.getRightExpr().getExprType();
-        if(!type1.equals("int") || !type2.equals("int")) {
+        if(type1 != "int" || type2 != "int") {
             errorHandler.register(Error.Kind.SEMANT_ERROR,
                     currentClass.getASTNode().getFilename(), node.getLineNum(),
                     "One of the two values being compared Leq is not an int.");
@@ -491,7 +510,7 @@ public class TypeCheckerVisitor extends proj12MacDonaldDouglas.bantam.visitor.Vi
         node.getRightExpr().accept(this);
         String type1 = node.getLeftExpr().getExprType();
         String type2 = node.getRightExpr().getExprType();
-        if(!type1.equals("int") || !type2.equals("int")) {
+        if(type1 != "int" || type2 != "int") {
             errorHandler.register(Error.Kind.SEMANT_ERROR,
                     currentClass.getASTNode().getFilename(), node.getLineNum(),
                     "One of the two values being compared Lt is not an int.");
@@ -557,7 +576,7 @@ public class TypeCheckerVisitor extends proj12MacDonaldDouglas.bantam.visitor.Vi
         node.getRightExpr().accept(this);
         String type1 = node.getLeftExpr().getExprType();
         String type2 = node.getRightExpr().getExprType();
-        if(!type1.equals("boolean") || !type2.equals("boolean")) {
+        if(type1 != "boolean" || type2 != "boolean") {
             errorHandler.register(Error.Kind.SEMANT_ERROR,
                     currentClass.getASTNode().getFilename(), node.getLineNum(),
                     "One of the expressions in the AND expression is not a boolean.");
@@ -579,7 +598,7 @@ public class TypeCheckerVisitor extends proj12MacDonaldDouglas.bantam.visitor.Vi
         node.getRightExpr().accept(this);
         String type1 = node.getLeftExpr().getExprType();
         String type2 = node.getRightExpr().getExprType();
-        if(!type1.equals("boolean") || !type2.equals("boolean")) {
+        if(type1 != "boolean" || type2 != "boolean") {
             errorHandler.register(Error.Kind.SEMANT_ERROR,
                     currentClass.getASTNode().getFilename(), node.getLineNum(),
                     "One of the expressions in the OR expression is not a boolean.");
@@ -664,7 +683,7 @@ public class TypeCheckerVisitor extends proj12MacDonaldDouglas.bantam.visitor.Vi
         Expr node1 = node.getInitExpr();
         if(node1 != null) {
             node1.accept(this);
-            if(!node1.getExprType().equals("int")) {
+            if(node1.getExprType() != "int") {
                 errorHandler.register(Error.Kind.SEMANT_ERROR,
                         currentClass.getASTNode().getFilename(), node.getLineNum(),
                         "Expression type of UpdateExpr is " + node1.getExprType() +
@@ -674,16 +693,16 @@ public class TypeCheckerVisitor extends proj12MacDonaldDouglas.bantam.visitor.Vi
         }
         Expr node2 = node.getPredExpr();
         node2.accept(this);
-        if(!node2.getExprType().equals("boolean")) {
+        if(node2.getExprType() != "boolean") {
             errorHandler.register(Error.Kind.SEMANT_ERROR,
                     currentClass.getASTNode().getFilename(), node.getLineNum(),
-                    "Expression type of UpdateExpr is " + node2.getExprType() +
+                    "Expression type of PredExpr is " + node2.getExprType() +
                             ", not boolean.");
         }
         Expr node3 = node.getUpdateExpr();
         if(node3 != null) {
             node3.accept(this);
-            if(!node3.getExprType().equals("int")) {
+            if(node1.getExprType() != "int") {
                 errorHandler.register(Error.Kind.SEMANT_ERROR,
                         currentClass.getASTNode().getFilename(), node.getLineNum(),
                         "Expression type of UpdateExpr is " + node3.getExprType() +
@@ -708,7 +727,7 @@ public class TypeCheckerVisitor extends proj12MacDonaldDouglas.bantam.visitor.Vi
     @Override
     public Object visit(IfStmt node) {
         node.getPredExpr().accept(this);
-        if(!node.getPredExpr().getExprType().equals("boolean")) {
+        if(node.getPredExpr().getExprType() != "boolean") {
             errorHandler.register(Error.Kind.SEMANT_ERROR,
                     currentClass.getASTNode().getFilename(), node.getLineNum(),
                     "IfStmt is of type " + node.getPredExpr().getExprType() + ", not boolean.");
@@ -776,8 +795,7 @@ public class TypeCheckerVisitor extends proj12MacDonaldDouglas.bantam.visitor.Vi
     @Override
     public Object visit(AssignExpr node) {
         node.getExpr().accept(this);
-        if((node.getRefName() != "this" && node.getRefName() != "super") ||
-            node.getRefName() != null) {
+        if(node.getRefName() != "this" && node.getRefName() != "super" && node.getRefName() != null) {
             errorHandler.register(Error.Kind.SEMANT_ERROR,
                     currentClass.getASTNode().getFilename(), node.getLineNum(),
                     "Type " + node.getRefName() + " is not allowed for " +
@@ -969,7 +987,7 @@ public class TypeCheckerVisitor extends proj12MacDonaldDouglas.bantam.visitor.Vi
      * @return null
      */
     public Object visit(BreakStmt node) {
-        node.accept(this);
+//        node.accept(this);
         return null;
     }
 

@@ -1,0 +1,18 @@
+class Main {
+
+	var new_string = "new string";
+
+	int test (int test2) {
+		test2 = 5;
+        	new_string = "new test";
+        	return 0;
+	}
+
+	int test () {
+		test2 = 6;
+		test2 = 7;
+	}
+
+	void main() {
+    }
+}

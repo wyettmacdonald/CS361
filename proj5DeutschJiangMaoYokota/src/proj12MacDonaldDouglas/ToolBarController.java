@@ -188,6 +188,38 @@ public class ToolBarController {
         scanParseAndCheckThread.start();
     }
 
+    public void handleFindUsesButtonAction(Event event, File file) {
+        int userResponse = fileMenuController.checkSaveBeforeContinue();
+        // user select cancel button
+        if (userResponse == 2) {
+            return;
+        }
+        // user select to save
+        else if (userResponse == 1) {
+            fileMenuController.handleSaveAction();
+        }
+        // run scan and parse in new thread
+        Thread findUsesThread = new Thread() {
+            public void run() {
+                Program root = getParseTree(file);
+
+                if (root != null) {
+
+//                    drawTree(root, file);
+                    String selectedText = tabPane.getActiveCodeArea().getSelectedText();
+                    FindDeclarationUses findDeclarationUses = new FindDeclarationUses();
+                    findDeclarationUses.setJavaTabPane(selectedText);
+                    findDeclarationUses.handleFindUses(root);
+                    Platform.runLater(() -> {
+                        console.appendText("Uses of " + selectedText + ": \n" + findDeclarationUses.getUses());
+                        console.appendText("Finding uses completed successfully \n");
+                    });
+                }
+            }
+        };
+        findUsesThread.start();
+    }
+
     /**
      * Scans and parses the given file and checks for a Main.main method
      *

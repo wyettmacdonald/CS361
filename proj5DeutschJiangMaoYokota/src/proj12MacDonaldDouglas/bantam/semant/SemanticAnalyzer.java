@@ -460,7 +460,7 @@ public class SemanticAnalyzer
             else {
                 // TODO: type is null for some reason
                 // type here is null for some reason
-                currentClass.getVarSymbolTable().add(node.getName(), node.getType());
+                currentClass.getVarSymbolTable().add(node.getName(), node.getInit().getExprType());
                 super.visit(node);
             }
             return null;
@@ -533,6 +533,147 @@ public class SemanticAnalyzer
             node.setExprType("String");
             return null;
         }
+
+        /**
+         * Visit a binary arithmetic divide expression node
+         * Check if both expressions are of type int
+         *
+         * @param node the binary arithmetic divide expression node
+         * @return null
+         */
+        public Object visit(BinaryArithDivideExpr node) {
+            node.setExprType("int");
+            return null;
+        }
+
+        /**
+         * Visit a binary arithmetic minus expression node
+         * Check if both expressions are of type int
+         *
+         * @param node the binary arithmetic minus expression node
+         * @return null
+         */
+        @Override
+        public Object visit(BinaryArithMinusExpr node) {
+            node.setExprType("int");
+            return null;
+        }
+
+        /**
+         * Visit a BinaryArithModulusExpr node
+         * Check if both expressions are of type int
+         *
+         * @param node the binary arithmetic modulus expression node
+         * @return null
+         */
+        @Override
+        public Object visit(BinaryArithModulusExpr node) {
+            node.setExprType("int");
+            return null;
+        }
+
+        /**
+         * Visit a BinaryArithPlusExpr node
+         * Check if both expressions are of type int
+         *
+         * @param node the binary arithmetic plus expression node
+         * @return null
+         */
+        @Override
+        public Object visit(BinaryArithPlusExpr node) {
+            node.setExprType("int");
+            return null;
+        }
+
+        /**
+         * Visit a BinaryArithTimesExpr node
+         *
+         * @param node the binary arithmetic times expression node
+         * @return null
+         */
+        @Override
+        public Object visit(BinaryArithTimesExpr node) {
+            node.setExprType("int");
+            return null;
+        }
+
+        /**
+         * Visit a BinaryCompGeqExpr node
+         * Check if both expressions are of type int
+         *
+         * @param node the binary comparison greater to or equal to expression node
+         * @return null
+         */
+        @Override
+        public Object visit(BinaryCompGeqExpr node) {
+            node.setExprType("int");
+            return null;
+        }
+
+        /**
+         * Visit a BinaryCompGtExpr node
+         * check if both expressions are of type int
+         *
+         * @param node the binary comparison greater than expression node
+         * @return null
+         */
+        @Override
+        public Object visit(BinaryCompGtExpr node) {
+            node.setExprType("int");
+            return null;
+        }
+
+        /**
+         * Visit a BinaryCompLeqExpr node
+         * Check if both expressions are of type int
+         *
+         * @param node the binary comparison less than or equal to expression node
+         * @return null
+         */
+        @Override
+        public Object visit(BinaryCompLeqExpr node) {
+            node.setExprType("int");
+            return null;
+        }
+
+        /**
+         * Visit BinaryCompLtExpr node
+         * Check if both expressions are of type int
+         *
+         * @param node the binary comparison less than expression node
+         * @return null
+         */
+        @Override
+        public Object visit(BinaryCompLtExpr node) {
+            node.setExprType("int");
+            return null;
+        }
+
+        /**
+         * Visit BinaryCompNeExpr node
+         * Check if expressions are subtypes of eachother
+         *
+         * @param node the binary comparison not equals expression node
+         * @return null
+         */
+        @Override
+        public Object visit(BinaryCompNeExpr node) {
+            node.setExprType("boolean");
+            return null;
+        }
+
+        /**
+         * Visit a binary comparison equals expression node
+         * Check if expressions are subtypes of eachother
+         *
+         * @param node the binary comparison equals expression node
+         * @return null
+         */
+        @Override
+        public Object visit(BinaryCompEqExpr node) {
+            node.setExprType("boolean");
+            return null;
+        }
     }
 
     /**
@@ -556,7 +697,7 @@ public class SemanticAnalyzer
                 semanticAnalyzer.analyze(program);
 
                 for (Error error : errorHandler.getErrorList()) {
-                    System.out.println("ERROR " + error.getMessage() + ": " + error.getLineNum());
+                    System.out.println("ERROR " + error.getMessage() + " line " + error.getLineNum());
                 }
                 System.out.println("Scanning, parsing and checking successful");
             } catch (CompilationException e) {
