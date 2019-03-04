@@ -1,183 +1,547 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="cdb932d9-7e58-4d94-93a9-e7b232ef17da" name="Default" comment="fixed the reserved words">
+    <list default="true" id="8c57f01d-50a6-4049-9df1-207144779c5a" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/.gitattributes" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/antlr_4_7_1_complete.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/richtextfx_fat_0_9_1.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/vcs.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/proj12ZhangZhao/proj12ZhangZhao/ToolbarController$ParseTask.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/proj12ZhangZhao/proj12ZhangZhao/ToolbarController$ParseTask.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/proj12ZhangZhao/proj12ZhangZhao/ToolbarController$ScanTask.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/proj12ZhangZhao/proj12ZhangZhao/ToolbarController$ScanTask.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/proj12ZhangZhao/proj12ZhangZhao/ToolbarController.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/proj12ZhangZhao/proj12ZhangZhao/ToolbarController.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/proj12ZhangZhao/ToolbarController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/proj12ZhangZhao/ToolbarController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/proj12ZhangZhao/bantam/semant/SymbolTableBuildingVisitor.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/proj12ZhangZhao/bantam/semant/SymbolTableBuildingVisitor.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/proj12ZhangZhao/bantam/semant/TypeCheckerVisitor.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/proj12ZhangZhao/bantam/semant/TypeCheckerVisitor.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/proj12ZhangZhao/proj12/SemanticAnalyzer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/proj12ZhangZhao/proj12/SemanticAnalyzer.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/proj12ZhangZhao/test/CheckerTestZhangZhao.btm" beforeDir="false" afterPath="$PROJECT_DIR$/src/proj12ZhangZhao/test/CheckerTestZhangZhao.btm" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/proj12ZhangZhao/proj12ZhangZhao/CodeAreaContextMenu.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/proj12ZhangZhao/proj12ZhangZhao/CodeTab.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/proj12ZhangZhao/proj12ZhangZhao/CodeTabPane.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/proj12ZhangZhao/proj12ZhangZhao/Console.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/proj12ZhangZhao/proj12ZhangZhao/ConsoleContextMenu.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/proj12ZhangZhao/proj12ZhangZhao/DirectoryController$createDirectoryTreeTask.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/proj12ZhangZhao/proj12ZhangZhao/DirectoryController.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/proj12ZhangZhao/proj12ZhangZhao/EditController$findReplace.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/proj12ZhangZhao/proj12ZhangZhao/EditController.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/proj12ZhangZhao/proj12ZhangZhao/FileController.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/proj12ZhangZhao/proj12ZhangZhao/HelpMenuController.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/proj12ZhangZhao/proj12ZhangZhao/Java8/Java8BaseListener.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/proj12ZhangZhao/proj12ZhangZhao/Java8/Java8Lexer.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/proj12ZhangZhao/proj12ZhangZhao/Java8/Java8Listener.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/proj12ZhangZhao/proj12ZhangZhao/Java8/Java8Parser$AdditionalBoundContext.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/proj12ZhangZhao/proj12ZhangZhao/Java8/Java8Parser$AdditiveExpressionContext.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/proj12ZhangZhao/proj12ZhangZhao/Java8/Java8Parser$AmbiguousNameContext.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/proj12ZhangZhao/proj12ZhangZhao/Java8/Java8Parser$AndExpressionContext.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/proj12ZhangZhao/proj12ZhangZhao/Java8/Java8Parser$AnnotationContext.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/proj12ZhangZhao/proj12ZhangZhao/Java8/Java8Parser$AnnotationTypeBodyContext.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/proj12ZhangZhao/proj12ZhangZhao/Java8/Java8Parser$AnnotationTypeDeclarationContext.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/proj12ZhangZhao/proj12ZhangZhao/Java8/Java8Parser$AnnotationTypeElementDeclarationContext.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/proj12ZhangZhao/proj12ZhangZhao/Java8/Java8Parser$AnnotationTypeElementModifierContext.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/proj12ZhangZhao/proj12ZhangZhao/Java8/Java8Parser$AnnotationTypeMemberDeclarationContext.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/proj12ZhangZhao/proj12ZhangZhao/Java8/Java8Parser$ArgumentListContext.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/proj12ZhangZhao/proj12ZhangZhao/Java8/Java8Parser$ArrayAccessContext.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/proj12ZhangZhao/proj12ZhangZhao/Java8/Java8Parser$ArrayAccess_lf_primaryContext.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/proj12ZhangZhao/proj12ZhangZhao/Java8/Java8Parser$ArrayAccess_lfno_primaryContext.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/proj12ZhangZhao/proj12ZhangZhao/Java8/Java8Parser$ArrayCreationExpressionContext.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/proj12ZhangZhao/proj12ZhangZhao/Java8/Java8Parser$ArrayInitializerContext.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/proj12ZhangZhao/proj12ZhangZhao/Java8/Java8Parser$ArrayTypeContext.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/proj12ZhangZhao/proj12ZhangZhao/Java8/Java8Parser$AssertStatementContext.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/proj12ZhangZhao/proj12ZhangZhao/Java8/Java8Parser$AssignmentContext.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/proj12ZhangZhao/proj12ZhangZhao/Java8/Java8Parser$AssignmentExpressionContext.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/proj12ZhangZhao/proj12ZhangZhao/Java8/Java8Parser$AssignmentOperatorContext.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/proj12ZhangZhao/proj12ZhangZhao/Java8/Java8Parser$BasicForStatementContext.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/proj12ZhangZhao/proj12ZhangZhao/Java8/Java8Parser$BasicForStatementNoShortIfContext.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/proj12ZhangZhao/proj12ZhangZhao/Java8/Java8Parser$BlockContext.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/proj12ZhangZhao/proj12ZhangZhao/Java8/Java8Parser$BlockStatementContext.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/proj12ZhangZhao/proj12ZhangZhao/Java8/Java8Parser$BlockStatementsContext.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/proj12ZhangZhao/proj12ZhangZhao/Java8/Java8Parser$BreakStatementContext.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/proj12ZhangZhao/proj12ZhangZhao/Java8/Java8Parser$CastExpressionContext.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/proj12ZhangZhao/proj12ZhangZhao/Java8/Java8Parser$CatchClauseContext.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/proj12ZhangZhao/proj12ZhangZhao/Java8/Java8Parser$CatchFormalParameterContext.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/proj12ZhangZhao/proj12ZhangZhao/Java8/Java8Parser$CatchTypeContext.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/proj12ZhangZhao/proj12ZhangZhao/Java8/Java8Parser$CatchesContext.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/proj12ZhangZhao/proj12ZhangZhao/Java8/Java8Parser$ClassBodyContext.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/proj12ZhangZhao/proj12ZhangZhao/Java8/Java8Parser$ClassBodyDeclarationContext.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/proj12ZhangZhao/proj12ZhangZhao/Java8/Java8Parser$ClassDeclarationContext.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/proj12ZhangZhao/proj12ZhangZhao/Java8/Java8Parser$ClassInstanceCreationExpressionContext.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/proj12ZhangZhao/proj12ZhangZhao/Java8/Java8Parser$ClassInstanceCreationExpression_lf_primaryContext.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/proj12ZhangZhao/proj12ZhangZhao/Java8/Java8Parser$ClassInstanceCreationExpression_lfno_primaryContext.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/proj12ZhangZhao/proj12ZhangZhao/Java8/Java8Parser$ClassMemberDeclarationContext.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/proj12ZhangZhao/proj12ZhangZhao/Java8/Java8Parser$ClassModifierContext.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/proj12ZhangZhao/proj12ZhangZhao/Java8/Java8Parser$ClassOrInterfaceTypeContext.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/proj12ZhangZhao/proj12ZhangZhao/Java8/Java8Parser$ClassTypeContext.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/proj12ZhangZhao/proj12ZhangZhao/Java8/Java8Parser$ClassType_lf_classOrInterfaceTypeContext.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/proj12ZhangZhao/proj12ZhangZhao/Java8/Java8Parser$ClassType_lfno_classOrInterfaceTypeContext.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/proj12ZhangZhao/proj12ZhangZhao/Java8/Java8Parser$CompilationUnitContext.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/proj12ZhangZhao/proj12ZhangZhao/Java8/Java8Parser$ConditionalAndExpressionContext.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/proj12ZhangZhao/proj12ZhangZhao/Java8/Java8Parser$ConditionalExpressionContext.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/proj12ZhangZhao/proj12ZhangZhao/Java8/Java8Parser$ConditionalOrExpressionContext.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/proj12ZhangZhao/proj12ZhangZhao/Java8/Java8Parser$ConstantDeclarationContext.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/proj12ZhangZhao/proj12ZhangZhao/Java8/Java8Parser$ConstantExpressionContext.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/proj12ZhangZhao/proj12ZhangZhao/Java8/Java8Parser$ConstantModifierContext.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/proj12ZhangZhao/proj12ZhangZhao/Java8/Java8Parser$ConstructorBodyContext.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/proj12ZhangZhao/proj12ZhangZhao/Java8/Java8Parser$ConstructorDeclarationContext.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/proj12ZhangZhao/proj12ZhangZhao/Java8/Java8Parser$ConstructorDeclaratorContext.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/proj12ZhangZhao/proj12ZhangZhao/Java8/Java8Parser$ConstructorModifierContext.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/proj12ZhangZhao/proj12ZhangZhao/Java8/Java8Parser$ContinueStatementContext.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/proj12ZhangZhao/proj12ZhangZhao/Java8/Java8Parser$DefaultValueContext.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/proj12ZhangZhao/proj12ZhangZhao/Java8/Java8Parser$DimExprContext.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/proj12ZhangZhao/proj12ZhangZhao/Java8/Java8Parser$DimExprsContext.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/proj12ZhangZhao/proj12ZhangZhao/Java8/Java8Parser$DimsContext.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/proj12ZhangZhao/proj12ZhangZhao/Java8/Java8Parser$DoStatementContext.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/proj12ZhangZhao/proj12ZhangZhao/Java8/Java8Parser$ElementValueArrayInitializerContext.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/proj12ZhangZhao/proj12ZhangZhao/Java8/Java8Parser$ElementValueContext.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/proj12ZhangZhao/proj12ZhangZhao/Java8/Java8Parser$ElementValueListContext.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/proj12ZhangZhao/proj12ZhangZhao/Java8/Java8Parser$ElementValuePairContext.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/proj12ZhangZhao/proj12ZhangZhao/Java8/Java8Parser$ElementValuePairListContext.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/proj12ZhangZhao/proj12ZhangZhao/Java8/Java8Parser$EmptyStatementContext.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/proj12ZhangZhao/proj12ZhangZhao/Java8/Java8Parser$EnhancedForStatementContext.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/proj12ZhangZhao/proj12ZhangZhao/Java8/Java8Parser$EnhancedForStatementNoShortIfContext.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/proj12ZhangZhao/proj12ZhangZhao/Java8/Java8Parser$EnumBodyContext.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/proj12ZhangZhao/proj12ZhangZhao/Java8/Java8Parser$EnumBodyDeclarationsContext.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/proj12ZhangZhao/proj12ZhangZhao/Java8/Java8Parser$EnumConstantContext.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/proj12ZhangZhao/proj12ZhangZhao/Java8/Java8Parser$EnumConstantListContext.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/proj12ZhangZhao/proj12ZhangZhao/Java8/Java8Parser$EnumConstantModifierContext.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/proj12ZhangZhao/proj12ZhangZhao/Java8/Java8Parser$EnumConstantNameContext.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/proj12ZhangZhao/proj12ZhangZhao/Java8/Java8Parser$EnumDeclarationContext.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/proj12ZhangZhao/proj12ZhangZhao/Java8/Java8Parser$EqualityExpressionContext.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/proj12ZhangZhao/proj12ZhangZhao/Java8/Java8Parser$ExceptionTypeContext.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/proj12ZhangZhao/proj12ZhangZhao/Java8/Java8Parser$ExceptionTypeListContext.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/proj12ZhangZhao/proj12ZhangZhao/Java8/Java8Parser$ExclusiveOrExpressionContext.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/proj12ZhangZhao/proj12ZhangZhao/Java8/Java8Parser$ExplicitConstructorInvocationContext.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/proj12ZhangZhao/proj12ZhangZhao/Java8/Java8Parser$ExpressionContext.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/proj12ZhangZhao/proj12ZhangZhao/Java8/Java8Parser$ExpressionNameContext.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/proj12ZhangZhao/proj12ZhangZhao/Java8/Java8Parser$ExpressionStatementContext.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/proj12ZhangZhao/proj12ZhangZhao/Java8/Java8Parser$ExtendsInterfacesContext.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/proj12ZhangZhao/proj12ZhangZhao/Java8/Java8Parser$FieldAccessContext.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/proj12ZhangZhao/proj12ZhangZhao/Java8/Java8Parser$FieldAccess_lf_primaryContext.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/proj12ZhangZhao/proj12ZhangZhao/Java8/Java8Parser$FieldAccess_lfno_primaryContext.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/proj12ZhangZhao/proj12ZhangZhao/Java8/Java8Parser$FieldDeclarationContext.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/proj12ZhangZhao/proj12ZhangZhao/Java8/Java8Parser$FieldModifierContext.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/proj12ZhangZhao/proj12ZhangZhao/Java8/Java8Parser$Finally_Context.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/proj12ZhangZhao/proj12ZhangZhao/Java8/Java8Parser$FloatingPointTypeContext.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/proj12ZhangZhao/proj12ZhangZhao/Java8/Java8Parser$ForInitContext.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/proj12ZhangZhao/proj12ZhangZhao/Java8/Java8Parser$ForStatementContext.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/proj12ZhangZhao/proj12ZhangZhao/Java8/Java8Parser$ForStatementNoShortIfContext.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/proj12ZhangZhao/proj12ZhangZhao/Java8/Java8Parser$ForUpdateContext.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/proj12ZhangZhao/proj12ZhangZhao/Java8/Java8Parser$FormalParameterContext.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/proj12ZhangZhao/proj12ZhangZhao/Java8/Java8Parser$FormalParameterListContext.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/proj12ZhangZhao/proj12ZhangZhao/Java8/Java8Parser$FormalParametersContext.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/proj12ZhangZhao/proj12ZhangZhao/Java8/Java8Parser$IfThenElseStatementContext.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/proj12ZhangZhao/proj12ZhangZhao/Java8/Java8Parser$IfThenElseStatementNoShortIfContext.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/proj12ZhangZhao/proj12ZhangZhao/Java8/Java8Parser$IfThenStatementContext.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/proj12ZhangZhao/proj12ZhangZhao/Java8/Java8Parser$ImportDeclarationContext.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/proj12ZhangZhao/proj12ZhangZhao/Java8/Java8Parser$InclusiveOrExpressionContext.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/proj12ZhangZhao/proj12ZhangZhao/Java8/Java8Parser$InferredFormalParameterListContext.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/proj12ZhangZhao/proj12ZhangZhao/Java8/Java8Parser$InstanceInitializerContext.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/proj12ZhangZhao/proj12ZhangZhao/Java8/Java8Parser$IntegralTypeContext.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/proj12ZhangZhao/proj12ZhangZhao/Java8/Java8Parser$InterfaceBodyContext.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/proj12ZhangZhao/proj12ZhangZhao/Java8/Java8Parser$InterfaceDeclarationContext.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/proj12ZhangZhao/proj12ZhangZhao/Java8/Java8Parser$InterfaceMemberDeclarationContext.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/proj12ZhangZhao/proj12ZhangZhao/Java8/Java8Parser$InterfaceMethodDeclarationContext.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/proj12ZhangZhao/proj12ZhangZhao/Java8/Java8Parser$InterfaceMethodModifierContext.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/proj12ZhangZhao/proj12ZhangZhao/Java8/Java8Parser$InterfaceModifierContext.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/proj12ZhangZhao/proj12ZhangZhao/Java8/Java8Parser$InterfaceTypeContext.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/proj12ZhangZhao/proj12ZhangZhao/Java8/Java8Parser$InterfaceTypeListContext.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/proj12ZhangZhao/proj12ZhangZhao/Java8/Java8Parser$InterfaceType_lf_classOrInterfaceTypeContext.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/proj12ZhangZhao/proj12ZhangZhao/Java8/Java8Parser$InterfaceType_lfno_classOrInterfaceTypeContext.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/proj12ZhangZhao/proj12ZhangZhao/Java8/Java8Parser$LabeledStatementContext.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/proj12ZhangZhao/proj12ZhangZhao/Java8/Java8Parser$LabeledStatementNoShortIfContext.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/proj12ZhangZhao/proj12ZhangZhao/Java8/Java8Parser$LambdaBodyContext.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/proj12ZhangZhao/proj12ZhangZhao/Java8/Java8Parser$LambdaExpressionContext.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/proj12ZhangZhao/proj12ZhangZhao/Java8/Java8Parser$LambdaParametersContext.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/proj12ZhangZhao/proj12ZhangZhao/Java8/Java8Parser$LastFormalParameterContext.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/proj12ZhangZhao/proj12ZhangZhao/Java8/Java8Parser$LeftHandSideContext.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/proj12ZhangZhao/proj12ZhangZhao/Java8/Java8Parser$LiteralContext.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/proj12ZhangZhao/proj12ZhangZhao/Java8/Java8Parser$LocalVariableDeclarationContext.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/proj12ZhangZhao/proj12ZhangZhao/Java8/Java8Parser$LocalVariableDeclarationStatementContext.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/proj12ZhangZhao/proj12ZhangZhao/Java8/Java8Parser$MarkerAnnotationContext.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/proj12ZhangZhao/proj12ZhangZhao/Java8/Java8Parser$MethodBodyContext.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/proj12ZhangZhao/proj12ZhangZhao/Java8/Java8Parser$MethodDeclarationContext.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/proj12ZhangZhao/proj12ZhangZhao/Java8/Java8Parser$MethodDeclaratorContext.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/proj12ZhangZhao/proj12ZhangZhao/Java8/Java8Parser$MethodHeaderContext.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/proj12ZhangZhao/proj12ZhangZhao/Java8/Java8Parser$MethodInvocationContext.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/proj12ZhangZhao/proj12ZhangZhao/Java8/Java8Parser$MethodInvocation_lf_primaryContext.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/proj12ZhangZhao/proj12ZhangZhao/Java8/Java8Parser$MethodInvocation_lfno_primaryContext.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/proj12ZhangZhao/proj12ZhangZhao/Java8/Java8Parser$MethodModifierContext.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/proj12ZhangZhao/proj12ZhangZhao/Java8/Java8Parser$MethodNameContext.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/proj12ZhangZhao/proj12ZhangZhao/Java8/Java8Parser$MethodReferenceContext.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/proj12ZhangZhao/proj12ZhangZhao/Java8/Java8Parser$MethodReference_lf_primaryContext.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/proj12ZhangZhao/proj12ZhangZhao/Java8/Java8Parser$MethodReference_lfno_primaryContext.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/proj12ZhangZhao/proj12ZhangZhao/Java8/Java8Parser$MultiplicativeExpressionContext.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/proj12ZhangZhao/proj12ZhangZhao/Java8/Java8Parser$NormalAnnotationContext.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/proj12ZhangZhao/proj12ZhangZhao/Java8/Java8Parser$NormalClassDeclarationContext.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/proj12ZhangZhao/proj12ZhangZhao/Java8/Java8Parser$NormalInterfaceDeclarationContext.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/proj12ZhangZhao/proj12ZhangZhao/Java8/Java8Parser$NumericTypeContext.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/proj12ZhangZhao/proj12ZhangZhao/Java8/Java8Parser$PackageDeclarationContext.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/proj12ZhangZhao/proj12ZhangZhao/Java8/Java8Parser$PackageModifierContext.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/proj12ZhangZhao/proj12ZhangZhao/Java8/Java8Parser$PackageNameContext.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/proj12ZhangZhao/proj12ZhangZhao/Java8/Java8Parser$PackageOrTypeNameContext.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/proj12ZhangZhao/proj12ZhangZhao/Java8/Java8Parser$PostDecrementExpressionContext.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/proj12ZhangZhao/proj12ZhangZhao/Java8/Java8Parser$PostDecrementExpression_lf_postfixExpressionContext.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/proj12ZhangZhao/proj12ZhangZhao/Java8/Java8Parser$PostIncrementExpressionContext.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/proj12ZhangZhao/proj12ZhangZhao/Java8/Java8Parser$PostIncrementExpression_lf_postfixExpressionContext.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/proj12ZhangZhao/proj12ZhangZhao/Java8/Java8Parser$PostfixExpressionContext.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/proj12ZhangZhao/proj12ZhangZhao/Java8/Java8Parser$PreDecrementExpressionContext.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/proj12ZhangZhao/proj12ZhangZhao/Java8/Java8Parser$PreIncrementExpressionContext.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/proj12ZhangZhao/proj12ZhangZhao/Java8/Java8Parser$PrimaryContext.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/proj12ZhangZhao/proj12ZhangZhao/Java8/Java8Parser$PrimaryNoNewArrayContext.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/proj12ZhangZhao/proj12ZhangZhao/Java8/Java8Parser$PrimaryNoNewArray_lf_arrayAccessContext.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/proj12ZhangZhao/proj12ZhangZhao/Java8/Java8Parser$PrimaryNoNewArray_lf_primaryContext.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/proj12ZhangZhao/proj12ZhangZhao/Java8/Java8Parser$PrimaryNoNewArray_lf_primary_lf_arrayAccess_lf_primaryContext.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/proj12ZhangZhao/proj12ZhangZhao/Java8/Java8Parser$PrimaryNoNewArray_lf_primary_lfno_arrayAccess_lf_primaryContext.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/proj12ZhangZhao/proj12ZhangZhao/Java8/Java8Parser$PrimaryNoNewArray_lfno_arrayAccessContext.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/proj12ZhangZhao/proj12ZhangZhao/Java8/Java8Parser$PrimaryNoNewArray_lfno_primaryContext.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/proj12ZhangZhao/proj12ZhangZhao/Java8/Java8Parser$PrimaryNoNewArray_lfno_primary_lf_arrayAccess_lfno_primaryContext.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/proj12ZhangZhao/proj12ZhangZhao/Java8/Java8Parser$PrimaryNoNewArray_lfno_primary_lfno_arrayAccess_lfno_primaryContext.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/proj12ZhangZhao/proj12ZhangZhao/Java8/Java8Parser$PrimitiveTypeContext.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/proj12ZhangZhao/proj12ZhangZhao/Java8/Java8Parser$ReceiverParameterContext.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/proj12ZhangZhao/proj12ZhangZhao/Java8/Java8Parser$ReferenceTypeContext.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/proj12ZhangZhao/proj12ZhangZhao/Java8/Java8Parser$RelationalExpressionContext.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/proj12ZhangZhao/proj12ZhangZhao/Java8/Java8Parser$ResourceContext.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/proj12ZhangZhao/proj12ZhangZhao/Java8/Java8Parser$ResourceListContext.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/proj12ZhangZhao/proj12ZhangZhao/Java8/Java8Parser$ResourceSpecificationContext.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/proj12ZhangZhao/proj12ZhangZhao/Java8/Java8Parser$ResultContext.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/proj12ZhangZhao/proj12ZhangZhao/Java8/Java8Parser$ReturnStatementContext.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/proj12ZhangZhao/proj12ZhangZhao/Java8/Java8Parser$ShiftExpressionContext.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/proj12ZhangZhao/proj12ZhangZhao/Java8/Java8Parser$SimpleTypeNameContext.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/proj12ZhangZhao/proj12ZhangZhao/Java8/Java8Parser$SingleElementAnnotationContext.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/proj12ZhangZhao/proj12ZhangZhao/Java8/Java8Parser$SingleStaticImportDeclarationContext.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/proj12ZhangZhao/proj12ZhangZhao/Java8/Java8Parser$SingleTypeImportDeclarationContext.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/proj12ZhangZhao/proj12ZhangZhao/Java8/Java8Parser$StatementContext.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/proj12ZhangZhao/proj12ZhangZhao/Java8/Java8Parser$StatementExpressionContext.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/proj12ZhangZhao/proj12ZhangZhao/Java8/Java8Parser$StatementExpressionListContext.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/proj12ZhangZhao/proj12ZhangZhao/Java8/Java8Parser$StatementNoShortIfContext.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/proj12ZhangZhao/proj12ZhangZhao/Java8/Java8Parser$StatementWithoutTrailingSubstatementContext.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/proj12ZhangZhao/proj12ZhangZhao/Java8/Java8Parser$StaticImportOnDemandDeclarationContext.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/proj12ZhangZhao/proj12ZhangZhao/Java8/Java8Parser$StaticInitializerContext.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/proj12ZhangZhao/proj12ZhangZhao/Java8/Java8Parser$SuperclassContext.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/proj12ZhangZhao/proj12ZhangZhao/Java8/Java8Parser$SuperinterfacesContext.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/proj12ZhangZhao/proj12ZhangZhao/Java8/Java8Parser$SwitchBlockContext.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/proj12ZhangZhao/proj12ZhangZhao/Java8/Java8Parser$SwitchBlockStatementGroupContext.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/proj12ZhangZhao/proj12ZhangZhao/Java8/Java8Parser$SwitchLabelContext.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/proj12ZhangZhao/proj12ZhangZhao/Java8/Java8Parser$SwitchLabelsContext.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/proj12ZhangZhao/proj12ZhangZhao/Java8/Java8Parser$SwitchStatementContext.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/proj12ZhangZhao/proj12ZhangZhao/Java8/Java8Parser$SynchronizedStatementContext.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/proj12ZhangZhao/proj12ZhangZhao/Java8/Java8Parser$ThrowStatementContext.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/proj12ZhangZhao/proj12ZhangZhao/Java8/Java8Parser$Throws_Context.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/proj12ZhangZhao/proj12ZhangZhao/Java8/Java8Parser$TryStatementContext.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/proj12ZhangZhao/proj12ZhangZhao/Java8/Java8Parser$TryWithResourcesStatementContext.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/proj12ZhangZhao/proj12ZhangZhao/Java8/Java8Parser$TypeArgumentContext.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/proj12ZhangZhao/proj12ZhangZhao/Java8/Java8Parser$TypeArgumentListContext.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/proj12ZhangZhao/proj12ZhangZhao/Java8/Java8Parser$TypeArgumentsContext.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/proj12ZhangZhao/proj12ZhangZhao/Java8/Java8Parser$TypeArgumentsOrDiamondContext.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/proj12ZhangZhao/proj12ZhangZhao/Java8/Java8Parser$TypeBoundContext.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/proj12ZhangZhao/proj12ZhangZhao/Java8/Java8Parser$TypeDeclarationContext.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/proj12ZhangZhao/proj12ZhangZhao/Java8/Java8Parser$TypeImportOnDemandDeclarationContext.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/proj12ZhangZhao/proj12ZhangZhao/Java8/Java8Parser$TypeNameContext.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/proj12ZhangZhao/proj12ZhangZhao/Java8/Java8Parser$TypeParameterContext.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/proj12ZhangZhao/proj12ZhangZhao/Java8/Java8Parser$TypeParameterListContext.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/proj12ZhangZhao/proj12ZhangZhao/Java8/Java8Parser$TypeParameterModifierContext.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/proj12ZhangZhao/proj12ZhangZhao/Java8/Java8Parser$TypeParametersContext.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/proj12ZhangZhao/proj12ZhangZhao/Java8/Java8Parser$TypeVariableContext.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/proj12ZhangZhao/proj12ZhangZhao/Java8/Java8Parser$UnannArrayTypeContext.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/proj12ZhangZhao/proj12ZhangZhao/Java8/Java8Parser$UnannClassOrInterfaceTypeContext.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/proj12ZhangZhao/proj12ZhangZhao/Java8/Java8Parser$UnannClassTypeContext.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/proj12ZhangZhao/proj12ZhangZhao/Java8/Java8Parser$UnannClassType_lf_unannClassOrInterfaceTypeContext.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/proj12ZhangZhao/proj12ZhangZhao/Java8/Java8Parser$UnannClassType_lfno_unannClassOrInterfaceTypeContext.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/proj12ZhangZhao/proj12ZhangZhao/Java8/Java8Parser$UnannInterfaceTypeContext.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/proj12ZhangZhao/proj12ZhangZhao/Java8/Java8Parser$UnannInterfaceType_lf_unannClassOrInterfaceTypeContext.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/proj12ZhangZhao/proj12ZhangZhao/Java8/Java8Parser$UnannInterfaceType_lfno_unannClassOrInterfaceTypeContext.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/proj12ZhangZhao/proj12ZhangZhao/Java8/Java8Parser$UnannPrimitiveTypeContext.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/proj12ZhangZhao/proj12ZhangZhao/Java8/Java8Parser$UnannReferenceTypeContext.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/proj12ZhangZhao/proj12ZhangZhao/Java8/Java8Parser$UnannTypeContext.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/proj12ZhangZhao/proj12ZhangZhao/Java8/Java8Parser$UnannTypeVariableContext.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/proj12ZhangZhao/proj12ZhangZhao/Java8/Java8Parser$UnaryExpressionContext.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/proj12ZhangZhao/proj12ZhangZhao/Java8/Java8Parser$UnaryExpressionNotPlusMinusContext.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/proj12ZhangZhao/proj12ZhangZhao/Java8/Java8Parser$VariableDeclaratorContext.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/proj12ZhangZhao/proj12ZhangZhao/Java8/Java8Parser$VariableDeclaratorIdContext.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/proj12ZhangZhao/proj12ZhangZhao/Java8/Java8Parser$VariableDeclaratorListContext.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/proj12ZhangZhao/proj12ZhangZhao/Java8/Java8Parser$VariableInitializerContext.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/proj12ZhangZhao/proj12ZhangZhao/Java8/Java8Parser$VariableInitializerListContext.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/proj12ZhangZhao/proj12ZhangZhao/Java8/Java8Parser$VariableModifierContext.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/proj12ZhangZhao/proj12ZhangZhao/Java8/Java8Parser$WhileStatementContext.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/proj12ZhangZhao/proj12ZhangZhao/Java8/Java8Parser$WhileStatementNoShortIfContext.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/proj12ZhangZhao/proj12ZhangZhao/Java8/Java8Parser$WildcardBoundsContext.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/proj12ZhangZhao/proj12ZhangZhao/Java8/Java8Parser$WildcardContext.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/proj12ZhangZhao/proj12ZhangZhao/Java8/Java8Parser.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/proj12ZhangZhao/proj12ZhangZhao/JavaCodeArea.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/proj12ZhangZhao/proj12ZhangZhao/JavaStyle.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/proj12ZhangZhao/proj12ZhangZhao/Main.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/proj12ZhangZhao/proj12ZhangZhao/MasterController.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/proj12ZhangZhao/proj12ZhangZhao/PreferenceController$1.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/proj12ZhangZhao/proj12ZhangZhao/PreferenceController.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/proj12ZhangZhao/proj12ZhangZhao/StructureViewController$CodeStructureListener.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/proj12ZhangZhao/proj12ZhangZhao/StructureViewController$updateStructureViewTask.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/proj12ZhangZhao/proj12ZhangZhao/StructureViewController.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/proj12ZhangZhao/proj12ZhangZhao/TabContextMenu.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/proj12ZhangZhao/proj12ZhangZhao/ToolbarController$1.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/proj12ZhangZhao/proj12ZhangZhao/ToolbarController$ParseTask.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/proj12ZhangZhao/proj12ZhangZhao/ToolbarController$ScanTask.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/proj12ZhangZhao/proj12ZhangZhao/ToolbarController.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/proj12ZhangZhao/proj12ZhangZhao/bantam/ast/ASTNode.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/proj12ZhangZhao/proj12ZhangZhao/bantam/ast/ArrayAssignExpr.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/proj12ZhangZhao/proj12ZhangZhao/bantam/ast/ArrayExpr.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/proj12ZhangZhao/proj12ZhangZhao/bantam/ast/AssignExpr.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/proj12ZhangZhao/proj12ZhangZhao/bantam/ast/BinaryArithDivideExpr.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/proj12ZhangZhao/proj12ZhangZhao/bantam/ast/BinaryArithExpr.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/proj12ZhangZhao/proj12ZhangZhao/bantam/ast/BinaryArithMinusExpr.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/proj12ZhangZhao/proj12ZhangZhao/bantam/ast/BinaryArithModulusExpr.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/proj12ZhangZhao/proj12ZhangZhao/bantam/ast/BinaryArithPlusExpr.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/proj12ZhangZhao/proj12ZhangZhao/bantam/ast/BinaryArithTimesExpr.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/proj12ZhangZhao/proj12ZhangZhao/bantam/ast/BinaryCompEqExpr.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/proj12ZhangZhao/proj12ZhangZhao/bantam/ast/BinaryCompExpr.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/proj12ZhangZhao/proj12ZhangZhao/bantam/ast/BinaryCompGeqExpr.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/proj12ZhangZhao/proj12ZhangZhao/bantam/ast/BinaryCompGtExpr.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/proj12ZhangZhao/proj12ZhangZhao/bantam/ast/BinaryCompLeqExpr.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/proj12ZhangZhao/proj12ZhangZhao/bantam/ast/BinaryCompLtExpr.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/proj12ZhangZhao/proj12ZhangZhao/bantam/ast/BinaryCompNeExpr.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/proj12ZhangZhao/proj12ZhangZhao/bantam/ast/BinaryExpr.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/proj12ZhangZhao/proj12ZhangZhao/bantam/ast/BinaryLogicAndExpr.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/proj12ZhangZhao/proj12ZhangZhao/bantam/ast/BinaryLogicExpr.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/proj12ZhangZhao/proj12ZhangZhao/bantam/ast/BinaryLogicOrExpr.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/proj12ZhangZhao/proj12ZhangZhao/bantam/ast/BlockStmt.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/proj12ZhangZhao/proj12ZhangZhao/bantam/ast/BreakStmt.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/proj12ZhangZhao/proj12ZhangZhao/bantam/ast/CastExpr.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/proj12ZhangZhao/proj12ZhangZhao/bantam/ast/ClassList.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/proj12ZhangZhao/proj12ZhangZhao/bantam/ast/Class_.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/proj12ZhangZhao/proj12ZhangZhao/bantam/ast/ConstBooleanExpr.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/proj12ZhangZhao/proj12ZhangZhao/bantam/ast/ConstExpr.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/proj12ZhangZhao/proj12ZhangZhao/bantam/ast/ConstIntExpr.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/proj12ZhangZhao/proj12ZhangZhao/bantam/ast/ConstStringExpr.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/proj12ZhangZhao/proj12ZhangZhao/bantam/ast/DeclStmt.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/proj12ZhangZhao/proj12ZhangZhao/bantam/ast/DispatchExpr.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/proj12ZhangZhao/proj12ZhangZhao/bantam/ast/Expr.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/proj12ZhangZhao/proj12ZhangZhao/bantam/ast/ExprList.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/proj12ZhangZhao/proj12ZhangZhao/bantam/ast/ExprStmt.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/proj12ZhangZhao/proj12ZhangZhao/bantam/ast/Field.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/proj12ZhangZhao/proj12ZhangZhao/bantam/ast/ForStmt.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/proj12ZhangZhao/proj12ZhangZhao/bantam/ast/Formal.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/proj12ZhangZhao/proj12ZhangZhao/bantam/ast/FormalList.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/proj12ZhangZhao/proj12ZhangZhao/bantam/ast/IfStmt.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/proj12ZhangZhao/proj12ZhangZhao/bantam/ast/InstanceofExpr.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/proj12ZhangZhao/proj12ZhangZhao/bantam/ast/ListNode.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/proj12ZhangZhao/proj12ZhangZhao/bantam/ast/Member.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/proj12ZhangZhao/proj12ZhangZhao/bantam/ast/MemberList.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/proj12ZhangZhao/proj12ZhangZhao/bantam/ast/Method.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/proj12ZhangZhao/proj12ZhangZhao/bantam/ast/NewArrayExpr.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/proj12ZhangZhao/proj12ZhangZhao/bantam/ast/NewExpr.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/proj12ZhangZhao/proj12ZhangZhao/bantam/ast/Program.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/proj12ZhangZhao/proj12ZhangZhao/bantam/ast/ReturnStmt.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/proj12ZhangZhao/proj12ZhangZhao/bantam/ast/Stmt.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/proj12ZhangZhao/proj12ZhangZhao/bantam/ast/StmtList.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/proj12ZhangZhao/proj12ZhangZhao/bantam/ast/UnaryDecrExpr.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/proj12ZhangZhao/proj12ZhangZhao/bantam/ast/UnaryExpr.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/proj12ZhangZhao/proj12ZhangZhao/bantam/ast/UnaryIncrExpr.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/proj12ZhangZhao/proj12ZhangZhao/bantam/ast/UnaryNegExpr.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/proj12ZhangZhao/proj12ZhangZhao/bantam/ast/UnaryNotExpr.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/proj12ZhangZhao/proj12ZhangZhao/bantam/ast/VarExpr.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/proj12ZhangZhao/proj12ZhangZhao/bantam/ast/WhileStmt.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/proj12ZhangZhao/proj12ZhangZhao/bantam/lexer/Scanner.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/proj12ZhangZhao/proj12ZhangZhao/bantam/lexer/SourceFile.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/proj12ZhangZhao/proj12ZhangZhao/bantam/lexer/Token$Kind.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/proj12ZhangZhao/proj12ZhangZhao/bantam/lexer/Token.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/proj12ZhangZhao/proj12ZhangZhao/bantam/parser/Parser$1.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/proj12ZhangZhao/proj12ZhangZhao/bantam/parser/Parser.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/proj12ZhangZhao/proj12ZhangZhao/bantam/semant/MainMainVisitor.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/proj12ZhangZhao/proj12ZhangZhao/bantam/semant/NumLocalVarsVisitor.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/proj12ZhangZhao/proj12ZhangZhao/bantam/semant/StringConstantsVisitor.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/proj12ZhangZhao/proj12ZhangZhao/bantam/treedrawer/Drawer.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/proj12ZhangZhao/proj12ZhangZhao/bantam/treedrawer/DrawerFrame.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/proj12ZhangZhao/proj12ZhangZhao/bantam/treedrawer/DrawerPanel.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/proj12ZhangZhao/proj12ZhangZhao/bantam/treedrawer/DrawingTree.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/proj12ZhangZhao/proj12ZhangZhao/bantam/treedrawer/LayoutVisitor.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/proj12ZhangZhao/proj12ZhangZhao/bantam/treedrawer/Polygon.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/proj12ZhangZhao/proj12ZhangZhao/bantam/treedrawer/Polyline.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/proj12ZhangZhao/proj12ZhangZhao/bantam/util/CompilationException.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/proj12ZhangZhao/proj12ZhangZhao/bantam/util/Error$Kind.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/proj12ZhangZhao/proj12ZhangZhao/bantam/util/Error.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/proj12ZhangZhao/proj12ZhangZhao/bantam/util/ErrorHandler.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/proj12ZhangZhao/proj12ZhangZhao/bantam/visitor/Visitor.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/proj12ZhangZhao/proj12ZhangZhao/include/antlr-4.7.1-complete.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/proj12ZhangZhao/proj12ZhangZhao/include/richtextfx-fat-0.9.1.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/proj12ZhangZhao/proj12ZhangZhao/resources/Main.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/proj12ZhangZhao/proj12ZhangZhao/resources/Main.fxml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/proj12ZhangZhao/proj12ZhangZhao/resources/NightMode.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/proj12ZhangZhao/proj12ZhangZhao/resources/c.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/proj12ZhangZhao/proj12ZhangZhao/resources/f.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/proj12ZhangZhao/proj12ZhangZhao/resources/m.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/proj12ZhangZhao/proj12ZhangZhao/test/ParserTestLiLianKeithHardyZhou.btm" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/proj12ZhangZhao.iml" beforeDir="false" afterPath="$PROJECT_DIR$/proj12ZhangZhao.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/proj12ZhangZhao/CodeAreaContextMenu.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/proj12ZhangZhao/CodeTab.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/proj12ZhangZhao/CodeTabPane.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/proj12ZhangZhao/Console.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/proj12ZhangZhao/ConsoleContextMenu.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/proj12ZhangZhao/DirectoryController.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/proj12ZhangZhao/EditController.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/proj12ZhangZhao/FileController.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/proj12ZhangZhao/HelpMenuController.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/proj12ZhangZhao/Java8/Java8BaseListener.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/proj12ZhangZhao/Java8/Java8Lexer.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/proj12ZhangZhao/Java8/Java8Listener.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/proj12ZhangZhao/Java8/Java8Parser.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/proj12ZhangZhao/JavaCodeArea.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/proj12ZhangZhao/Main.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/proj12ZhangZhao/MasterController.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/proj12ZhangZhao/PreferenceController.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/proj12ZhangZhao/StructureViewController.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/proj12ZhangZhao/TabContextMenu.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/proj12ZhangZhao/ToolbarController.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/proj12ZhangZhao/bantam/ast/ASTNode.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/proj12ZhangZhao/bantam/ast/ArrayAssignExpr.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/proj12ZhangZhao/bantam/ast/ArrayExpr.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/proj12ZhangZhao/bantam/ast/AssignExpr.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/proj12ZhangZhao/bantam/ast/BinaryArithDivideExpr.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/proj12ZhangZhao/bantam/ast/BinaryArithExpr.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/proj12ZhangZhao/bantam/ast/BinaryArithMinusExpr.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/proj12ZhangZhao/bantam/ast/BinaryArithModulusExpr.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/proj12ZhangZhao/bantam/ast/BinaryArithPlusExpr.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/proj12ZhangZhao/bantam/ast/BinaryArithTimesExpr.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/proj12ZhangZhao/bantam/ast/BinaryCompEqExpr.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/proj12ZhangZhao/bantam/ast/BinaryCompExpr.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/proj12ZhangZhao/bantam/ast/BinaryCompGeqExpr.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/proj12ZhangZhao/bantam/ast/BinaryCompGtExpr.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/proj12ZhangZhao/bantam/ast/BinaryCompLeqExpr.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/proj12ZhangZhao/bantam/ast/BinaryCompLtExpr.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/proj12ZhangZhao/bantam/ast/BinaryCompNeExpr.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/proj12ZhangZhao/bantam/ast/BinaryExpr.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/proj12ZhangZhao/bantam/ast/BinaryLogicAndExpr.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/proj12ZhangZhao/bantam/ast/BinaryLogicExpr.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/proj12ZhangZhao/bantam/ast/BinaryLogicOrExpr.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/proj12ZhangZhao/bantam/ast/BlockStmt.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/proj12ZhangZhao/bantam/ast/BreakStmt.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/proj12ZhangZhao/bantam/ast/CastExpr.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/proj12ZhangZhao/bantam/ast/ClassList.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/proj12ZhangZhao/bantam/ast/Class_.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/proj12ZhangZhao/bantam/ast/ConstBooleanExpr.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/proj12ZhangZhao/bantam/ast/ConstExpr.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/proj12ZhangZhao/bantam/ast/ConstIntExpr.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/proj12ZhangZhao/bantam/ast/ConstStringExpr.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/proj12ZhangZhao/bantam/ast/DeclStmt.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/proj12ZhangZhao/bantam/ast/DispatchExpr.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/proj12ZhangZhao/bantam/ast/Expr.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/proj12ZhangZhao/bantam/ast/ExprList.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/proj12ZhangZhao/bantam/ast/ExprStmt.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/proj12ZhangZhao/bantam/ast/Field.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/proj12ZhangZhao/bantam/ast/ForStmt.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/proj12ZhangZhao/bantam/ast/Formal.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/proj12ZhangZhao/bantam/ast/FormalList.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/proj12ZhangZhao/bantam/ast/IfStmt.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/proj12ZhangZhao/bantam/ast/InstanceofExpr.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/proj12ZhangZhao/bantam/ast/ListNode.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/proj12ZhangZhao/bantam/ast/Member.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/proj12ZhangZhao/bantam/ast/MemberList.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/proj12ZhangZhao/bantam/ast/Method.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/proj12ZhangZhao/bantam/ast/NewArrayExpr.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/proj12ZhangZhao/bantam/ast/NewExpr.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/proj12ZhangZhao/bantam/ast/Program.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/proj12ZhangZhao/bantam/ast/ReturnStmt.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/proj12ZhangZhao/bantam/ast/Stmt.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/proj12ZhangZhao/bantam/ast/StmtList.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/proj12ZhangZhao/bantam/ast/UnaryDecrExpr.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/proj12ZhangZhao/bantam/ast/UnaryExpr.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/proj12ZhangZhao/bantam/ast/UnaryIncrExpr.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/proj12ZhangZhao/bantam/ast/UnaryNegExpr.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/proj12ZhangZhao/bantam/ast/UnaryNotExpr.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/proj12ZhangZhao/bantam/ast/VarExpr.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/proj12ZhangZhao/bantam/ast/WhileStmt.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/proj12ZhangZhao/bantam/lexer/Scanner.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/proj12ZhangZhao/bantam/lexer/SourceFile.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/proj12ZhangZhao/bantam/lexer/Token.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/proj12ZhangZhao/bantam/parser/Parser.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/proj12ZhangZhao/bantam/semant/ClassVisitor.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/proj12ZhangZhao/bantam/semant/MainMainVisitor.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/proj12ZhangZhao/bantam/semant/NumLocalVarsVisitor.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/proj12ZhangZhao/bantam/semant/StringConstantsVisitor.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/proj12ZhangZhao/bantam/semant/SymbolTableBuildingVisitor.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/proj12ZhangZhao/bantam/semant/TypeCheckerVisitor.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/proj12ZhangZhao/bantam/treedrawer/Drawer.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/proj12ZhangZhao/bantam/treedrawer/DrawerFrame.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/proj12ZhangZhao/bantam/treedrawer/DrawerPanel.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/proj12ZhangZhao/bantam/treedrawer/DrawingTree.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/proj12ZhangZhao/bantam/treedrawer/LayoutVisitor.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/proj12ZhangZhao/bantam/treedrawer/Polygon.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/proj12ZhangZhao/bantam/treedrawer/Polyline.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/proj12ZhangZhao/bantam/util/ClassTreeNode.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/proj12ZhangZhao/bantam/util/CompilationException.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/proj12ZhangZhao/bantam/util/Error.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/proj12ZhangZhao/bantam/util/ErrorHandler.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/proj12ZhangZhao/bantam/util/SymbolTable.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/proj12ZhangZhao/bantam/visitor/Visitor.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/proj12ZhangZhao/include/antlr-4.7.1-complete.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/proj12ZhangZhao/include/richtextfx-fat-0.9.1.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/proj12ZhangZhao/proj12/SemanticAnalyzer.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/proj12ZhangZhao/resources/Main.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/proj12ZhangZhao/resources/Main.fxml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/proj12ZhangZhao/resources/NightMode.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/proj12ZhangZhao/resources/c.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/proj12ZhangZhao/resources/f.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/proj12ZhangZhao/resources/m.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/proj12ZhangZhao/test/CheckerTestZhangZhao.btm" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/proj12ZhangZhao/test/ParserTestLiLianKeithHardyZhou.btm" beforeDir="false" />
     </list>
-    <ignored path="JavaFxApplication.iws" />
-    <ignored path=".idea/workspace.xml" />
-    <ignored path="$PROJECT_DIR$/out/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
-  <component name="CoverageDataManager">
-    <SUITE FILE_PATH="coverage/proj12$Main.ic" NAME="Main Coverage Results" MODIFIED="1550157700566" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">
-      <FILTER>sample.*</FILTER>
-    </SUITE>
-  </component>
-  <component name="CreatePatchCommitExecutor">
-    <option name="PATCH_PATH" value="" />
-  </component>
-  <component name="DebuggerManager">
-    <breakpoint_any default_suspend_policy="SuspendAll" default_condition_enabled="true" converted="true">
-      <breakpoint>
-        <option name="NOTIFY_CAUGHT" value="true" />
-        <option name="NOTIFY_UNCAUGHT" value="true" />
-        <option name="ENABLED" value="false" />
-        <option name="LOG_ENABLED" value="false" />
-        <option name="LOG_EXPRESSION_ENABLED" value="false" />
-        <option name="SUSPEND_POLICY" value="SuspendAll" />
-        <option name="SUSPEND" value="true" />
-        <option name="COUNT_FILTER_ENABLED" value="false" />
-        <option name="COUNT_FILTER" value="0" />
-        <option name="CONDITION_ENABLED" value="true" />
-        <option name="CLASS_FILTERS_ENABLED" value="false" />
-        <option name="INSTANCE_FILTERS_ENABLED" value="false" />
-        <option name="CONDITION" value="" />
-        <option name="LOG_MESSAGE" value="" />
-      </breakpoint>
-      <breakpoint>
-        <option name="NOTIFY_CAUGHT" value="true" />
-        <option name="NOTIFY_UNCAUGHT" value="true" />
-        <option name="ENABLED" value="false" />
-        <option name="LOG_ENABLED" value="false" />
-        <option name="LOG_EXPRESSION_ENABLED" value="false" />
-        <option name="SUSPEND_POLICY" value="SuspendAll" />
-        <option name="SUSPEND" value="true" />
-        <option name="COUNT_FILTER_ENABLED" value="false" />
-        <option name="COUNT_FILTER" value="0" />
-        <option name="CONDITION_ENABLED" value="true" />
-        <option name="CLASS_FILTERS_ENABLED" value="false" />
-        <option name="INSTANCE_FILTERS_ENABLED" value="false" />
-        <option name="CONDITION" value="" />
-        <option name="LOG_MESSAGE" value="" />
-      </breakpoint>
-    </breakpoint_any>
-    <ui_properties converted="true" />
-    <breakpoint_rules converted="true" />
-  </component>
   <component name="FUSProjectUsageTrigger">
-    <session id="163792847">
+    <session id="-973412133">
       <usages-collector id="statistics.lifecycle.project">
         <counts>
-          <entry key="project.open.time.2" value="1" />
-          <entry key="project.opened" value="1" />
+          <entry key="project.closed" value="2" />
+          <entry key="project.open.time.1" value="1" />
+          <entry key="project.open.time.18" value="1" />
+          <entry key="project.open.time.5" value="1" />
+          <entry key="project.opened" value="3" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.extensions.open">
         <counts>
-          <entry key="fxml" value="1" />
-          <entry key="java" value="119" />
+          <entry key="fxml" value="2" />
+          <entry key="java" value="179" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.open">
         <counts>
-          <entry key="JAVA" value="119" />
-          <entry key="XML" value="1" />
+          <entry key="JAVA" value="179" />
+          <entry key="XML" value="2" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.extensions.edit">
         <counts>
-          <entry key="java" value="16" />
+          <entry key="fxml" value="54" />
+          <entry key="java" value="4053" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.edit">
         <counts>
-          <entry key="JAVA" value="16" />
+          <entry key="JAVA" value="4053" />
+          <entry key="XML" value="54" />
         </counts>
       </usages-collector>
     </session>
-    <session id="834042329">
-      <usages-collector id="statistics.lifecycle.project">
-        <counts>
-          <entry key="project.open.time.11" value="1" />
-          <entry key="project.open.time.19" value="1" />
-          <entry key="project.open.time.20" value="1" />
-          <entry key="project.open.time.44" value="1" />
-          <entry key="project.opened" value="4" />
-        </counts>
-      </usages-collector>
-      <usages-collector id="statistics.file.extensions.open">
-        <counts>
-          <entry key="btm" value="2" />
-          <entry key="fxml" value="1" />
-          <entry key="java" value="71" />
-        </counts>
-      </usages-collector>
-      <usages-collector id="statistics.file.types.open">
-        <counts>
-          <entry key="JAVA" value="71" />
-          <entry key="PLAIN_TEXT" value="2" />
-          <entry key="XML" value="1" />
-        </counts>
-      </usages-collector>
-      <usages-collector id="statistics.file.extensions.edit">
-        <counts>
-          <entry key="fxml" value="60" />
-          <entry key="java" value="25113" />
-          <entry key="txt" value="1171" />
-        </counts>
-      </usages-collector>
-      <usages-collector id="statistics.file.types.edit">
-        <counts>
-          <entry key="JAVA" value="25113" />
-          <entry key="PLAIN_TEXT" value="1171" />
-          <entry key="XML" value="60" />
-        </counts>
-      </usages-collector>
-    </session>
-    <session id="65048575">
-      <usages-collector id="statistics.lifecycle.project">
-        <counts>
-          <entry key="project.open.time.7" value="1" />
-          <entry key="project.opened" value="1" />
-        </counts>
-      </usages-collector>
-      <usages-collector id="statistics.file.extensions.edit">
-        <counts>
-          <entry key="java" value="2392" />
-          <entry key="txt" value="69" />
-        </counts>
-      </usages-collector>
-      <usages-collector id="statistics.file.types.edit">
-        <counts>
-          <entry key="JAVA" value="2392" />
-          <entry key="PLAIN_TEXT" value="69" />
-        </counts>
-      </usages-collector>
-      <usages-collector id="statistics.file.extensions.open">
-        <counts>
-          <entry key="java" value="24" />
-        </counts>
-      </usages-collector>
-      <usages-collector id="statistics.file.types.open">
-        <counts>
-          <entry key="JAVA" value="24" />
-        </counts>
-      </usages-collector>
-    </session>
-  </component>
-  <component name="FavoritesManager">
-    <favorites_list name="JavaFxApplication" />
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/proj12ZhangZhao/proj12/SemanticAnalyzer.java">
+        <entry file="file://$PROJECT_DIR$/src/proj13DouglasMacDonaldZhang/ToolbarController.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="225">
-              <caret line="166" column="42" selection-start-line="166" selection-start-column="42" selection-end-line="166" selection-end-column="42" />
+            <state relative-caret-position="187">
+              <caret line="235" column="43" selection-start-line="235" selection-start-column="43" selection-end-line="235" selection-end-column="43" />
+              <folding>
+                <element signature="imports" expanded="true" />
+                <element signature="e#8522#8523#0" expanded="true" />
+                <element signature="e#8560#8561#0" expanded="true" />
+                <element signature="e#8722#8723#0" expanded="true" />
+                <element signature="e#8761#8762#0" expanded="true" />
+                <element signature="e#8923#9722#0" expanded="true" />
+                <element signature="e#9721#9722#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/proj13DouglasMacDonaldZhang/bantam/parser/Parser.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="187">
+              <caret line="399" column="61" lean-forward="true" selection-start-line="399" selection-start-column="61" selection-end-line="399" selection-end-column="61" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -186,19 +550,46 @@
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/proj12ZhangZhao/ToolbarController.java">
+        <entry file="file://$PROJECT_DIR$/src/proj13DouglasMacDonaldZhang/bantam/semant/FindDeclarationUsesVisitor.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="224">
-              <caret line="129" column="41" selection-start-line="129" selection-start-column="41" selection-end-line="129" selection-end-column="41" />
+            <state relative-caret-position="809">
+              <caret line="69" column="5" lean-forward="true" selection-start-line="69" selection-start-column="5" selection-end-line="69" selection-end-column="5" />
+              <folding>
+                <element signature="e#0#3455#0" expanded="true" />
+                <element signature="imports" expanded="true" />
+              </folding>
             </state>
           </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/proj13DouglasMacDonaldZhang/resources/Main.fxml">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="201">
+              <caret line="98" column="45" selection-start-line="98" selection-start-column="45" selection-end-line="98" selection-end-column="45" />
+            </state>
+          </provider>
+          <provider editor-type-id="JavaFX-Scene-Builder" />
         </entry>
       </file>
       <file pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/src/proj12ZhangZhao/bantam/semant/TypeCheckerVisitor.java">
+        <entry file="file://$PROJECT_DIR$/src/proj13DouglasMacDonaldZhang/bantam/semant/FindUnusedVisitor.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="207">
-              <caret line="1150" column="37" selection-start-line="1150" selection-start-column="37" selection-end-line="1150" selection-end-column="37" />
+            <state relative-caret-position="370">
+              <caret line="163" lean-forward="true" selection-start-line="163" selection-end-line="163" />
+              <folding>
+                <element signature="e#0#337#0" expanded="true" />
+                <element signature="imports" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/proj13DouglasMacDonaldZhang/bantam/semant/TypeCheckerVisitor.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="153">
+              <caret line="1140" column="72" selection-start-line="1140" selection-start-column="72" selection-end-line="1140" selection-end-column="72" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -207,75 +598,50 @@
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/proj12ZhangZhao/bantam/util/SymbolTable.java">
+        <entry file="file://$PROJECT_DIR$/src/proj13DouglasMacDonaldZhang/bantam/ast/AssignExpr.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="139">
-              <caret line="138" selection-start-line="138" selection-end-line="138" />
+            <state relative-caret-position="17">
+              <caret line="66" lean-forward="true" selection-start-line="66" selection-end-line="66" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/proj13DouglasMacDonaldZhang/bantam/semant/IdentifierInfo.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="234">
+              <caret line="48" column="23" lean-forward="true" selection-start-line="48" selection-start-column="23" selection-end-line="48" selection-end-column="23" />
               <folding>
-                <element signature="e#0#15342#0" expanded="true" />
+                <element signature="e#0#325#0" expanded="true" />
+                <element signature="e#820#821#0" expanded="true" />
+                <element signature="e#847#848#0" expanded="true" />
+                <element signature="e#890#891#0" expanded="true" />
+                <element signature="e#922#923#0" expanded="true" />
+                <element signature="e#953#954#0" expanded="true" />
+                <element signature="e#980#981#0" expanded="true" />
+                <element signature="e#1014#1015#0" expanded="true" />
+                <element signature="e#1047#1048#0" expanded="true" />
+                <element signature="e#1132#1133#0" expanded="true" />
+                <element signature="e#1163#1164#0" expanded="true" />
+                <element signature="e#1208#1209#0" expanded="true" />
+                <element signature="e#1248#1249#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/proj13DouglasMacDonaldZhang/MasterController.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="188">
+              <caret line="529" column="28" lean-forward="true" selection-start-line="529" selection-start-column="28" selection-end-line="529" selection-end-column="28" />
+              <folding>
                 <element signature="imports" expanded="true" />
+                <element signature="e#18000#18001#0" expanded="true" />
+                <element signature="e#18067#18068#0" expanded="true" />
+                <element signature="e#18406#18407#0" expanded="true" />
+                <element signature="e#18473#18474#0" expanded="true" />
               </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/proj12ZhangZhao/bantam/ast/VarExpr.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-375">
-              <caret line="60" lean-forward="true" selection-start-line="60" selection-end-line="60" />
-              <folding>
-                <element signature="e#2716#2717#0" expanded="true" />
-                <element signature="e#2752#2753#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/proj12ZhangZhao/bantam/semant/SymbolTableBuildingVisitor.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="500">
-              <caret line="49" column="43" lean-forward="true" selection-start-line="49" selection-start-column="43" selection-end-line="49" selection-end-column="43" />
-              <folding>
-                <element signature="imports" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/proj12ZhangZhao/bantam/ast/UnaryNotExpr.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="792">
-              <caret line="77" lean-forward="true" selection-start-line="77" selection-end-line="77" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/proj12ZhangZhao/bantam/ast/UnaryIncrExpr.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="150">
-              <caret line="42" column="39" lean-forward="true" selection-start-line="42" selection-start-column="39" selection-end-line="42" selection-end-column="39" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/proj12ZhangZhao/bantam/ast/UnaryNegExpr.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="400">
-              <caret line="40" column="13" selection-start-line="40" selection-start-column="13" selection-end-line="40" selection-end-column="13" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/proj12ZhangZhao/bantam/parser/Parser.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="7525">
-              <caret line="353" column="24" selection-start-line="353" selection-start-column="24" selection-end-line="353" selection-end-column="24" />
             </state>
           </provider>
         </entry>
@@ -291,105 +657,84 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>CheckTy</find>
-      <find>-2</find>
-      <find>isSub</find>
-      <find>Expr node</find>
-      <find>checkTypeExi</find>
-      <find>Array</find>
-      <find>ArrayEx</find>
-      <find>ArrayExpr</find>
-      <find>classMap</find>
-      <find>ArrayExp</find>
-      <find>&quot;super&quot;</find>
-      <find>for</find>
-      <find>assign</find>
-      <find>parseFor</find>
-      <find>checkToken</find>
-      <find>parsefor</find>
-      <find>parseExpression</find>
-      <find>cas</find>
-      <find>errorHandler</find>
-      <find>ifs</find>
-      <find>parseIf</find>
-      <find>checkIde</find>
-      <find>Decl</find>
-      <find>DeclStmt</find>
-      <find>DeclStm</find>
-      <find>system.out.print</find>
-      <find>field se</find>
-      <find>varexpr</find>
-      <find>varEx</find>
-      <find>varexp</find>
+      <find>parseProgram</find>
+      <find>save</find>
+      <find>Declar</find>
+      <find>semanticAn</find>
+      <find>handlePar</find>
+      <find>Button</find>
+      <find>setDis</find>
+      <find>semanticC</find>
+      <find>AssignEx</find>
+      <find>Assign</find>
     </findStrings>
   </component>
-  <component name="FindManager">
-    <FindUsagesManager>
-      <setting name="OPEN_NEW_TAB" value="false" />
-    </FindUsagesManager>
-  </component>
   <component name="Git.Settings">
-    <option name="UPDATE_TYPE" value="MERGE" />
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/src/proj12ZhangZhao/bantam/ast/NewArrayExpr.java" />
-        <option value="$PROJECT_DIR$/src/proj12ZhangZhao/bantam/ast/Program.java" />
-        <option value="$PROJECT_DIR$/src/proj12ZhangZhao/bantam/ast/ReturnStmt.java" />
-        <option value="$PROJECT_DIR$/src/proj12ZhangZhao/bantam/ast/Stmt.java" />
-        <option value="$PROJECT_DIR$/src/proj12ZhangZhao/bantam/ast/StmtList.java" />
-        <option value="$PROJECT_DIR$/src/proj12ZhangZhao/bantam/ast/UnaryDecrExpr.java" />
-        <option value="$PROJECT_DIR$/src/proj12ZhangZhao/bantam/ast/UnaryExpr.java" />
-        <option value="$PROJECT_DIR$/src/proj12ZhangZhao/bantam/ast/UnaryIncrExpr.java" />
-        <option value="$PROJECT_DIR$/src/proj12ZhangZhao/bantam/ast/UnaryNegExpr.java" />
-        <option value="$PROJECT_DIR$/src/proj12ZhangZhao/bantam/ast/UnaryNotExpr.java" />
-        <option value="$PROJECT_DIR$/src/proj12ZhangZhao/bantam/ast/VarExpr.java" />
-        <option value="$PROJECT_DIR$/src/proj12ZhangZhao/bantam/ast/WhileStmt.java" />
-        <option value="$PROJECT_DIR$/src/proj12ZhangZhao/bantam/lexer/Scanner.java" />
-        <option value="$PROJECT_DIR$/src/proj12ZhangZhao/bantam/lexer/SourceFile.java" />
-        <option value="$PROJECT_DIR$/src/proj12ZhangZhao/bantam/lexer/Token.java" />
-        <option value="$PROJECT_DIR$/src/proj12ZhangZhao/bantam/semant/MainMainVisitor.java" />
-        <option value="$PROJECT_DIR$/src/proj12ZhangZhao/bantam/semant/StringConstantsVisitor.java" />
-        <option value="$PROJECT_DIR$/src/proj12ZhangZhao/bantam/semant/NumLocalVarsVisitor.java" />
-        <option value="$PROJECT_DIR$/src/proj12ZhangZhao/bantam/treedrawer/DrawerFrame.java" />
-        <option value="$PROJECT_DIR$/src/proj12ZhangZhao/bantam/treedrawer/DrawerPanel.java" />
-        <option value="$PROJECT_DIR$/src/proj12ZhangZhao/bantam/treedrawer/DrawingTree.java" />
-        <option value="$PROJECT_DIR$/src/proj12ZhangZhao/bantam/treedrawer/Polygon.java" />
-        <option value="$PROJECT_DIR$/src/proj12ZhangZhao/bantam/treedrawer/Polyline.java" />
-        <option value="$PROJECT_DIR$/src/proj12ZhangZhao/bantam/treedrawer/LayoutVisitor.java" />
-        <option value="$PROJECT_DIR$/src/proj12ZhangZhao/bantam/visitor/Visitor.java" />
-        <option value="$PROJECT_DIR$/src/proj12ZhangZhao/Java8/Java8BaseListener.java" />
-        <option value="$PROJECT_DIR$/src/proj12ZhangZhao/Java8/Java8Lexer.java" />
-        <option value="$PROJECT_DIR$/src/proj12ZhangZhao/Java8/Java8Listener.java" />
-        <option value="$PROJECT_DIR$/src/proj12ZhangZhao/Java8/Java8Parser.java" />
-        <option value="$PROJECT_DIR$/src/proj12ZhangZhao/bantam/util/Error.java" />
-        <option value="$PROJECT_DIR$/src/proj12ZhangZhao/bantam/util/CompilationException.java" />
-        <option value="$PROJECT_DIR$/src/proj12ZhangZhao/bantam/util/ErrorHandler.java" />
-        <option value="$PROJECT_DIR$/src/proj12ZhangZhao/bantam/ast/NewExpr.java" />
-        <option value="$PROJECT_DIR$/src/proj12ZhangZhao/bantam/ast/DispatchExpr.java" />
-        <option value="$PROJECT_DIR$/src/proj12ZhangZhao/bantam/treedrawer/Drawer.java" />
-        <option value="$PROJECT_DIR$/src/proj12ZhangZhao/StructureViewController.java" />
-        <option value="$PROJECT_DIR$/src/proj12ZhangZhao/filesForProj12/TypeCheckerVisitor.java" />
-        <option value="$PROJECT_DIR$/src/proj12ZhangZhao/proj12/ClassTreeNode.java" />
-        <option value="$PROJECT_DIR$/src/proj12ZhangZhao/proj12/SymbolTable.java" />
-        <option value="$PROJECT_DIR$/src/proj12ZhangZhao/resources/Main.fxml" />
-        <option value="$PROJECT_DIR$/src/proj12ZhangZhao/bantam/semant/ClassCheckerVisitor.java" />
-        <option value="$PROJECT_DIR$/src/proj12ZhangZhao/MasterController.java" />
-        <option value="$PROJECT_DIR$/src/proj12ZhangZhao/bantam/ast/DeclStmt.java" />
-        <option value="$PROJECT_DIR$/src/proj12ZhangZhao/bantam/util/ClassTreeNode.java" />
-        <option value="$PROJECT_DIR$/src/proj12ZhangZhao/bantam/semant/ClassVisitor.java" />
-        <option value="$PROJECT_DIR$/src/proj12ZhangZhao/bantam/parser/Parser.java" />
-        <option value="$PROJECT_DIR$/src/proj12ZhangZhao/ToolbarController.java" />
-        <option value="$PROJECT_DIR$/src/proj12ZhangZhao/proj12/SemanticAnalyzer.java" />
-        <option value="$PROJECT_DIR$/src/proj12ZhangZhao/bantam/semant/SymbolTableBuildingVisitor.java" />
-        <option value="$PROJECT_DIR$/src/proj12ZhangZhao/bantam/util/SymbolTable.java" />
-        <option value="$PROJECT_DIR$/src/proj12ZhangZhao/bantam/semant/TypeCheckerVisitor.java" />
+        <option value="$PROJECT_DIR$/src/proj13DouglasMacDonaldZhang/bantam/ast/UnaryNotExpr.java" />
+        <option value="$PROJECT_DIR$/src/proj13DouglasMacDonaldZhang/bantam/ast/ASTNode.java" />
+        <option value="$PROJECT_DIR$/src/proj13DouglasMacDonaldZhang/bantam/visitor/Visitor.java" />
+        <option value="$PROJECT_DIR$/src/proj13DouglasMacDonaldZhang/bantam/util/ClassTreeNode.java" />
+        <option value="$PROJECT_DIR$/src/proj13DouglasMacDonaldZhang/bantam/util/CompilationException.java" />
+        <option value="$PROJECT_DIR$/src/proj13DouglasMacDonaldZhang/bantam/util/Error.java" />
+        <option value="$PROJECT_DIR$/src/proj13DouglasMacDonaldZhang/bantam/util/ErrorHandler.java" />
+        <option value="$PROJECT_DIR$/src/proj13DouglasMacDonaldZhang/bantam/util/SymbolTable.java" />
+        <option value="$PROJECT_DIR$/src/proj13DouglasMacDonaldZhang/bantam/lexer/Scanner.java" />
+        <option value="$PROJECT_DIR$/src/proj13DouglasMacDonaldZhang/bantam/lexer/SourceFile.java" />
+        <option value="$PROJECT_DIR$/src/proj13DouglasMacDonaldZhang/bantam/lexer/Token.java" />
+        <option value="$PROJECT_DIR$/src/proj13DouglasMacDonaldZhang/bantam/semant/ClassVisitor.java" />
+        <option value="$PROJECT_DIR$/src/proj13DouglasMacDonaldZhang/bantam/semant/MainMainVisitor.java" />
+        <option value="$PROJECT_DIR$/src/proj13DouglasMacDonaldZhang/bantam/semant/NumLocalVarsVisitor.java" />
+        <option value="$PROJECT_DIR$/src/proj13DouglasMacDonaldZhang/bantam/semant/StringConstantsVisitor.java" />
+        <option value="$PROJECT_DIR$/src/proj13DouglasMacDonaldZhang/bantam/semant/SymbolTableBuildingVisitor.java" />
+        <option value="$PROJECT_DIR$/src/proj13DouglasMacDonaldZhang/proj12/SemanticAnalyzer.java" />
+        <option value="$PROJECT_DIR$/src/proj13DouglasMacDonaldZhang/bantam/ast/VarExpr.java" />
+        <option value="$PROJECT_DIR$/src/proj13DouglasMacDonaldZhang/bantam/ast/WhileStmt.java" />
+        <option value="$PROJECT_DIR$/src/proj13DouglasMacDonaldZhang/bantam/ast/ArrayExpr.java" />
+        <option value="$PROJECT_DIR$/src/proj13DouglasMacDonaldZhang/bantam/ast/BinaryArithMinusExpr.java" />
+        <option value="$PROJECT_DIR$/src/proj13DouglasMacDonaldZhang/bantam/ast/BinaryArithPlusExpr.java" />
+        <option value="$PROJECT_DIR$/src/proj13DouglasMacDonaldZhang/bantam/ast/CastExpr.java" />
+        <option value="$PROJECT_DIR$/src/proj13DouglasMacDonaldZhang/bantam/ast/BreakStmt.java" />
+        <option value="$PROJECT_DIR$/src/proj13DouglasMacDonaldZhang/StructureViewController.java" />
+        <option value="$PROJECT_DIR$/src/proj13DouglasMacDonaldZhang/JavaCodeArea.java" />
+        <option value="$PROJECT_DIR$/src/proj13DouglasMacDonaldZhang/FileController.java" />
+        <option value="$PROJECT_DIR$/src/proj13DouglasMacDonaldZhang/Console.java" />
+        <option value="$PROJECT_DIR$/src/proj13DouglasMacDonaldZhang/bantam/parser/Parser.java" />
+        <option value="$PROJECT_DIR$/src/proj13DouglasMacDonaldZhang/bantam/ast/BlockStmt.java" />
+        <option value="$PROJECT_DIR$/src/proj13DouglasMacDonaldZhang/Java8/Java8BaseListener.java" />
+        <option value="$PROJECT_DIR$/src/proj13DouglasMacDonaldZhang/Java8/Java8Lexer.java" />
+        <option value="$PROJECT_DIR$/src/proj13DouglasMacDonaldZhang/Java8/Java8Listener.java" />
+        <option value="$PROJECT_DIR$/src/proj13DouglasMacDonaldZhang/Java8/Java8Parser.java" />
+        <option value="$PROJECT_DIR$/src/proj13DouglasMacDonaldZhang/bantam/treedrawer/DrawerFrame.java" />
+        <option value="$PROJECT_DIR$/src/proj13DouglasMacDonaldZhang/bantam/treedrawer/DrawerPanel.java" />
+        <option value="$PROJECT_DIR$/src/proj13DouglasMacDonaldZhang/bantam/treedrawer/DrawingTree.java" />
+        <option value="$PROJECT_DIR$/src/proj13DouglasMacDonaldZhang/bantam/treedrawer/Polygon.java" />
+        <option value="$PROJECT_DIR$/src/proj13DouglasMacDonaldZhang/bantam/treedrawer/Polyline.java" />
+        <option value="$PROJECT_DIR$/src/proj13DouglasMacDonaldZhang/bantam/treedrawer/Drawer.java" />
+        <option value="$PROJECT_DIR$/src/proj13DouglasMacDonaldZhang/bantam/treedrawer/LayoutVisitor.java" />
+        <option value="$PROJECT_DIR$/src/proj13DouglasMacDonaldZhang/bantam/ast/UnaryExpr.java" />
+        <option value="$PROJECT_DIR$/src/proj13DouglasMacDonaldZhang/bantam/semant/FindDeclarationUses.java" />
+        <option value="$PROJECT_DIR$/src/proj13DouglasMacDonaldZhang/bantam/ast/AssignExpr.java" />
+        <option value="$PROJECT_DIR$/src/proj13DouglasMacDonaldZhang/bantam/semant/IdentifierInfo.java" />
+        <option value="$PROJECT_DIR$/src/proj13DouglasMacDonaldZhang/bantam/semant/FindDeclarationUsesVisitor.java" />
+        <option value="$PROJECT_DIR$/src/proj13DouglasMacDonaldZhang/resources/Main.fxml" />
+        <option value="$PROJECT_DIR$/src/proj13DouglasMacDonaldZhang/MasterController.java" />
+        <option value="$PROJECT_DIR$/src/proj13DouglasMacDonaldZhang/ToolbarController.java" />
+        <option value="$PROJECT_DIR$/src/proj13DouglasMacDonaldZhang/bantam/semant/TypeCheckerVisitor.java" />
+        <option value="$PROJECT_DIR$/src/proj13DouglasMacDonaldZhang/bantam/semant/FindUnusedVisitor.java" />
       </list>
     </option>
   </component>
-  <component name="PhpWorkspaceProjectConfiguration" backward_compatibility_performed="true" />
+  <component name="MavenProjectNavigator">
+    <treeState>
+      <expand />
+      <select />
+    </treeState>
+  </component>
   <component name="ProjectFrameBounds" extendedState="6">
     <option name="x" value="-372" />
     <option name="y" value="742" />
@@ -402,198 +747,61 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="PackagesPane" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
             <path>
-              <item name="proj12ZhangZhao" type="b2602c69:ProjectViewProjectNode" />
-              <item name="proj12ZhangZhao" type="462c0819:PsiDirectoryNode" />
+              <item name="proj13" type="b2602c69:ProjectViewProjectNode" />
+              <item name="proj13" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
-              <item name="proj12ZhangZhao" type="b2602c69:ProjectViewProjectNode" />
-              <item name="proj12ZhangZhao" type="462c0819:PsiDirectoryNode" />
+              <item name="proj13" type="b2602c69:ProjectViewProjectNode" />
+              <item name="proj13" type="462c0819:PsiDirectoryNode" />
               <item name="src" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
-              <item name="proj12ZhangZhao" type="b2602c69:ProjectViewProjectNode" />
-              <item name="proj12ZhangZhao" type="462c0819:PsiDirectoryNode" />
+              <item name="proj13" type="b2602c69:ProjectViewProjectNode" />
+              <item name="proj13" type="462c0819:PsiDirectoryNode" />
               <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="proj12ZhangZhao" type="462c0819:PsiDirectoryNode" />
+              <item name="proj13DouglasMacDonaldZhang" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
-              <item name="proj12ZhangZhao" type="b2602c69:ProjectViewProjectNode" />
-              <item name="proj12ZhangZhao" type="462c0819:PsiDirectoryNode" />
+              <item name="proj13" type="b2602c69:ProjectViewProjectNode" />
+              <item name="proj13" type="462c0819:PsiDirectoryNode" />
               <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="proj12ZhangZhao" type="462c0819:PsiDirectoryNode" />
+              <item name="proj13DouglasMacDonaldZhang" type="462c0819:PsiDirectoryNode" />
               <item name="bantam" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
-              <item name="proj12ZhangZhao" type="b2602c69:ProjectViewProjectNode" />
-              <item name="proj12ZhangZhao" type="462c0819:PsiDirectoryNode" />
+              <item name="proj13" type="b2602c69:ProjectViewProjectNode" />
+              <item name="proj13" type="462c0819:PsiDirectoryNode" />
               <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="proj12ZhangZhao" type="462c0819:PsiDirectoryNode" />
-              <item name="bantam" type="462c0819:PsiDirectoryNode" />
-              <item name="ast" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="proj12ZhangZhao" type="b2602c69:ProjectViewProjectNode" />
-              <item name="proj12ZhangZhao" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="proj12ZhangZhao" type="462c0819:PsiDirectoryNode" />
+              <item name="proj13DouglasMacDonaldZhang" type="462c0819:PsiDirectoryNode" />
               <item name="bantam" type="462c0819:PsiDirectoryNode" />
               <item name="semant" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
-              <item name="proj12ZhangZhao" type="b2602c69:ProjectViewProjectNode" />
-              <item name="proj12ZhangZhao" type="462c0819:PsiDirectoryNode" />
+              <item name="proj13" type="b2602c69:ProjectViewProjectNode" />
+              <item name="proj13" type="462c0819:PsiDirectoryNode" />
               <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="proj12ZhangZhao" type="462c0819:PsiDirectoryNode" />
-              <item name="bantam" type="462c0819:PsiDirectoryNode" />
-              <item name="util" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="proj12ZhangZhao" type="b2602c69:ProjectViewProjectNode" />
-              <item name="proj12ZhangZhao" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="proj12ZhangZhao" type="462c0819:PsiDirectoryNode" />
-              <item name="proj12" type="462c0819:PsiDirectoryNode" />
+              <item name="proj13DouglasMacDonaldZhang" type="462c0819:PsiDirectoryNode" />
+              <item name="resources" type="462c0819:PsiDirectoryNode" />
             </path>
           </expand>
           <select />
         </subPane>
       </pane>
+      <pane id="PackagesPane" />
       <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
-    <property name="GoToClass.includeLibraries" value="false" />
-    <property name="GoToClass.toSaveIncludeLibraries" value="false" />
-    <property name="GoToFile.includeJavaFiles" value="false" />
-    <property name="MemberChooser.copyJavadoc" value="false" />
-    <property name="MemberChooser.showClasses" value="true" />
-    <property name="MemberChooser.sorted" value="false" />
-    <property name="OverrideImplement.combined" value="false" />
-    <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1551110630884" />
-    <property name="dynamic.classpath" value="false" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/src/proj12ZhangZhao/include/richtextfx-fat-0.9.1.jar!/" />
+    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1551673475998" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="project.structure.last.edited" value="Project" />
     <property name="project.structure.proportion" value="0.15" />
     <property name="project.structure.side.proportion" value="0.2" />
-    <property name="recentsLimit" value="5" />
-  </component>
-  <component name="RestoreUpdateTree" date="Moments ago" ActionInfo="_Update">
-    <UpdatedFiles>
-      <FILE-GROUP>
-        <option name="myUpdateName" value="Updated from server" />
-        <option name="myStatusName" value="Changed on server" />
-        <option name="mySupportsDeletion" value="false" />
-        <option name="myCanBeAbsent" value="false" />
-        <option name="myId" value="CHANGED_ON_SERVER" />
-        <FILE-GROUP>
-          <option name="myUpdateName" value="Updated" />
-          <option name="myStatusName" value="Changed" />
-          <option name="mySupportsDeletion" value="false" />
-          <option name="myCanBeAbsent" value="false" />
-          <option name="myId" value="UPDATED" />
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/.idea/workspace.xml</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/out/production/proj12ZhangZhao/proj12ZhangZhao/test/ParserTestLiLianKeithHardyZhou.btm</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/proj12ZhangZhao/bantam/semant/TypeCheckerVisitor.java</PATH>
-        </FILE-GROUP>
-        <FILE-GROUP>
-          <option name="myUpdateName" value="Created" />
-          <option name="myStatusName" value="Created" />
-          <option name="mySupportsDeletion" value="false" />
-          <option name="myCanBeAbsent" value="false" />
-          <option name="myId" value="CREATED" />
-        </FILE-GROUP>
-        <FILE-GROUP>
-          <option name="myUpdateName" value="Deleted" />
-          <option name="myStatusName" value="Deleted" />
-          <option name="mySupportsDeletion" value="false" />
-          <option name="myCanBeAbsent" value="true" />
-          <option name="myId" value="REMOVED_FROM_REPOSITORY" />
-        </FILE-GROUP>
-        <FILE-GROUP>
-          <option name="myUpdateName" value="Restored" />
-          <option name="myStatusName" value="Will be restored" />
-          <option name="mySupportsDeletion" value="false" />
-          <option name="myCanBeAbsent" value="false" />
-          <option name="myId" value="RESTORED" />
-        </FILE-GROUP>
-      </FILE-GROUP>
-      <FILE-GROUP>
-        <option name="myUpdateName" value="Modified" />
-        <option name="myStatusName" value="Modified" />
-        <option name="mySupportsDeletion" value="false" />
-        <option name="myCanBeAbsent" value="false" />
-        <option name="myId" value="MODIFIED" />
-      </FILE-GROUP>
-      <FILE-GROUP>
-        <option name="myUpdateName" value="Skipped" />
-        <option name="myStatusName" value="Skipped" />
-        <option name="mySupportsDeletion" value="false" />
-        <option name="myCanBeAbsent" value="false" />
-        <option name="myId" value="SKIPPED" />
-      </FILE-GROUP>
-      <FILE-GROUP>
-        <option name="myUpdateName" value="Merged with conflicts" />
-        <option name="myStatusName" value="Will be merged with conflicts" />
-        <option name="mySupportsDeletion" value="false" />
-        <option name="myCanBeAbsent" value="false" />
-        <option name="myId" value="MERGED_WITH_CONFLICTS" />
-      </FILE-GROUP>
-      <FILE-GROUP>
-        <option name="myUpdateName" value="Merged with tree conflicts" />
-        <option name="myStatusName" value="Merged with tree conflicts" />
-        <option name="mySupportsDeletion" value="false" />
-        <option name="myCanBeAbsent" value="false" />
-        <option name="myId" value="MERGED_WITH_TREE_CONFLICT" />
-      </FILE-GROUP>
-      <FILE-GROUP>
-        <option name="myUpdateName" value="Merged with property conflicts" />
-        <option name="myStatusName" value="Will be merged with property conflicts" />
-        <option name="mySupportsDeletion" value="false" />
-        <option name="myCanBeAbsent" value="false" />
-        <option name="myId" value="MERGED_WITH_PROPERTY_CONFLICT" />
-      </FILE-GROUP>
-      <FILE-GROUP>
-        <option name="myUpdateName" value="Merged" />
-        <option name="myStatusName" value="Will be merged" />
-        <option name="mySupportsDeletion" value="false" />
-        <option name="myCanBeAbsent" value="false" />
-        <option name="myId" value="MERGED" />
-      </FILE-GROUP>
-      <FILE-GROUP>
-        <option name="myUpdateName" value="Not in repository" />
-        <option name="myStatusName" value="Not in repository" />
-        <option name="mySupportsDeletion" value="true" />
-        <option name="myCanBeAbsent" value="false" />
-        <option name="myId" value="UNKNOWN" />
-      </FILE-GROUP>
-      <FILE-GROUP>
-        <option name="myUpdateName" value="Locally added" />
-        <option name="myStatusName" value="Locally added" />
-        <option name="mySupportsDeletion" value="false" />
-        <option name="myCanBeAbsent" value="false" />
-        <option name="myId" value="LOCALLY_ADDED" />
-      </FILE-GROUP>
-      <FILE-GROUP>
-        <option name="myUpdateName" value="Locally removed" />
-        <option name="myStatusName" value="Locally removed" />
-        <option name="mySupportsDeletion" value="false" />
-        <option name="myCanBeAbsent" value="false" />
-        <option name="myId" value="LOCALLY_REMOVED" />
-      </FILE-GROUP>
-      <FILE-GROUP>
-        <option name="myUpdateName" value="Switched" />
-        <option name="myStatusName" value="Switched" />
-        <option name="mySupportsDeletion" value="false" />
-        <option name="myCanBeAbsent" value="false" />
-        <option name="myId" value="SWITCHED" />
-      </FILE-GROUP>
-    </UpdatedFiles>
+    <property name="settings.editor.selected.configurable" value="project.propVCSSupport.Mappings" />
   </component>
   <component name="RunDashboard">
     <option name="ruleStates">
@@ -608,680 +816,542 @@
     </option>
   </component>
   <component name="RunManager">
-    <configuration default="true" type="DartUnitRunConfigurationType" factoryName="DartUnit">
-      <option name="VMOptions" />
-      <option name="arguments" />
-      <option name="filePath" />
-      <option name="scope" value="ALL" />
-      <option name="testName" />
-      <method />
-    </configuration>
-    <configuration name="&lt;template&gt;" type="WebApp" default="true" selected="false">
-      <Host>localhost</Host>
-      <Port>5050</Port>
-    </configuration>
-    <configuration default="true" type="Applet" factoryName="Applet">
-      <option name="POLICY_FILE" value="$APPLICATION_HOME_DIR$/bin/appletviewer.policy" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <configuration name="Main" type="Application" factoryName="Application">
-      <option name="MAIN_CLASS_NAME" value="proj12ZhangZhao.Main" />
+    <configuration name="Main" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="proj13DouglasMacDonaldZhang.Main" />
       <module name="proj12ZhangZhao" />
       <extension name="coverage">
         <pattern>
-          <option name="PATTERN" value="sample.*" />
+          <option name="PATTERN" value="proj12ZhangZhao.*" />
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
-      <RunnerSettings RunnerId="Run" />
-      <ConfigurationWrapper RunnerId="Run" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration default="true" type="Application" factoryName="Application">
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <configuration default="true" type="JUnit" factoryName="JUnit">
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
-      <option name="TEST_SEARCH_SCOPE">
-        <value defaultName="moduleWithDependencies" />
-      </option>
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <configuration default="true" type="TestNG" factoryName="TestNG">
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
-      <option name="TEST_SEARCH_SCOPE">
-        <value defaultName="moduleWithDependencies" />
-      </option>
-      <properties />
-      <listeners />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <configuration default="true" type="#org.jetbrains.idea.devkit.run.PluginConfigurationType" factoryName="Plugin">
-      <module name="" />
-      <option name="VM_PARAMETERS" value="-Xmx512m -Xms256m -XX:MaxPermSize=250m" />
-      <option name="PROGRAM_PARAMETERS" />
-      <predefined_log_file id="idea.log" enabled="true" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Application.Main" />
+      </list>
+    </recent_temporary>
   </component>
   <component name="SvnConfiguration">
     <configuration />
   </component>
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
-      <changelist id="cdb932d9-7e58-4d94-93a9-e7b232ef17da" name="Default" comment="" />
-      <created>1359379246138</created>
+      <changelist id="8c57f01d-50a6-4049-9df1-207144779c5a" name="Default Changelist" comment="" />
+      <created>1551637762278</created>
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
-      <updated>1359379246138</updated>
-      <workItem from="1359379250712" duration="1302000" />
+      <updated>1551637762278</updated>
     </task>
-    <task id="LOCAL-00001" summary="Fixed issues with the testing">
-      <created>1550160088269</created>
-      <option name="number" value="00001" />
-      <option name="presentableId" value="LOCAL-00001" />
-      <option name="project" value="LOCAL" />
-      <updated>1550160088270</updated>
-    </task>
-    <task id="LOCAL-00002" summary="Cycle testing and most of the symbol table code. There's still an issue with DeclStmts in the symbol table.">
-      <created>1550427693522</created>
-      <option name="number" value="00002" />
-      <option name="presentableId" value="LOCAL-00002" />
-      <option name="project" value="LOCAL" />
-      <updated>1550427693525</updated>
-    </task>
-    <task id="LOCAL-00003" summary="Rearranged structure">
-      <created>1550524833021</created>
-      <option name="number" value="00003" />
-      <option name="presentableId" value="LOCAL-00003" />
-      <option name="project" value="LOCAL" />
-      <updated>1550524833022</updated>
-    </task>
-    <task id="LOCAL-00004" summary="Rearranged structure">
-      <created>1550524979007</created>
-      <option name="number" value="00004" />
-      <option name="presentableId" value="LOCAL-00004" />
-      <option name="project" value="LOCAL" />
-      <updated>1550524979007</updated>
-    </task>
-    <task id="LOCAL-00005" summary="Fixed symbol table bug and split table building from inheritance tree building.">
-      <created>1550610031269</created>
-      <option name="number" value="00005" />
-      <option name="presentableId" value="LOCAL-00005" />
-      <option name="project" value="LOCAL" />
-      <updated>1550610031270</updated>
-    </task>
-    <task id="LOCAL-00006" summary="Fixed cycle checking so it works on cycles bigger than size 2.">
-      <created>1550851781253</created>
-      <option name="number" value="00006" />
-      <option name="presentableId" value="LOCAL-00006" />
-      <option name="project" value="LOCAL" />
-      <updated>1550851781254</updated>
-    </task>
-    <task id="LOCAL-00007" summary="Fixed symbol table bug and split table building from inheritance tree building.">
-      <created>1550851876382</created>
-      <option name="number" value="00007" />
-      <option name="presentableId" value="LOCAL-00007" />
-      <option name="project" value="LOCAL" />
-      <updated>1550851876382</updated>
-    </task>
-    <task id="LOCAL-00008" summary="The non-abstract nodes from the final 28 that haven't already been handled should all now have all the errors done . . . I think">
-      <created>1551037930159</created>
-      <option name="number" value="00008" />
-      <option name="presentableId" value="LOCAL-00008" />
-      <option name="project" value="LOCAL" />
-      <updated>1551037930159</updated>
-    </task>
-    <task id="LOCAL-00009" summary="Updated documentation in TypeCheckerVisitor">
-      <created>1551038851575</created>
-      <option name="number" value="00009" />
-      <option name="presentableId" value="LOCAL-00009" />
-      <option name="project" value="LOCAL" />
-      <updated>1551038851577</updated>
-    </task>
-    <task id="LOCAL-00010" summary="Fixed visit methods in TypeCheckerVisitor, added main method to Semantic Analyzer">
-      <created>1551069190841</created>
-      <option name="number" value="00010" />
-      <option name="presentableId" value="LOCAL-00010" />
-      <option name="project" value="LOCAL" />
-      <updated>1551069190843</updated>
-    </task>
-    <task id="LOCAL-00011" summary="cast expression">
-      <created>1551081412638</created>
-      <option name="number" value="00011" />
-      <option name="presentableId" value="LOCAL-00011" />
-      <option name="project" value="LOCAL" />
-      <updated>1551081412638</updated>
-    </task>
-    <task id="LOCAL-00012" summary="debugging visit if">
-      <created>1551093753738</created>
-      <option name="number" value="00012" />
-      <option name="presentableId" value="LOCAL-00012" />
-      <option name="project" value="LOCAL" />
-      <updated>1551093753738</updated>
-    </task>
-    <task id="LOCAL-00013" summary="testfile">
-      <created>1551096423025</created>
-      <option name="number" value="00013" />
-      <option name="presentableId" value="LOCAL-00013" />
-      <option name="project" value="LOCAL" />
-      <updated>1551096423025</updated>
-    </task>
-    <task id="LOCAL-00014" summary="fixed the reserved words">
-      <created>1551100235798</created>
-      <option name="number" value="00014" />
-      <option name="presentableId" value="LOCAL-00014" />
-      <option name="project" value="LOCAL" />
-      <updated>1551100235798</updated>
-    </task>
-    <option name="localTasksCounter" value="15" />
     <servers />
   </component>
-  <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="1302000" />
-  </component>
-  <component name="TodoView">
-    <todo-panel id="selected-file">
-      <is-autoscroll-to-source value="true" />
-    </todo-panel>
-    <todo-panel id="all">
-      <are-packages-shown value="true" />
-      <is-autoscroll-to-source value="true" />
-    </todo-panel>
-  </component>
   <component name="ToolWindowManager">
-    <frame x="-6" y="-6" width="1453" height="783" extended-state="6" />
+    <frame x="-6" y="-6" width="1381" height="885" extended-state="6" />
     <editor active="true" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" sideWeight="0.6703755" visible="true" weight="0.23655914" />
-      <window_info id="Structure" order="1" weight="0.25" />
-      <window_info id="Favorites" order="2" />
+      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.17687075" />
+      <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
+      <window_info id="Image Layers" order="2" />
       <window_info id="Designer" order="3" />
-      <window_info id="Learn" order="4" />
-      <window_info id="Image Layers" order="5" />
-      <window_info id="UI Designer" order="6" />
-      <window_info id="Capture Tool" order="7" />
+      <window_info id="UI Designer" order="4" />
+      <window_info id="Capture Tool" order="5" />
+      <window_info id="Favorites" order="6" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
-      <window_info anchor="bottom" id="Find" order="1" />
-      <window_info active="true" anchor="bottom" id="Run" order="2" visible="true" weight="0.2791411" />
-      <window_info anchor="bottom" id="Debug" order="3" weight="0.20705521" />
-      <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
-      <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
-      <window_info anchor="bottom" id="TODO" order="6" />
-      <window_info anchor="bottom" id="Application Servers" order="7" />
-      <window_info anchor="bottom" id="Version Control" order="8" weight="0.32980132" />
-      <window_info anchor="bottom" id="Problems" order="9" />
-      <window_info anchor="bottom" id="Changes" order="10" />
-      <window_info anchor="bottom" id="Profiler" order="11" />
-      <window_info anchor="bottom" id="Event Log" order="12" weight="0.32980132" />
-      <window_info anchor="bottom" id="Messages" order="13" weight="0.3297546" />
-      <window_info anchor="bottom" id="Terminal" order="14" weight="0.3297546" />
-      <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
-      <window_info anchor="right" id="Ant Build" order="1" weight="0.2494331" />
-      <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.24946237" />
-      <window_info anchor="right" id="JetGradle" order="3" />
-      <window_info anchor="right" id="Database" order="4" />
-      <window_info anchor="right" id="Palette" order="5" />
-      <window_info anchor="right" id="Maven Projects" order="6" />
-      <window_info anchor="right" id="Capture Analysis" order="7" />
-      <window_info anchor="right" id="Palette&#9;" order="8" />
-      <window_info anchor="right" id="Theme Preview" order="9" />
-      <window_info anchor="right" id="Coverage" order="10" side_tool="true" weight="0.32955405" />
-    </layout>
-    <layout-to-restore>
-      <window_info active="true" content_ui="combo" id="Project" order="0" sideWeight="0.6703755" visible="true" weight="0.26303855" />
-      <window_info id="Structure" order="1" weight="0.25" />
-      <window_info id="Favorites" order="2" />
-      <window_info id="Designer" order="3" />
-      <window_info id="Learn" order="4" />
-      <window_info id="Image Layers" order="5" />
-      <window_info id="UI Designer" order="6" />
-      <window_info id="Capture Tool" order="7" />
-      <window_info anchor="bottom" id="Message" order="0" />
-      <window_info anchor="bottom" id="Find" order="1" />
-      <window_info anchor="bottom" id="Run" order="2" visible="true" weight="0.28476822" />
+      <window_info anchor="bottom" id="Find" order="1" weight="0.32980132" />
+      <window_info anchor="bottom" id="Run" order="2" weight="0.32980132" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.4" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
       <window_info anchor="bottom" id="TODO" order="6" />
-      <window_info anchor="bottom" id="Application Servers" order="7" />
-      <window_info anchor="bottom" id="Version Control" order="8" weight="0.32980132" />
-      <window_info anchor="bottom" id="Problems" order="9" />
-      <window_info anchor="bottom" id="Changes" order="10" />
-      <window_info anchor="bottom" id="Profiler" order="11" />
-      <window_info anchor="bottom" id="Event Log" order="12" weight="0.32980132" />
-      <window_info anchor="bottom" id="Messages" order="13" weight="0.32980132" />
-      <window_info anchor="bottom" id="Terminal" order="14" />
+      <window_info anchor="bottom" id="Terminal" order="7" />
+      <window_info anchor="bottom" id="Event Log" order="8" side_tool="true" />
+      <window_info anchor="bottom" id="Version Control" order="9" show_stripe_button="false" weight="0.32980132" />
+      <window_info anchor="bottom" id="Messages" order="10" weight="0.32980132" />
       <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
-      <window_info anchor="right" id="Ant Build" order="1" weight="0.2494331" />
-      <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.24946237" />
-      <window_info anchor="right" id="JetGradle" order="3" />
-      <window_info anchor="right" id="Database" order="4" />
-      <window_info anchor="right" id="Palette" order="5" />
-      <window_info anchor="right" id="Maven Projects" order="6" />
-      <window_info anchor="right" id="Capture Analysis" order="7" />
-      <window_info anchor="right" id="Palette&#9;" order="8" />
-      <window_info anchor="right" id="Theme Preview" order="9" />
-      <window_info anchor="right" id="Coverage" order="10" side_tool="true" weight="0.32955405" />
-    </layout-to-restore>
+      <window_info anchor="right" content_ui="combo" id="Hierarchy" order="1" weight="0.25" />
+      <window_info anchor="right" id="Palette" order="2" />
+      <window_info anchor="right" id="Capture Analysis" order="3" />
+      <window_info anchor="right" id="Theme Preview" order="4" />
+      <window_info anchor="right" id="Palette&#9;" order="5" />
+      <window_info anchor="right" id="Maven Projects" order="6" weight="0.32955405" />
+      <window_info anchor="right" id="Ant Build" order="7" weight="0.2494331" />
+    </layout>
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State>
+              <option name="RECENTLY_FILTERED_USER_GROUPS">
+                <collection />
+              </option>
+              <option name="RECENTLY_FILTERED_BRANCH_GROUPS">
+                <collection />
+              </option>
+              <option name="COLUMN_ORDER">
+                <list>
+                  <option value="0" />
+                  <option value="1" />
+                  <option value="2" />
+                  <option value="3" />
+                </list>
+              </option>
+            </State>
+          </value>
+        </entry>
+      </map>
+    </option>
   </component>
   <component name="VcsContentAnnotationSettings">
     <option name="myLimit" value="2678400000" />
-  </component>
-  <component name="VcsManagerConfiguration">
-    <option name="OFFER_MOVE_TO_ANOTHER_CHANGELIST_ON_PARTIAL_COMMIT" value="true" />
-    <option name="CHECK_CODE_SMELLS_BEFORE_PROJECT_COMMIT" value="false" />
-    <option name="CHECK_NEW_TODO" value="false" />
-    <option name="INCLUDE_TEXT_INTO_SHELF" value="false" />
-    <MESSAGE value="Added initial code for building the class inheritance tree and connected it to a button. Commented out TypeChecker for now." />
-    <MESSAGE value="Fixed issues with the testing" />
-    <MESSAGE value="Cycle testing and most of the symbol table code. There's still an issue with DeclStmts in the symbol table." />
-    <MESSAGE value="Rearranged structure" />
-    <MESSAGE value="Fixed cycle checking so it works on cycles bigger than size 2." />
-    <MESSAGE value="Fixed symbol table bug and split table building from inheritance tree building." />
-    <MESSAGE value="The non-abstract nodes from the final 28 that haven't already been handled should all now have all the errors done . . . I think" />
-    <MESSAGE value="Updated documentation in TypeCheckerVisitor" />
-    <MESSAGE value="Fixed visit methods in TypeCheckerVisitor, added main method to Semantic Analyzer" />
-    <MESSAGE value="cast expression" />
-    <MESSAGE value="debugging visit if" />
-    <MESSAGE value="testfile" />
-    <MESSAGE value="fixed the reserved words" />
-    <option name="LAST_COMMIT_MESSAGE" value="fixed the reserved words" />
   </component>
   <component name="antWorkspaceConfiguration">
     <option name="IS_AUTOSCROLL_TO_SOURCE" value="false" />
     <option name="FILTER_TARGETS" value="false" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/src/proj12ZhangZhao/filesForProj12/SemanticAnalyzer.java" />
-    <entry file="file://$PROJECT_DIR$/src/proj12ZhangZhao/Main.java">
+    <entry file="file://$PROJECT_DIR$/src/proj13DouglasMacDonaldZhang/bantam/ast/Field.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state>
-          <caret lean-forward="true" />
+        <state relative-caret-position="187">
+          <caret line="35" column="2" lean-forward="true" selection-start-line="35" selection-start-column="2" selection-end-line="35" selection-end-column="2" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/proj12ZhangZhao/JavaCodeArea.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="17">
-          <caret line="34" column="13" selection-start-line="34" selection-start-column="13" selection-end-line="34" selection-end-column="13" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/proj12ZhangZhao/bantam/semant/StringConstantsVisitor.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state>
-          <caret selection-end-line="6" selection-end-column="3" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/proj12ZhangZhao/resources/Main.fxml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="120">
-          <caret line="86" column="68" lean-forward="true" selection-start-line="86" selection-start-column="68" selection-end-line="86" selection-end-column="68" />
-        </state>
-      </provider>
-      <provider editor-type-id="JavaFX-Scene-Builder" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/proj12ZhangZhao/MasterController.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="374">
-          <caret line="22" column="13" selection-start-line="22" selection-start-column="13" selection-end-line="22" selection-end-column="13" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/proj12ZhangZhao/bantam/util/ErrorHandler.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="17">
-          <caret line="37" column="13" selection-start-line="37" selection-start-column="13" selection-end-line="37" selection-end-column="13" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/proj12ZhangZhao/bantam/util/Error.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="455">
-          <caret line="57" column="7" selection-start-line="57" selection-start-column="7" selection-end-line="57" selection-end-column="7" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/proj12ZhangZhao/test/ParserTestLiLianKeithHardyZhou.btm">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="272">
-          <caret line="16" column="13" lean-forward="true" selection-start-line="16" selection-start-column="13" selection-end-line="16" selection-end-column="13" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/proj12ZhangZhao/bantam/ast/Method.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-316">
-          <caret line="39" column="13" selection-start-line="39" selection-start-column="13" selection-end-line="39" selection-end-column="13" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/proj12ZhangZhao/bantam/ast/DeclStmt.java">
+    <entry file="file://$PROJECT_DIR$/src/proj13DouglasMacDonaldZhang/bantam/ast/ListNode.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="1224">
-          <caret line="104" column="6" selection-start-line="104" selection-start-column="6" selection-end-line="104" selection-end-column="6" />
+          <caret line="108" column="39" selection-start-line="108" selection-start-column="39" selection-end-line="108" selection-end-column="39" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/proj12ZhangZhao/bantam/ast/Program.java">
+    <entry file="file://$PROJECT_DIR$/src/proj13DouglasMacDonaldZhang/bantam/ast/InstanceofExpr.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="34">
-          <caret line="30" lean-forward="true" selection-start-line="30" selection-end-line="30" />
+        <state relative-caret-position="586">
+          <caret line="114" column="39" selection-start-line="114" selection-start-column="39" selection-end-line="114" selection-end-column="39" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/proj12ZhangZhao/bantam/ast/ASTNode.java">
+    <entry file="file://$PROJECT_DIR$/src/proj13DouglasMacDonaldZhang/bantam/ast/Member.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="17">
-          <caret line="237" column="7" lean-forward="true" selection-start-line="237" selection-start-column="7" selection-end-line="237" selection-end-column="7" />
+        <state relative-caret-position="272">
+          <caret line="40" column="22" selection-start-line="40" selection-start-column="22" selection-end-line="40" selection-end-column="22" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/proj12ZhangZhao/bantam/ast/Class_.java">
+    <entry file="file://$PROJECT_DIR$/src/proj13DouglasMacDonaldZhang/bantam/ast/MemberList.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="870">
-          <caret line="77" column="7" lean-forward="true" selection-start-line="77" selection-start-column="7" selection-end-line="77" selection-end-column="7" />
+        <state relative-caret-position="442">
+          <caret line="52" column="39" selection-start-line="52" selection-start-column="39" selection-end-line="52" selection-end-column="39" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/proj12ZhangZhao/bantam/ast/BinaryArithMinusExpr.java">
+    <entry file="file://$PROJECT_DIR$/src/proj13DouglasMacDonaldZhang/bantam/ast/NewArrayExpr.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="670">
-          <caret line="90" column="1" lean-forward="true" selection-start-line="90" selection-start-column="1" selection-end-line="90" selection-end-column="1" />
+        <state relative-caret-position="986">
+          <caret line="86" column="39" selection-start-line="86" selection-start-column="39" selection-end-line="86" selection-end-column="39" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/proj12ZhangZhao/bantam/ast/StmtList.java">
+    <entry file="file://$PROJECT_DIR$/src/proj13DouglasMacDonaldZhang/PreferenceController.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="98">
-          <caret line="37" column="13" selection-start-line="37" selection-start-column="13" selection-end-line="37" selection-end-column="13" />
+        <state relative-caret-position="85">
+          <caret line="24" lean-forward="true" selection-start-line="24" selection-end-line="24" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/proj12ZhangZhao/bantam/ast/Stmt.java">
+    <entry file="file://$PROJECT_DIR$/src/proj13DouglasMacDonaldZhang/HelpMenuController.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="120">
-          <caret line="48" column="22" selection-start-line="48" selection-start-column="22" selection-end-line="48" selection-end-column="22" />
+        <state relative-caret-position="187">
+          <caret line="19" column="13" selection-start-line="19" selection-start-column="13" selection-end-line="19" selection-end-column="13" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/proj12ZhangZhao/bantam/ast/NewArrayExpr.java">
+    <entry file="file://$PROJECT_DIR$/src/proj13DouglasMacDonaldZhang/Console.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="238">
-          <caret line="40" column="7" lean-forward="true" selection-start-line="40" selection-start-column="7" selection-end-line="40" selection-end-column="7" />
+        <state relative-caret-position="136">
+          <caret line="17" column="3" lean-forward="true" selection-start-line="17" selection-start-column="3" selection-end-line="17" selection-end-column="3" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/proj12ZhangZhao/bantam/ast/ExprList.java">
+    <entry file="file://$PROJECT_DIR$/src/proj13DouglasMacDonaldZhang/ConsoleContextMenu.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="204">
+        <state relative-caret-position="170">
+          <caret line="17" column="13" selection-start-line="17" selection-start-column="13" selection-end-line="17" selection-end-column="13" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/proj13DouglasMacDonaldZhang/DirectoryController.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="187">
+          <caret line="27" column="13" selection-start-line="27" selection-start-column="13" selection-end-line="27" selection-end-column="13" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/proj13DouglasMacDonaldZhang/EditController.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="242">
+          <caret line="38" column="13" selection-start-line="38" selection-start-column="13" selection-end-line="38" selection-end-column="13" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/proj13DouglasMacDonaldZhang/FileController.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="234">
+          <caret line="48" column="13" selection-start-line="48" selection-start-column="13" selection-end-line="48" selection-end-column="13" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/proj13DouglasMacDonaldZhang/Main.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="272">
           <caret line="36" column="13" selection-start-line="36" selection-start-column="13" selection-end-line="36" selection-end-column="13" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/proj12ZhangZhao/bantam/ast/Expr.java">
+    <entry file="file://$PROJECT_DIR$/src/proj13DouglasMacDonaldZhang/JavaCodeArea.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-303">
-          <caret line="34" lean-forward="true" selection-start-line="34" selection-end-line="34" />
+        <state relative-caret-position="234">
+          <caret line="74" column="10" selection-start-line="74" selection-start-column="10" selection-end-line="74" selection-end-column="10" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/proj12ZhangZhao/bantam/ast/ConstBooleanExpr.java">
+    <entry file="file://$PROJECT_DIR$/src/proj13DouglasMacDonaldZhang/bantam/ast/BlockStmt.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="272">
+        <state relative-caret-position="119">
+          <caret line="31" column="24" lean-forward="true" selection-start-line="31" selection-start-column="24" selection-end-line="31" selection-end-column="24" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/proj13DouglasMacDonaldZhang/Java8/Java8BaseListener.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state>
+          <caret column="35" selection-start-column="35" selection-end-column="35" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/proj13DouglasMacDonaldZhang/Java8/Java8Lexer.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state>
+          <caret column="35" selection-start-column="35" selection-end-column="35" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/proj13DouglasMacDonaldZhang/Java8/Java8Parser.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="17">
+          <caret line="6" column="22" lean-forward="true" selection-start-line="6" selection-start-column="22" selection-end-line="6" selection-end-column="22" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/proj13DouglasMacDonaldZhang/Java8/Java8Listener.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state>
+          <caret column="35" selection-start-column="35" selection-end-column="35" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/proj13DouglasMacDonaldZhang/StructureViewController.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-675">
+          <caret line="36" column="3" lean-forward="true" selection-start-line="36" selection-start-column="3" selection-end-line="36" selection-end-column="3" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/proj13DouglasMacDonaldZhang/bantam/treedrawer/DrawerPanel.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="34">
+          <caret line="14" column="35" selection-start-line="14" selection-start-column="35" selection-end-line="14" selection-end-column="35" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/proj13DouglasMacDonaldZhang/bantam/treedrawer/Polyline.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="34">
+          <caret line="14" column="35" selection-start-line="14" selection-start-column="35" selection-end-line="14" selection-end-column="35" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/proj13DouglasMacDonaldZhang/bantam/treedrawer/Drawer.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="459">
+          <caret line="42" column="107" lean-forward="true" selection-start-line="42" selection-start-column="107" selection-end-line="42" selection-end-column="107" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/proj13DouglasMacDonaldZhang/bantam/ast/Program.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-95">
+          <caret line="30" lean-forward="true" selection-start-line="30" selection-end-line="30" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/proj13DouglasMacDonaldZhang/bantam/treedrawer/LayoutVisitor.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="51">
+          <caret line="19" lean-forward="true" selection-start-line="19" selection-end-line="19" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/proj13DouglasMacDonaldZhang/bantam/treedrawer/Polygon.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="34">
+          <caret line="14" column="35" selection-start-line="14" selection-start-column="35" selection-end-line="14" selection-end-column="35" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/proj13DouglasMacDonaldZhang/bantam/treedrawer/DrawerFrame.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="34">
+          <caret line="14" column="35" selection-start-line="14" selection-start-column="35" selection-end-line="14" selection-end-column="35" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/proj13DouglasMacDonaldZhang/bantam/ast/UnaryExpr.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="119">
+          <caret line="31" column="3" lean-forward="true" selection-start-line="31" selection-start-column="3" selection-end-line="31" selection-end-column="3" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/proj13DouglasMacDonaldZhang/CodeTabPane.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-2052">
+          <caret line="95" column="33" lean-forward="true" selection-start-line="95" selection-start-column="33" selection-end-line="95" selection-end-column="33" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/proj13DouglasMacDonaldZhang/bantam/ast/UnaryNotExpr.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="217">
+          <caret line="88" column="21" lean-forward="true" selection-start-line="88" selection-start-column="21" selection-end-line="88" selection-end-column="21" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/proj13DouglasMacDonaldZhang/bantam/ast/UnaryIncrExpr.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="242">
           <caret line="40" column="13" selection-start-line="40" selection-start-column="13" selection-end-line="40" selection-end-column="13" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/proj12ZhangZhao/bantam/ast/ReturnStmt.java">
+    <entry file="file://$PROJECT_DIR$/src/proj13DouglasMacDonaldZhang/bantam/ast/UnaryDecrExpr.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-333">
+          <caret line="40" column="13" selection-start-line="40" selection-start-column="13" selection-end-line="40" selection-end-column="13" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/proj13DouglasMacDonaldZhang/bantam/treedrawer/DrawingTree.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="170">
+          <caret line="22" column="22" lean-forward="true" selection-start-line="22" selection-start-column="22" selection-end-line="22" selection-end-column="22" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/proj13DouglasMacDonaldZhang/TabContextMenu.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="125">
+          <caret line="16" column="49" lean-forward="true" selection-start-line="16" selection-start-column="49" selection-end-line="16" selection-end-column="49" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/proj13DouglasMacDonaldZhang/bantam/lexer/Scanner.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="17">
+          <caret line="37" lean-forward="true" selection-start-line="37" selection-end-line="37" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/proj13DouglasMacDonaldZhang/CodeAreaContextMenu.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="421">
-          <caret line="76" lean-forward="true" selection-start-line="76" selection-end-line="76" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/proj12ZhangZhao/bantam/ast/ForStmt.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="243">
-          <caret line="42" column="7" lean-forward="true" selection-start-line="42" selection-start-column="7" selection-end-line="42" selection-end-column="7" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/proj12ZhangZhao/bantam/ast/NewExpr.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="255">
-          <caret line="39" column="13" selection-start-line="39" selection-start-column="13" selection-end-line="39" selection-end-column="13" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/proj12ZhangZhao/bantam/ast/InstanceofExpr.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state>
-          <caret lean-forward="true" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/proj12ZhangZhao/test/CheckerTestZhangZhao.btm">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="136">
-          <caret line="8" column="19" lean-forward="true" selection-start-line="8" selection-start-column="19" selection-end-line="8" selection-end-column="19" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="jar://C:/Program Files/Java/jdk-10.0.2/lib/src.zip!/java.base/java/lang/Thread.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="112">
-          <caret line="840" column="13" lean-forward="true" selection-start-line="840" selection-start-column="13" selection-end-line="840" selection-end-column="13" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/proj12ZhangZhao/bantam/semant/ClassVisitor.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state>
+          <caret line="89" lean-forward="true" selection-start-line="89" selection-end-line="89" />
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/proj12ZhangZhao/bantam/ast/ArrayAssignExpr.java">
+    <entry file="file://$PROJECT_DIR$/src/proj13DouglasMacDonaldZhang/CodeTab.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="600">
-          <caret line="48" column="7" selection-start-line="48" selection-start-column="7" selection-end-line="48" selection-end-column="7" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="jar://C:/Program Files/Java/jdk-10.0.2/lib/src.zip!/java.base/java/util/Hashtable.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="141">
-          <caret line="379" selection-start-line="379" selection-end-line="379" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/proj12ZhangZhao/bantam/visitor/Visitor.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="147">
-          <caret line="239" column="9" lean-forward="true" selection-start-line="239" selection-start-column="9" selection-end-line="239" selection-end-column="9" />
+        <state relative-caret-position="421">
+          <caret line="43" lean-forward="true" selection-start-line="43" selection-end-line="43" />
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/proj12ZhangZhao/bantam/ast/DispatchExpr.java">
+    <entry file="file://$PROJECT_DIR$/src/proj13DouglasMacDonaldZhang/bantam/ast/DispatchExpr.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-389">
-          <caret line="36" column="15" lean-forward="true" selection-start-line="36" selection-start-column="15" selection-end-line="36" selection-end-column="15" />
+        <state relative-caret-position="-512">
+          <caret line="45" column="7" lean-forward="true" selection-start-line="45" selection-start-column="7" selection-end-line="45" selection-end-column="7" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/proj12ZhangZhao/bantam/ast/ExprStmt.java">
+    <entry file="file://$PROJECT_DIR$/src/proj13DouglasMacDonaldZhang/bantam/semant/ClassVisitor.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-50">
-          <caret line="34" column="6" selection-start-line="34" selection-start-column="6" selection-end-line="34" selection-end-column="6" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/proj12ZhangZhao/bantam/ast/BinaryLogicExpr.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="148">
-          <caret line="41" column="22" selection-start-line="41" selection-start-column="22" selection-end-line="41" selection-end-column="22" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/proj12ZhangZhao/bantam/ast/BinaryLogicOrExpr.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="148">
-          <caret line="41" column="13" selection-start-line="41" selection-start-column="13" selection-end-line="41" selection-end-column="13" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/proj12ZhangZhao/bantam/ast/CastExpr.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="246">
-          <caret line="78" column="7" lean-forward="true" selection-start-line="78" selection-start-column="7" selection-end-line="78" selection-end-column="7" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/proj12ZhangZhao/bantam/ast/BinaryLogicAndExpr.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="289">
-          <caret line="41" column="13" selection-start-line="41" selection-start-column="13" selection-end-line="41" selection-end-column="13" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/proj12ZhangZhao/bantam/ast/ArrayExpr.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="25">
-          <caret line="33" column="71" lean-forward="true" selection-start-line="33" selection-start-column="71" selection-end-line="33" selection-end-column="71" />
+        <state relative-caret-position="47">
+          <caret line="34" column="2" selection-start-line="34" selection-start-column="2" selection-end-line="34" selection-end-column="2" />
           <folding>
-            <element signature="e#2873#2874#0" expanded="true" />
-            <element signature="e#2909#2910#0" expanded="true" />
+            <element signature="e#1570#1585#0" expanded="true" />
+            <element signature="e#4384#4399#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/proj12ZhangZhao/bantam/util/ClassTreeNode.java">
+    <entry file="file://$PROJECT_DIR$/src/proj13DouglasMacDonaldZhang/bantam/semant/SymbolTableBuildingVisitor.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1850">
-          <caret line="104" column="27" lean-forward="true" selection-start-line="104" selection-start-column="27" selection-end-line="104" selection-end-column="27" />
+        <state relative-caret-position="1695">
+          <caret line="135" lean-forward="true" selection-start-line="135" selection-end-line="135" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/proj13DouglasMacDonaldZhang/resources/Main.fxml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="201">
+          <caret line="98" column="45" selection-start-line="98" selection-start-column="45" selection-end-line="98" selection-end-column="45" />
+        </state>
+      </provider>
+      <provider editor-type-id="JavaFX-Scene-Builder" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/proj13DouglasMacDonaldZhang/MasterController.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="188">
+          <caret line="529" column="28" lean-forward="true" selection-start-line="529" selection-start-column="28" selection-end-line="529" selection-end-column="28" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="e#18000#18001#0" expanded="true" />
+            <element signature="e#18067#18068#0" expanded="true" />
+            <element signature="e#18406#18407#0" expanded="true" />
+            <element signature="e#18473#18474#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/proj13DouglasMacDonaldZhang/bantam/semant/FindDeclarationUsesVisitor.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="809">
+          <caret line="69" column="5" lean-forward="true" selection-start-line="69" selection-start-column="5" selection-end-line="69" selection-end-column="5" />
+          <folding>
+            <element signature="e#0#3455#0" expanded="true" />
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/proj13DouglasMacDonaldZhang/proj12/SemanticAnalyzer.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="401">
+          <caret line="133" column="44" lean-forward="true" selection-start-line="133" selection-start-column="44" selection-end-line="133" selection-end-column="44" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/proj13DouglasMacDonaldZhang/ToolbarController.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="187">
+          <caret line="235" column="43" selection-start-line="235" selection-start-column="43" selection-end-line="235" selection-end-column="43" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="e#8522#8523#0" expanded="true" />
+            <element signature="e#8560#8561#0" expanded="true" />
+            <element signature="e#8722#8723#0" expanded="true" />
+            <element signature="e#8761#8762#0" expanded="true" />
+            <element signature="e#8923#9722#0" expanded="true" />
+            <element signature="e#9721#9722#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/proj13DouglasMacDonaldZhang/bantam/semant/IdentifierInfo.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="234">
+          <caret line="48" column="23" lean-forward="true" selection-start-line="48" selection-start-column="23" selection-end-line="48" selection-end-column="23" />
+          <folding>
+            <element signature="e#0#325#0" expanded="true" />
+            <element signature="e#820#821#0" expanded="true" />
+            <element signature="e#847#848#0" expanded="true" />
+            <element signature="e#890#891#0" expanded="true" />
+            <element signature="e#922#923#0" expanded="true" />
+            <element signature="e#953#954#0" expanded="true" />
+            <element signature="e#980#981#0" expanded="true" />
+            <element signature="e#1014#1015#0" expanded="true" />
+            <element signature="e#1047#1048#0" expanded="true" />
+            <element signature="e#1132#1133#0" expanded="true" />
+            <element signature="e#1163#1164#0" expanded="true" />
+            <element signature="e#1208#1209#0" expanded="true" />
+            <element signature="e#1248#1249#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/proj13DouglasMacDonaldZhang/bantam/parser/Parser.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="187">
+          <caret line="399" column="61" lean-forward="true" selection-start-line="399" selection-start-column="61" selection-end-line="399" selection-end-column="61" />
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/proj12ZhangZhao/bantam/ast/IfStmt.java">
+    <entry file="file://$PROJECT_DIR$/src/proj13DouglasMacDonaldZhang/bantam/ast/AssignExpr.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-1295">
-          <caret line="40" column="13" selection-start-line="40" selection-start-column="13" selection-end-line="40" selection-end-column="13" />
+        <state relative-caret-position="17">
+          <caret line="66" lean-forward="true" selection-start-line="66" selection-end-line="66" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/proj12ZhangZhao/bantam/ast/UnaryDecrExpr.java">
+    <entry file="file://$PROJECT_DIR$/src/proj13DouglasMacDonaldZhang/bantam/semant/TypeCheckerVisitor.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="130">
-          <caret line="40" column="13" selection-start-line="40" selection-start-column="13" selection-end-line="40" selection-end-column="13" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/proj12ZhangZhao/bantam/ast/UnaryNegExpr.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="400">
-          <caret line="40" column="13" selection-start-line="40" selection-start-column="13" selection-end-line="40" selection-end-column="13" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/proj12ZhangZhao/bantam/parser/Parser.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="7525">
-          <caret line="353" column="24" selection-start-line="353" selection-start-column="24" selection-end-line="353" selection-end-column="24" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/proj12ZhangZhao/bantam/ast/UnaryNotExpr.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="792">
-          <caret line="77" lean-forward="true" selection-start-line="77" selection-end-line="77" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/proj12ZhangZhao/bantam/ast/UnaryIncrExpr.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="150">
-          <caret line="42" column="39" lean-forward="true" selection-start-line="42" selection-start-column="39" selection-end-line="42" selection-end-column="39" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/proj12ZhangZhao/bantam/semant/SymbolTableBuildingVisitor.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="500">
-          <caret line="49" column="43" lean-forward="true" selection-start-line="49" selection-start-column="43" selection-end-line="49" selection-end-column="43" />
+        <state relative-caret-position="153">
+          <caret line="1140" column="72" selection-start-line="1140" selection-start-column="72" selection-end-line="1140" selection-end-column="72" />
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/proj12ZhangZhao/proj12/SemanticAnalyzer.java">
+    <entry file="file://$PROJECT_DIR$/src/proj13DouglasMacDonaldZhang/bantam/semant/FindUnusedVisitor.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="225">
-          <caret line="166" column="42" selection-start-line="166" selection-start-column="42" selection-end-line="166" selection-end-column="42" />
+        <state relative-caret-position="370">
+          <caret line="163" lean-forward="true" selection-start-line="163" selection-end-line="163" />
           <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/proj12ZhangZhao/bantam/ast/VarExpr.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-375">
-          <caret line="60" lean-forward="true" selection-start-line="60" selection-end-line="60" />
-          <folding>
-            <element signature="e#2716#2717#0" expanded="true" />
-            <element signature="e#2752#2753#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/proj12ZhangZhao/ToolbarController.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="224">
-          <caret line="129" column="41" selection-start-line="129" selection-start-column="41" selection-end-line="129" selection-end-column="41" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/proj12ZhangZhao/bantam/util/SymbolTable.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="139">
-          <caret line="138" selection-start-line="138" selection-end-line="138" />
-          <folding>
-            <element signature="e#0#15342#0" expanded="true" />
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/proj12ZhangZhao/bantam/semant/TypeCheckerVisitor.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="207">
-          <caret line="1150" column="37" selection-start-line="1150" selection-start-column="37" selection-end-line="1150" selection-end-column="37" />
-          <folding>
+            <element signature="e#0#337#0" expanded="true" />
             <element signature="imports" expanded="true" />
           </folding>
         </state>
@@ -1293,7 +1363,6 @@
       <state key="ArtifactsStructureConfigurable.UI">
         <settings>
           <artifact-editor />
-          <last-edited>JavaFXApp</last-edited>
           <splitter-proportions>
             <option name="proportions">
               <list>
@@ -1328,7 +1397,7 @@
       </state>
       <state key="JdkListConfigurable.UI">
         <settings>
-          <last-edited>10</last-edited>
+          <last-edited>1.8</last-edited>
           <splitter-proportions>
             <option name="proportions">
               <list>
@@ -1350,9 +1419,21 @@
           </splitter-proportions>
         </settings>
       </state>
+      <state key="ProjectJDKs.UI">
+        <settings>
+          <last-edited>10</last-edited>
+          <splitter-proportions>
+            <option name="proportions">
+              <list>
+                <option value="0.2" />
+              </list>
+            </option>
+          </splitter-proportions>
+        </settings>
+      </state>
       <state key="ProjectLibrariesConfigurable.UI">
         <settings>
-          <last-edited>richtextfx-fat-0.9.1</last-edited>
+          <last-edited>antlr-4.7.1-complete</last-edited>
           <splitter-proportions>
             <option name="proportions">
               <list>
