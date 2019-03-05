@@ -1,0 +1,50 @@
+class Main extends B{
+    int b = 2;
+    boolean a = true;
+    
+    void bar(int y, int z) {
+	(new int[4])[3];
+        y = y + 3;
+	var z = this.foo();
+	z = z * y;
+	z = (z-1)/3;
+	for(; i < 2; i++){
+	    z = z + i;
+	    y = z + i;
+	}
+	while(z < 5 || x > 6){
+	   foo(z).get(x).ban().bar();
+	   this.counter ++;
+	   break;
+	}
+	if(x == 3){
+	    z = z / 2;
+	}else{
+	    y = y / 2;
+	}
+    }
+    int foo(){
+	foo(d).fooo(x);
+	return 6;
+    }
+}
+
+class B{
+	int[] a;
+	void B(){
+		a = new int[3];
+		c = new int[1+5*c+6];
+		(new A()).bar(car(a,cars(c),d,12),b);
+		(new A()).bar(car(a,cars(c)),b);
+	}
+
+	void main() {
+		a[3] = 5;
+        	x = a[3];
+        	foo(x,y);
+        	var y = a.b().length;
+        	var z = new ban();
+        	cast(int,a+b.foo().get().bar(ab));
+        	return;
+    	}
+}
