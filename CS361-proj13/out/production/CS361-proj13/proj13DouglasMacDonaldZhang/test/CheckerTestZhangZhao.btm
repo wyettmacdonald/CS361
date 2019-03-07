@@ -1,0 +1,92 @@
+class Main extends MainMainTest{//non-existing parent, no main class with main method
+
+	String arc = 1; //wrong field declaration type
+	Field fool = new Field(); //non-existing type and non-existing type in new expr
+	void foo(){
+		this.arc++; //unary type error
+		this.arc--;
+		var bl = !arc;
+		var neg = -arc;
+		var s = "good"; 
+		this.arc = "hi"; 
+
+		var a = 3;
+		a[s] = 5; //array index not an integer
+		array[2] = 0; //array id does not exist
+		a = this.arc/10; //undefined variable, wrong binary division type
+		var b = 10*this.arc; //wrong binary multiply type
+		var c = this.arc + s; //wrong binary add type
+		var m = 10 - arc; //minus not integer
+
+		var boolean = this.arc||s; //wrong binary logical or type, use of reserved word
+		var and = this.arc&&a; //wrong binary logical and type
+
+		//var c = (String)111; //wrong cast type
+		if(arc){ //wrong if statement condition type
+			if(s>=this.arc){
+				voo();
+			}
+			return arc; //wrong return type, wrong comparision type
+		}
+		if(s>this.arc){
+			voo();
+		}
+		var ap = new Apple();
+		var f = new Fruit();
+		var appleid = ap.apple;
+		appleid = ap.id;
+		if(ap==f){
+			f = ap; //should pass
+		}
+		var a = new Apple(); //occupied identifier
+		if(s==this.arc){
+			voo();
+		}
+		if(s<=this.arc){
+			voo();
+		}
+		if( s instanceof orange){//instanceof type does not exist
+			foo();
+		}
+		while(c=1){ //while loop condition not boolean
+			voo().voo().foo(); //method chaining
+		}
+		var i = 0;
+		for(i = "hi"; i< 10; i++){//initialization is not an integer
+
+		}
+		for(i = 0; i = i+1;i++){//condition is not boolean
+
+		}
+	}
+	test voo(){
+		this.foooo(); //none existing method name
+	}
+}
+
+class Apple extends Fruit{
+	int apple = 0;
+	int void = 1; //illegal, conflict with reserved words
+	void blah(){
+		var apple = 0; //This should be legal
+	}
+
+	void bleh(int apple){
+		var apple = 0; //illegal (identifier occupied by parameter)
+	}
+}
+class Fruit{
+
+}
+//cycle inheritence
+class G extends I{
+
+}
+
+class H extends G{
+
+}
+
+class I extends H{
+
+}
