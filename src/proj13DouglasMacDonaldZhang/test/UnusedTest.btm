@@ -1,0 +1,20 @@
+/*
+*
+*/
+
+class Main{
+	String meh;
+
+	void blah(){
+		var goo = "Mah";
+		var arg = 0;
+		arg = 10;
+	}
+	
+
+	void g(){
+		blah();
+	}
+	
+	
+}
